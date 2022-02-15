@@ -1,0 +1,6 @@
+ID: dllutil
+Name: DLL Util
+Author: FalsePattern
+Version: 1.0.0
+Priority: 100
+ClientOnly: true

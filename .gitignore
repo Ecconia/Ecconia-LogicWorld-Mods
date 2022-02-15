@@ -1,0 +1,9 @@
+# Project:
+/LogicWorld
+
+# IDEs:
+/.idea/
+
+# CSharp and related:
+/*/obj/
+/*/bin/

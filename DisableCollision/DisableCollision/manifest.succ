@@ -1,0 +1,8 @@
+ID: DisableCollision
+Name: Disable Collision
+Author: Ecconia
+Version: 2.0.0
+Priority: 1
+ClientOnly: true
+Dependencies:
+    - lwharmony
