@@ -11,6 +11,11 @@ You can copy/paste or `link` that `mod folder` to your `GameData` folder, where 
 
 You can ignore all other files outside of the `mod folder`s.
 
+## WARNING (Logic World won't start!):
+
+Currently `Logic World` struggles to compile mods, when there are more than 3 or 4 mods in the `GameData` folder.\
+You have to add them one by one if it does not start.
+
 ### How to contribute / develop on these?
 
 Download this repository or optionally a fork.\
