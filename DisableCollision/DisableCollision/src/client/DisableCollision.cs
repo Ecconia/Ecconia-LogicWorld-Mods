@@ -36,7 +36,7 @@ namespace DisableCollision
 				{
 					showedWarning = true;
 					LConsole.WriteLine("ATTENTION!");
-					LConsole.WriteLine("This mod was written to allow building when Logic World thinks there is collision, but there is actually none. Also when you want to refactor or take aparat a building which would break wires.");
+					LConsole.WriteLine("This mod was written to allow building when Logic World thinks there is collision, but there is actually none. Also when you want to refactor or take apart a building which would break wires.");
 					LConsole.WriteLine("Do NOT use it to intentionally clip components or wires into each other! This is not the intended use case for this mod.");
 					LConsole.WriteLine("If you however ABUSE this mod in an unintended way, do NOT confuse others with it. And CREDIT the usage of this mod, so that others especially the developers know, that the creation was not done by normal means.");
 				}
@@ -51,7 +51,8 @@ namespace DisableCollision
 
 	[HarmonyPatch(typeof(Intersections))]
 	[HarmonyPatch("CollidersIntersectingSomething")]
-	public class PatchOne {
+	public class PatchOne
+	{
 		public static bool Prefix(ref bool __result)
 		{
 			//Only if active, we want to change the behavior, else just do nothing
@@ -69,7 +70,8 @@ namespace DisableCollision
 
 	[HarmonyPatch(typeof(WireUtility))]
 	[HarmonyPatch("ValidWireLineOfSight")]
-	public class PatchTwo {
+	public class PatchTwo
+	{
 		public static bool Prefix(ref bool __result)
 		{
 			//Only if active, we want to change the behavior, else just do nothing
