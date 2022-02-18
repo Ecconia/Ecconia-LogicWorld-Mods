@@ -1,5 +1,7 @@
 //Framework imports:
 
+//Needed for 'Exception' and 'Type':
+using System;
 //Needed for several reflection calls 'Assembly' etc.
 using System.Reflection;
 //Needed for 'IEnumeration':
