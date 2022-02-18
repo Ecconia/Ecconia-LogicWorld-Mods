@@ -1,10 +1,12 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisableCollision", "DisableCollision\DisableCollision.csproj", "{463E846C-1B2F-4EFB-A226-65EDEC844122}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DllUtil", "DllUtil\DllUtil.csproj", "{BCD50A23-DF13-4281-B03D-61200432DA4B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LWHarmony", "LWHarmony\LWHarmony.csproj", "{66A9ACDE-5D8F-4A5D-B0F6-717BD0C6E9F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlyingWithAutoNoclip", "FlyingWithAutoNoclip\FlyingWithAutoNoclip.csproj", "{179A6CBE-5789-4D61-AAC2-CE1CD953A4E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +26,9 @@ Global
 		{66A9ACDE-5D8F-4A5D-B0F6-717BD0C6E9F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66A9ACDE-5D8F-4A5D-B0F6-717BD0C6E9F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66A9ACDE-5D8F-4A5D-B0F6-717BD0C6E9F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{179A6CBE-5789-4D61-AAC2-CE1CD953A4E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{179A6CBE-5789-4D61-AAC2-CE1CD953A4E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{179A6CBE-5789-4D61-AAC2-CE1CD953A4E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{179A6CBE-5789-4D61-AAC2-CE1CD953A4E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
