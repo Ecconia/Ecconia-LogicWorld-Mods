@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Ecconia.CPUServerComponents</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="JimmysUnityUtilities, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\JimmysUnityUtilities.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicAPI.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.Client.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicAPI.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Server\LogicAPI.Server.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.Interfaces, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Interfaces.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.References, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.References.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.Rendering, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Rendering.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.SharedCode, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>
