@@ -2,7 +2,7 @@
 
 ### Description:
 
-`Logic World` is still in its early days, and as of now (Version: 0.93) still suffers under accidental StackOverflow errors.
+`Logic World` is still in its early days, and as of now (Version: 0.90.3) still suffers under accidental StackOverflow errors.
 
 When flying `noclip` should be enabled by default. And there is even a setting to archive this: `MHG.Flying.Secret.AutoEnterNoclipOnStartFlying`.\
 So what is the problem? Well, with this setting enabled, `Logic World` will freeze because of a StackOverflow. And be unplayable.

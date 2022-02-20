@@ -2,7 +2,7 @@
 
 ### Description:
 
-`Logic World` is still in its early days, and as of now (Version: 0.93) still suffers from heavy memory issues.
+`Logic World` is still in its early days, and as of now (Version: 0.90.3) still suffers from heavy memory issues.
 
 Reasons for creation of this mod:
 

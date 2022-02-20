@@ -2,7 +2,7 @@
 
 ### Description:
 
-`Logic World` is still in its early days, and as of now (Version: 0.93) still suffers under floating point calculation errors.
+`Logic World` is still in its early days, and as of now (Version: 0.90.3) still suffers under floating point calculation errors.
 
 Reasons for creation of this mod:
 
