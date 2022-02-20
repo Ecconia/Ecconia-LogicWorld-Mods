@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace />
+        <LangVersion>7.3</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="LICC, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LICC.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicAPI.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.Client.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicLog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLog.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.Interfaces, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Interfaces.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.Networking, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Networking.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>
