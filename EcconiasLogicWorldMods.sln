@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcconiaCPUServerComponents"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlyingWithAutoNoclip", "FlyingWithAutoNoclip\FlyingWithAutoNoclip.csproj", "{179A6CBE-5789-4D61-AAC2-CE1CD953A4E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulationControl", "SimulationControl\SimulationControl.csproj", "{122628A4-D53A-4FE3-8EB3-0306E06FAEC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{179A6CBE-5789-4D61-AAC2-CE1CD953A4E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{179A6CBE-5789-4D61-AAC2-CE1CD953A4E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{179A6CBE-5789-4D61-AAC2-CE1CD953A4E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{122628A4-D53A-4FE3-8EB3-0306E06FAEC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{122628A4-D53A-4FE3-8EB3-0306E06FAEC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{122628A4-D53A-4FE3-8EB3-0306E06FAEC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{122628A4-D53A-4FE3-8EB3-0306E06FAEC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

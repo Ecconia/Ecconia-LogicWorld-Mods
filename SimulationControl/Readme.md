@@ -27,4 +27,4 @@ For each normal command some argument can be used:
 - `simulation.rate <floating-point-number>`: <floating-point-number>
 
 TPS of 0, is mapped to `simulation.pause`.\
-Setting a tps speed will not resume the simulation.
+Setting a tps speed will resume the simulation! (This is done by LogicWorld).

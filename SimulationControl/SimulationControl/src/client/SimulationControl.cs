@@ -3,73 +3,22 @@
 using LogicAPI.Client;
 //Needed for 'LConsole' (command feedback) and 'Command':
 using LICC;
-//Needed for 'Logger':
-using LogicLog;
-
-//Needed for reflection:
-using System.Reflection;
+//Needed for 'Exception':
+using System;
 
 //Custom imports:
-//Needed for 'SceneAndNetworkManager', 'NetworkState':
+//Needed for 'SceneAndNetworkManager':
 using LogicWorld;
-//Needed for 'Instances':
-using LogicWorld.Interfaces;
-//Needed for 'IntegratedServer':
-using LogicWorld.Networking;
 
 namespace SimulationControl
 {
 	public class SimulationControl : ClientMod
 	{
 		private static readonly CColor failureColor = CColor.Red;
-		private static PropertyInfo internalServerProperty;
 
 		//Entry point of this mod
 		protected override void Initialize()
 		{
-			var type = typeof(SceneAndNetworkManager);
-			PropertyInfo property = type.GetProperty("ActiveIntegratedServer", BindingFlags.Static | BindingFlags.NonPublic);
-			if(property == null)
-			{
-				Logger.Error("Could not get the integrated server property, needed to send commands to it.");
-				return;
-			}
-			internalServerProperty = property;
-		}
-
-		private static bool isPrimed()
-		{
-			return internalServerProperty != null;
-		}
-
-		private static bool isConnected()
-		{
-			return SceneAndNetworkManager.State == NetworkState.ConnectedWithWorldFullyLoaded;
-		}
-
-		private static bool hasIntegratedServer()
-		{
-			var obj = internalServerProperty.GetValue(null);
-			return obj != null;
-		}
-
-		private static IntegratedServer getIntegratedServer()
-		{
-			return (IntegratedServer) internalServerProperty.GetValue(null);
-		}
-
-		private static void sendCommand(string command)
-		{
-			if(hasIntegratedServer())
-			{
-				//We are on an integrated server.
-				getIntegratedServer().RunCommand(command, false);
-			}
-			else
-			{
-				//Connected to a remote server.
-				Instances.SendData.RunCommandOnServer(command);
-			}
 		}
 
 		//Command of this mod, in charge of toggling, if this mod should be active or not
@@ -117,21 +66,22 @@ namespace SimulationControl
 				LConsole.WriteLine("Could not parse your command. Use 'tps' to see usage.", failureColor);
 				return;
 			}
-			
+
 			//Actual sending code:
-			if(!isPrimed())
+			try
 			{
-				LConsole.WriteLine("Something went wrong with initializing this mod, please complain to the developer, or use a supported LogicWorld version.", failureColor);
-				return;
+				SceneAndNetworkManager.RunCommandOnServer(command);
 			}
-			//Okay, we have this mod ready for usage!
-			if(!isConnected())
+			catch(Exception e)
 			{
-				LConsole.WriteLine("You are currently not (fully) connected to a server, please join a server or wait until the joining has finished.", failureColor);
-				return;
+				//Handle this epic command feedback.
+				if(e.Message.Equals("Can't run command on server -- we're not connected to a server!"))
+				{
+					LConsole.WriteLine("You are currently not (fully) connected to a server, please join a server or wait until the joining has finished.", failureColor);
+					return;
+				}
+				throw;
 			}
-			//Okay, we are connected to a server!
-			sendCommand(command);
 		}
 	}
 }
