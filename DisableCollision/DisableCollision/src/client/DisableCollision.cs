@@ -35,10 +35,10 @@ namespace DisableCollision
 				if(showedWarning == false)
 				{
 					showedWarning = true;
-					LConsole.WriteLine("ATTENTION!");
-					LConsole.WriteLine("This mod was written to allow building when Logic World thinks there is collision, but there is actually none. Also when you want to refactor or take apart a building which would break wires.");
-					LConsole.WriteLine("Do NOT use it to intentionally clip components or wires into each other! This is not the intended use case for this mod.");
-					LConsole.WriteLine("If you however ABUSE this mod in an unintended way, do NOT confuse others with it. And CREDIT the usage of this mod, so that others especially the developers know, that the creation was not done by normal means.");
+					LConsole.WriteLine("ATTENTION!", CColor.Red);
+					LConsole.WriteLine("This mod was written to allow building when Logic World thinks there is collision, but there is actually none. Also when you want to refactor or take apart a building which would break wires.", CColor.Red);
+					LConsole.WriteLine("Do NOT use it to intentionally clip components or wires into each other! This is not the intended use case for this mod.", CColor.Red);
+					LConsole.WriteLine("If you however ABUSE this mod in an unintended way, do NOT confuse others with it. And CREDIT the usage of this mod, so that others especially the developers know, that the creation was not done by normal means.", CColor.Red);
 				}
 				LConsole.WriteLine("Building with collision ENABLED!");
 			}
