@@ -11,10 +11,18 @@ You can copy/paste or `link` that `mod folder` to your `GameData` folder, where 
 
 You can ignore all other files outside of the `mod folder`s.
 
-## WARNING (Logic World won't start!):
+## WARNING: Logic World black screen! "Path is empty"
 
-Currently `Logic World` struggles to compile mods, when there are more than 3 or 4 mods in the `GameData` folder.\
-You have to add them one by one if it does not start.
+There is currently an issue with the `Logic World` compiler and `Harmony`.\
+Quite a few `Logic World` mods are using the framework `Harmony`.\
+But as soon as one of the mods which use `Harmony` is loaded, the `Logic World` compiler breaks.\
+This means, you can only compile new mods, as long as no other mod which uses `Harmony` is loaded.
+
+-> If you add a new mod, there may be no mod which uses `Harmony` in your `GameData` folder!\
+-> The new mod may use `Harmony`.
+-> To compile/add more than one new mod which uses `Harmony` you have to add/compile them one by one.
+
+You may have `Harmony` using mods in `GameData`, if you know, that they will be loaded after all compilation is done.
 
 ### How to contribute / develop on these?
 
