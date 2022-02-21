@@ -2,5 +2,5 @@ ID: SimulationControl
 Name: Simulation Control
 Author: Ecconia
 Version: 1.0.0
-Priority: 1
+Priority: 0
 ClientOnly: true
