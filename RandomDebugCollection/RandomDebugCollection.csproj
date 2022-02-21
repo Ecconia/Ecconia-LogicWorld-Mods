@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <RootNamespace />
+        <LangVersion>10</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="0Harmony, Version=2.1.1.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LWHarmony\lwharmony\0Harmony.dll</HintPath>
+      </Reference>
+      <Reference Include="LICC, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LICC.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicAPI.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.Client.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicLog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLog.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.BuildingManagement, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.BuildingManagement.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.Interfaces, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Interfaces.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.SharedCode, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
+      </Reference>
+      <Reference Include="Server, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Server\Server.dll</HintPath>
+      </Reference>
+      <Reference Include="ΩLogicWorld.Subassemblies, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\ΩLogicWorld.Subassemblies.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,9 @@
+ID: RandomDebugCollection
+Name: Random Debug Collection
+Author: Ecconia
+Version: 1.0.0
+# Has a higher priority, because it should load before other mods. So that stacktraces will be printed to log.
+Priority: 50
+ClientOnly: true
+Dependencies:
+    - lwharmony

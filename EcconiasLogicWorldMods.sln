@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DllUtil", "DllUtil\DllUtil.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LWHarmony", "LWHarmony\LWHarmony.csproj", "{66A9ACDE-5D8F-4A5D-B0F6-717BD0C6E9F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomDebugCollection", "RandomDebugCollection\RandomDebugCollection.csproj", "{C376ACB0-69A5-4704-8FDA-D01665BD400F}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcconiaCPUServerComponents", "EcconiaCPUServerComponents\EcconiaCPUServerComponents.csproj", "{CA8A7919-D81B-40DD-B12F-DCF7039BC6E1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlyingWithAutoNoclip", "FlyingWithAutoNoclip\FlyingWithAutoNoclip.csproj", "{179A6CBE-5789-4D61-AAC2-CE1CD953A4E6}"
@@ -30,6 +32,10 @@ Global
 		{66A9ACDE-5D8F-4A5D-B0F6-717BD0C6E9F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66A9ACDE-5D8F-4A5D-B0F6-717BD0C6E9F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66A9ACDE-5D8F-4A5D-B0F6-717BD0C6E9F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C376ACB0-69A5-4704-8FDA-D01665BD400F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C376ACB0-69A5-4704-8FDA-D01665BD400F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C376ACB0-69A5-4704-8FDA-D01665BD400F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C376ACB0-69A5-4704-8FDA-D01665BD400F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CA8A7919-D81B-40DD-B12F-DCF7039BC6E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CA8A7919-D81B-40DD-B12F-DCF7039BC6E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA8A7919-D81B-40DD-B12F-DCF7039BC6E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
