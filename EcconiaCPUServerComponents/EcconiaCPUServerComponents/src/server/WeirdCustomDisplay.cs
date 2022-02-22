@@ -2,9 +2,9 @@
 using LogicWorld.Server.Circuitry;
 
 //Needed for my displays data:
-using Ecconia.CPUServerComponents.Shared;
+using EcconiaCPUServerComponents.Shared;
 
-namespace Ecconia.CPUServerComponents.Server
+namespace EcconiaCPUServerComponents.Server
 {
 	public class WeirdCustomDisplay : LogicComponent<IFirstDisplayData>
 	{

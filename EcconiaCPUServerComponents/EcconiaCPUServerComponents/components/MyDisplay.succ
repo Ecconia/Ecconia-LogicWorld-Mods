@@ -29,5 +29,5 @@ WeirdCustomDisplay:
         #        scale: (3, 1, 3)
     placingRules: dynamic
 
-    logicCode: Ecconia.CPUServerComponents.Server.WeirdCustomDisplay
-    clientCode: Ecconia.CPUServerComponents.Client.WeirdCustomDisplay
+    logicCode: EcconiaCPUServerComponents.Server.WeirdCustomDisplay
+    clientCode: EcconiaCPUServerComponents.Client.WeirdCustomDisplay

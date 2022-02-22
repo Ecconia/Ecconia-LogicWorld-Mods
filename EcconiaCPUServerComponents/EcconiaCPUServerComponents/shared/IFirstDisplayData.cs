@@ -1,4 +1,4 @@
-namespace Ecconia.CPUServerComponents.Shared
+namespace EcconiaCPUServerComponents.Shared
 {
 	public interface IFirstDisplayData
 	{

@@ -1,7 +1,7 @@
 //Needed for 'ServerMod':
 using LogicAPI.Server;
 
-namespace Ecconia.CPUServerComponents.Server
+namespace EcconiaCPUServerComponents.Server
 {
 	public class ModClass : ServerMod
 	{

@@ -9,7 +9,7 @@ using LogicWorld.SharedCode.Components;
 //Needed for 'Vector3' (and maybe others):
 using UnityEngine;
 
-namespace Ecconia.CPUServerComponents.Client
+namespace EcconiaCPUServerComponents.Client
 {
 	//I do not need to put this code here, I could put it in the SUCC file.
 	// But then I think I would go crazy. So here it stays.

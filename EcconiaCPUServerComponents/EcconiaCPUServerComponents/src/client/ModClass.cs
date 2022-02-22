@@ -1,7 +1,7 @@
 //Needed for 'ClientMod':
 using LogicAPI.Client;
 
-namespace Ecconia.CPUServerComponents.Client
+namespace EcconiaCPUServerComponents.Client
 {
 	public class ModClass : ClientMod
 	{

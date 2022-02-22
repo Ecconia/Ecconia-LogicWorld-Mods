@@ -8,9 +8,9 @@ using JimmysUnityUtilities;
 using UnityEngine;
 
 //Needed for my components shared data:
-using Ecconia.CPUServerComponents.Shared;
+using EcconiaCPUServerComponents.Shared;
 
-namespace Ecconia.CPUServerComponents.Client
+namespace EcconiaCPUServerComponents.Client
 {
 	public class WeirdCustomDisplay : ComponentClientCode<IFirstDisplayData>
 	{
