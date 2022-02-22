@@ -15,7 +15,7 @@ using LogicWorld.Subassemblies;
 //Needed for 'SubassemblyCacheDatabase':
 using LogicWorld.SharedCode.Subassemblies;
 
-namespace RandomDebugCollection.Commands
+namespace RandomDebugCollection.Client.Commands
 {
 	public static class ClearSubassemblies
 	{

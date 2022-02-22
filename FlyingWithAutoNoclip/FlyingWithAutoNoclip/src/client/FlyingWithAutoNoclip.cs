@@ -16,7 +16,7 @@ using HarmonyLib;
 //Needed for 'PlayerControllerManager':
 using LogicWorld.Players;
 
-namespace FlyingWithAutoNoclip
+namespace FlyingWithAutoNoclip.Client
 {
 	public class FlyingWithAutoNoclip : ClientMod
 	{

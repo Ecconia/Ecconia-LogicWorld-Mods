@@ -3,6 +3,7 @@
 
 # IDEs:
 /.idea/
+*.DotSettings.user
 
 # CSharp and related:
 /*/obj/

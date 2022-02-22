@@ -9,7 +9,7 @@ using LogicLog;
 //Needed for 'UndoManager':
 using LogicWorld.BuildingManagement;
 
-namespace RandomDebugCollection.Commands
+namespace RandomDebugCollection.Client.Commands
 {
 	public static class ClearHistory
 	{

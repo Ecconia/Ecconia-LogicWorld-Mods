@@ -1,8 +1,8 @@
 using LogicAPI.Client;
 
-using RandomDebugCollection.Commands;
+using RandomDebugCollection.Client.Commands;
 
-namespace RandomDebugCollection
+namespace RandomDebugCollection.Client
 {
 	public class RandomDebugCollection : ClientMod
 	{

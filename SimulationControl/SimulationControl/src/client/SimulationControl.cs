@@ -10,7 +10,7 @@ using System;
 //Needed for 'SceneAndNetworkManager':
 using LogicWorld;
 
-namespace SimulationControl
+namespace SimulationControl.Client
 {
 	public class SimulationControl : ClientMod
 	{

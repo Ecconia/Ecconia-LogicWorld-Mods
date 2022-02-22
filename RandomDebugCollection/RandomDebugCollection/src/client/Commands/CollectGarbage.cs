@@ -1,7 +1,7 @@
 //Needed for 'Command', 'LConsole':
 using LICC;
 
-namespace RandomDebugCollection.Commands
+namespace RandomDebugCollection.Client.Commands
 {
 	public static class CollectGarbage
 	{

@@ -7,7 +7,7 @@ using LogicLog;
 //Needed for 'SceneAndNetworkManager':
 using LogicWorld;
 
-namespace RandomDebugCollection
+namespace RandomDebugCollection.Client
 {
 	public static class StacktraceToLog
 	{

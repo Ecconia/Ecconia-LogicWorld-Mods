@@ -6,7 +6,7 @@ using LICC; //Needed for 'LConsole' and 'Command'
 //Custom imports:
 using LogicWorld.Building; //Needed for 'Intersections' and 'WireUtility'
 
-namespace DisableCollision
+namespace DisableCollision.Client
 {
 	public class DisableCollision : ClientMod
 	{
