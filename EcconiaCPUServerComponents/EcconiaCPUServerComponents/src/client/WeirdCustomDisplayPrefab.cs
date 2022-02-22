@@ -17,6 +17,8 @@ namespace Ecconia.CPUServerComponents.Client
 	{
 		//MUST BE AN EVEN NUMBER, OR CODE AND MODEL BREAK! Actually it is used everywhere now, do not change.
 		private const int DisplaySideLength = 32;
+		//This is how far a panel displays stands out of a board. This display should be aligned with them.
+		private const float PanelDisplayOffset = 1f / 3f;
 
 		public override string ComponentTextID => "EcconiaCPUServerComponents.WeirdCustomDisplay";
 
@@ -49,7 +51,7 @@ namespace Ecconia.CPUServerComponents.Client
 							Position = new Vector3(
 								-.5f - x * 2f,
 								1f + y * 2f,
-								.25f
+								.25f + PanelDisplayOffset
 							),
 							Mesh = Meshes.FlatQuad,
 							RawColor = Colors.DisplayOff,
@@ -65,7 +67,7 @@ namespace Ecconia.CPUServerComponents.Client
 				{
 					Scale = new Vector3(DisplaySideLength * 2f, 1f, DisplaySideLength * 2f),
 					Rotation = new Vector3(-90f, 0f, 0f),
-					Position = new Vector3(.5f - DisplaySideLength, DisplaySideLength, .25f),
+					Position = new Vector3(.5f - DisplaySideLength, DisplaySideLength, .25f + PanelDisplayOffset),
 					Mesh = Meshes.BetterCube_OpenBottom,
 				};
 			}
@@ -88,7 +90,7 @@ namespace Ecconia.CPUServerComponents.Client
 						Position = new Vector3(
 							middleX + (halfSide - x) * 2f - 1f - 0.5f,
 							middleY,
-							-.75f
+							-.75f + PanelDisplayOffset
 						),
 					};
 					inputs[index++] = new ComponentInput
@@ -98,7 +100,7 @@ namespace Ecconia.CPUServerComponents.Client
 						Position = new Vector3(
 							middleX + (halfSide - x) * 2f - 1f - 1.5f,
 							middleY,
-							-.75f
+							-.75f + PanelDisplayOffset
 						),
 					};
 				}
@@ -111,7 +113,7 @@ namespace Ecconia.CPUServerComponents.Client
 						Position = new Vector3(
 							middleX + (halfSide - x) * 2f - 1f,
 							middleY,
-							-.75f
+							-.75f + PanelDisplayOffset
 						),
 					};
 				}
@@ -125,7 +127,7 @@ namespace Ecconia.CPUServerComponents.Client
 						Position = new Vector3(
 							middleX,
 							middleY - (halfSide - y) * 2f + 1f + 0.5f,
-							-.75f
+							-.75f + PanelDisplayOffset
 						),
 					};
 					inputs[index++] = new ComponentInput
@@ -135,7 +137,7 @@ namespace Ecconia.CPUServerComponents.Client
 						Position = new Vector3(
 							middleX,
 							middleY - (halfSide - y) * 2f + 1f + 1.5f,
-							-.75f
+							-.75f + PanelDisplayOffset
 						),
 					};
 				}
@@ -148,7 +150,7 @@ namespace Ecconia.CPUServerComponents.Client
 						Position = new Vector3(
 							middleX,
 							middleY - (halfSide - y) * 2f + 1f,
-							-.75f
+							-.75f + PanelDisplayOffset
 						),
 					};
 				}
@@ -157,7 +159,7 @@ namespace Ecconia.CPUServerComponents.Client
 				{
 					Length = 1.1f, //Default is: 0.8
 					Rotation = new Vector3(-90f, 0, 0),
-					Position = new Vector3(middleX, middleY, -.75f),
+					Position = new Vector3(middleX, middleY, -.75f + PanelDisplayOffset),
 					//WirePointHeight = 0.9f, //Default
 					//Bottomless = true, //Default
 					//StartOn = false, //Default
