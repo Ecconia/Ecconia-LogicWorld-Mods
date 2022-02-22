@@ -12,7 +12,7 @@ using EcconiaCPUServerComponents.Shared;
 
 namespace EcconiaCPUServerComponents.Client
 {
-	public class WeirdCustomDisplay : ComponentClientCode<IFirstDisplayData>
+	public class WeirdCustomDisplay : ComponentClientCode<IWeirdCustomDisplayData>
 	{
 		private bool dataDirty = true;
 

@@ -6,7 +6,7 @@ using EcconiaCPUServerComponents.Shared;
 
 namespace EcconiaCPUServerComponents.Server
 {
-	public class WeirdCustomDisplay : LogicComponent<IFirstDisplayData>
+	public class WeirdCustomDisplay : LogicComponent<IWeirdCustomDisplayData>
 	{
 		//State values:
 

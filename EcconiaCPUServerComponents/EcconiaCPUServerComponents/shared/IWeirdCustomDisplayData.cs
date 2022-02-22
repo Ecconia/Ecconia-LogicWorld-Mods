@@ -1,6 +1,6 @@
 namespace EcconiaCPUServerComponents.Shared
 {
-	public interface IFirstDisplayData
+	public interface IWeirdCustomDisplayData
 	{
 		//for 128 bytes
 		//32 by 32 pixels
