@@ -17,20 +17,28 @@ namespace EcconiaCPUServerComponents.Client
 	{
 		//MUST BE AN EVEN NUMBER, OR CODE AND MODEL BREAK! Actually it is used everywhere now, do not change.
 		private const int DisplaySideLength = 32;
-		//This is how far a panel displays stands out of a board. This display should be aligned with them.
-		private const float PanelDisplayOffset = 1f / 3f;
+		private const int PegAmount = DisplaySideLength * 4 + 1;
+		
+		//This is how far a panel displays stands out of a board. This display should be aligned with them:
+		private const float PanelDisplayOffset = 1f / 3f; //Third of a square.
+		//Other offsets:
+		private const float GeneralZOffset = .25f + PanelDisplayOffset; //.25 is a quarter square.
+		private const float PegZOffset = -1f + GeneralZOffset; //-1f, because the pegs start one block behind the component.
+		private const float BlockZOffset = GeneralZOffset;
+		//The distance from the pegs to the pixel center on axis.
+		const float PegPairOffset = 1f / 3f; //Is not aligned to the squares, but looks better.
 
 		public override string ComponentTextID => "EcconiaCPUServerComponents.WeirdCustomDisplay";
 
 		public override PrefabVariantIdentifier GetDefaultComponentVariant()
 		{
 			// (32 'Selector' + 32 'Invert Selector') * 2 'X/Y' + 1 'Data'
-			return new PrefabVariantIdentifier(DisplaySideLength * 4 + 1, 0);
+			return new PrefabVariantIdentifier(PegAmount, 0);
 		}
 
 		public override ComponentVariant GenerateVariant(PrefabVariantIdentifier identifier)
 		{
-			if(identifier.InputCount != (DisplaySideLength * 4 + 1) || identifier.OutputCount != 0)
+			if(identifier.InputCount != PegAmount || identifier.OutputCount != 0)
 			{
 				throw new Exception("Attempted to create Ecconias WeirdCustomDisplay with unexpected peg configuration. Loading old save? Wrong mod version?");
 			}
@@ -51,7 +59,7 @@ namespace EcconiaCPUServerComponents.Client
 							Position = new Vector3(
 								-.5f - x * 2f,
 								1f + y * 2f,
-								.25f + PanelDisplayOffset
+								BlockZOffset
 							),
 							Mesh = Meshes.FlatQuad,
 							RawColor = Colors.DisplayOff,
@@ -67,99 +75,77 @@ namespace EcconiaCPUServerComponents.Client
 				{
 					Scale = new Vector3(DisplaySideLength * 2f, 1f, DisplaySideLength * 2f),
 					Rotation = new Vector3(-90f, 0f, 0f),
-					Position = new Vector3(.5f - DisplaySideLength, DisplaySideLength, .25f + PanelDisplayOffset),
+					Position = new Vector3(.5f - DisplaySideLength, DisplaySideLength, BlockZOffset),
 					Mesh = Meshes.BetterCube_OpenBottom,
 				};
 			}
 
 			//Inputs:
-			ComponentInput[] inputs = new ComponentInput[DisplaySideLength * 4 + 1];
+			ComponentInput[] inputs = new ComponentInput[PegAmount];
 			{
-				float middleX = +.5f - DisplaySideLength;
+				float startX = -0.5f; //Going in the negative X axis, starting is at 0.5.
+				float startY = +1.0f; //Going into positive Y axis, starting at 0.0.
+				float middleX = +.5f - DisplaySideLength; //The first .5 are to get to the edge of the Display, to then go into the middle.
 				float middleY = DisplaySideLength;
-				float halfSide = DisplaySideLength / 2f;
 
-				int index = 0;
-				//Invert X:
-				for(int x = 0; x < DisplaySideLength; x += 2)
+				int indexInvertX = DisplaySideLength * 0;
+				int indexDataX = DisplaySideLength * 1;
+				int indexInvertY = DisplaySideLength * 2;
+				int indexDataY = DisplaySideLength * 3;
+				//TBI: Is it worth it, to also have 4 start positions which include the offset?
+
+				for(int i = 0; i < DisplaySideLength * 2; i += 2)
 				{
-					inputs[index++] = new ComponentInput
+					//Invert X:
+					inputs[indexInvertX++] = new ComponentInput
 					{
 						Length = 0.6f,
 						Rotation = new Vector3(-90f, 0, 0),
 						Position = new Vector3(
-							middleX + (halfSide - x) * 2f - 1f - 0.5f,
+							startX - i + PegPairOffset,
 							middleY,
-							-.75f + PanelDisplayOffset
+							PegZOffset
 						),
 					};
-					inputs[index++] = new ComponentInput
-					{
-						Length = 0.6f,
-						Rotation = new Vector3(-90f, 0, 0),
-						Position = new Vector3(
-							middleX + (halfSide - x) * 2f - 1f - 1.5f,
-							middleY,
-							-.75f + PanelDisplayOffset
-						),
-					};
-				}
-				//Data X:
-				for(int x = 0; x < DisplaySideLength; x++)
-				{
-					inputs[index++] = new ComponentInput
+					//Data X:
+					inputs[indexDataX++] = new ComponentInput
 					{
 						Rotation = new Vector3(-90f, 0, 0),
 						Position = new Vector3(
-							middleX + (halfSide - x) * 2f - 1f,
+							startX - i - PegPairOffset,
 							middleY,
-							-.75f + PanelDisplayOffset
+							PegZOffset
 						),
 					};
-				}
-				//Invert Y:
-				for(int y = 0; y < DisplaySideLength; y += 2)
-				{
-					inputs[index++] = new ComponentInput
+					//Invert Y:
+					inputs[indexInvertY++] = new ComponentInput
 					{
 						Length = 0.6f,
 						Rotation = new Vector3(-90f, 0, 0),
 						Position = new Vector3(
 							middleX,
-							middleY - (halfSide - y) * 2f + 1f + 0.5f,
-							-.75f + PanelDisplayOffset
+							startY + i - PegPairOffset,
+							PegZOffset
 						),
 					};
-					inputs[index++] = new ComponentInput
-					{
-						Length = 0.6f,
-						Rotation = new Vector3(-90f, 0, 0),
-						Position = new Vector3(
-							middleX,
-							middleY - (halfSide - y) * 2f + 1f + 1.5f,
-							-.75f + PanelDisplayOffset
-						),
-					};
-				}
-				//Data Y:
-				for(int y = 0; y < DisplaySideLength; y++)
-				{
-					inputs[index++] = new ComponentInput
+					//Data Y:
+					inputs[indexDataY++] = new ComponentInput
 					{
 						Rotation = new Vector3(-90f, 0, 0),
 						Position = new Vector3(
 							middleX,
-							middleY - (halfSide - y) * 2f + 1f,
-							-.75f + PanelDisplayOffset
+							startY + i + PegPairOffset,
+							PegZOffset
 						),
 					};
 				}
+
 				//Data:
-				inputs[index] = new ComponentInput
+				inputs[inputs.Length - 1] = new ComponentInput
 				{
 					Length = 1.1f, //Default is: 0.8
 					Rotation = new Vector3(-90f, 0, 0),
-					Position = new Vector3(middleX, middleY, -.75f + PanelDisplayOffset),
+					Position = new Vector3(middleX, middleY, PegZOffset),
 					//WirePointHeight = 0.9f, //Default
 					//Bottomless = true, //Default
 					//StartOn = false, //Default
