@@ -25,14 +25,8 @@ namespace EcconiaCPUServerComponents.Server
 		int invertX1;
 		int invertY1;
 		// 2 - State before D-Latch and invert-AND
-		bool data2;
 		int dataX2;
 		int dataY2;
-		int invertX2;
-		int invertY2;
-		// 3 - State before data-AND
-		int dataX3;
-		int dataY3;
 
 		protected override void SetDataDefaultValues()
 		{
@@ -45,22 +39,22 @@ namespace EcconiaCPUServerComponents.Server
 			//                    "Update counter was: {0}", updateCounter);
 
 			//Load inputs:
-			bool data3 = base.Inputs[128].On;
-			int dataX4 = inputToInt(32);
-			int dataY4 = inputToInt(96);
-			int invertX3 = inputToInt(0);
-			int invertY3 = inputToInt(64);
+			bool data2 = base.Inputs[128].On;
+			int dataX3 = inputToInt(32);
+			int dataY3 = inputToInt(96);
+			int invertX2 = inputToInt(0);
+			int invertY2 = inputToInt(64);
 
 			//Queue new updates:
 			bool hasInputChanged =
-				invertY3 != invertY2 ||
-				invertX3 != invertX2 ||
-				data3 != data2 ||
-				dataX4 != dataX3 ||
-				dataY4 != dataY3;
+				invertY2 != invertY1 ||
+				invertX2 != invertX1 ||
+				data2 != data1 ||
+				dataX3 != dataX2 ||
+				dataY3 != dataY2;
 			if(hasInputChanged)
 			{
-				updateCounter = 3;
+				updateCounter = 2;
 				// LConsole.WriteLine("Update counter set: {0}", updateCounter);
 			}
 			if(updateCounter-- > 0)
@@ -161,21 +155,16 @@ namespace EcconiaCPUServerComponents.Server
 			//Shift all the data down by one, for the next cycle.
 			invertX0 = invertX1;
 			invertX1 = invertX2;
-			invertX2 = invertX3;
 			invertY0 = invertY1;
 			invertY1 = invertY2;
-			invertY2 = invertY3;
 			data0 = data1;
 			data1 = data2;
-			data2 = data3;
 			dataX0 = dataX1;
 			dataX1 = dataX2;
 			dataX2 = dataX3;
-			dataX3 = dataX4;
 			dataY0 = dataY1;
 			dataY1 = dataY2;
 			dataY2 = dataY3;
-			dataY3 = dataY4;
 		}
 
 		private int inputToInt(int start)
