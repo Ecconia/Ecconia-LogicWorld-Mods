@@ -1,0 +1,8 @@
+FlatKey:
+    column: "Input"
+    category: "PanelInputs"
+    prefab: dynamic
+    placingRules: StandardFlippable
+
+    logicCode: EcconiaCPUServerComponents.Server.FlatKey
+    clientCode: EcconiaCPUServerComponents.Client.FlatKey

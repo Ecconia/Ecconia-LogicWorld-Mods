@@ -1,0 +1,5 @@
+EcconiaCPUServerComponents.FlatKeySound:
+    MaxRandomPitchVariation: 0.02
+    OutputGroup: InteractionSFX
+    Clips:
+        - EcconiaCPUServerComponents/sounds/clips/Dip.wav

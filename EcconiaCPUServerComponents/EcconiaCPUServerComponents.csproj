@@ -7,8 +7,17 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Reference Include="FancyInput, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\FancyInput.dll</HintPath>
+      </Reference>
+      <Reference Include="FancyPantsConsole, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\FancyPantsConsole.dll</HintPath>
+      </Reference>
       <Reference Include="JimmysUnityUtilities, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\JimmysUnityUtilities.dll</HintPath>
+      </Reference>
+      <Reference Include="LICC, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LICC.dll</HintPath>
       </Reference>
       <Reference Include="LogicAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.dll</HintPath>
@@ -19,8 +28,26 @@
       <Reference Include="LogicAPI.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Server\LogicAPI.Server.dll</HintPath>
       </Reference>
+      <Reference Include="LogicUI, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicUI.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.Audio, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Audio.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.ClientCode, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.ClientCode.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.GameStates, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.GameStates.dll</HintPath>
+      </Reference>
       <Reference Include="LogicWorld.Interfaces, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Interfaces.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.Physics, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Physics.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.Players, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Players.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.References, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.References.dll</HintPath>
@@ -31,8 +58,14 @@
       <Reference Include="LogicWorld.SharedCode, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
       </Reference>
+      <Reference Include="Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+      </Reference>
       <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
       </Reference>
     </ItemGroup>
 
