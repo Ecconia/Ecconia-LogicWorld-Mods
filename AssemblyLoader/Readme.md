@@ -17,4 +17,4 @@ Even worse, you can't just skip assemblies without location when compiling, if y
 Just drop the `AssemblyLoader` folder into the `GameData` folder.
 
 You will also need the mod `ServerOnlyMods` for this mod to function.\
-You can find them in my mod collection (root folder).
+You can find it in my mod collection (root folder).
