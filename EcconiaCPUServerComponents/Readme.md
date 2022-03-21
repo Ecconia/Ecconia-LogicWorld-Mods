@@ -31,3 +31,11 @@ BUT the data line only needs 2 ticks. So send the XY selection 1 tick more early
 
 Currently LogicWorld does not allow changing the color profile of components, without editing its input peg amounts.\
 This means you have to change the two pixel colors manually in code (its RGB). This is client sided only.
+
+### Flat Key:
+
+The flat key pretty much acts like any normal `Panel Key`.\
+Besides that it has no moving part, but instead lights up when pressed.
+
+The new thing about it, is that one can customize the text printed on it.\
+Currently this has to be done using the `EditKeyLabel` command.
