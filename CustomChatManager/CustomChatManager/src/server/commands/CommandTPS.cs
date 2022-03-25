@@ -3,7 +3,7 @@ using JimmysUnityUtilities;
 using LogicWorld.Server;
 using LogicWorld.Server.HostServices;
 
-namespace CustomChatManager.Server
+namespace CustomChatManager.Server.Commands
 {
 	public class CommandTPS : ICommand
 	{

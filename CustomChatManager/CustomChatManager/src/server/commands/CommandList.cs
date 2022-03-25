@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using LogicAPI.Networking;
 using LogicWorld.Server;
 
-namespace CustomChatManager.Server
+namespace CustomChatManager.Server.Commands
 {
 	public class CommandList : ICommand
 	{

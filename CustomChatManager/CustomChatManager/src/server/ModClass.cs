@@ -1,3 +1,5 @@
+using CustomChatManager.Server.ChatServices;
+using CustomChatManager.Server.Commands;
 using LogicAPI.Server;
 using ServerOnlyMods.Server;
 

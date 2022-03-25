@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using CustomChatManager.Server.Commands;
 using JimmysUnityUtilities;
 using LogicAPI.Data;
 using LogicAPI.Networking;
 using LogicAPI.Networking.Packets.Server;
 using LogicAPI.Server.Networking;
 using LogicWorld.Server;
-using ServerModdingSuit.Server;
+using ServerModdingTools.Server;
 
-namespace CustomChatManager.Server
+namespace CustomChatManager.Server.ChatServices
 {
 	public static class SendExtension
 	{

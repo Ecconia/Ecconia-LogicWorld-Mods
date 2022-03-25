@@ -1,4 +1,4 @@
-namespace CustomChatManager.Server
+namespace CustomChatManager.Server.ChatServices
 {
 	public interface IChatService
 	{

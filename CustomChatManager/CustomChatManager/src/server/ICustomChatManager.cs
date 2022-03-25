@@ -1,3 +1,4 @@
+using CustomChatManager.Server.ChatServices;
 using LogicAPI.Data;
 using LogicAPI.Networking;
 

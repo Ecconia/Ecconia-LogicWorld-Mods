@@ -1,7 +1,7 @@
 using System;
 using LogicWorld.Server;
 
-namespace CustomChatManager.Server
+namespace CustomChatManager.Server.ChatServices
 {
 	public class VerifyMessageLength : IChatService
 	{

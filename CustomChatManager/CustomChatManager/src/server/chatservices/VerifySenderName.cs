@@ -2,7 +2,7 @@ using System;
 using LogicAPI.Data;
 using LogicWorld.Server;
 
-namespace CustomChatManager.Server
+namespace CustomChatManager.Server.ChatServices
 {
 	public class VerifySenderName : IChatService
 	{

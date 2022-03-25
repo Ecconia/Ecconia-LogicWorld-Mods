@@ -1,4 +1,4 @@
-namespace CustomChatManager.Server
+namespace CustomChatManager.Server.Commands
 {
 	public interface ICommand
 	{
