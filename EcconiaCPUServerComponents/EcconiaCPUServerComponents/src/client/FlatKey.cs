@@ -136,7 +136,7 @@ namespace EcconiaCPUServerComponents.Client
 				keyStateUpdate();
 				//Data update:
 				text.color = Data.KeyLabelColor.WithOpacity();
-				text.text = Data.label.IsNullOrEmpty() ? ((RawInput) this.Data.BoundInput).DisplayName() : Data.label;
+				text.text = Data.label.IsNullOrEmpty() ? ((RawInput) this.Data.BoundInput).DisplayName() : Data.label.Replace(" ", "<color=#0000>.</color>");
 			}
 		}
 
