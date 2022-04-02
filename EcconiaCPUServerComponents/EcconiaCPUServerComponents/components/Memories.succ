@@ -1,0 +1,8 @@
+Ram256b8:
+    column: "Memory"
+    category: "8Bit"
+    prefab: dynamic
+    placingRules: dynamic
+
+    clientCode: EcconiaCPUServerComponents.Client.Ram256b8
+    logicCode: EcconiaCPUServerComponents.Server.Ram256b8
