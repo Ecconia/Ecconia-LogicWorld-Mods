@@ -87,7 +87,7 @@ namespace EcconiaCPUServerComponents.Client
 		 *
 		 * Runs a frame update after state change.
 		 */
-		private bool ManuallyPressed { get; set; }
+		private bool manuallyPressed { get; set; }
 		/*
 		 * Stores if in the last frame, the client was pressing this key actively.
 		 */
@@ -155,7 +155,7 @@ namespace EcconiaCPUServerComponents.Client
 			}
 
 			//Is this client currently pressing this key?
-			bool clientIsPressingKey = isButtonCurrentlyPressable() && (ManuallyPressed || isPressingWithKeyboard());
+			bool clientIsPressingKey = isButtonCurrentlyPressable() && (manuallyPressed || isPressingWithKeyboard());
 			if(clientIsPressingKey != clientWasPressingKey)
 			{
 				//TODO: Only unpress, when no other is pressing this.
@@ -180,31 +180,24 @@ namespace EcconiaCPUServerComponents.Client
 			//This method is heavily "inspired" by the original LogicWorld-Key source code.
 
 			return ((RawInput) Data.BoundInput).Held() //First of all, the key has to be down.
+				&& GameStateManager.CurrentStateID == "MHG.InChair" //We checked this before, but keys only works when in a chair - cause I decided so (=> many advantages).
 				&& rangeCheck() //Check if the distance is not higher than max allowed interaction.
-				&& IsCornerVisible(); //Check if any of the corners of the collider is visible to the camera.
+				&& isRoughlySeeingEachOther(); //Key needs to be "in front of" player and player "in front of" key.
 
 			bool rangeCheck()
 			{
 				return Vector3.Distance(this.Component.WorldPosition, PlayerControllerManager.PlayerCamera.CameraWorldspacePosition) < PlayerControllerManager.ReachDistance;
 			}
 
-			bool IsCornerVisible()
+			bool isRoughlySeeingEachOther()
 			{
-				BoxCollider collider = GetDecorations()[0].DecorationObject.GetComponent<BoxCollider>();
-				foreach(Vector3 point in collider.GetTopCornerPointsWorldspace())
-				{
-					if(canSeeWorldPoint(point))
-					{
-						return true;
-					}
-				}
-				return false;
+				Vector3 keyPosition = Component.WorldPosition;
+				Quaternion keyAlignment = Component.WorldRotation;
+				Ray ray = PlayerControllerManager.PlayerCamera.GetCameraRay();
+				Vector3 cameraSpacePos = Quaternion.FromToRotation(ray.direction, Vector3.forward) * (keyPosition - ray.origin);
+				Vector3 keySpacePos = keyAlignment.Inverse() * (ray.origin - keyPosition);
 
-				bool canSeeWorldPoint(Vector3 point)
-				{
-					HitInfo hitInfo = ChunkCaster.PointCast(PlayerControllerManager.PlayerCamera.CameraWorldspacePosition, point, PlayerControllerManager.ReachDistance, Masks.Environment | Masks.Structure | Masks.PlayerModel);
-					return hitInfo.HitSomething && hitInfo.Hit.collider.gameObject == collider.gameObject;
-				}
+				return cameraSpacePos.z > 0 && keySpacePos.y > 0;
 			}
 		}
 
@@ -236,8 +229,7 @@ namespace EcconiaCPUServerComponents.Client
 			return
 				visibilityDetector.IsVisible //The KeyCap needs to be roughly visible.
 				//Questionable solution: Should instead ask the current state for properties, cause this is not extendable.
-				&& GameStateManager.CurrentStateID == "MHG.Building" || GameStateManager.CurrentStateID == "MHG.InChair" //Only let the keys be pressable, when building (free-cam) or in chair.
-				//Uff why is this not working?
+				&& (GameStateManager.CurrentStateID == "MHG.Building" || GameStateManager.CurrentStateID == "MHG.InChair") //Only let the keys be pressable, when building (free-cam) or in chair.
 				&& !ToggleableSingletonMenu<FancyPantsConsole.Console>.MenuIsVisible; //This window shadows over each game state, so manual query is required.
 		}
 
@@ -322,13 +314,13 @@ namespace EcconiaCPUServerComponents.Client
 
 		public void MousePressDown()
 		{
-			ManuallyPressed = true;
+			manuallyPressed = true;
 			QueueFrameUpdate();
 		}
 
 		public void MousePressUp()
 		{
-			ManuallyPressed = false;
+			manuallyPressed = false;
 			QueueFrameUpdate();
 		}
 
