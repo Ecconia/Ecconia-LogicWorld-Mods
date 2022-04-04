@@ -1,12 +1,18 @@
 using System;
 using LogicAPI.Server.Components;
+using LogicAPI.WorldDataMutations;
+using LogicWorld.Server;
+using LogicWorld.Server.Managers;
 
 namespace EcconiaCPUServerComponents.Server
 {
 	public class Ram256b8 : LogicComponent
 	{
+		private static readonly IWorldUpdates worldUpdater;
+		
 		//Contains the in memory stored bytes:
-		private byte[] data = new byte[256];
+		private readonly byte[] data = new byte[256];
+		
 		//Keeps track of how many of the next ticks it should run (to shift data where it belongs):
 		private byte ticksToContinue;
 		//Shifting data:
@@ -22,6 +28,12 @@ namespace EcconiaCPUServerComponents.Server
 		private byte writeAddress1;
 		private byte readAddress1;
 
+		static Ram256b8()
+		{
+			//World updater only exists once while runtime anyway. So lets keep it cached statically.
+			worldUpdater = Program.Get<IWorldUpdates>();
+		}
+		
 		//Set this to true, so that LogicWorld knows, that it has to serialize this component before saving.
 		public override bool HasPersistentValues => true;
 		//No need to override the SavePersistentValuesToCustomData method, since there is no CustomData object.
@@ -32,6 +44,24 @@ namespace EcconiaCPUServerComponents.Server
 			{
 				//No need to initialize any of this mod. Is it null because its a new component?
 				return;
+			}
+			if(customDataArray.Length == 1)
+			{
+				//This is a message from a dear client, probably requesting a broadcast.
+				if(customDataArray[0] == 0)
+				{
+					//Indeed a broadcast request:
+					worldUpdater.QueueMutationToBeSentToClient(new WorldMutation_UpdateComponentCustomData()
+					{
+						AddressOfTargetComponent = Address,
+						NewCustomData = data,
+					});
+					return; //Done here.
+				}
+				else
+				{
+					throw new Exception("Invalid custom data message sent by client, content: " + customDataArray[0]);
+				}
 			}
 			Array.Copy(customDataArray, data, 256);
 			ticksToContinue = customDataArray[256];
@@ -110,11 +140,20 @@ namespace EcconiaCPUServerComponents.Server
 				// - next cycle we read what we are writing now
 				// - we are changing what is written to at this memory position
 				//Then simulate another tick!
-				if(readEnable2 && ticksToContinue < 1 && readAddress2 == writeAddress3 && data[writeAddress3] != writeData3)
+				if(data[writeAddress3] != writeData3)
 				{
-					ticksToContinue = 1; //We may have to do one more to be able to read what we just wrote.
+					if(readEnable2 && ticksToContinue < 1 && readAddress2 == writeAddress3)
+					{
+						ticksToContinue = 1; //We may have to do one more to be able to read what we just wrote.
+					}
+					data[writeAddress3] = writeData3;
+					//Update the value change on the clients too:
+					worldUpdater.QueueMutationToBeSentToClient(new WorldMutation_UpdateComponentCustomData()
+					{
+						AddressOfTargetComponent = Address,
+						NewCustomData = new byte[] {writeAddress3, writeData3},
+					});
 				}
-				data[writeAddress3] = writeData3;
 			}
 
 			//Check if has to run more:
