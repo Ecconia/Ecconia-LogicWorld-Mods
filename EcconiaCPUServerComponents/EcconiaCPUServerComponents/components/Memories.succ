@@ -1,6 +1,5 @@
 Ram256b8:
     column: "Memory"
-    category: "8Bit"
     prefab: dynamic
     placingRules: dynamic
 
