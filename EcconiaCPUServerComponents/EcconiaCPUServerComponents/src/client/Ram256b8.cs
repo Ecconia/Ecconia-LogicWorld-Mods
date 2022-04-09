@@ -12,6 +12,32 @@ namespace EcconiaCPUServerComponents.Client
 {
 	public class Ram256b8 : ComponentClientCode
 	{
+		private static readonly char[] mapping = new char[256];
+
+		//TODO: Add control characters, such as space and newline.
+		static Ram256b8()
+		{
+			int index = 1; //Skip the first character.
+			for(int i = 0; i < 26; i++)
+			{
+				mapping[index++] = (char) ('A' + i);
+			}
+			for(int i = 0; i < 26; i++)
+			{
+				mapping[index++] = (char) ('a' + i);
+			}
+			char[] otherCharacters =
+			{
+				'?', '.', ',', ':', '\'', '"',
+				'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+				'+', '-', '×', '/', '=', '(', ')', '→', '←', '↓', '↑',
+			};
+			for(int i = 0; i < otherCharacters.Length; i++)
+			{
+				mapping[index++] = otherCharacters[i];
+			}
+		}
+		
 		private bool isInitialized;
 		
 		protected override ChildPlacementInfo GenerateChildPlacementInfo()
@@ -54,11 +80,9 @@ namespace EcconiaCPUServerComponents.Client
 			{
 				//Full data update:
 				// LConsole.WriteLine("Got full update.");
-				int index = 0;
-				foreach(IDecoration decoration in GetDecorations())
+				for(int i = 0; i < GetDecorations().Count; i++)
 				{
-					TextMeshPro label = decoration.DecorationObject.GetComponent<TextMeshPro>();
-					label.text = data[index++].ToString();
+					setValue(i, data[i]);
 				}
 				isInitialized = true;
 			}
@@ -71,9 +95,18 @@ namespace EcconiaCPUServerComponents.Client
 				}
 				//Update packet!
 				// LConsole.WriteLine("Got update: [" + data[0] + "] = " + data[1]);
-				TextMeshPro label = GetDecorations()[data[0]].DecorationObject.GetComponent<TextMeshPro>();
-				label.text = data[1].ToString();
+				setValue(data[0], data[1]);
 			}
+		}
+
+		private void setValue(int index, int value)
+		{
+			TextMeshPro label = GetDecorations()[index].DecorationObject.GetComponent<TextMeshPro>();
+			string textIndex = index > 99 ? index.ToString() : index > 9 ? " " + index : "  " + index;
+			string textValue = value > 99 ? value.ToString() : value > 9 ? " " + value : "  " + value;
+			char mapped = mapping[value];
+			string textMapped = value == 0 ? "" : mapped == 0 ? " …" : " " + mapped; 
+			label.text = "<mspace=0.5em>" + textIndex + ": " + textValue + textMapped + "</mspace>";
 		}
 
 		protected override IList<IDecoration> GenerateDecorations()
@@ -91,7 +124,7 @@ namespace EcconiaCPUServerComponents.Client
 				label.horizontalAlignment = HorizontalAlignmentOptions.Left;
 				label.verticalAlignment = VerticalAlignmentOptions.Middle;
 				label.enableWordWrapping = false;
-				label.text = "???";
+				label.text = "<mspace=0.5em>" + i + ": ???</mspace>";
 				label.color = new Color(0f, 0.8f, 0.6f);
 				decorations.Add(new Decoration()
 				{
