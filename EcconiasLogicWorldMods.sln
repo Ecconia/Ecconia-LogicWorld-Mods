@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerOnlyMods", "ServerOnl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyLoader", "AssemblyLoader\AssemblyLoader.csproj", "{D3298FDA-440A-4233-A3CD-86DDBF074AE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomSkybox", "CustomSkybox\CustomSkybox.csproj", "{6C2B319E-0D99-49E9-AB2E-AE2CF8572F4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,5 +80,9 @@ Global
 		{D3298FDA-440A-4233-A3CD-86DDBF074AE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3298FDA-440A-4233-A3CD-86DDBF074AE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3298FDA-440A-4233-A3CD-86DDBF074AE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C2B319E-0D99-49E9-AB2E-AE2CF8572F4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C2B319E-0D99-49E9-AB2E-AE2CF8572F4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C2B319E-0D99-49E9-AB2E-AE2CF8572F4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C2B319E-0D99-49E9-AB2E-AE2CF8572F4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
