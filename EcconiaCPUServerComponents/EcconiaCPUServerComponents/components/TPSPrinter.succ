@@ -1,0 +1,5 @@
+TPSPrinter:
+    column: "Output"
+    prefab: dynamic
+
+    logicCode: EcconiaCPUServerComponents.Server.TPSPrinter
