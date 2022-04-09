@@ -54,7 +54,7 @@ namespace EcconiaCPUServerComponents.Client
 					{
 						blocks[index++] = new Block
 						{
-							Scale = new Vector3(2f, 1f, 2f),
+							Scale = new Vector3(2.01f, 1f, 2.01f),
 							Rotation = new Vector3(90f, 0f, 0f),
 							Position = new Vector3(
 								-.5f - x * 2f,
