@@ -70,5 +70,21 @@ namespace CustomChatManager.Server
 			}
 			return playerName;
 		}
+		
+		public void sendConsoleMessage(string content)
+		{
+			server.Send(connection, new DebugMessagePacket()
+			{
+				Message = content,
+			});
+		}
+
+		public void broadcastConsoleMessage(string content)
+		{
+			server.Broadcast(new DebugMessagePacket()
+			{
+				Message = content,
+			});
+		}
 	}
 }

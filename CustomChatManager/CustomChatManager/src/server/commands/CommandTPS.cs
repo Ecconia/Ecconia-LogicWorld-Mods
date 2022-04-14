@@ -1,5 +1,6 @@
 using System;
 using JimmysUnityUtilities;
+using LogicAPI.Server.Managers;
 using LogicWorld.Server;
 using LogicWorld.Server.HostServices;
 
@@ -12,17 +13,23 @@ namespace CustomChatManager.Server.Commands
 
 		private static string usage = "Usage: /tps [ <tps> | stop/halt/pause | resume/play/continue ]";
 		
-		private readonly PeriodicTicker simulation;
+		private readonly PeriodicTicker simulationScheduler;
+		private readonly ILogicManager simulation;
 		
 		public string name => "tps";
 		public string shortDescription => "Changes the processed ticks per second.";
 
 		public CommandTPS()
 		{
-			simulation = (PeriodicTicker) Program.Get<ISimulationService>(); //Just do the dirty casting, we need 'IsPaused'.
+			simulationScheduler = (PeriodicTicker) Program.Get<ISimulationService>(); //Just do the dirty casting, we need 'IsPaused'.
+			if(simulationScheduler == null)
+			{
+				throw new Exception("Could not get simulation scheduling service. /tps will break.");
+			}
+			simulation = Program.Get<ILogicManager>();
 			if(simulation == null)
 			{
-				throw new Exception("Could not get simulation service. /tps will break.");
+				throw new Exception("Could not get simulation service. /tps will break. And the server is probably already broken...");
 			}
 		}
 		
@@ -31,13 +38,13 @@ namespace CustomChatManager.Server.Commands
 			if(arguments.IsNullOrWhiteSpace())
 			{
 				//Print help:
-				if(simulation.IsPaused)
+				if(simulationScheduler.IsPaused)
 				{
-					sender.sendMessage("Current tps is <color=#fa0>" + simulation.TicksPerSecond + "</color> + paused. <color=#ccc><i>Use '/tps help' for help.</i></color>");
+					sender.sendMessage("Current tps is <color=#fa0>" + simulationScheduler.TicksPerSecond + "</color> + paused. <color=#ccc><i>Use '/tps help' for help.</i></color>");
 				}
 				else
 				{
-					sender.sendMessage("Current tps is <color=#fa0>" + simulation.TicksPerSecond + "</color>. <color=#ccc><i>Use '/tps help' for help.</i></color>");
+					sender.sendMessage("Current tps is <color=#fa0>" + simulationScheduler.TicksPerSecond + "</color>. <color=#ccc><i>Use '/tps help' for help.</i></color>");
 				}
 				return;
 			}
@@ -57,7 +64,7 @@ namespace CustomChatManager.Server.Commands
 			{
 				sender.sendMessage(usage);
 			}
-			else if(argument.Equals("s") || argument.Equals("stop") || argument.Equals("h") || argument.Equals("halt") || argument.Equals("p") || argument.Equals("pause"))
+			else if(argument.Equals("stop") || argument.Equals("h") || argument.Equals("halt") || argument.Equals("p") || argument.Equals("pause"))
 			{
 				pauseSimulation(sender);
 			}
@@ -65,6 +72,10 @@ namespace CustomChatManager.Server.Commands
 			else if(argument.Equals("r") || argument.Equals("resume") || argument.Equals("play") || argument.Equals("c") || argument.Equals("continue"))
 			{
 				resumeSimulation(sender);
+			}
+			else if(argument.Equals("s") || argument.Equals("step"))
+			{
+				stepSimulation(sender);
 			}
 			else if(double.TryParse(argument, out var targetTPS))
 			{
@@ -95,38 +106,49 @@ namespace CustomChatManager.Server.Commands
 			}
 		}
 
+		private void stepSimulation(CommandSender sender)
+		{
+			if(!simulationScheduler.IsPaused)
+			{
+				sender.sendMessage("<color=" + failureColor + ">To step the simulation, paused it first.</color>");
+				return;
+			}
+			simulation.DoLogicUpdate();
+			sender.broadcastConsoleMessage(sender.getPlayerName() + " stepped simulation.");
+		}
+
 		private void resumeSimulation(CommandSender sender)
 		{
-			if(!simulation.IsPaused)
+			if(!simulationScheduler.IsPaused)
 			{
 				sender.sendMessage("Simulation is already running.");
 				return;
 			}
-			simulation.StartTicks();
+			simulationScheduler.StartTicks();
 			sender.broadcast("<i>" + sender.getPlayerName() + " resumed simulation.</i>");
 		}
 
 		private void pauseSimulation(CommandSender sender)
 		{
-			if(simulation.IsPaused)
+			if(simulationScheduler.IsPaused)
 			{
 				sender.sendMessage("Simulation is already paused.");
 				return;
 			}
-			simulation.PauseTicks();
+			simulationScheduler.PauseTicks();
 			sender.broadcast("<i>" + sender.getPlayerName() + " paused simulation.</i>");
 		}
 
 		private void setSpeed(CommandSender sender, double tps)
 		{
-			bool paused = simulation.IsPaused;
-			if(!paused && Math.Abs(simulation.TicksPerSecond - tps) < 0.0000001)
+			bool paused = simulationScheduler.IsPaused;
+			if(!paused && Math.Abs(simulationScheduler.TicksPerSecond - tps) < 0.0000001)
 			{
 				sender.sendMessage("This is already the current tick speed.");
 			}
 			else
 			{
-				simulation.TicksPerSecond = tps;
+				simulationScheduler.TicksPerSecond = tps;
 				if(paused)
 				{
 					sender.broadcast("<i>" + sender.getPlayerName() + " resumed simulation with <color=#fa0>" + tps + "</color> tps.</i>");
