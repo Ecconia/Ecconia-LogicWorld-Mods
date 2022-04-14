@@ -65,13 +65,14 @@ namespace CustomChatManager.Server.ChatServices
 		{
 			public void playerIsJoining(Connection connection, PlayerData playerData)
 			{
-				server.sendMessage(connection, "Try using '<color=#fa0>/help</color>' in chat.");
+				//The 'h' in 'help' is intentionally lowercase: It looks better and it might give users the idea, that casing in commands does not matter.
+				server.sendMessage(connection, "Try using '" + ChatColors.highlight + "/help" + ChatColors.close + "' in chat.");
 			}
 		}
 
 		private class HelpCommand : ICommand
 		{
-			public string name => "help";
+			public string name => "Help";
 
 			public string shortDescription => "Prints this list.";
 
@@ -83,11 +84,15 @@ namespace CustomChatManager.Server.ChatServices
 				foreach(var command in instance.commands.Values)
 				{
 					builder
-						.Append("\n- <color=#fa0>/")
+						.Append("\n- ")
+						.Append(ChatColors.highlight)
+						.Append('/')
 						.Append(command.name)
-						.Append("</color> : <color=#ccc>")
+						.Append(ChatColors.close)
+						.Append(" : ")
+						.Append(ChatColors.background)
 						.Append(command.shortDescription)
-						.Append("</color>");
+						.Append(ChatColors.close);
 				}
 				sender.sendMessage(builder.ToString());
 			}
@@ -118,7 +123,7 @@ namespace CustomChatManager.Server.ChatServices
 			commands.TryGetValue(split.command.ToLower(), out ICommand suitableCommand);
 			if(suitableCommand == null)
 			{
-				sender.sendMessage("Unknown command '<color=#fa0>/" + split.command + "</color>'!");
+				sender.sendMessage(ChatColors.failure + "Unknown command '" + ChatColors.highlight+ "/" + split.command + ChatColors.close + "'!" + ChatColors.close);
 				return;
 			}
 			suitableCommand.execute(sender, split.argument);

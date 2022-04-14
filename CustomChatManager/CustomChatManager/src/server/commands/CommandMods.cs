@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 using LogicAPI;
 using LogicAPI.Modding;
 using LogicWorld.Server;
@@ -11,7 +11,7 @@ namespace CustomChatManager.Server.Commands
 {
 	public class CommandMods : ICommand
 	{
-		public string name => "mods";
+		public string name => "Mods";
 		public string shortDescription => "Lists all installed server mods.";
 
 		private readonly IDictionary mods;
@@ -24,21 +24,37 @@ namespace CustomChatManager.Server.Commands
 			{
 				throw new Exception("Developer fix your mod, the ModScripts field does not exist.");
 			}
-			IDictionary dict = (IDictionary) field.GetValue(modManager);
-			mods = dict;
+			mods = (IDictionary) field.GetValue(modManager);
 		}
 		
 		public void execute(CommandSender sender, string arguments)
 		{
 			//There is always at least one mod installed, this one.
-			sender.sendMessage("There are " + mods.Count + " mods installed:");
+			StringBuilder sb = new StringBuilder();
+			sb.Append("There are ")
+			  .Append(ChatColors.highlight)
+			  .Append(mods.Count)
+			  .Append(ChatColors.close)
+			  .Append(" mods installed:");
 			foreach(object key in mods.Keys)
 			{
 				MetaMod mod = key as MetaMod;
 				ModManifest manifest = mod.Manifest;
 				//TBI: I bet some high-level prankster mod author gonna try to leave version or author away in future. I wonder if this will break then...
-				sender.sendMessage(" - " + manifest.Name + " : " + manifest.Version + " by " + manifest.Author);
+				sb.Append("\n - ")
+				  .Append(ChatColors.highlight)
+				  .Append(manifest.Name)
+				  .Append(ChatColors.close)
+				  .Append(" : ")
+				  .Append(ChatColors.background)
+				  .Append(manifest.Version)
+				  .Append(ChatColors.close)
+				  .Append(" by ")
+				  .Append(ChatColors.background)
+				  .Append(manifest.Author)
+				  .Append(ChatColors.close);
 			}
+			sender.sendMessage(sb.ToString());
 		}
 	}
 }

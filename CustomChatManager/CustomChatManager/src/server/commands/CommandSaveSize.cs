@@ -7,7 +7,7 @@ namespace CustomChatManager.Server.Commands
 {
 	public class CommandSaveSize : ICommand
 	{
-		public string name => "savesize";
+		public string name => "SaveSize";
 		public string shortDescription => "Prints the save file size.";
 
 		private readonly ISaveManager saveManager;
@@ -17,13 +17,13 @@ namespace CustomChatManager.Server.Commands
 			saveManager = Program.Get<ISaveManager>();
 			if(saveManager == null)
 			{
-				throw new Exception("Could not get ISaveManager. /savesize will break");
+				throw new Exception("Could not get ISaveManager. /" + name + " will break");
 			}
 		}
 		
 		public void execute(CommandSender sender, string arguments)
 		{
-			sender.sendMessage("Current file size is: " + FileUtilities.PrettyDirectorySize(saveManager.ActiveSaveDirectory));
+			sender.sendMessage("Current file size is: " + ChatColors.highlight + FileUtilities.PrettyDirectorySize(saveManager.ActiveSaveDirectory) + ChatColors.close);
 		}
 	}
 }

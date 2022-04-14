@@ -8,7 +8,6 @@ namespace CustomChatManager.Server.Commands
 {
 	public class CommandTPS : ICommand
 	{
-		private static readonly Color24 failureColor = new Color24(255, 100, 100);
 		private static double minTPS = 0.1f;
 
 		private static string usage = "Usage: /tps [ <tps> | stop/halt/pause | resume/play/continue ]";
@@ -16,7 +15,7 @@ namespace CustomChatManager.Server.Commands
 		private readonly PeriodicTicker simulationScheduler;
 		private readonly ILogicManager simulation;
 		
-		public string name => "tps";
+		public string name => "TPS";
 		public string shortDescription => "Changes the processed ticks per second.";
 
 		public CommandTPS()
@@ -24,12 +23,12 @@ namespace CustomChatManager.Server.Commands
 			simulationScheduler = (PeriodicTicker) Program.Get<ISimulationService>(); //Just do the dirty casting, we need 'IsPaused'.
 			if(simulationScheduler == null)
 			{
-				throw new Exception("Could not get simulation scheduling service. /tps will break.");
+				throw new Exception("Could not get simulation scheduling service. /" + name + " will break.");
 			}
 			simulation = Program.Get<ILogicManager>();
 			if(simulation == null)
 			{
-				throw new Exception("Could not get simulation service. /tps will break. And the server is probably already broken...");
+				throw new Exception("Could not get simulation service. /" + name + " will break. And the server is probably already broken...");
 			}
 		}
 		
@@ -40,11 +39,11 @@ namespace CustomChatManager.Server.Commands
 				//Print help:
 				if(simulationScheduler.IsPaused)
 				{
-					sender.sendMessage("Current tps is <color=#fa0>" + simulationScheduler.TicksPerSecond + "</color> + paused. <color=#ccc><i>Use '/tps help' for help.</i></color>");
+					sender.sendMessage("Current tps is " + ChatColors.highlight + simulationScheduler.TicksPerSecond + ChatColors.close + " + paused. " + ChatColors.background + "<i>Try '/tps help' for usage.</i>" + ChatColors.close);
 				}
 				else
 				{
-					sender.sendMessage("Current tps is <color=#fa0>" + simulationScheduler.TicksPerSecond + "</color>. <color=#ccc><i>Use '/tps help' for help.</i></color>");
+					sender.sendMessage("Current tps is " + ChatColors.highlight + simulationScheduler.TicksPerSecond + ChatColors.close + ". " + ChatColors.background + "<i>Try '/tps help' for usage.</i>" + ChatColors.close);
 				}
 				return;
 			}
@@ -53,7 +52,7 @@ namespace CustomChatManager.Server.Commands
 			arguments = arguments.TrimStart();
 			if(arguments.IndexOf(' ') >= 0)
 			{
-				sender.sendMessage("<color=" + failureColor + ">Too many arguments.</color>\n" + usage);
+				sender.sendMessage(ChatColors.failure + "Too many arguments." + ChatColors.close + "\n" + ChatColors.background + usage + ChatColors.close);
 				return;
 			}
 			
@@ -85,15 +84,15 @@ namespace CustomChatManager.Server.Commands
 				}
 				else if(!double.IsFinite(targetTPS))
 				{
-					sender.sendMessage("<color=" + failureColor + ">Only provide finite speeds (not NaN or infinite).</color>");
+					sender.sendMessage(ChatColors.failure + "Only provide finite speeds (not NaN or infinite)." + ChatColors.close);
 				}
 				else if(targetTPS < 0)
 				{
-					sender.sendMessage("<color=" + failureColor + ">Only provide positive speeds.</color>");
+					sender.sendMessage(ChatColors.failure + "Only provide positive speeds." + ChatColors.close);
 				}
 				else if(targetTPS < minTPS)
 				{
-					sender.sendMessage("<color=" + failureColor + ">The minimum allowed tps is " + minTPS + ".</color>");
+					sender.sendMessage(ChatColors.failure + "The minimum allowed tps is " + minTPS + "." + ChatColors.close);
 				}
 				else
 				{
@@ -102,7 +101,7 @@ namespace CustomChatManager.Server.Commands
 			}
 			else
 			{
-				sender.sendMessage("<color=" + failureColor + ">Could not parse your command.</color>\n" + usage);
+				sender.sendMessage(ChatColors.failure + "Could not parse your command." + ChatColors.close + "\n" + usage);
 			}
 		}
 
@@ -110,7 +109,7 @@ namespace CustomChatManager.Server.Commands
 		{
 			if(!simulationScheduler.IsPaused)
 			{
-				sender.sendMessage("<color=" + failureColor + ">To step the simulation, paused it first.</color>");
+				sender.sendMessage(ChatColors.failure + "To step the simulation, paused it first." + ChatColors.close);
 				return;
 			}
 			simulation.DoLogicUpdate();
@@ -125,7 +124,7 @@ namespace CustomChatManager.Server.Commands
 				return;
 			}
 			simulationScheduler.StartTicks();
-			sender.broadcast("<i>" + sender.getPlayerName() + " resumed simulation.</i>");
+			sender.broadcast(ChatColors.background + "<i>" + sender.getPlayerName() + " resumed simulation.</i>" + ChatColors.close);
 		}
 
 		private void pauseSimulation(CommandSender sender)
@@ -136,7 +135,7 @@ namespace CustomChatManager.Server.Commands
 				return;
 			}
 			simulationScheduler.PauseTicks();
-			sender.broadcast("<i>" + sender.getPlayerName() + " paused simulation.</i>");
+			sender.broadcast(ChatColors.background + "<i>" + sender.getPlayerName() + " paused simulation.</i>" + ChatColors.close);
 		}
 
 		private void setSpeed(CommandSender sender, double tps)
@@ -151,11 +150,11 @@ namespace CustomChatManager.Server.Commands
 				simulationScheduler.TicksPerSecond = tps;
 				if(paused)
 				{
-					sender.broadcast("<i>" + sender.getPlayerName() + " resumed simulation with <color=#fa0>" + tps + "</color> tps.</i>");
+					sender.broadcast(ChatColors.background + "<i>" + sender.getPlayerName() + " resumed simulation with " + ChatColors.highlight + tps + ChatColors.close + " tps.</i>" + ChatColors.close);
 				}
 				else
 				{
-					sender.broadcast("<i>" + sender.getPlayerName() + " changed simulation to <color=#fa0>" + tps + "</color> tps.</i>");
+					sender.broadcast(ChatColors.background + "<i>" + sender.getPlayerName() + " changed simulation to " + ChatColors.highlight + tps + ChatColors.close + " tps.</i>" + ChatColors.close);
 				}
 			}
 		}

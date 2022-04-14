@@ -7,7 +7,7 @@ namespace CustomChatManager.Server.Commands
 {
 	public class CommandList : ICommand
 	{
-		public string name => "list";
+		public string name => "List";
 		public string shortDescription => "Lists all connected players.";
 		
 		private readonly IPlayerManager playerManager;
@@ -28,7 +28,7 @@ namespace CustomChatManager.Server.Commands
 			{
 				names.Add(playerManager.GetPlayerIDFromConnection(connection).Name);
 			}
-			sender.sendMessage("There are " + names.Count + " players online:\n<color=#fa0>" + String.Join("</color>, <color=#fa0>", names) + "</color>");
+			sender.sendMessage("There are " + names.Count + " players online:\n" + ChatColors.highlight + String.Join(ChatColors.close + ", " + ChatColors.highlight, names) + ChatColors.close);
 		}
 	}
 }
