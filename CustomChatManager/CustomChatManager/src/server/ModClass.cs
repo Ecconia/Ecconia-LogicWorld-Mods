@@ -20,6 +20,8 @@ namespace CustomChatManager.Server
 				{
 					CommandManager.instance.register(new CommandTPS());
 					CommandManager.instance.register(new CommandList());
+					CommandManager.instance.register(new CommandSaveSize());
+					CommandManager.instance.register(new CommandMods());
 				}
 			}
 			
