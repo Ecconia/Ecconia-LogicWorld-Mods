@@ -48,14 +48,14 @@ namespace EcconiaCPUServerComponents.Client
 			int index = 0;
 			foreach(byte b in base.Data.pixelData)
 			{
-				base.SetBlockColor((b & 0b1) != 0 ? onColor : Colors.DisplayOff, index++);
-				base.SetBlockColor((b & 0b10) != 0 ? onColor : Colors.DisplayOff, index++);
-				base.SetBlockColor((b & 0b100) != 0 ? onColor : Colors.DisplayOff, index++);
-				base.SetBlockColor((b & 0b1000) != 0 ? onColor : Colors.DisplayOff, index++);
-				base.SetBlockColor((b & 0b10000) != 0 ? onColor : Colors.DisplayOff, index++);
-				base.SetBlockColor((b & 0b100000) != 0 ? onColor : Colors.DisplayOff, index++);
-				base.SetBlockColor((b & 0b1000000) != 0 ? onColor : Colors.DisplayOff, index++);
 				base.SetBlockColor((b & 0b10000000) != 0 ? onColor : Colors.DisplayOff, index++);
+				base.SetBlockColor((b & 0b1000000) != 0 ? onColor : Colors.DisplayOff, index++);
+				base.SetBlockColor((b & 0b100000) != 0 ? onColor : Colors.DisplayOff, index++);
+				base.SetBlockColor((b & 0b10000) != 0 ? onColor : Colors.DisplayOff, index++);
+				base.SetBlockColor((b & 0b1000) != 0 ? onColor : Colors.DisplayOff, index++);
+				base.SetBlockColor((b & 0b100) != 0 ? onColor : Colors.DisplayOff, index++);
+				base.SetBlockColor((b & 0b10) != 0 ? onColor : Colors.DisplayOff, index++);
+				base.SetBlockColor((b & 0b1) != 0 ? onColor : Colors.DisplayOff, index++);
 			}
 		}
 

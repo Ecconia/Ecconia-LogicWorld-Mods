@@ -88,8 +88,8 @@ namespace EcconiaCPUServerComponents.Client
 				float middleX = +.5f - DisplaySideLength; //The first .5 are to get to the edge of the Display, to then go into the middle.
 				float middleY = DisplaySideLength;
 
-				int indexInvertX = DisplaySideLength * 0;
-				int indexDataX = DisplaySideLength * 1;
+				int indexInvertX = DisplaySideLength * 1 - 1;
+				int indexDataX = DisplaySideLength * 2 - 1;
 				int indexInvertY = DisplaySideLength * 2;
 				int indexDataY = DisplaySideLength * 3;
 				//TBI: Is it worth it, to also have 4 start positions which include the offset?
@@ -97,7 +97,7 @@ namespace EcconiaCPUServerComponents.Client
 				for(int i = 0; i < DisplaySideLength * 2; i += 2)
 				{
 					//Invert X:
-					inputs[indexInvertX++] = new ComponentInput
+					inputs[indexInvertX--] = new ComponentInput
 					{
 						Length = 0.6f,
 						Rotation = new Vector3(-90f, 0, 0),
@@ -108,7 +108,7 @@ namespace EcconiaCPUServerComponents.Client
 						),
 					};
 					//Data X:
-					inputs[indexDataX++] = new ComponentInput
+					inputs[indexDataX--] = new ComponentInput
 					{
 						Rotation = new Vector3(-90f, 0, 0),
 						Position = new Vector3(
