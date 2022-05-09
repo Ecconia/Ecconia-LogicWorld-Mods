@@ -14,11 +14,11 @@ namespace CustomWirePlacer.Client.CWP
 {
 	public static class CustomWirePlacer
 	{
-		private static CWPGroup firstCwpGroup = new CWPGroup();
-		private static CWPGroup secondCwpGroup = new CWPGroup();
+		private static CWPGroup firstGroup = new CWPGroup();
+		private static CWPGroup secondGroup = new CWPGroup();
 		//The current group is used to reference the group which currently is being modified.
-		private static CWPGroup currentCwpGroup;
-		
+		private static CWPGroup currentGroup;
+
 		//Indicates, if the mouse is down while editing a group. And not just down.
 		private static bool drawing;
 
@@ -54,7 +54,7 @@ namespace CustomWirePlacer.Client.CWP
 			secondCwpGroup.clear();
 
 			//Set the first peg:
-			firstCwpGroup.setFirstPeg(initialPeg);
+			firstGroup.setFirstPeg(initialPeg);
 			SoundPlayer.PlaySoundAt(Sounds.ConnectionInitial, CWPHelper.getWireConnectionPoint(initialPeg));
 
 			//Switch state:
@@ -72,7 +72,7 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			CWPSettings.skiprate = 0; //This gets reset before each operation.
 
-			currentCwpGroup = firstCwpGroup;
+			currentGroup = firstGroup;
 
 			//TODO: Enable again, but not now.
 			// CWPStatusDisplay.setVisible(true);
@@ -95,9 +95,9 @@ namespace CustomWirePlacer.Client.CWP
 			//Handle outlining:
 			cleanUpWireGhosts();
 			//Hard reset fields:
-			firstCwpGroup.clear();
-			secondCwpGroup.clear();
-			currentCwpGroup = null;
+			firstGroup.clear();
+			secondGroup.clear();
+			currentGroup = null;
 		}
 
 		public static void onUpdate()
@@ -118,13 +118,13 @@ namespace CustomWirePlacer.Client.CWP
 				PegAddress currentlyLookingAtPeg = CWPHelper.getPegCurrentlyLookingAt();
 				if(Trigger.DrawWire.Held() && currentlyLookingAtPeg != null)
 				{
-					if(currentlyLookingAtPeg == currentCwpGroup.getFirstPeg())
+					if(currentlyLookingAtPeg == currentGroup.getFirstPeg())
 					{
-						if(currentCwpGroup.getSecondPeg() != null)
+						if(currentGroup.getSecondPeg() != null)
 						{
 							//Peg reset:
-							currentCwpGroup.setSecondPeg(null);
-							if(secondCwpGroup.isSet())
+							currentGroup.setSecondPeg(null);
+							if(secondGroup.isSet())
 							{
 								//In the first group, we are not making the sound, since then no wire is drawn at all.
 								// But when a second group exists, the wire will update and a sound has to be played.
@@ -133,10 +133,10 @@ namespace CustomWirePlacer.Client.CWP
 							updateWireGhosts();
 						}
 					}
-					else if(currentlyLookingAtPeg != currentCwpGroup.getSecondPeg())
+					else if(currentlyLookingAtPeg != currentGroup.getSecondPeg())
 					{
 						//Peg switched:
-						currentCwpGroup.setSecondPeg(currentlyLookingAtPeg);
+						currentGroup.setSecondPeg(currentlyLookingAtPeg);
 						SoundPlayer.PlaySoundAt(Sounds.ConnectionInitial, currentlyLookingAtPeg);
 						updateWireGhosts();
 					}
@@ -155,15 +155,15 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			else
 			{
-				if(!secondCwpGroup.isSet() && Trigger.DrawWire.DownThisFrame())
+				if(!secondGroup.isSet() && Trigger.DrawWire.DownThisFrame())
 				{
 					PegAddress lookingAt = CWPHelper.getPegCurrentlyLookingAt();
 					if(lookingAt != null)
 					{
 						//Starting to draw the second group!
 						drawing = true;
-						secondCwpGroup.setFirstPeg(lookingAt);
-						currentCwpGroup = secondCwpGroup;
+						secondGroup.setFirstPeg(lookingAt);
+						currentGroup = secondGroup;
 						updateWireGhosts();
 					}
 				}
@@ -191,10 +191,10 @@ namespace CustomWirePlacer.Client.CWP
 		private static void updateWireGhosts()
 		{
 			cleanUpWireGhosts();
-			if(secondCwpGroup.isSet())
+			if(secondGroup.isSet())
 			{
-				List<PegAddress> smaller = firstCwpGroup.getPegs().ToList();
-				List<PegAddress> bigger = secondCwpGroup.getPegs().ToList();
+				List<PegAddress> smaller = firstGroup.getPegs().ToList();
+				List<PegAddress> bigger = secondGroup.getPegs().ToList();
 				if(CWPSettings.flipping)
 				{
 					bigger.Reverse(); //Not pretty, but does the job reliably.
@@ -217,13 +217,13 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				OutlineData valid = CWPOutlineData.validWire;
 				OutlineData invalid = CWPOutlineData.invalidWire;
-				if(firstCwpGroup.hasExtraPegs())
+				if(firstGroup.hasExtraPegs())
 				{
 					valid = CWPOutlineData.validMultiWire;
 					invalid = CWPOutlineData.invalidMultiWire;
 				}
 				//Drawing 1-group connections:
-				IEnumerator<PegAddress> it = firstCwpGroup.getPegs().GetEnumerator();
+				IEnumerator<PegAddress> it = firstGroup.getPegs().GetEnumerator();
 				it.MoveNext();
 				PegAddress last = it.Current;
 				while(it.MoveNext())
@@ -251,13 +251,13 @@ namespace CustomWirePlacer.Client.CWP
 
 		private static void applyNormalAction()
 		{
-			if(secondCwpGroup.isSet())
+			if(secondGroup.isSet())
 			{
 				//Two groups!
 				List<BuildRequest> requests = new List<BuildRequest>();
 				{
-					List<PegAddress> smaller = firstCwpGroup.getPegs().ToList();
-					List<PegAddress> bigger = secondCwpGroup.getPegs().ToList();
+					List<PegAddress> smaller = firstGroup.getPegs().ToList();
+					List<PegAddress> bigger = secondGroup.getPegs().ToList();
 					if(CWPSettings.flipping)
 					{
 						bigger.Reverse(); //Not pretty, but does the job reliably.
@@ -289,14 +289,14 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				//Only one group!
 				//If the second peg is 'null' and no modifer was pressed, we only have a single peg. Hence just abort.
-				if(firstCwpGroup.getSecondPeg() != null)
+				if(firstGroup.getSecondPeg() != null)
 				{
 					//We have more than 1 peg.
-					if(firstCwpGroup.hasExtraPegs())
+					if(firstGroup.hasExtraPegs())
 					{
 						//We are placing more than 1 wire:
 						List<BuildRequest> requests = new List<BuildRequest>();
-						IEnumerator<PegAddress> it = firstCwpGroup.getPegs().GetEnumerator();
+						IEnumerator<PegAddress> it = firstGroup.getPegs().GetEnumerator();
 						it.MoveNext();
 						PegAddress last = it.Current;
 						while(it.MoveNext())
@@ -321,9 +321,9 @@ namespace CustomWirePlacer.Client.CWP
 					else
 					{
 						//Only placing one wire:
-						if(WireUtility.WireWouldBeValid(firstCwpGroup.getFirstPeg(), firstCwpGroup.getSecondPeg()))
+						if(WireUtility.WireWouldBeValid(firstGroup.getFirstPeg(), firstGroup.getSecondPeg()))
 						{
-							BuildRequestManager.SendBuildRequest(new BuildRequest_CreateWire(new WireData(firstCwpGroup.getFirstPeg(), firstCwpGroup.getSecondPeg(), 0f)));
+							BuildRequestManager.SendBuildRequest(new BuildRequest_CreateWire(new WireData(firstGroup.getFirstPeg(), firstGroup.getSecondPeg(), 0f)));
 						}
 						else
 						{
