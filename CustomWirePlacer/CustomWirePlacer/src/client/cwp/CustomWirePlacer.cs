@@ -268,12 +268,23 @@ namespace CustomWirePlacer.Client.CWP
 					}
 					for(int i = 0; i < smaller.Count; i++)
 					{
-						requests.Add(new BuildRequest_CreateWire(new WireData(smaller[i], bigger[i], 0f)));
+						PegAddress first = smaller[i];
+						PegAddress second = bigger[i];
+						if(first == second || !WireUtility.WireWouldBeValid(first, second))
+						{
+							continue;
+						}
+						requests.Add(new BuildRequest_CreateWire(new WireData(first, second, 0f)));
 					}
 					PegAddress constant = smaller[smaller.Count - 1];
 					for(int i = smaller.Count; i < bigger.Count; i++)
 					{
-						requests.Add(new BuildRequest_CreateWire(new WireData(constant, bigger[i], 0f)));
+						PegAddress other = bigger[i];
+						if(constant == other || !WireUtility.WireWouldBeValid(constant, other))
+						{
+							continue;
+						}
+						requests.Add(new BuildRequest_CreateWire(new WireData(constant, other, 0f)));
 					}
 				}
 				if(requests.Any())
