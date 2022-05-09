@@ -5,6 +5,6 @@ namespace CustomWirePlacer.Client.CWP
 		public static bool flipping;
 		public static bool resetFlipping = true;
 
-		public static int skiprate;
+		//TBI: Somehow option preserve last skip rate?
 	}
 }

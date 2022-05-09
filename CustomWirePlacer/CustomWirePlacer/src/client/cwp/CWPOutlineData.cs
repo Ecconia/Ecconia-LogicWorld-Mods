@@ -6,8 +6,16 @@ namespace CustomWirePlacer.Client.CWP
 {
 	public class CWPOutlineData
 	{
+		public static readonly OutlineData skippedPeg = new OutlineData(
+			new Color24(150, 150, 150), //Brighter than 'invalidWire'
+			OutlineLayer.Layer2);
+
 		public static readonly OutlineData firstPeg = new OutlineData(
 			new Color24(0, 150, 255),
+			OutlineLayer.Layer0);
+
+		public static readonly OutlineData firstSkippedPeg = new OutlineData(
+			new Color24(80, 100, 150), //Darker/Grayer than 'firstPeg'
 			OutlineLayer.Layer0);
 
 		public static readonly OutlineData firstDiscoveredPegs = new OutlineData(
@@ -20,6 +28,10 @@ namespace CustomWirePlacer.Client.CWP
 
 		public static readonly OutlineData secondPeg = new OutlineData(
 			new Color24(255, 150, 0),
+			OutlineLayer.Layer0);
+
+		public static readonly OutlineData secondSkippedPeg = new OutlineData(
+			new Color24(150, 100, 80), //Darker/Grayer than 'secondPeg'
 			OutlineLayer.Layer0);
 
 		public static readonly OutlineData secondDiscoveredPegs = new OutlineData(

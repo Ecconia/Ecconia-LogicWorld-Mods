@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using LogicAPI.Data;
 using LogicAPI.Data.BuildingRequests;
-using LogicAPI.Networking;
 using LogicUI;
 using LogicWorld.Audio;
 using LogicWorld.Building;
@@ -87,7 +86,6 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				CWPSettings.flipping = false;
 			}
-			CWPSettings.skiprate = 0; //This gets reset before each operation.
 
 			//TODO: Enable again, but not now.
 			// CWPStatusDisplay.setVisible(true);
@@ -128,6 +126,9 @@ namespace CustomWirePlacer.Client.CWP
 				return;
 			}
 
+			bool updated = false;
+
+			//Handle peg-selection and mouse-up while drawing:
 			if(drawing)
 			{
 				PegAddress currentlyLookingAtPeg = CWPHelper.getPegCurrentlyLookingAt();
@@ -145,7 +146,7 @@ namespace CustomWirePlacer.Client.CWP
 								// But when a second group exists, the wire will update and a sound has to be played.
 								SoundPlayer.PlaySoundAt(Sounds.ConnectionInitial, currentlyLookingAtPeg);
 							}
-							updateWireGhosts();
+							updated = true;
 						}
 					}
 					else if(currentlyLookingAtPeg != currentGroup.getSecondPeg())
@@ -153,7 +154,7 @@ namespace CustomWirePlacer.Client.CWP
 						//Peg switched:
 						currentGroup.setSecondPeg(currentlyLookingAtPeg);
 						SoundPlayer.PlaySoundAt(Sounds.ConnectionInitial, currentlyLookingAtPeg);
-						updateWireGhosts();
+						updated = true;
 					}
 				}
 
@@ -162,13 +163,20 @@ namespace CustomWirePlacer.Client.CWP
 					drawing = false; //No longer drawing.
 					if(!Trigger.Mod.Held())
 					{
+						if(updated)
+						{
+							//Might have happened in this frame, but the update only happens at the end of a frame.
+							// With the return here, it won't happen - and if the server takes some time, invalid wires will be shown.
+							// Hence update it here.
+							updateWireGhosts();
+						}
 						applyNormalAction();
 						return;
 					}
 					//Stall mode, here the group can be edited, or a new one started.
 				}
 			}
-			else
+			else //Handle the start of the second group and applying of build action.
 			{
 				if(!secondGroup.isSet() && Trigger.DrawWire.DownThisFrame())
 				{
@@ -179,13 +187,18 @@ namespace CustomWirePlacer.Client.CWP
 						drawing = true;
 						secondGroup.setFirstPeg(lookingAt);
 						currentGroup = secondGroup;
-						updateWireGhosts();
+						updated = true;
 					}
 				}
 				//Else this click is for now meaningless.
 
 				if(CWPTrigger.ApplyNormalAction.UpThisFrame())
 				{
+					if(updated)
+					{
+						//Same as above, due to return has to be updated here (if change).
+						updateWireGhosts();
+					}
 					applyNormalAction();
 					return;
 				}
@@ -193,12 +206,34 @@ namespace CustomWirePlacer.Client.CWP
 
 			if(CWPTrigger.OpenSettings.DownThisFrame())
 			{
+				//TODO: When the settings window is closed, the mouse cursor may be lifted. Might need special handling.
 				CWPSettingsWindow.toggleVisibility();
 			}
 
 			if(Trigger.Flip.DownThisFrame())
 			{
 				CWPSettings.flipping = !CWPSettings.flipping;
+				updated = true;
+			}
+
+			{
+				bool up = Trigger.IncreaseMultiWirePlacingInterval.Held();
+				bool down = Trigger.DecreaseMultiWirePlacingInterval.Held();
+				if(up ^ down)
+				{
+					if(currentGroup.updateSkipNumber(up ? 1 : -1))
+					{
+						updated = true;
+					}
+					else
+					{
+						SoundPlayer.PlayFail();
+					}
+				}
+			}
+
+			if(updated)
+			{
 				updateWireGhosts();
 			}
 		}
@@ -238,7 +273,7 @@ namespace CustomWirePlacer.Client.CWP
 					invalid = CWPOutlineData.invalidMultiWire;
 				}
 				//Drawing 1-group connections:
-				IEnumerator<PegAddress> it = firstGroup.getPegs().GetEnumerator();
+				IEnumerator<PegAddress> it = firstGroup.getAllPegs().GetEnumerator();
 				it.MoveNext();
 				PegAddress last = it.Current;
 				while(it.MoveNext())
@@ -322,7 +357,7 @@ namespace CustomWirePlacer.Client.CWP
 					{
 						//We are placing more than 1 wire:
 						List<BuildRequest> requests = new List<BuildRequest>();
-						IEnumerator<PegAddress> it = firstGroup.getPegs().GetEnumerator();
+						IEnumerator<PegAddress> it = firstGroup.getAllPegs().GetEnumerator();
 						it.MoveNext();
 						PegAddress last = it.Current;
 						while(it.MoveNext())
