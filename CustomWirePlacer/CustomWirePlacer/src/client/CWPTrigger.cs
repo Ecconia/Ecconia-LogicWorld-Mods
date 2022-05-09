@@ -8,6 +8,7 @@ namespace CustomWirePlacer.Client
 		ExpandFurther,
 		ExpandBackwards,
 		Flip,
+		RemoveWires,
 		
 		OpenSettings,
 	}

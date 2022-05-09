@@ -27,6 +27,12 @@ CustomWirePlacer.Flip:
         Options:
             - F
 
+CustomWirePlacer.RemoveWires:
+    Heading: "CustomWirePlacer"
+    DefaultBinding:
+        Options:
+            - R
+
 CustomWirePlacer.OpenSettings:
     Heading: "CustomWirePlacer"
     DefaultBinding:

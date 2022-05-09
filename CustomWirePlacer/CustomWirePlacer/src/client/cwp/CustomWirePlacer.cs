@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using CustomWirePlacer.Client.CWP.feature;
 using LogicAPI.Data;
 using LogicAPI.Data.BuildingRequests;
 using LogicUI;
@@ -203,7 +204,9 @@ namespace CustomWirePlacer.Client.CWP
 					return;
 				}
 			}
-			
+
+			//Feature handling, that do not depend on the drawing state:
+
 			//The expand/discover feature may actually be used while still drawing. However they get reset, if the second peg changes.
 			if(CWPTrigger.ExpandBackwards.DownThisFrame())
 			{
@@ -242,6 +245,20 @@ namespace CustomWirePlacer.Client.CWP
 						SoundPlayer.PlayFail();
 					}
 				}
+			}
+
+			if(CWPTrigger.RemoveWires.DownThisFrame())
+			{
+				if(secondGroup.isSet())
+				{
+					CWPRemoveWires.removeWiresFromGroups(firstGroup.getPegs().ToList(), secondGroup.getPegs().ToList());
+				}
+				else
+				{
+					CWPRemoveWires.removeWiresFromGroup(firstGroup.getPegs().ToList());
+				}
+				updated = true; //We might have deleted wires, that make room for the new ones.
+				// While ofc, I doubt that the server response comes in the same frame.
 			}
 
 			if(updated)
