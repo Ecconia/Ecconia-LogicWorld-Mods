@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using KnifeOutline;
 using LogicAPI.Data;
 using LogicWorld.Outlines;
 
@@ -14,13 +15,34 @@ namespace CustomWirePlacer.Client.CWP
 
 		public void clear()
 		{
+			hide();
+			firstPeg = secondPeg = null;
+			inBetween = null;
+		}
+
+		public void hide()
+		{
 			Outliner.RemoveHardOutline(firstPeg);
 			Outliner.RemoveHardOutline(secondPeg);
-			firstPeg = secondPeg = null;
 			if(inBetween != null)
 			{
 				Outliner.RemoveHardOutline(inBetween);
-				inBetween = null;
+			}
+		}
+
+		public void show()
+		{
+			if(firstPeg != null)
+			{
+				Outliner.HardOutline(firstPeg, CWPOutlineData.firstPeg);
+			}
+			if(secondPeg != null)
+			{
+				Outliner.HardOutline(secondPeg, CWPOutlineData.secondPeg);
+			}
+			if(inBetween != null)
+			{
+				Outliner.HardOutline(inBetween.ToList().AsReadOnly(), CWPOutlineData.middlePegs);
 			}
 		}
 

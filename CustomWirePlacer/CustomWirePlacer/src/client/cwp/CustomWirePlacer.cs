@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LogicAPI.Data;
 using LogicAPI.Data.BuildingRequests;
+using LogicAPI.Networking;
 using LogicUI;
 using LogicWorld.Audio;
 using LogicWorld.Building;
@@ -47,14 +48,30 @@ namespace CustomWirePlacer.Client.CWP
 
 		private static void startWireDrawing(PegAddress initialPeg)
 		{
-			//TODO: Handle MOD key usage for the BUS feature.
-
-			//Cleanup leftover data:
-			firstCwpGroup.clear();
-			secondCwpGroup.clear();
+			bool isBus = Trigger.Mod.Held();
+			if(isBus && secondGroup.isSet())
+			{
+				//The former second group is now the first group, so that one can continue from there, however the references need to be swapped, since there are only two.
+				(firstGroup, secondGroup) = (secondGroup, firstGroup);
+				currentGroup = secondGroup; //Continue at second group.
+				firstGroup.show(); //Set the outlines.
+			}
+			else if(isBus && firstGroup.isSet())
+			{
+				//We are in BUS mode, the first group is already finished, we start with the second group.
+				currentGroup = secondGroup;
+				firstGroup.show(); //Set the outlines.
+			}
+			else
+			{
+				//Cleanup leftover data:
+				firstGroup.clear();
+				currentGroup = firstGroup;
+			}
+			secondGroup.clear(); //In any case, the second group needs to be reset now.
 
 			//Set the first peg:
-			firstGroup.setFirstPeg(initialPeg);
+			currentGroup.setFirstPeg(initialPeg);
 			SoundPlayer.PlaySoundAt(Sounds.ConnectionInitial, CWPHelper.getWireConnectionPoint(initialPeg));
 
 			//Switch state:
@@ -71,8 +88,6 @@ namespace CustomWirePlacer.Client.CWP
 				CWPSettings.flipping = false;
 			}
 			CWPSettings.skiprate = 0; //This gets reset before each operation.
-
-			currentGroup = firstGroup;
 
 			//TODO: Enable again, but not now.
 			// CWPStatusDisplay.setVisible(true);
@@ -94,10 +109,11 @@ namespace CustomWirePlacer.Client.CWP
 
 			//Handle outlining:
 			cleanUpWireGhosts();
-			//Hard reset fields:
-			firstGroup.clear();
-			secondGroup.clear();
 			currentGroup = null;
+			//Don't clear first and second group, since they might be used for Bus mode.
+			//Hide them though:
+			firstGroup.hide();
+			secondGroup.hide();
 		}
 
 		public static void onUpdate()
@@ -105,8 +121,7 @@ namespace CustomWirePlacer.Client.CWP
 			if(UITrigger.Back.DownThisFrame() || Trigger.CancelPlacing.DownThisFrame())
 			{
 				//The user does not want to finish any wire placement action.
-				// Undo whatever has been done already:
-				//TBI: Handle this instead on game state deactivate?
+				currentGroup.clear(); //Whichever group we had been working on, it became invalid, it should not be overwritten. Else the Bus feature becomes a pain to use.
 				// Done here, lets leave:
 				SoundPlayer.PlayFail();
 				GameStateManager.TransitionBackToBuildingState();
