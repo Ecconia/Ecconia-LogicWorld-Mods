@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using LogicAPI.Data;
+using LogicWorld.Audio;
 using LogicWorld.Outlines;
 using UnityEngine;
 
@@ -266,6 +267,12 @@ namespace CustomWirePlacer.Client.CWP
 				return;
 			}
 			hide();
+			expandFurtherInternal();
+			show();
+		}
+
+		private void expandFurtherInternal()
+		{
 			PegAddress start = firstPeg;
 			PegAddress end = secondPeg;
 			if(inBetween != null)
@@ -276,7 +283,6 @@ namespace CustomWirePlacer.Client.CWP
 			Vector3 endPos = CWPHelper.getWireConnectionPoint(end);
 			Vector3 ray = endPos - startPos;
 			forwards = CWPHelper.collectPegsInDirection(endPos, ray);
-			show();
 		}
 
 		public void expandBackwards()
@@ -286,6 +292,12 @@ namespace CustomWirePlacer.Client.CWP
 				return;
 			}
 			hide();
+			expandBackwardsInternal();
+			show();
+		}
+
+		private void expandBackwardsInternal()
+		{
 			PegAddress start = secondPeg;
 			PegAddress end = firstPeg;
 			if(inBetween != null)
@@ -300,6 +312,45 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				backwards = backwards.Reverse(); //We casted from the wrong direction, so these pegs need to be reversed.
 			}
+		}
+
+		public void applyGroup(CWPGroup firstGroup, PegAddress firstPeg)
+		{
+			//No second peg, custom code for that:
+			if(firstGroup.getSecondPeg() == null)
+			{
+				clear();
+				this.firstPeg = firstPeg;
+				show();
+				return; //Done.
+			}
+			
+			//Second peg:
+			PegAddress secondPeg = CWPHelper.getPegRelativeToOtherPeg(firstPeg, firstGroup.firstPeg, firstGroup.secondPeg);
+			if(secondPeg == null)
+			{
+				//Cannot continue here... Don't clear data.
+				SoundPlayer.PlayFail();
+				return;
+			}
+			
+			clear();
+			this.firstPeg = firstPeg;
+			this.secondPeg = secondPeg;
+			this.skipNumber = firstGroup.skipNumber;
+			//In between:
+			this.inBetween = CWPHelper.collectPegsInBetween(firstPeg, secondPeg);
+			//Backwards:
+			if(firstGroup.backwards != null)
+			{
+				expandBackwardsInternal();
+			}
+			//Forwards:
+			if(firstGroup.forwards != null)
+			{
+				expandFurtherInternal();
+			}
+
 			show();
 		}
 	}

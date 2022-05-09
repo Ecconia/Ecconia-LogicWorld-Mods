@@ -60,12 +60,38 @@ namespace CustomWirePlacer.Client.CWP
 				if(address == null)
 				{
 					ModClass.logger.Error("Casted for a peg, but got: " + collider.name + " : " + collider.tag);
+					return pegs.Any() ? pegs : null;
 				}
 				pegs.Add(address);
 				position = probe;
 			}
 			ModClass.logger.Error("Got stuck in peg-gathering loop, and exceeded 10000 iterations. Please report this issue.");
 			return null;
+		}
+
+		public static PegAddress getPegRelativeToOtherPeg(PegAddress newPegOrigin, PegAddress oldPegOrigin, PegAddress oldPegPoint)
+		{
+			Vector3 oldOrigin = getWireConnectionPoint(oldPegOrigin);
+			Vector3 oldPoint = getWireConnectionPoint(oldPegPoint);
+			Vector3 offset = oldPoint - oldOrigin;
+			Vector3 newOrigin = getWireConnectionPoint(newPegOrigin);
+			Vector3 newPoint = newOrigin + offset;
+			Collider[] colliders = Physics.OverlapSphere(newPoint, 0.01f, Masks.Peg);
+			if(colliders.Length != 1)
+			{
+				if(colliders.Length > 1)
+				{
+					ModClass.logger.Warn("Sphere-cast resulted in more than one peg. Why?");
+				}
+				return null;
+			}
+			Collider collider = colliders[0];
+			PegAddress newPegPoint = Instances.MainWorld.Renderer.EntityColliders.GetPegAddress(collider);
+			if(newPegPoint == null)
+			{
+				ModClass.logger.Error("Casted for a peg, but got: " + collider.name + " : " + collider.tag);
+			}
+			return newPegPoint;
 		}
 	}
 }

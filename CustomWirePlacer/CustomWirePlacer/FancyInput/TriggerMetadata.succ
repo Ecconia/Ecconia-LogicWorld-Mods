@@ -33,6 +33,12 @@ CustomWirePlacer.RemoveWires:
         Options:
             - R
 
+CustomWirePlacer.ApplyPattern:
+    Heading: "CustomWirePlacer"
+    DefaultBinding:
+        Options:
+            - V
+
 CustomWirePlacer.OpenSettings:
     Heading: "CustomWirePlacer"
     DefaultBinding:

@@ -22,6 +22,11 @@ namespace CustomWirePlacer.Client.CWP
 
 		//Indicates, if the mouse is down while editing a group. And not just down.
 		private static bool drawing;
+		//Normally always set when drawing is set, however sometimes drawing gets stopped before the mouse is up.
+		// This flag here keeps the checking for mouse up going.
+		private static bool applyOnUp;
+		//When this is set, the next peg clicked will be used for the pattern of the second group.
+		private static bool waitForPegToApplyPatternTo;
 
 		//Stores all generated and used wire-ghosts, to easily remove them again.
 		private static readonly List<WireGhost> ghosts = new List<WireGhost>();
@@ -81,6 +86,8 @@ namespace CustomWirePlacer.Client.CWP
 		public static void onActivate()
 		{
 			drawing = true; //Yes we are drawing!
+			applyOnUp = true; //And on cursor up, we want to apply!
+			waitForPegToApplyPatternTo = false;
 
 			//Handle settings:
 			if(CWPSettings.resetFlipping)
@@ -159,34 +166,46 @@ namespace CustomWirePlacer.Client.CWP
 					}
 				}
 
-				if(Trigger.DrawWire.UpThisFrame())
+				if(CWPTrigger.ApplyPattern.DownThisFrame())
 				{
-					drawing = false; //No longer drawing.
-					if(!CWPTrigger.Modificator.Held())
+					if(secondGroup.isSet())
 					{
-						if(updated)
-						{
-							//Might have happened in this frame, but the update only happens at the end of a frame.
-							// With the return here, it won't happen - and if the server takes some time, invalid wires will be shown.
-							// Hence update it here.
-							updateWireGhosts();
-						}
-						applyNormalAction();
-						return;
+						//Currently drawing the second group. Apply the first group to it.
+						secondGroup.applyGroup(firstGroup, secondGroup.getFirstPeg());
+						updated = true;
+						//Drawing must stop now, else the pattern may break.
+						drawing = false;
 					}
-					//Stall mode, here the group can be edited, or a new one started.
+					else
+					{
+						SoundPlayer.PlayFail();
+					}
 				}
 			}
 			else //Handle the start of the second group and applying of build action.
 			{
+				if(CWPTrigger.ApplyPattern.DownThisFrame())
+				{
+					waitForPegToApplyPatternTo = true;
+				}
+				
 				if(!secondGroup.isSet() && Trigger.DrawWire.DownThisFrame())
 				{
 					PegAddress lookingAt = CWPHelper.getPegCurrentlyLookingAt();
 					if(lookingAt != null)
 					{
-						//Starting to draw the second group!
-						drawing = true;
-						secondGroup.setFirstPeg(lookingAt);
+						applyOnUp = true;
+						if(waitForPegToApplyPatternTo)
+						{
+							waitForPegToApplyPatternTo = false;
+							secondGroup.applyGroup(firstGroup, lookingAt);
+						}
+						else
+						{
+							//Starting to draw the second group!
+							drawing = true;
+							secondGroup.setFirstPeg(lookingAt);
+						}
 						currentGroup = secondGroup;
 						updated = true;
 					}
@@ -203,6 +222,11 @@ namespace CustomWirePlacer.Client.CWP
 					applyNormalAction();
 					return;
 				}
+			}
+
+			if(checkForMouseUp(updated))
+			{
+				return;
 			}
 
 			//Feature handling, that do not depend on the drawing state:
@@ -265,6 +289,29 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				updateWireGhosts();
 			}
+		}
+
+		private static bool checkForMouseUp(bool updated)
+		{
+			if(applyOnUp && Trigger.DrawWire.UpThisFrame())
+			{
+				drawing = false; //No longer drawing.
+				applyOnUp = false; //No longer handling mouse up.
+				if(!CWPTrigger.Modificator.Held())
+				{
+					if(updated)
+					{
+						//Might have happened in this frame, but the update only happens at the end of a frame.
+						// With the return here, it won't happen - and if the server takes some time, invalid wires will be shown.
+						// Hence update it here.
+						updateWireGhosts();
+					}
+					applyNormalAction();
+					return true;
+				}
+				//Stall mode, here the group can be edited, or a new one started.
+			}
+			return false;
 		}
 
 		private static void updateWireGhosts()
