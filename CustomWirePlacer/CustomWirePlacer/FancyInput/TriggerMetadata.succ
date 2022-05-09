@@ -1,0 +1,10 @@
+CustomWirePlacer.OpenSettings:
+    Heading: "CustomWirePlacer"
+    DefaultBinding:
+        Options:
+            - H
+CustomWirePlacer.ApplyNormalAction:
+    Heading: "CustomWirePlacer"
+    DefaultBinding:
+        Options:
+            - B

@@ -1,0 +1,7 @@
+FancyInput.Trigger.CustomWirePlacer.OpenSettings : "Open Custom-Wire-Placer settings"
+FancyInput.Trigger.CustomWirePlacer.OpenSettings.Description: "Toggles the CWPs settings window."
+
+FancyInput.Trigger.CustomWirePlacer.ApplyNormalAction : "Apply default action"
+FancyInput.Trigger.CustomWirePlacer.ApplyNormalAction.Description: "Will apply the normal building action, as if you did not hold the mod key, on mouse release. For one group, this is connecting all pegs in a row, for two groups it is connecting them with each other."
+
+MHG.SettingsMenu.Pages.Controls.Headings.CustomWirePlacer: "Custom Wire Placer"

@@ -1,0 +1,8 @@
+# This file contains data about which input triggers can be triggered in the same context, which allows
+# the game to properly detect and warn the user about conflicting bindings.
+
+# Okay LW then lets not do this :/
+CustomWirePlacer.CustomWirePlacer:
+    Triggers:
+        - CustomWirePlacer.OpenSettings
+        - CustomWirePlacer.ApplyNormalAction
