@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using LogicAPI.Data;
 using LogicWorld.Outlines;
+using UnityEngine;
 
 namespace CustomWirePlacer.Client.CWP
 {
@@ -11,13 +13,16 @@ namespace CustomWirePlacer.Client.CWP
 
 		private IEnumerable<PegAddress> inBetween;
 
+		private IEnumerable<PegAddress> forwards;
+		private IEnumerable<PegAddress> backwards;
+
 		private int skipNumber = 1;
 
 		public void clear()
 		{
 			hide();
 			firstPeg = secondPeg = null;
-			inBetween = null;
+			inBetween = forwards = backwards = null;
 			skipNumber = 1;
 		}
 
@@ -29,11 +34,31 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				Outliner.RemoveHardOutline(inBetween);
 			}
+			if(forwards != null)
+			{
+				Outliner.RemoveHardOutline(forwards);
+			}
+			if(backwards != null)
+			{
+				Outliner.RemoveHardOutline(backwards);
+			}
 		}
 
 		public void show()
 		{
 			int skipIndex = skipNumber; //Start with skip-number, because the first peg is always chosen.
+			if(backwards != null)
+			{
+				foreach(PegAddress peg in backwards)
+				{
+					bool isNotSkipped = skipIndex++ == skipNumber;
+					if(isNotSkipped)
+					{
+						skipIndex = 1;
+					}
+					Outliner.HardOutline(peg, isNotSkipped ? CWPOutlineData.firstDiscoveredPegs : CWPOutlineData.skippedPeg);
+				}
+			}
 			if(firstPeg != null)
 			{
 				bool isNotSkipped = skipIndex++ == skipNumber;
@@ -63,6 +88,18 @@ namespace CustomWirePlacer.Client.CWP
 					skipIndex = 1;
 				}
 				Outliner.HardOutline(secondPeg, isNotSkipped ? CWPOutlineData.secondPeg : CWPOutlineData.secondSkippedPeg);
+			}
+			if(forwards != null)
+			{
+				foreach(PegAddress peg in forwards)
+				{
+					bool isNotSkipped = skipIndex++ == skipNumber;
+					if(isNotSkipped)
+					{
+						skipIndex = 1;
+					}
+					Outliner.HardOutline(peg, isNotSkipped ? CWPOutlineData.secondDiscoveredPegs : CWPOutlineData.skippedPeg);
+				}
 			}
 		}
 
@@ -95,13 +132,14 @@ namespace CustomWirePlacer.Client.CWP
 		public void setSecondPeg(PegAddress secondPeg) //Nullable
 		{
 			hide(); //Hide all visible outlines, since some might be removed.
-			
+
 			this.secondPeg = secondPeg;
 			if(secondPeg != null)
 			{
 				inBetween = CWPHelper.collectPegsInBetween(firstPeg, secondPeg);
+				backwards = forwards = null; //These get reset, now that their axis might have changed.
 			}
-			
+
 			show(); //Redraw all visible outlines, respecting the skip number.
 		}
 
@@ -112,14 +150,26 @@ namespace CustomWirePlacer.Client.CWP
 
 		public bool hasExtraPegs()
 		{
-			//TODO: Check other collections, like the discovery one. But in the end the cached selection has to be checked.
-			return inBetween != null;
+			return inBetween != null || backwards != null || forwards != null;
 		}
 
 		//Should only be called when the content has changed, since quite expensive.
 		public IEnumerable<PegAddress> getPegs()
 		{
 			int skipIndex = skipNumber; //Start with skipNumber, to always select the first peg.
+
+			if(backwards != null)
+			{
+				foreach(PegAddress peg in backwards)
+				{
+					if(skipIndex++ == skipNumber)
+					{
+						skipIndex = 1;
+						yield return peg;
+					}
+				}
+			}
+
 			if(skipIndex++ == skipNumber)
 			{
 				skipIndex = 1;
@@ -146,11 +196,30 @@ namespace CustomWirePlacer.Client.CWP
 					yield return secondPeg;
 				}
 			}
+
+			if(forwards != null)
+			{
+				foreach(PegAddress peg in forwards)
+				{
+					if(skipIndex++ == skipNumber)
+					{
+						skipIndex = 1;
+						yield return peg;
+					}
+				}
+			}
 		}
 
 		//Ignores peg skipping, and gets used by 1-group MWP actions.
 		public IEnumerable<PegAddress> getAllPegs()
 		{
+			if(backwards != null)
+			{
+				foreach(PegAddress peg in backwards)
+				{
+					yield return peg;
+				}
+			}
 			yield return firstPeg;
 			if(inBetween != null)
 			{
@@ -162,6 +231,13 @@ namespace CustomWirePlacer.Client.CWP
 			if(secondPeg != null)
 			{
 				yield return secondPeg;
+			}
+			if(forwards != null)
+			{
+				foreach(PegAddress peg in forwards)
+				{
+					yield return peg;
+				}
 			}
 		}
 
@@ -181,6 +257,50 @@ namespace CustomWirePlacer.Client.CWP
 				return true;
 			}
 			return false;
+		}
+
+		public void expandFurther()
+		{
+			if(secondPeg == null)
+			{
+				return;
+			}
+			hide();
+			PegAddress start = firstPeg;
+			PegAddress end = secondPeg;
+			if(inBetween != null)
+			{
+				start = inBetween.Last();
+			}
+			Vector3 startPos = CWPHelper.getWireConnectionPoint(start);
+			Vector3 endPos = CWPHelper.getWireConnectionPoint(end);
+			Vector3 ray = endPos - startPos;
+			forwards = CWPHelper.collectPegsInDirection(endPos, ray);
+			show();
+		}
+
+		public void expandBackwards()
+		{
+			if(secondPeg == null)
+			{
+				return;
+			}
+			hide();
+			PegAddress start = secondPeg;
+			PegAddress end = firstPeg;
+			if(inBetween != null)
+			{
+				start = inBetween.First();
+			}
+			Vector3 startPos = CWPHelper.getWireConnectionPoint(start);
+			Vector3 endPos = CWPHelper.getWireConnectionPoint(end);
+			Vector3 ray = endPos - startPos;
+			backwards = CWPHelper.collectPegsInDirection(endPos, ray);
+			if(backwards != null)
+			{
+				backwards = backwards.Reverse(); //We casted from the wrong direction, so these pegs need to be reversed.
+			}
+			show();
 		}
 	}
 }

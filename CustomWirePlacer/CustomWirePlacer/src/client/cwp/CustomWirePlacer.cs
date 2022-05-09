@@ -47,7 +47,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		private static void startWireDrawing(PegAddress initialPeg)
 		{
-			bool isBus = Trigger.Mod.Held();
+			bool isBus = CWPTrigger.Modificator.Held(); //TBI: Use the official mod key instead?
 			if(isBus && secondGroup.isSet())
 			{
 				//The former second group is now the first group, so that one can continue from there, however the references need to be swapped, since there are only two.
@@ -161,7 +161,7 @@ namespace CustomWirePlacer.Client.CWP
 				if(Trigger.DrawWire.UpThisFrame())
 				{
 					drawing = false; //No longer drawing.
-					if(!Trigger.Mod.Held())
+					if(!CWPTrigger.Modificator.Held())
 					{
 						if(updated)
 						{
@@ -203,6 +203,18 @@ namespace CustomWirePlacer.Client.CWP
 					return;
 				}
 			}
+			
+			//The expand/discover feature may actually be used while still drawing. However they get reset, if the second peg changes.
+			if(CWPTrigger.ExpandBackwards.DownThisFrame())
+			{
+				currentGroup.expandBackwards();
+				updated = true; //Always update, detecting changes is too complicated.
+			}
+			else if(CWPTrigger.ExpandFurther.DownThisFrame())
+			{
+				currentGroup.expandFurther();
+				updated = true; //Always update, detecting changes is too complicated.
+			}
 
 			if(CWPTrigger.OpenSettings.DownThisFrame())
 			{
@@ -210,7 +222,7 @@ namespace CustomWirePlacer.Client.CWP
 				CWPSettingsWindow.toggleVisibility();
 			}
 
-			if(Trigger.Flip.DownThisFrame())
+			if(CWPTrigger.Flip.DownThisFrame())
 			{
 				CWPSettings.flipping = !CWPSettings.flipping;
 				updated = true;

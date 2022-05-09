@@ -4,7 +4,7 @@ using LogicWorld.Outlines;
 
 namespace CustomWirePlacer.Client.CWP
 {
-	public class CWPOutlineData
+	public static class CWPOutlineData
 	{
 		public static readonly OutlineData skippedPeg = new OutlineData(
 			new Color24(150, 150, 150), //Brighter than 'invalidWire'
@@ -19,7 +19,7 @@ namespace CustomWirePlacer.Client.CWP
 			OutlineLayer.Layer0);
 
 		public static readonly OutlineData firstDiscoveredPegs = new OutlineData(
-			new Color24(100, 150, 255), //Brighter than 'firstPeg'
+			new Color24(100, 200, 255), //Brighter than 'firstPeg'
 			OutlineLayer.Layer0);
 
 		public static readonly OutlineData middlePegs = new OutlineData(
@@ -35,7 +35,7 @@ namespace CustomWirePlacer.Client.CWP
 			OutlineLayer.Layer0);
 
 		public static readonly OutlineData secondDiscoveredPegs = new OutlineData(
-			new Color24(255, 150, 100), //Brighter than 'secondPeg'
+			new Color24(255, 200, 100), //Brighter than 'secondPeg'
 			OutlineLayer.Layer0);
 
 		public static readonly OutlineData validWire = new OutlineData(

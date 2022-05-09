@@ -3,7 +3,12 @@ namespace CustomWirePlacer.Client
 	public enum CWPTrigger
 	{
 		None,
-		OpenSettings,
+		Modificator,
 		ApplyNormalAction,
+		ExpandFurther,
+		ExpandBackwards,
+		Flip,
+		
+		OpenSettings,
 	}
 }
