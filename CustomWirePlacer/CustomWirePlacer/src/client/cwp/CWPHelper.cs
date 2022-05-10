@@ -76,7 +76,12 @@ namespace CustomWirePlacer.Client.CWP
 			Vector3 offset = oldPoint - oldOrigin;
 			Vector3 newOrigin = getWireConnectionPoint(newPegOrigin);
 			Vector3 newPoint = newOrigin + offset;
-			Collider[] colliders = Physics.OverlapSphere(newPoint, 0.01f, Masks.Peg);
+			return getPegAt(newPoint);
+		}
+
+		public static PegAddress getPegAt(Vector3 position)
+		{
+			Collider[] colliders = Physics.OverlapSphere(position, 0.01f, Masks.Peg);
 			if(colliders.Length != 1)
 			{
 				if(colliders.Length > 1)
@@ -86,12 +91,12 @@ namespace CustomWirePlacer.Client.CWP
 				return null;
 			}
 			Collider collider = colliders[0];
-			PegAddress newPegPoint = Instances.MainWorld.Renderer.EntityColliders.GetPegAddress(collider);
-			if(newPegPoint == null)
+			PegAddress peg = Instances.MainWorld.Renderer.EntityColliders.GetPegAddress(collider);
+			if(peg == null)
 			{
 				ModClass.logger.Error("Casted for a peg, but got: " + collider.name + " : " + collider.tag);
 			}
-			return newPegPoint;
+			return peg;
 		}
 	}
 }

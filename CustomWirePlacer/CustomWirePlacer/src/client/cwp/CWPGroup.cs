@@ -324,7 +324,7 @@ namespace CustomWirePlacer.Client.CWP
 				show();
 				return; //Done.
 			}
-			
+
 			//Second peg:
 			PegAddress secondPeg = CWPHelper.getPegRelativeToOtherPeg(firstPeg, firstGroup.firstPeg, firstGroup.secondPeg);
 			if(secondPeg == null)
@@ -333,7 +333,7 @@ namespace CustomWirePlacer.Client.CWP
 				SoundPlayer.PlayFail();
 				return;
 			}
-			
+
 			clear();
 			this.firstPeg = firstPeg;
 			this.secondPeg = secondPeg;

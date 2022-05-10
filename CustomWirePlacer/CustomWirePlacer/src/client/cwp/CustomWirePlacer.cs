@@ -15,7 +15,7 @@ namespace CustomWirePlacer.Client.CWP
 {
 	public static class CustomWirePlacer
 	{
-		private static CWPGroup firstGroup = new CWPGroup();
+		public static CWPGroup firstGroup = new CWPGroup();
 		private static CWPGroup secondGroup = new CWPGroup();
 		//The current group is used to reference the group which currently is being modified.
 		private static CWPGroup currentGroup;
@@ -120,6 +120,7 @@ namespace CustomWirePlacer.Client.CWP
 			//Hide them though:
 			firstGroup.hide();
 			secondGroup.hide();
+			CWPGhostPeg.update(false);
 		}
 
 		public static void onUpdate()
@@ -135,12 +136,13 @@ namespace CustomWirePlacer.Client.CWP
 			}
 
 			bool updated = false;
+			bool keepGhostPegAlive = false;
 
 			//Handle peg-selection and mouse-up while drawing:
 			if(drawing)
 			{
 				PegAddress currentlyLookingAtPeg = CWPHelper.getPegCurrentlyLookingAt();
-				if(Trigger.DrawWire.Held() && currentlyLookingAtPeg != null)
+				if(currentlyLookingAtPeg != null)
 				{
 					if(currentlyLookingAtPeg == currentGroup.getFirstPeg())
 					{
@@ -163,6 +165,21 @@ namespace CustomWirePlacer.Client.CWP
 						currentGroup.setSecondPeg(currentlyLookingAtPeg);
 						SoundPlayer.PlaySoundAt(Sounds.ConnectionInitial, currentlyLookingAtPeg);
 						updated = true;
+					}
+				}
+				else if(!secondGroup.isSet() && CWPTrigger.Modificator.Held())
+				{
+					//Draw ghost peg and ghost wire.
+					keepGhostPegAlive = true;
+					//But remove the second group:
+					//TODO: Add some time offset, it should stay at least half a second outside of the peg before switching mode.
+					//TODO: Add setting to turn this feature off. But persistent...
+					if(firstGroup.getSecondPeg() != null)
+					{
+						PegAddress first = firstGroup.getFirstPeg();
+						firstGroup.clear();
+						firstGroup.setFirstPeg(first);
+						updated = true; //To reset the ghost wires.
 					}
 				}
 
@@ -188,7 +205,7 @@ namespace CustomWirePlacer.Client.CWP
 				{
 					waitForPegToApplyPatternTo = true;
 				}
-				
+
 				if(!secondGroup.isSet() && Trigger.DrawWire.DownThisFrame())
 				{
 					PegAddress lookingAt = CWPHelper.getPegCurrentlyLookingAt();
@@ -223,6 +240,8 @@ namespace CustomWirePlacer.Client.CWP
 					return;
 				}
 			}
+
+			CWPGhostPeg.update(keepGhostPegAlive); //May terminate!
 
 			if(checkForMouseUp(updated))
 			{

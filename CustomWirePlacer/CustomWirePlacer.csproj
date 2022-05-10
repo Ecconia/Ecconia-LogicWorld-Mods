@@ -43,6 +43,9 @@
       <Reference Include="LogicWorld.BuildingManagement">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.BuildingManagement.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.ClientWorldStuff">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.ClientWorldStuff.dll</HintPath>
+      </Reference>
       <Reference Include="LogicWorld.GameStates">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.GameStates.dll</HintPath>
       </Reference>
@@ -60,6 +63,15 @@
       </Reference>
       <Reference Include="LogicWorld.Players">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Players.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.References">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.References.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.Rendering">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Rendering.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.SharedCode">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
       </Reference>
       <Reference Include="Unity.TextMeshPro">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\Unity.TextMeshPro.dll</HintPath>
