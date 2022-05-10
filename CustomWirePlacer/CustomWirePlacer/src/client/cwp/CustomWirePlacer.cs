@@ -274,6 +274,12 @@ namespace CustomWirePlacer.Client.CWP
 				updated = true;
 			}
 
+			if(CWPTrigger.SkipModeSwitch.DownThisFrame())
+			{
+				//TODO: Make groups restore the mode, which was last used.
+				currentGroup.switchSkipMode();
+			}
+			
 			{
 				bool up = Trigger.IncreaseMultiWirePlacingInterval.Held();
 				bool down = Trigger.DecreaseMultiWirePlacingInterval.Held();

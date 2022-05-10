@@ -10,6 +10,7 @@ namespace CustomWirePlacer.Client
 		Flip,
 		RemoveWires,
 		ApplyPattern,
+		SkipModeSwitch,
 		
 		OpenSettings,
 	}

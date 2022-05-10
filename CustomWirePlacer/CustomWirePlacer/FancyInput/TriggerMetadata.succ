@@ -39,6 +39,12 @@ CustomWirePlacer.ApplyPattern:
         Options:
             - V
 
+CustomWirePlacer.SkipModeSwitch:
+    Heading: "CustomWirePlacer"
+    DefaultBinding:
+        Options:
+            - T
+
 CustomWirePlacer.OpenSettings:
     Heading: "CustomWirePlacer"
     DefaultBinding:

@@ -17,7 +17,9 @@ namespace CustomWirePlacer.Client.CWP
 		private IEnumerable<PegAddress> forwards;
 		private IEnumerable<PegAddress> backwards;
 
+		private bool binarySkipping;
 		private int skipNumber = 1;
+		//TODO: Add an offset to skipping.
 
 		public void clear()
 		{
@@ -25,6 +27,7 @@ namespace CustomWirePlacer.Client.CWP
 			firstPeg = secondPeg = null;
 			inBetween = forwards = backwards = null;
 			skipNumber = 1;
+			binarySkipping = false;
 		}
 
 		public void hide()
@@ -47,59 +50,34 @@ namespace CustomWirePlacer.Client.CWP
 
 		public void show()
 		{
-			int skipIndex = skipNumber; //Start with skip-number, because the first peg is always chosen.
+			int skipIndex = getSkipStart(); //Start with skip-number, because the first peg is always chosen.
 			if(backwards != null)
 			{
 				foreach(PegAddress peg in backwards)
 				{
-					bool isNotSkipped = skipIndex++ == skipNumber;
-					if(isNotSkipped)
-					{
-						skipIndex = 1;
-					}
-					Outliner.HardOutline(peg, isNotSkipped ? CWPOutlineData.firstDiscoveredPegs : CWPOutlineData.skippedPeg);
+					Outliner.HardOutline(peg, isNotSkipped(ref skipIndex) ? CWPOutlineData.firstDiscoveredPegs : CWPOutlineData.skippedPeg);
 				}
 			}
 			if(firstPeg != null)
 			{
-				bool isNotSkipped = skipIndex++ == skipNumber;
-				if(isNotSkipped)
-				{
-					skipIndex = 1;
-				}
-				Outliner.HardOutline(firstPeg, isNotSkipped ? CWPOutlineData.firstPeg : CWPOutlineData.firstSkippedPeg);
+				Outliner.HardOutline(firstPeg, isNotSkipped(ref skipIndex) ? CWPOutlineData.firstPeg : CWPOutlineData.firstSkippedPeg);
 			}
 			if(inBetween != null)
 			{
 				foreach(PegAddress peg in inBetween)
 				{
-					bool isNotSkipped = skipIndex++ == skipNumber;
-					if(isNotSkipped)
-					{
-						skipIndex = 1;
-					}
-					Outliner.HardOutline(peg, isNotSkipped ? CWPOutlineData.middlePegs : CWPOutlineData.skippedPeg);
+					Outliner.HardOutline(peg, isNotSkipped(ref skipIndex) ? CWPOutlineData.middlePegs : CWPOutlineData.skippedPeg);
 				}
 			}
 			if(secondPeg != null)
 			{
-				bool isNotSkipped = skipIndex++ == skipNumber;
-				if(isNotSkipped)
-				{
-					skipIndex = 1;
-				}
-				Outliner.HardOutline(secondPeg, isNotSkipped ? CWPOutlineData.secondPeg : CWPOutlineData.secondSkippedPeg);
+				Outliner.HardOutline(secondPeg, isNotSkipped(ref skipIndex) ? CWPOutlineData.secondPeg : CWPOutlineData.secondSkippedPeg);
 			}
 			if(forwards != null)
 			{
 				foreach(PegAddress peg in forwards)
 				{
-					bool isNotSkipped = skipIndex++ == skipNumber;
-					if(isNotSkipped)
-					{
-						skipIndex = 1;
-					}
-					Outliner.HardOutline(peg, isNotSkipped ? CWPOutlineData.secondDiscoveredPegs : CWPOutlineData.skippedPeg);
+					Outliner.HardOutline(peg, isNotSkipped(ref skipIndex) ? CWPOutlineData.secondDiscoveredPegs : CWPOutlineData.skippedPeg);
 				}
 			}
 		}
@@ -157,54 +135,44 @@ namespace CustomWirePlacer.Client.CWP
 		//Should only be called when the content has changed, since quite expensive.
 		public IEnumerable<PegAddress> getPegs()
 		{
-			int skipIndex = skipNumber; //Start with skipNumber, to always select the first peg.
-
+			int skipIndex = getSkipStart(); //Start with skipNumber, to always select the first peg.
 			if(backwards != null)
 			{
 				foreach(PegAddress peg in backwards)
 				{
-					if(skipIndex++ == skipNumber)
+					if(isNotSkipped(ref skipIndex))
 					{
-						skipIndex = 1;
 						yield return peg;
 					}
 				}
 			}
-
-			if(skipIndex++ == skipNumber)
+			if(isNotSkipped(ref skipIndex))
 			{
-				skipIndex = 1;
 				yield return firstPeg;
 			}
-
 			if(inBetween != null)
 			{
 				foreach(PegAddress peg in inBetween)
 				{
-					if(skipIndex++ == skipNumber)
+					if(isNotSkipped(ref skipIndex))
 					{
-						skipIndex = 1;
 						yield return peg;
 					}
 				}
 			}
-
 			if(secondPeg != null)
 			{
-				if(skipIndex++ == skipNumber)
+				if(isNotSkipped(ref skipIndex))
 				{
-					skipIndex = 1;
 					yield return secondPeg;
 				}
 			}
-
 			if(forwards != null)
 			{
 				foreach(PegAddress peg in forwards)
 				{
-					if(skipIndex++ == skipNumber)
+					if(isNotSkipped(ref skipIndex))
 					{
-						skipIndex = 1;
 						yield return peg;
 					}
 				}
@@ -258,6 +226,33 @@ namespace CustomWirePlacer.Client.CWP
 				return true;
 			}
 			return false;
+		}
+
+		private int getSkipStart()
+		{
+			return binarySkipping ? 0 : skipNumber;
+		}
+		
+		private bool isNotSkipped(ref int skipIndex)
+		{
+			if(binarySkipping)
+			{
+				//TODO: Support non binary numbers.
+				if(skipNumber == 1)
+				{
+					return true;
+				}
+				return (skipIndex++ & (1 << (skipNumber - 2))) != 0;
+			}
+			else
+			{
+				if(skipIndex++ == skipNumber)
+				{
+					skipIndex = 1;
+					return true;
+				}
+				return false;
+			}
 		}
 
 		public void expandFurther()
@@ -321,6 +316,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				clear();
 				this.firstPeg = firstPeg;
+				this.binarySkipping = firstGroup.binarySkipping;
 				show();
 				return; //Done.
 			}
@@ -338,6 +334,7 @@ namespace CustomWirePlacer.Client.CWP
 			this.firstPeg = firstPeg;
 			this.secondPeg = secondPeg;
 			this.skipNumber = firstGroup.skipNumber;
+			this.binarySkipping = firstGroup.binarySkipping;
 			//In between:
 			this.inBetween = CWPHelper.collectPegsInBetween(firstPeg, secondPeg);
 			//Backwards:
@@ -351,6 +348,13 @@ namespace CustomWirePlacer.Client.CWP
 				expandFurtherInternal();
 			}
 
+			show();
+		}
+
+		public void switchSkipMode()
+		{
+			hide();
+			binarySkipping = !binarySkipping;
 			show();
 		}
 	}
