@@ -48,37 +48,18 @@ namespace CustomWirePlacer.Client.CWP
 				// Continue with rest of interaction:
 				return false;
 			}
-			//We are not starting to draw a wire:
+			//We are now starting to draw a wire:
 			startWireDrawing(pegCurrentlyLookingAt);
-			return false;
+			return true;
 		}
 
 		private static void startWireDrawing(PegAddress initialPeg)
 		{
-			bool isBus = CWPTrigger.Modificator.Held(); //TBI: Use the official mod key instead?
-			if(isBus && secondGroup.isSet())
-			{
-				//The former second group is now the first group, so that one can continue from there, however the references need to be swapped, since there are only two.
-				(firstGroup, secondGroup) = (secondGroup, firstGroup);
-				currentGroup = secondGroup; //Continue at second group.
-				firstGroup.show(); //Set the outlines.
-			}
-			else if(isBus && firstGroup.isSet())
-			{
-				//We are in BUS mode, the first group is already finished, we start with the second group.
-				currentGroup = secondGroup;
-				firstGroup.show(); //Set the outlines.
-			}
-			else
-			{
-				//Cleanup leftover data:
-				firstGroup.clear();
-				currentGroup = firstGroup;
-			}
-			secondGroup.clear(); //In any case, the second group needs to be reset now.
+			//Not in use right now.
+			//bool isAlternativeMode = CWPTrigger.Modificator.Held();
 
 			//Set the first peg:
-			currentGroup.setFirstPeg(initialPeg);
+			firstGroup.setFirstPeg(initialPeg);
 			SoundPlayer.PlaySoundAt(Sounds.ConnectionInitial, CWPHelper.getWireConnectionPoint(initialPeg));
 
 			//Switch state:
@@ -92,9 +73,12 @@ namespace CustomWirePlacer.Client.CWP
 			waitForPegToApplyPatternTo = false;
 			pendingTwoDimensional = false;
 
+			currentGroup = firstGroup;
+
 			//Handle settings:
 			if(CWPSettings.resetFlipping)
 			{
+				//TODO: Actually make this setting worth it.
 				CWPSettings.flipping = false;
 			}
 
@@ -115,15 +99,14 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			CWPSettingsWindow.setVisible(false);
 			CWPStatusDisplay.setVisible(false);
+			//In case that this feature was still on, reset it:
+			CWPGhostPeg.update(false);
 
-			//Handle outlining:
+			//Undo all outlining, and reset all data:
 			cleanUpWireGhosts();
 			currentGroup = null;
-			//Don't clear first and second group, since they might be used for Bus mode.
-			//Hide them though:
-			firstGroup.hide();
-			secondGroup.hide();
-			CWPGhostPeg.update(false);
+			firstGroup.clear();
+			secondGroup.clear();
 		}
 
 		public static void onUpdate()
@@ -249,6 +232,25 @@ namespace CustomWirePlacer.Client.CWP
 							currentGroup = secondGroup;
 							updated = true;
 						}
+						else //Do the BUS feature action: (Second group must be set now)
+						{
+							applyNormalAction();
+							(firstGroup, secondGroup) = (secondGroup, firstGroup);
+							currentGroup = secondGroup;
+							secondGroup.clear();
+							updated = true;
+							applyOnUp = true;
+							if(waitForPegToApplyPatternTo)
+							{
+								waitForPegToApplyPatternTo = false;
+								secondGroup.applyGroup(firstGroup, lookingAt);
+							}
+							else
+							{
+								drawing = true;
+								secondGroup.setFirstPeg(lookingAt);
+							}
+						}
 					}
 				}
 				//Else this click is for now meaningless.
@@ -261,6 +263,7 @@ namespace CustomWirePlacer.Client.CWP
 						updateWireGhosts();
 					}
 					applyNormalAction();
+					GameStateManager.TransitionBackToBuildingState(); //Does the cleanup.
 					return;
 				}
 			}
@@ -360,6 +363,7 @@ namespace CustomWirePlacer.Client.CWP
 						updateWireGhosts();
 					}
 					applyNormalAction();
+					GameStateManager.TransitionBackToBuildingState(); //Does the cleanup.
 					return true;
 				}
 				//Stall mode, here the group can be edited, or a new one started.
@@ -524,7 +528,6 @@ namespace CustomWirePlacer.Client.CWP
 					}
 				}
 			}
-			GameStateManager.TransitionBackToBuildingState(); //Does the cleanup.
 		}
 	}
 }
