@@ -11,6 +11,7 @@ namespace CustomWirePlacer.Client
 		RemoveWires,
 		ApplyPattern,
 		SkipModeSwitch,
+		GoTwoDimensional,
 		
 		OpenSettings,
 	}

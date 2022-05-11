@@ -45,6 +45,12 @@ CustomWirePlacer.SkipModeSwitch:
         Options:
             - T
 
+CustomWirePlacer.GoTwoDimensional:
+    Heading: "CustomWirePlacer"
+    DefaultBinding:
+        Options:
+            - Digit2
+
 CustomWirePlacer.OpenSettings:
     Heading: "CustomWirePlacer"
     DefaultBinding:

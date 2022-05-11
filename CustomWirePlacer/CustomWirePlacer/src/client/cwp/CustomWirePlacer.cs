@@ -28,6 +28,8 @@ namespace CustomWirePlacer.Client.CWP
 		//When this is set, the next peg clicked will be used for the pattern of the second group.
 		private static bool waitForPegToApplyPatternTo;
 
+		private static bool pendingTwoDimensional;
+
 		//Stores all generated and used wire-ghosts, to easily remove them again.
 		private static readonly List<WireGhost> ghosts = new List<WireGhost>();
 
@@ -88,6 +90,7 @@ namespace CustomWirePlacer.Client.CWP
 			drawing = true; //Yes we are drawing!
 			applyOnUp = true; //And on cursor up, we want to apply!
 			waitForPegToApplyPatternTo = false;
+			pendingTwoDimensional = false;
 
 			//Handle settings:
 			if(CWPSettings.resetFlipping)
@@ -138,13 +141,22 @@ namespace CustomWirePlacer.Client.CWP
 			bool updated = false;
 			bool keepGhostPegAlive = false;
 
+			if(CWPTrigger.GoTwoDimensional.DownThisFrame())
+			{
+				pendingTwoDimensional = !pendingTwoDimensional;
+				if(currentGroup.isTwoDimensional())
+				{
+					pendingTwoDimensional = false;
+				}
+			}
+
 			//Handle peg-selection and mouse-up while drawing:
 			if(drawing)
 			{
 				PegAddress currentlyLookingAtPeg = CWPHelper.getPegCurrentlyLookingAt();
 				if(currentlyLookingAtPeg != null)
 				{
-					if(currentlyLookingAtPeg == currentGroup.getFirstPeg())
+					if(currentlyLookingAtPeg == currentGroup.getStartPeg())
 					{
 						if(currentGroup.getSecondPeg() != null)
 						{
@@ -167,7 +179,7 @@ namespace CustomWirePlacer.Client.CWP
 						updated = true;
 					}
 				}
-				else if(!secondGroup.isSet() && CWPTrigger.Modificator.Held())
+				else if(!secondGroup.isSet() && !firstGroup.isTwoDimensional() && CWPTrigger.Modificator.Held())
 				{
 					//Draw ghost peg and ghost wire.
 					keepGhostPegAlive = true;
@@ -206,25 +218,37 @@ namespace CustomWirePlacer.Client.CWP
 					waitForPegToApplyPatternTo = true;
 				}
 
-				if(!secondGroup.isSet() && Trigger.DrawWire.DownThisFrame())
+				if(Trigger.DrawWire.DownThisFrame())
 				{
 					PegAddress lookingAt = CWPHelper.getPegCurrentlyLookingAt();
 					if(lookingAt != null)
 					{
-						applyOnUp = true;
-						if(waitForPegToApplyPatternTo)
+						if(pendingTwoDimensional)
 						{
-							waitForPegToApplyPatternTo = false;
-							secondGroup.applyGroup(firstGroup, lookingAt);
-						}
-						else
-						{
-							//Starting to draw the second group!
+							pendingTwoDimensional = false;
+							//Starting two dimensional:
+							applyOnUp = secondGroup.isSet();
 							drawing = true;
-							secondGroup.setFirstPeg(lookingAt);
+							currentGroup.startTwoDimensional(lookingAt);
+							updated = true;
 						}
-						currentGroup = secondGroup;
-						updated = true;
+						else if(!secondGroup.isSet())
+						{
+							applyOnUp = true;
+							if(waitForPegToApplyPatternTo)
+							{
+								waitForPegToApplyPatternTo = false;
+								secondGroup.applyGroup(firstGroup, lookingAt);
+							}
+							else
+							{
+								//Starting to draw the second group!
+								drawing = true;
+								secondGroup.setFirstPeg(lookingAt);
+							}
+							currentGroup = secondGroup;
+							updated = true;
+						}
 					}
 				}
 				//Else this click is for now meaningless.
@@ -279,7 +303,7 @@ namespace CustomWirePlacer.Client.CWP
 				//TODO: Make groups restore the mode, which was last used.
 				currentGroup.switchSkipMode();
 			}
-			
+
 			{
 				bool up = Trigger.IncreaseMultiWirePlacingInterval.Held();
 				bool down = Trigger.DecreaseMultiWirePlacingInterval.Held();
@@ -318,9 +342,13 @@ namespace CustomWirePlacer.Client.CWP
 
 		private static bool checkForMouseUp(bool updated)
 		{
-			if(applyOnUp && Trigger.DrawWire.UpThisFrame())
+			if(Trigger.DrawWire.UpThisFrame())
 			{
 				drawing = false; //No longer drawing.
+				if(!applyOnUp)
+				{
+					return false;
+				}
 				applyOnUp = false; //No longer handling mouse up.
 				if(!CWPTrigger.Modificator.Held())
 				{
@@ -366,7 +394,7 @@ namespace CustomWirePlacer.Client.CWP
 					connect(constant, bigger[i], CWPOutlineData.validWire, CWPOutlineData.invalidWire);
 				}
 			}
-			else
+			else if(!firstGroup.isTwoDimensional())
 			{
 				OutlineData valid = CWPOutlineData.validWire;
 				OutlineData invalid = CWPOutlineData.invalidWire;
@@ -449,7 +477,7 @@ namespace CustomWirePlacer.Client.CWP
 					SoundPlayer.PlayFail();
 				}
 			}
-			else
+			else if(!firstGroup.isTwoDimensional())
 			{
 				//Only one group!
 				//If the second peg is 'null' and no modifer was pressed, we only have a single peg. Hence just abort.

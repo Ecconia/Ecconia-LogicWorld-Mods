@@ -29,7 +29,7 @@ namespace CustomWirePlacer.Client.CWP
 			skipNumber = 1;
 			binarySkipping = false;
 		}
-		
+
 		public void hide()
 		{
 			Outliner.RemoveHardOutline(firstPeg);
@@ -81,7 +81,7 @@ namespace CustomWirePlacer.Client.CWP
 				}
 			}
 		}
-		
+
 		public void setSecondPeg(PegAddress secondPeg) //Nullable
 		{
 			hide(); //Hide all visible outlines, since some might be removed.
@@ -141,7 +141,7 @@ namespace CustomWirePlacer.Client.CWP
 				}
 			}
 		}
-		
+
 		//TODO: Discord this, and do properly respect of skipping when in-line MWP.
 		public IEnumerable<PegAddress> getAllPegs()
 		{
@@ -199,7 +199,7 @@ namespace CustomWirePlacer.Client.CWP
 				return false;
 			}
 		}
-		
+
 		public bool updateSkipNumber(int value)
 		{
 			int oldValue = skipNumber;
@@ -217,14 +217,14 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			return false;
 		}
-		
+
 		public void switchSkipMode()
 		{
 			hide();
 			binarySkipping = !binarySkipping;
 			show();
 		}
-		
+
 		public void expandFurther()
 		{
 			if(secondPeg == null)
@@ -278,8 +278,8 @@ namespace CustomWirePlacer.Client.CWP
 				backwards = backwards.Reverse(); //We casted from the wrong direction, so these pegs need to be reversed.
 			}
 		}
-		
-		public void applyAxis(CWPGroupAxis otherAxis, PegAddress firstPeg)
+
+		public void applyAxis(CWPGroupAxis otherAxis, PegAddress firstPeg, PegAddress secondPeg)
 		{
 			//No second peg, custom code for that:
 			if(otherAxis.secondPeg == null)
@@ -292,14 +292,7 @@ namespace CustomWirePlacer.Client.CWP
 			}
 
 			//Second peg:
-			PegAddress secondPeg = CWPHelper.getPegRelativeToOtherPeg(firstPeg, otherAxis.firstPeg, otherAxis.secondPeg);
-			if(secondPeg == null)
-			{
-				//Cannot continue here... Don't clear data.
-				SoundPlayer.PlayFail();
-				return;
-			}
-
+			this.secondPeg = secondPeg;
 			clear();
 			this.firstPeg = firstPeg;
 			this.secondPeg = secondPeg;
