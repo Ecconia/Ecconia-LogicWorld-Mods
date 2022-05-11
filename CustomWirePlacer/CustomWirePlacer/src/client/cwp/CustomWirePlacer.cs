@@ -15,7 +15,7 @@ namespace CustomWirePlacer.Client.CWP
 {
 	public static class CustomWirePlacer
 	{
-		public static CWPGroup firstGroup = new CWPGroup();
+		private static CWPGroup firstGroup = new CWPGroup();
 		private static CWPGroup secondGroup = new CWPGroup();
 		//The current group is used to reference the group which currently is being modified.
 		private static CWPGroup currentGroup;
@@ -55,8 +55,12 @@ namespace CustomWirePlacer.Client.CWP
 
 		private static void startWireDrawing(PegAddress initialPeg)
 		{
-			//Not in use right now.
-			//bool isAlternativeMode = CWPTrigger.Modificator.Held();
+			bool isAlternativeMode = CWPTrigger.Modificator.Held();
+			if(isAlternativeMode)
+			{
+				PegDrawing.PegDrawing.switchToPegDrawingMode(initialPeg);
+				return;
+			}
 
 			//Set the first peg:
 			firstGroup.setFirstPeg(initialPeg);
@@ -99,8 +103,6 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			CWPSettingsWindow.setVisible(false);
 			CWPStatusDisplay.setVisible(false);
-			//In case that this feature was still on, reset it:
-			CWPGhostPeg.update(false);
 
 			//Undo all outlining, and reset all data:
 			cleanUpWireGhosts();
@@ -122,7 +124,6 @@ namespace CustomWirePlacer.Client.CWP
 			}
 
 			bool updated = false;
-			bool keepGhostPegAlive = false;
 
 			if(CWPTrigger.GoTwoDimensional.DownThisFrame())
 			{
@@ -160,21 +161,6 @@ namespace CustomWirePlacer.Client.CWP
 						currentGroup.setSecondPeg(currentlyLookingAtPeg);
 						SoundPlayer.PlaySoundAt(Sounds.ConnectionInitial, currentlyLookingAtPeg);
 						updated = true;
-					}
-				}
-				else if(!secondGroup.isSet() && !firstGroup.isTwoDimensional() && CWPTrigger.Modificator.Held())
-				{
-					//Draw ghost peg and ghost wire.
-					keepGhostPegAlive = true;
-					//But remove the second group:
-					//TODO: Add some time offset, it should stay at least half a second outside of the peg before switching mode.
-					//TODO: Add setting to turn this feature off. But persistent...
-					if(firstGroup.getSecondPeg() != null)
-					{
-						PegAddress first = firstGroup.getFirstPeg();
-						firstGroup.clear();
-						firstGroup.setFirstPeg(first);
-						updated = true; //To reset the ghost wires.
 					}
 				}
 
@@ -267,8 +253,6 @@ namespace CustomWirePlacer.Client.CWP
 					return;
 				}
 			}
-
-			CWPGhostPeg.update(keepGhostPegAlive); //May terminate!
 
 			if(checkForMouseUp(updated))
 			{
