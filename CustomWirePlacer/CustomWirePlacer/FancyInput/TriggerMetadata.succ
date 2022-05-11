@@ -4,6 +4,12 @@ CustomWirePlacer.Modificator:
         Options:
             - LeftCtrl
 
+CustomWirePlacer.ModificatorAlternative:
+    Heading: "CustomWirePlacer"
+    DefaultBinding:
+        Options:
+            - LeftAlt
+
 CustomWirePlacer.ApplyNormalAction:
     Heading: "CustomWirePlacer"
     DefaultBinding:

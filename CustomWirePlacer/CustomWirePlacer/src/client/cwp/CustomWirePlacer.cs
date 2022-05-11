@@ -55,7 +55,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		private static void startWireDrawing(PegAddress initialPeg)
 		{
-			bool isAlternativeMode = CWPTrigger.Modificator.Held();
+			bool isAlternativeMode = CWPTrigger.ModificatorAlternative.Held();
 			if(isAlternativeMode)
 			{
 				PegDrawing.PegDrawing.switchToPegDrawingMode(initialPeg);

@@ -4,6 +4,7 @@ namespace CustomWirePlacer.Client
 	{
 		None,
 		Modificator,
+		ModificatorAlternative,
 		ApplyNormalAction,
 		ExpandFurther,
 		ExpandBackwards,
