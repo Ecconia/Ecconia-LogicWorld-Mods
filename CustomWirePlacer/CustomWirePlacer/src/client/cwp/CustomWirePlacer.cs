@@ -339,6 +339,8 @@ namespace CustomWirePlacer.Client.CWP
 			return false;
 		}
 
+		//TODO: Support peg skipping for in-line connections, but don't show wires, if there was a skip?
+
 		private static void updateWireGhosts()
 		{
 			cleanUpWireGhosts();
