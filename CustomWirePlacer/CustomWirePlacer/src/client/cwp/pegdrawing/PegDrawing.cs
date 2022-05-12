@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using JimmysUnityUtilities;
 using LogicAPI.Data;
 using LogicAPI.Data.BuildingRequests;
@@ -120,44 +118,37 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 			}
 		}
 
-		private static Action a; //TBI: Possible reason for bugs, if the server responds way too late and player does new peg-draw actions.
-
 		private static void apply(PlacingGhost ghost, Vector3 ghostTargetPos, PegAddress mainPeg)
 		{
 			IEditableComponentData data = ghost.GhostWorld.Data.Lookup(ghost.RootComponent).Data;
 			data.Parent = ghost.PreviousMoveAddress;
 			data.LocalPosition = ghost.GetLocalPosition();
 			data.LocalRotation = ghost.GetLocalRotation();
-
 			BuildRequestManager.SendBuildRequest(new BuildRequest_CreateSingleNewComponent((ComponentData) data), receipt =>
 			{
 				if(receipt.ActionSuccessfullyApplied)
 				{
-					//TODO: This code is so major ugly. Idk. It does work however... But I hope this feature is worth it.
-					int loops = 0;
-					a = () =>
+					//The confirmation is there, however the peg will not be ready until the next frame. So wait until then:
+					CoroutineUtility.RunAfterOneFrame(() =>
 					{
-						if(loops++ > 10)
+						if(attemptWirePlacement(ghostTargetPos, mainPeg))
 						{
-							ModClass.logger.Warn("Was not able to cast placed ghost peg, attempted about 10 times every 30ms, RIP.");
-							return;
+							ModClass.logger.Warn("Failed to find the peg that just got placed by server, for the Peg-Drawing feature. Please report this issue to the developer.");
 						}
-						PegAddress newlyPlacedPeg = CWPHelper.getPegAt(ghostTargetPos);
-						if(newlyPlacedPeg != null && WireUtility.WireWouldBeValid(mainPeg, newlyPlacedPeg))
-						{
-							BuildRequestManager.SendBuildRequest(new BuildRequest_CreateWire(new WireData(mainPeg, newlyPlacedPeg, 0f)));
-						}
-						else
-						{
-							new Timer(
-								_ => { Dispatcher.Invoke(a); },
-								new AutoResetEvent(false), 30, Timeout.Infinite
-							);
-						}
-					};
-					Dispatcher.Invoke(a);
+					});
 				}
 			});
+		}
+
+		private static bool attemptWirePlacement(Vector3 fromPosition, PegAddress toPeg)
+		{
+			PegAddress newlyPlacedPeg = CWPHelper.getPegAt(fromPosition);
+			if(newlyPlacedPeg != null && WireUtility.WireWouldBeValid(toPeg, newlyPlacedPeg))
+			{
+				BuildRequestManager.SendBuildRequest(new BuildRequest_CreateWire(new WireData(toPeg, newlyPlacedPeg, 0f)));
+				return false;
+			}
+			return true;
 		}
 	}
 }
