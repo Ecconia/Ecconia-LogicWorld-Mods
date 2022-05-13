@@ -31,6 +31,9 @@
       <Reference Include="LogicWorld.Interfaces, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Interfaces.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.Modding.Compilation">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Modding.Compilation.dll</HintPath>
+      </Reference>
       <Reference Include="LogicWorld.SharedCode, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
       </Reference>
