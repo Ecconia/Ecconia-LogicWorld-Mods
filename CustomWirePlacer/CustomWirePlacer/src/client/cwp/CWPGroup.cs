@@ -64,6 +64,7 @@ namespace CustomWirePlacer.Client.CWP
 			List<Vector3> secondOffsets = new List<Vector3>(secondAxisList.Count - 1);
 			{
 				Vector3 lastPos = CWPHelper.getWireConnectionPoint(secondAxisList.First());
+				secondOffsets.Add(lastPos - CWPHelper.getWireConnectionPoint(secondAxis.firstPeg));
 				for(int i = 1; i < secondAxisList.Count; i++)
 				{
 					Vector3 nextPos = CWPHelper.getWireConnectionPoint(secondAxisList[i]);
@@ -72,11 +73,10 @@ namespace CustomWirePlacer.Client.CWP
 				}
 			}
 
-			bool notFirst = false;
+			HashSet<PegAddress> skipHighlightPegs = firstAxis.getAllPegs().Concat(secondAxis.getAllPegs()).ToHashSet();
+
 			foreach(PegAddress startingPeg in firstAxis.getPegs().ToList())
 			{
-				//The first peg is always the one which we already know, we offset on its position.
-				pegs2D.Add(startingPeg);
 				//Get the starting point, from which we stack up, according to the second axis.
 				Vector3 offset = CWPHelper.getWireConnectionPoint(startingPeg);
 
@@ -87,13 +87,12 @@ namespace CustomWirePlacer.Client.CWP
 					if(receivedPeg != null)
 					{
 						pegs2D.Add(receivedPeg);
-						if(notFirst)
+						if(!skipHighlightPegs.Contains(receivedPeg))
 						{
 							pegs2DOutlined.Add(receivedPeg);
 						}
 					}
 				}
-				notFirst = true;
 			}
 
 			showInternal();
