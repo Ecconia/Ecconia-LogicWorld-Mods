@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="FancyPantsConsole">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\FancyPantsConsole.dll</HintPath>
+      </Reference>
+      <Reference Include="JimmysUnityUtilities">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\JimmysUnityUtilities.dll</HintPath>
+      </Reference>
+      <Reference Include="LICC">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LICC.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicAPI">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicAPI.Client">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.Client.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicLocalization">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLocalization.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicLog">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLog.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicSettings.Core">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicSettings.Core.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicUI">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicUI.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.GameStates">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.GameStates.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.UI">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.UI.dll</HintPath>
+      </Reference>
+      <Reference Include="UIShapes">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\UIShapes.dll</HintPath>
+      </Reference>
+      <Reference Include="Unity.TextMeshPro">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.CoreModule">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.UI">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.UI.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.UIModule">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>
