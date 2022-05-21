@@ -1,8 +1,9 @@
 ID: CustomWirePlacer
 Name: CustomWirePlacer
 Author: Ecconia
-Version: 0.10.1
+Version: 0.11.0
 Priority: 0
 ClientOnly: true
 Dependencies:
     - lwharmony
+    - EccsWindowHelper

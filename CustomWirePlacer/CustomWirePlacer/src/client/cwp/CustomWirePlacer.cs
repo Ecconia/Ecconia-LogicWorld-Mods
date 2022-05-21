@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CustomWirePlacer.Client.CWP.feature;
+using CustomWirePlacer.Client.Windows;
 using LogicAPI.Data;
 using LogicAPI.Data.BuildingRequests;
 using LogicUI;
@@ -82,12 +83,13 @@ namespace CustomWirePlacer.Client.CWP
 			//Handle settings:
 			if(CWPSettings.resetFlipping)
 			{
-				//TODO: Actually make this setting worth it.
 				CWPSettings.flipping = false;
 			}
 
-			//TODO: Enable again, but not now.
-			// CWPStatusDisplay.setVisible(true);
+			if(CWPSettings.showDetails)
+			{
+				CWPStatusDisplay.setVisible(true);
+			}
 		}
 
 		private static void cleanUpWireGhosts()

@@ -13,6 +13,9 @@
       <Reference Include="FancyInput">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\FancyInput.dll</HintPath>
       </Reference>
+      <Reference Include="FancyPantsConsole">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\FancyPantsConsole.dll</HintPath>
+      </Reference>
       <Reference Include="JimmysUnityUtilities">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\JimmysUnityUtilities.dll</HintPath>
       </Reference>
@@ -27,6 +30,9 @@
       </Reference>
       <Reference Include="LogicAPI.Client">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.Client.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicLocalization">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLocalization.dll</HintPath>
       </Reference>
       <Reference Include="LogicLog">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLog.dll</HintPath>
@@ -73,11 +79,23 @@
       <Reference Include="LogicWorld.SharedCode">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.UI">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.UI.dll</HintPath>
+      </Reference>
+      <Reference Include="SUCC">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\SUCC.dll</HintPath>
+      </Reference>
+      <Reference Include="UIShapes">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\UIShapes.dll</HintPath>
+      </Reference>
       <Reference Include="Unity.TextMeshPro">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\Unity.TextMeshPro.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.CoreModule">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.ImageConversionModule">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.Physics2DModule">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.Physics2DModule.dll</HintPath>
@@ -91,6 +109,10 @@
       <Reference Include="UnityEngine.UIModule">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.UIModule.dll</HintPath>
       </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\EccsWindowHelper\EccsWindowHelper.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,10 +1,10 @@
 using System;
 using System.Text;
-using CustomWirePlacer.Client.Windows;
+using CustomWirePlacer.Client.CWP;
 using TMPro;
 using UnityEngine;
 
-namespace CustomWirePlacer.Client.CWP
+namespace CustomWirePlacer.Client.Windows
 {
 	public class CWPStatusDisplay : MonoBehaviour
 	{
@@ -72,7 +72,7 @@ namespace CustomWirePlacer.Client.CWP
 		}
 
 		private int groupAmount = 1;
-		private bool flipped = false;
+		private bool flipped;
 		private int amountOfPegs = 0;
 
 		private void Update()
@@ -83,6 +83,7 @@ namespace CustomWirePlacer.Client.CWP
 				flipped = CWPSettings.flipping;
 				update = true;
 			}
+			
 			// IReadOnlyCollection<PegAddress> pegs = CustomWirePlacer.pegs;
 			// if(pegs == null && amountOfPegs != 0)
 			// {

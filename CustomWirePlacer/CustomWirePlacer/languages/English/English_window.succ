@@ -1,0 +1,6 @@
+CustomWirePlacer.WindowTitle : "Custom Wire Placer Settings"
+CustomWirePlacer.WindowSettingsTitle : "CWP Window Settings"
+CWP.WindowSetting.CloseWindowOnBackgroundClick : "Close on background click"
+
+CWP.Settings.ResetFlipping : "Keep flip state between CWP operations"
+CWP.Setting.ShowDetails : "Show overlay with current state of CWP"
