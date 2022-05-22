@@ -405,6 +405,28 @@ namespace CustomWirePlacer.Client.CWP
 				}
 				it.Dispose();
 			}
+			else //1 group and 2D:
+			{
+				OutlineData valid = CWPOutlineData.validMultiWire;
+				OutlineData invalid = CWPOutlineData.invalidMultiWire;
+				var offsets = firstGroup.get2DOffsets();
+				foreach(var startingPeg in firstGroup.getFirstAxis().getPegs())
+				{
+					PegAddress last = null;
+					foreach(var current in CWPGroup.get2DPegs(startingPeg, offsets))
+					{
+						if(last == null)
+						{
+							last = current;
+						}
+						else
+						{
+							connect(last, current, valid, invalid);
+							last = current;
+						}
+					}
+				}
+			}
 
 			void connect(PegAddress first, PegAddress second, OutlineData valid, OutlineData invalid)
 			{
@@ -512,6 +534,40 @@ namespace CustomWirePlacer.Client.CWP
 							SoundPlayer.PlayFail();
 						}
 					}
+				}
+			}
+			else //1 group and 2D:
+			{
+				List<BuildRequest> requests = new List<BuildRequest>();
+				
+				var offsets = firstGroup.get2DOffsets();
+				foreach(var startingPeg in firstGroup.getFirstAxis().getPegs())
+				{
+					PegAddress last = null;
+					foreach(var current in CWPGroup.get2DPegs(startingPeg, offsets))
+					{
+						if(last == null)
+						{
+							last = current;
+						}
+						else
+						{
+							if(WireUtility.WireWouldBeValid(last, current))
+							{
+								requests.Add(new BuildRequest_CreateWire(new WireData(last, current, 0f)));
+							}
+							last = current;
+						}
+					}
+				}
+				
+				if(requests.Any())
+				{
+					BuildRequestManager.SendManyBuildRequestsAsMultiUndoItem(requests);
+				}
+				else
+				{
+					SoundPlayer.PlayFail();
 				}
 			}
 		}
