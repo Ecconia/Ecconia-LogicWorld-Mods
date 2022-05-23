@@ -88,6 +88,7 @@ namespace CustomWirePlacer.Client.Windows
 
 					//Add secret setting to LWs settings file:
 					ConfigurableMenuSettings.SecretSetting<bool> settingAdapter = controller.settingsController.AddSecretSetting(setting.key, setting.defaultValue);
+					setting.setter(settingAdapter.GetValue());
 					ToggleSwitch toggle = toggleEntry.GetComponentInChildren<ToggleSwitch>();
 					toggle.OnValueChanged += b => settingAdapter.SetValue(b); //Update toggle state in settings file.
 					toggle.OnValueChanged += setting.setter; //Update toggle state in CWP settings.

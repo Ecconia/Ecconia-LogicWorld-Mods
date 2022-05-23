@@ -1,4 +1,3 @@
-using CustomWirePlacer.Client.CWP;
 using CustomWirePlacer.Client.Windows;
 using FancyInput;
 using LogicAPI.Client;
