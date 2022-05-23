@@ -14,8 +14,8 @@ namespace CustomWirePlacer.Client.CWP
 
 		public IEnumerable<PegAddress> inBetween;
 
-		public IEnumerable<PegAddress> forwards;
-		public IEnumerable<PegAddress> backwards;
+		public List<PegAddress> forwards;
+		public List<PegAddress> backwards;
 
 		private bool binarySkipping;
 		private int skipNumber = 1;
@@ -53,9 +53,9 @@ namespace CustomWirePlacer.Client.CWP
 			int skipIndex = getSkipStart(); //Start with skip-number, because the first peg is always chosen.
 			if(backwards != null)
 			{
-				foreach(PegAddress peg in backwards)
+				for(int index = backwards.Count - 1; index >= 0; index--)
 				{
-					Outliner.HardOutline(peg, isNotSkipped(ref skipIndex) ? CWPOutlineData.firstDiscoveredPegs : CWPOutlineData.skippedPeg);
+					Outliner.HardOutline(backwards[index], isNotSkipped(ref skipIndex) ? CWPOutlineData.firstDiscoveredPegs : CWPOutlineData.skippedPeg);
 				}
 			}
 			if(firstPeg != null)
@@ -101,11 +101,11 @@ namespace CustomWirePlacer.Client.CWP
 			int skipIndex = getSkipStart(); //Start with skipNumber, to always select the first peg.
 			if(backwards != null)
 			{
-				foreach(PegAddress peg in backwards)
+				for(int index = backwards.Count - 1; index >= 0; index--)
 				{
 					if(isNotSkipped(ref skipIndex))
 					{
-						yield return peg;
+						yield return backwards[index];
 					}
 				}
 			}
@@ -147,9 +147,9 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			if(backwards != null)
 			{
-				foreach(PegAddress peg in backwards)
+				for(int index = backwards.Count - 1; index >= 0; index--)
 				{
-					yield return peg;
+					yield return backwards[index];
 				}
 			}
 			yield return firstPeg;
@@ -238,16 +238,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		private void expandFurtherInternal()
 		{
-			PegAddress start = firstPeg;
-			PegAddress end = secondPeg;
-			if(inBetween != null)
-			{
-				start = inBetween.Last();
-			}
-			Vector3 startPos = CWPHelper.getWireConnectionPoint(start);
-			Vector3 endPos = CWPHelper.getWireConnectionPoint(end);
-			Vector3 ray = endPos - startPos;
-			forwards = CWPHelper.collectPegsInDirection(endPos, ray);
+			expandInternal(ref forwards, firstPeg, secondPeg, inBetween?.Last());
 		}
 
 		public void expandBackwards()
@@ -263,20 +254,132 @@ namespace CustomWirePlacer.Client.CWP
 
 		private void expandBackwardsInternal()
 		{
-			PegAddress start = secondPeg;
-			PegAddress end = firstPeg;
-			if(inBetween != null)
+			expandInternal(ref backwards, secondPeg, firstPeg, inBetween?.First());
+		}
+
+		private static void expandInternal(ref List<PegAddress> discoverList, PegAddress firstPeg, PegAddress secondPeg, PegAddress inBetweenPeg)
+		{
+			//This is the peg, which is before the last peg in expand direction.
+			// Required to get the distance between this one and the actual last peg.
+			PegAddress peg0 =
+				discoverList != null
+					? discoverList.Count > 1
+						? discoverList[discoverList.Count - 2]
+						: secondPeg
+					: inBetweenPeg != null
+						? inBetweenPeg
+						: firstPeg;
+			//This is the last peg in this expand direction.
+			// From here we expand.
+			PegAddress peg1 =
+				discoverList != null
+					? discoverList.Last()
+					: secondPeg;
+
+			//Get positions and calculate the ray, which may have any length:
+			Vector3 pos0 = CWPHelper.getWireConnectionPoint(peg0);
+			Vector3 pos1 = CWPHelper.getWireConnectionPoint(peg1);
+			Vector3 ray = pos1 - pos0;
+
+			//When expanding we have to find at least one peg. If there is none we cannot expand.
+			PegAddress peg2 = CWPHelper.findNextPeg(pos1, ray);
+			if(peg2 == null)
 			{
-				start = inBetween.First();
+				SoundPlayer.PlayFail();
+				return;
 			}
-			Vector3 startPos = CWPHelper.getWireConnectionPoint(start);
-			Vector3 endPos = CWPHelper.getWireConnectionPoint(end);
-			Vector3 ray = endPos - startPos;
-			backwards = CWPHelper.collectPegsInDirection(endPos, ray);
-			if(backwards != null)
+			//The list is null when it is empty, but we found at least one peg,
+			// so create the list and add that peg.
+			if(discoverList == null)
 			{
-				backwards = backwards.Reverse(); //We casted from the wrong direction, so these pegs need to be reversed.
+				discoverList = new List<PegAddress>();
 			}
+			discoverList.Add(peg2);
+			
+			Vector3 pos2 = CWPHelper.getWireConnectionPoint(peg2);
+
+			//Now that we got one peg, there is the possibility to collect more.
+			PegAddress peg3 = CWPHelper.findNextPeg(pos2, ray);
+			if(peg3 == null)
+			{
+				//However there is no more peg, so there is no need to expand from here on.
+				return;
+			}
+			Vector3 pos3 = CWPHelper.getWireConnectionPoint(peg3);
+			
+			//Calculate all the distances between the pegs, required to decide for an expand strategy.
+			float dist1 = (pos1 - pos0).sqrMagnitude;
+			float dist2 = (pos2 - pos1).sqrMagnitude;
+			float dist3 = (pos3 - pos2).sqrMagnitude;
+			
+			float referenceDistance;
+			if(CWPSettings.expandOnlyUniformDistance)
+			{
+				//If the uniform distance setting is ON, then only the original distance will be used as reference.
+				// So expanding only expands if the distance is the same as the original distance.
+				PegAddress previousPeg = inBetweenPeg != null ? inBetweenPeg : firstPeg;
+				referenceDistance = (CWPHelper.getWireConnectionPoint(secondPeg) - CWPHelper.getWireConnectionPoint(previousPeg)).sqrMagnitude;
+			}
+			else
+			{
+				//Expansion works the same, a peg (here the third peg), is being investigated, if it is part of the current section
+				// or part of a new section, which we do not care about.
+				//The reference distance, tells how big the distance of the current section shall be.
+				// With that, it collects all pegs that have the same distance and are not closer to other sections.
+				//There are only two distances to consider, the distance of the old section (dist1), or
+				// the distance of a new section (dist3).
+				//We choose the old sections distance over the new sections distance, if:
+				// The distance between the old existing pegs and the first discovered is the same
+				//  AND the distance between the two new pegs is NOT smaller than the old sections distance.
+				referenceDistance = isSame(dist1, dist2) && (dist3 > dist1 || isSame(dist1, dist3)) ? dist1 : dist3;
+			}
+			loopExpand(
+				discoverList, ray, referenceDistance,
+				dist3, pos3, peg3
+			);
+		}
+
+		//When this method gets called, we are trying to figure out if the provided peg
+		// should be added to the current section, or be not added, because it belongs to the next section.
+		//To do this, we are comparing its distance to the next peg (if exists), and see if it is closer to that one.
+		private static void loopExpand(
+			ICollection<PegAddress> discoverList, Vector3 ray, float distance,
+			float dist0, Vector3 pos0, PegAddress peg0
+		)
+		{
+			//If the reference distance, is not the same as the distance to this peg,
+			// The section is 100% changed, thus stop collecting pegs here.
+			while(isSame(distance, dist0))
+			{
+				//Get the next peg, to compare the distances:
+				PegAddress peg1 = CWPHelper.findNextPeg(pos0, ray);
+				if(peg1 == null)
+				{
+					//No next peg, then the peg must belong to the active section.
+					discoverList.Add(peg0);
+					return;
+				}
+				Vector3 pos1 = CWPHelper.getWireConnectionPoint(peg1);
+				float dist1 = (pos1 - pos0).sqrMagnitude;
+
+				//If the distance of the probe peg to the current peg is smaller than the previous distance,
+				// the current peg must belong to a new section and collecting pegs should stop.
+				if(!(distance < dist1 || isSame(distance, dist1)))
+				{
+					return;
+				}
+				discoverList.Add(peg0);
+
+				//Start the next loop with the probe peg as the current peg:
+				dist0 = dist1;
+				pos0 = pos1;
+				peg0 = peg1;
+			}
+		}
+
+		private static bool isSame(float a, float b)
+		{
+			return Mathf.Abs(a - b) < 0.0001f;
 		}
 
 		public void applyAxis(CWPGroupAxis otherAxis, PegAddress firstPeg, PegAddress secondPeg)
