@@ -60,9 +60,5 @@ namespace CustomWirePlacer.Client.CWP
 		public string hoverKey;
 		public Action<bool> setter;
 		public bool defaultValue;
-		//TODO: Someone detect the text size and let that scale up the multiplier.
-		// Because the language framework cannot inject this number, and languages may change it.
-		// Or better, just let the text-box increase...
-		public int textHeightModifier = 1;
 	}
 }

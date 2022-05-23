@@ -76,8 +76,7 @@ namespace CustomWirePlacer.Client.Windows
 						TogglePrefab.generateToggle(),
 						1000,
 						800,
-						200 - 35,
-						setting.textHeightModifier
+						200 - 35
 					);
 					toggleEntry.GetComponentInChildren<LocalizedTextMesh>().SetLocalizationKey(setting.key);
 					//Optionally add hover text for more details:

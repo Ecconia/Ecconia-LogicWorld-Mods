@@ -49,6 +49,9 @@
       <Reference Include="UnityEngine.CoreModule">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       </Reference>
+      <Reference Include="UnityEngine.TextRenderingModule">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      </Reference>
       <Reference Include="UnityEngine.UI">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.UI.dll</HintPath>
       </Reference>
