@@ -257,7 +257,7 @@ namespace CustomWirePlacer.Client.CWP
 			expandInternal(ref backwards, secondPeg, firstPeg, inBetween?.First());
 		}
 
-		private static void expandInternal(ref List<PegAddress> discoverList, PegAddress firstPeg, PegAddress secondPeg, PegAddress inBetweenPeg)
+		private static void expandInternal(ref List<PegAddress> discoverList, PegAddress firstPeg, PegAddress secondPeg, PegAddress inBetweenPeg, bool onlyOne = false)
 		{
 			//This is the peg, which is before the last peg in expand direction.
 			// Required to get the distance between this one and the actual last peg.
@@ -295,7 +295,11 @@ namespace CustomWirePlacer.Client.CWP
 				discoverList = new List<PegAddress>();
 			}
 			discoverList.Add(peg2);
-			
+			if(onlyOne)
+			{
+				return; //Expanding by mouse-wheel only requires one peg to detect.
+			}
+
 			Vector3 pos2 = CWPHelper.getWireConnectionPoint(peg2);
 
 			//Now that we got one peg, there is the possibility to collect more.
@@ -306,12 +310,12 @@ namespace CustomWirePlacer.Client.CWP
 				return;
 			}
 			Vector3 pos3 = CWPHelper.getWireConnectionPoint(peg3);
-			
+
 			//Calculate all the distances between the pegs, required to decide for an expand strategy.
 			float dist1 = (pos1 - pos0).sqrMagnitude;
 			float dist2 = (pos2 - pos1).sqrMagnitude;
 			float dist3 = (pos3 - pos2).sqrMagnitude;
-			
+
 			float referenceDistance;
 			if(CWPSettings.expandOnlyUniformDistance)
 			{
@@ -414,6 +418,50 @@ namespace CustomWirePlacer.Client.CWP
 				expandFurtherInternal();
 			}
 
+			show();
+		}
+
+		public void updateExpandBackwardsCount(int offset)
+		{
+			hide();
+			if(offset == 1)
+			{
+				expandInternal(ref backwards, secondPeg, firstPeg, inBetween?.First(), true);
+			}
+			else if(backwards != null)
+			{
+				backwards.RemoveAt(backwards.Count - 1);
+				if(!backwards.Any())
+				{
+					backwards = null;
+				}
+			}
+			else
+			{
+				SoundPlayer.PlayFail();
+			}
+			show();
+		}
+
+		public void updateExpandFurtherCount(int offset)
+		{
+			hide();
+			if(offset == 1)
+			{
+				expandInternal(ref forwards, firstPeg, secondPeg, inBetween?.Last(), true);
+			}
+			else if(forwards != null)
+			{
+				forwards.RemoveAt(forwards.Count - 1);
+				if(!forwards.Any())
+				{
+					forwards = null;
+				}
+			}
+			else
+			{
+				SoundPlayer.PlayFail();
+			}
 			show();
 		}
 	}

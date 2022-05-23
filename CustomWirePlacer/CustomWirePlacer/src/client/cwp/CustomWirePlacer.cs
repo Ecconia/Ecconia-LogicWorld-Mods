@@ -29,6 +29,9 @@ namespace CustomWirePlacer.Client.CWP
 		//When this is set, the next peg clicked will be used for the pattern of the second group.
 		private static bool waitForPegToApplyPatternTo;
 
+		private static bool doNotApplyExpandForward;
+		private static bool doNotApplyExpandBackwards;
+
 		private static bool pendingTwoDimensional;
 
 		//Stores all generated and used wire-ghosts, to easily remove them again.
@@ -77,6 +80,7 @@ namespace CustomWirePlacer.Client.CWP
 			applyOnUp = true; //And on cursor up, we want to apply!
 			waitForPegToApplyPatternTo = false;
 			pendingTwoDimensional = false;
+			doNotApplyExpandForward = doNotApplyExpandBackwards = false;
 
 			currentGroup = firstGroup;
 
@@ -264,15 +268,23 @@ namespace CustomWirePlacer.Client.CWP
 			//Feature handling, that do not depend on the drawing state:
 
 			//The expand/discover feature may actually be used while still drawing. However they get reset, if the second peg changes.
-			if(CWPTrigger.ExpandBackwards.DownThisFrame())
+			if(CWPTrigger.ExpandBackwards.UpThisFrame())
 			{
-				currentGroup.expandBackwards();
-				updated = true; //Always update, detecting changes is too complicated.
+				if(!doNotApplyExpandBackwards)
+				{
+					currentGroup.expandBackwards();
+					updated = true; //Always update, detecting changes is too complicated.
+				}
+				doNotApplyExpandBackwards = false;
 			}
-			else if(CWPTrigger.ExpandFurther.DownThisFrame())
+			if(CWPTrigger.ExpandFurther.UpThisFrame())
 			{
-				currentGroup.expandFurther();
-				updated = true; //Always update, detecting changes is too complicated.
+				if(!doNotApplyExpandForward)
+				{
+					currentGroup.expandFurther();
+					updated = true; //Always update, detecting changes is too complicated.
+				}
+				doNotApplyExpandForward = false;
 			}
 
 			if(CWPTrigger.OpenSettings.DownThisFrame())
@@ -298,13 +310,32 @@ namespace CustomWirePlacer.Client.CWP
 				bool down = Trigger.DecreaseMultiWirePlacingInterval.Held();
 				if(up ^ down)
 				{
-					if(currentGroup.updateSkipNumber(up ? 1 : -1))
+					int offset = up ? 1 : -1;
+					bool doSkipping = true;
+					if(CWPTrigger.ExpandBackwards.Held())
 					{
+						currentGroup.updateExpandBackwardsCount(offset);
+						doNotApplyExpandBackwards = true;
+						doSkipping = false;
 						updated = true;
 					}
-					else
+					if(CWPTrigger.ExpandFurther.Held())
 					{
-						SoundPlayer.PlayFail();
+						currentGroup.updateExpandFurtherCount(offset);
+						doNotApplyExpandForward = true;
+						doSkipping = false;
+						updated = true;
+					}
+					if(doSkipping)
+					{
+						if(currentGroup.updateSkipNumber(offset))
+						{
+							updated = true;
+						}
+						else
+						{
+							SoundPlayer.PlayFail();
+						}
 					}
 				}
 			}
@@ -539,7 +570,7 @@ namespace CustomWirePlacer.Client.CWP
 			else //1 group and 2D:
 			{
 				List<BuildRequest> requests = new List<BuildRequest>();
-				
+
 				var offsets = firstGroup.get2DOffsets();
 				foreach(var startingPeg in firstGroup.getFirstAxis().getPegs())
 				{
@@ -560,7 +591,7 @@ namespace CustomWirePlacer.Client.CWP
 						}
 					}
 				}
-				
+
 				if(requests.Any())
 				{
 					BuildRequestManager.SendManyBuildRequestsAsMultiUndoItem(requests);

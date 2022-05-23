@@ -206,6 +206,18 @@ namespace CustomWirePlacer.Client.CWP
 			updated2D();
 		}
 
+		public void updateExpandBackwardsCount(int offset)
+		{
+			currentAxis.updateExpandBackwardsCount(offset);
+			updated2D();
+		}
+
+		public void updateExpandFurtherCount(int offset)
+		{
+			currentAxis.updateExpandFurtherCount(offset);
+			updated2D();
+		}
+
 		public void applyGroup(CWPGroup firstGroup, PegAddress firstPeg)
 		{
 			//Check if the other starting peg can be found:
