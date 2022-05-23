@@ -18,7 +18,7 @@ namespace CustomWirePlacer.Client.CWP
 		public List<PegAddress> backwards;
 
 		private bool binarySkipping;
-		private int skipNumber = 1;
+		private int skipNumber = 0;
 		//TODO: Add an offset to skipping.
 
 		public void clear()
@@ -26,7 +26,7 @@ namespace CustomWirePlacer.Client.CWP
 			hide();
 			firstPeg = secondPeg = null;
 			inBetween = forwards = backwards = null;
-			skipNumber = 1;
+			skipNumber = 0;
 			binarySkipping = false;
 		}
 
@@ -175,23 +175,22 @@ namespace CustomWirePlacer.Client.CWP
 
 		private int getSkipStart()
 		{
-			return binarySkipping ? 0 : skipNumber;
+			return binarySkipping ? 0 : (skipNumber + 1);
 		}
 
 		private bool isNotSkipped(ref int skipIndex)
 		{
 			if(binarySkipping)
 			{
-				//TODO: Support non binary numbers.
-				if(skipNumber == 1)
+				if(skipNumber == 0)
 				{
 					return true;
 				}
-				return (skipIndex++ & (1 << (skipNumber - 2))) != 0;
+				return (skipIndex++ % (2 * skipNumber)) >= skipNumber;
 			}
 			else
 			{
-				if(skipIndex++ == skipNumber)
+				if(skipIndex++ == (skipNumber + 1))
 				{
 					skipIndex = 1;
 					return true;
@@ -200,13 +199,27 @@ namespace CustomWirePlacer.Client.CWP
 			}
 		}
 
-		public bool updateSkipNumber(int value)
+		public bool updateSkipNumber(int offset)
 		{
 			int oldValue = skipNumber;
-			skipNumber += value;
-			if(skipNumber < 1)
+			if(binarySkipping && CWPSettings.skipScrollInBinarySteps)
 			{
-				skipNumber = 1;
+				if(offset == 1)
+				{
+					skipNumber = skipNumber == 0 ? 1 : skipNumber * 2; 
+				}
+				else
+				{
+					skipNumber = skipNumber == 1 ? 0 : skipNumber / 2;
+				}
+			}
+			else
+			{
+				skipNumber += offset;
+				if(skipNumber < 0)
+				{
+					skipNumber = 0;
+				}
 			}
 			if(skipNumber != oldValue)
 			{

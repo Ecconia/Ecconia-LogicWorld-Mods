@@ -25,6 +25,8 @@ namespace CustomWirePlacer.Client.CWP
 
 		public static bool expandOnlyUniformDistance { get; set; }
 
+		public static bool skipScrollInBinarySteps { get; set; }
+
 		//TBI: Somehow option preserve last skip rate?
 
 		//Make second group 2D, if first was.
@@ -50,6 +52,13 @@ namespace CustomWirePlacer.Client.CWP
 				setter = b => expandOnlyUniformDistance = b,
 				defaultValue = expandOnlyUniformDistance,
 				hoverKey = "CWP.Setting.ExpandUniformDistance.Description",
+			};
+			yield return new CWPSetting
+			{
+				key = "CWP.Setting.SkipScrollInBinarySteps",
+				setter = b => skipScrollInBinarySteps = b,
+				defaultValue = skipScrollInBinarySteps,
+				hoverKey = "CWP.Setting.SkipScrollInBinarySteps.Description",
 			};
 		}
 	}
