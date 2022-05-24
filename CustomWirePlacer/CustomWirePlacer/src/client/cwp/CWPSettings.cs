@@ -15,7 +15,7 @@ namespace CustomWirePlacer.Client.CWP
 			set { _resetFlipping = value; }
 		}
 
-		private static bool _showDetails = true;
+		private static bool _showDetails = false;
 
 		public static bool showDetails
 		{
@@ -27,25 +27,39 @@ namespace CustomWirePlacer.Client.CWP
 
 		public static bool skipScrollInBinarySteps { get; set; }
 
+		private static bool _resetSkipOffsetWhenNotSkipping = true;
+
+		public static bool resetSkipOffsetWhenNotSkipping
+		{
+			get => _resetSkipOffsetWhenNotSkipping;
+			set
+			{
+				_resetSkipOffsetWhenNotSkipping = value;
+				if(value && CustomWirePlacer.isActive())
+				{
+					CustomWirePlacer.getCurrentGroup().getCurrentAxis().checkSkipOffsetReset();
+				}
+			}
+		}
+
 		//TBI: Somehow option preserve last skip rate?
 
 		//Make second group 2D, if first was.
-		//Raycast in the middle of pegs.
 
 		public static IEnumerable<CWPSetting> collectSettings()
 		{
-			yield return new CWPSetting
-			{
-				key = "CWP.Settings.ResetFlipping",
-				setter = b => resetFlipping = b,
-				defaultValue = resetFlipping,
-			};
-			yield return new CWPSetting
-			{
-				key = "CWP.Setting.ShowDetails",
-				setter = b => showDetails = b,
-				defaultValue = showDetails,
-			};
+			// yield return new CWPSetting
+			// {
+			// 	key = "CWP.Settings.ResetFlipping",
+			// 	setter = b => resetFlipping = b,
+			// 	defaultValue = resetFlipping,
+			// };
+			// yield return new CWPSetting
+			// {
+			// 	key = "CWP.Setting.ShowDetails",
+			// 	setter = b => showDetails = b,
+			// 	defaultValue = showDetails,
+			// };
 			yield return new CWPSetting
 			{
 				key = "CWP.Setting.ExpandUniformDistance",
@@ -59,6 +73,13 @@ namespace CustomWirePlacer.Client.CWP
 				setter = b => skipScrollInBinarySteps = b,
 				defaultValue = skipScrollInBinarySteps,
 				hoverKey = "CWP.Setting.SkipScrollInBinarySteps.Description",
+			};
+			yield return new CWPSetting
+			{
+				key = "CWP.Setting.ResetSkipOffsetWhenNotSkipping",
+				setter = b => resetSkipOffsetWhenNotSkipping = b,
+				defaultValue = resetSkipOffsetWhenNotSkipping,
+				hoverKey = "CWP.Setting.ResetSkipOffsetWhenNotSkipping.Description",
 			};
 		}
 	}

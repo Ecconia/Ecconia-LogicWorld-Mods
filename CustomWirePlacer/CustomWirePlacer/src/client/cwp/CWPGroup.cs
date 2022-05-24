@@ -187,6 +187,13 @@ namespace CustomWirePlacer.Client.CWP
 			updated2D();
 			return result;
 		}
+		
+		public bool updateSkipOffset(int offset)
+		{
+			bool result = currentAxis.updateSkipOffset(offset);
+			updated2D();
+			return result;
+		}
 
 		public void switchSkipMode()
 		{
@@ -276,6 +283,11 @@ namespace CustomWirePlacer.Client.CWP
 		public CWPGroupAxis getFirstAxis()
 		{
 			return firstAxis;
+		}
+
+		public CWPGroupAxis getCurrentAxis()
+		{
+			return currentAxis;
 		}
 	}
 }

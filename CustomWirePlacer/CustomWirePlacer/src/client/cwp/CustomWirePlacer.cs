@@ -21,6 +21,7 @@ namespace CustomWirePlacer.Client.CWP
 		//The current group is used to reference the group which currently is being modified.
 		private static CWPGroup currentGroup;
 
+		private static bool active;
 		//Indicates, if the mouse is down while editing a group. And not just down.
 		private static bool drawing;
 		//Normally always set when drawing is set, however sometimes drawing gets stopped before the mouse is up.
@@ -94,6 +95,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				CWPStatusDisplay.setVisible(true);
 			}
+			active = true;
 		}
 
 		private static void cleanUpWireGhosts()
@@ -107,6 +109,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		public static void onDeactivate()
 		{
+			active = false;
 			CWPSettingsWindow.setVisible(false);
 			CWPStatusDisplay.setVisible(false);
 
@@ -328,7 +331,14 @@ namespace CustomWirePlacer.Client.CWP
 					}
 					if(doSkipping)
 					{
-						if(currentGroup.updateSkipNumber(offset))
+						if(CWPTrigger.ModificatorAlternative.Held())
+						{
+							if(currentGroup.updateSkipOffset(offset))
+							{
+								updated = true;
+							}
+						}
+						else if(currentGroup.updateSkipNumber(offset))
 						{
 							updated = true;
 						}
@@ -601,6 +611,16 @@ namespace CustomWirePlacer.Client.CWP
 					SoundPlayer.PlayFail();
 				}
 			}
+		}
+
+		public static CWPGroup getCurrentGroup()
+		{
+			return currentGroup;
+		}
+
+		public static bool isActive()
+		{
+			return active;
 		}
 	}
 }

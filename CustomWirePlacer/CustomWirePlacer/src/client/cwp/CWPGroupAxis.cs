@@ -18,15 +18,15 @@ namespace CustomWirePlacer.Client.CWP
 		public List<PegAddress> backwards;
 
 		private bool binarySkipping;
-		private int skipNumber = 0;
-		//TODO: Add an offset to skipping.
+		private int skipNumber;
+		private int skipOffset;
 
 		public void clear()
 		{
 			hide();
 			firstPeg = secondPeg = null;
 			inBetween = forwards = backwards = null;
-			skipNumber = 0;
+			skipNumber = skipOffset = 0;
 			binarySkipping = false;
 		}
 
@@ -175,24 +175,54 @@ namespace CustomWirePlacer.Client.CWP
 
 		private int getSkipStart()
 		{
-			return binarySkipping ? 0 : (skipNumber + 1);
+			if(skipNumber == 0)
+			{
+				return binarySkipping ? 0 : 1;
+			}
+			
+			if(binarySkipping)
+			{
+				int start = -skipOffset;
+				start %= skipNumber + skipNumber;
+				if(start < 0)
+				{
+					start += skipNumber + skipNumber;
+				}
+				return start;
+			}
+			else
+			{
+				int start = skipNumber - skipOffset;
+				start %= skipNumber + 1;
+				if(start < 0)
+				{
+					start += skipNumber + 1;
+				}
+				return start;
+			}
 		}
 
 		private bool isNotSkipped(ref int skipIndex)
 		{
+			if(skipNumber == 0)
+			{
+				return true; //Skipping is not enabled.
+			}
+			
 			if(binarySkipping)
 			{
-				if(skipNumber == 0)
+				bool result = skipIndex >= skipNumber;
+				if(++skipIndex == skipNumber + skipNumber)
 				{
-					return true;
+					skipIndex = 0;
 				}
-				return (skipIndex++ % (2 * skipNumber)) >= skipNumber;
+				return result;
 			}
 			else
 			{
-				if(skipIndex++ == (skipNumber + 1))
+				if(skipIndex++ == skipNumber)
 				{
-					skipIndex = 1;
+					skipIndex = 0;
 					return true;
 				}
 				return false;
@@ -210,7 +240,18 @@ namespace CustomWirePlacer.Client.CWP
 				}
 				else
 				{
-					skipNumber = skipNumber == 1 ? 0 : skipNumber / 2;
+					if(skipNumber == 1)
+					{
+						if(CWPSettings.resetSkipOffsetWhenNotSkipping)
+						{
+							skipOffset = 0;
+						}
+						skipNumber = 0;
+					}
+					else
+					{
+						skipNumber /= 2;
+					}
 				}
 			}
 			else
@@ -219,6 +260,10 @@ namespace CustomWirePlacer.Client.CWP
 				if(skipNumber < 0)
 				{
 					skipNumber = 0;
+					if(CWPSettings.resetSkipOffsetWhenNotSkipping)
+					{
+						skipOffset = 0;
+					}
 				}
 			}
 			if(skipNumber != oldValue)
@@ -229,6 +274,30 @@ namespace CustomWirePlacer.Client.CWP
 				return true;
 			}
 			return false;
+		}
+		
+		public bool updateSkipOffset(int offset)
+		{
+			if(skipNumber == 0) //If currently not skipping.
+			{
+				SoundPlayer.PlayFail();
+				return false;
+			}
+			hide();
+			skipOffset += offset;
+			show();
+			return true;
+		}
+		
+		public void checkSkipOffsetReset()
+		{
+			if(skipOffset == 0 || skipNumber != 0)
+			{
+				return;
+			}
+			//This method has no visual side effects, the value can just be changed.
+			// The reason is, that skipping is disabled anyway, so the offset has no effect.
+			skipOffset = 0;
 		}
 
 		public void switchSkipMode()
@@ -272,6 +341,8 @@ namespace CustomWirePlacer.Client.CWP
 
 		private static void expandInternal(ref List<PegAddress> discoverList, PegAddress firstPeg, PegAddress secondPeg, PegAddress inBetweenPeg, bool onlyOne = false)
 		{
+			//TODO: Fix that the vector has a wrong direction than the original vector... Cause else Erik will abuse it.
+			
 			//This is the peg, which is before the last peg in expand direction.
 			// Required to get the distance between this one and the actual last peg.
 			PegAddress peg0 =
@@ -417,6 +488,7 @@ namespace CustomWirePlacer.Client.CWP
 			this.firstPeg = firstPeg;
 			this.secondPeg = secondPeg;
 			this.skipNumber = otherAxis.skipNumber;
+			this.skipOffset = otherAxis.skipOffset;
 			this.binarySkipping = otherAxis.binarySkipping;
 			//In between:
 			this.inBetween = CWPHelper.collectPegsInBetween(firstPeg, secondPeg);
