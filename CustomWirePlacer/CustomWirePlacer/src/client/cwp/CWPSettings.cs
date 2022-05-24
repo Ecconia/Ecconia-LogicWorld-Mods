@@ -22,6 +22,8 @@ namespace CustomWirePlacer.Client.CWP
 			get => _showDetails;
 			set { _showDetails = value; }
 		}
+		
+		public static bool raycastAtBottomOfPegs { get; set; }
 
 		public static bool expandOnlyUniformDistance { get; set; }
 
@@ -80,6 +82,13 @@ namespace CustomWirePlacer.Client.CWP
 				setter = b => resetSkipOffsetWhenNotSkipping = b,
 				defaultValue = resetSkipOffsetWhenNotSkipping,
 				hoverKey = "CWP.Setting.ResetSkipOffsetWhenNotSkipping.Description",
+			};
+			yield return new CWPSetting
+			{
+				key = "CWP.Setting.RaycastAtBottomOfPegs",
+				setter = b => raycastAtBottomOfPegs = b,
+				defaultValue = raycastAtBottomOfPegs,
+				hoverKey = "CWP.Setting.RaycastAtBottomOfPegs.Description",
 			};
 		}
 	}

@@ -142,7 +142,7 @@ namespace CustomWirePlacer.Client.CWP
 			}
 		}
 
-		//TODO: Discord this, and do properly respect of skipping when in-line MWP.
+		//TODO: Discard this, and do properly respect of skipping when in-line MWP.
 		public IEnumerable<PegAddress> getAllPegs()
 		{
 			if(backwards != null)
@@ -341,7 +341,9 @@ namespace CustomWirePlacer.Client.CWP
 
 		private static void expandInternal(ref List<PegAddress> discoverList, PegAddress firstPeg, PegAddress secondPeg, PegAddress inBetweenPeg, bool onlyOne = false)
 		{
-			//TODO: Fix that the vector has a wrong direction than the original vector... Cause else Erik will abuse it.
+			//One ray to rule them all. The ray should always be constructed from the two main pegs, it shall never bend in any other direction.
+			Vector3 rayStart = CWPHelper.getRaycastPoint(firstPeg);
+			Vector3 ray = (CWPHelper.getRaycastPoint(secondPeg) - rayStart).normalized; //For later calculations, it has to be normalized.
 			
 			//This is the peg, which is before the last peg in expand direction.
 			// Required to get the distance between this one and the actual last peg.
@@ -360,18 +362,18 @@ namespace CustomWirePlacer.Client.CWP
 					? discoverList.Last()
 					: secondPeg;
 
-			//Get positions and calculate the ray, which may have any length:
-			Vector3 pos0 = CWPHelper.getWireConnectionPoint(peg0);
-			Vector3 pos1 = CWPHelper.getWireConnectionPoint(peg1);
-			Vector3 ray = pos1 - pos0;
+			//Get positions, important that the positions must be on the ray, so raycast to get the positions. 
+			Vector3 pos0 = peg0 != firstPeg ? CWPHelper.getPegRayCenter(peg0, rayStart, ray) : rayStart; //If it is the first peg, the raycast would fail, so fallback. And the ray start is the first peg pos.
+			Vector3 pos1 = CWPHelper.getPegRayCenter(peg1, rayStart, ray);
 
 			//When expanding we have to find at least one peg. If there is none we cannot expand.
-			PegAddress peg2 = CWPHelper.findNextPeg(pos1, ray);
+			PegAddress peg2 = CWPHelper.findNextPeg(pos1, ray, out Vector3? pos2nullable);
 			if(peg2 == null)
 			{
 				SoundPlayer.PlayFail();
 				return;
 			}
+			Vector3 pos2 = pos2nullable.Value; //TBI: This works, but is it possible to do this syntactically more pretty?
 			//The list is null when it is empty, but we found at least one peg,
 			// so create the list and add that peg.
 			if(discoverList == null)
@@ -384,16 +386,14 @@ namespace CustomWirePlacer.Client.CWP
 				return; //Expanding by mouse-wheel only requires one peg to detect.
 			}
 
-			Vector3 pos2 = CWPHelper.getWireConnectionPoint(peg2);
-
 			//Now that we got one peg, there is the possibility to collect more.
-			PegAddress peg3 = CWPHelper.findNextPeg(pos2, ray);
+			PegAddress peg3 = CWPHelper.findNextPeg(pos2, ray, out Vector3? pos3nullable);
 			if(peg3 == null)
 			{
 				//However there is no more peg, so there is no need to expand from here on.
 				return;
 			}
-			Vector3 pos3 = CWPHelper.getWireConnectionPoint(peg3);
+			Vector3 pos3 = pos3nullable.Value;
 
 			//Calculate all the distances between the pegs, required to decide for an expand strategy.
 			float dist1 = (pos1 - pos0).sqrMagnitude;
@@ -405,8 +405,8 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				//If the uniform distance setting is ON, then only the original distance will be used as reference.
 				// So expanding only expands if the distance is the same as the original distance.
-				PegAddress previousPeg = inBetweenPeg != null ? inBetweenPeg : firstPeg;
-				referenceDistance = (CWPHelper.getWireConnectionPoint(secondPeg) - CWPHelper.getWireConnectionPoint(previousPeg)).sqrMagnitude;
+				Vector3 previousPos = inBetweenPeg != null ? CWPHelper.getPegRayCenter(inBetweenPeg, rayStart, ray) : rayStart; //Ray start is the first pos point.
+				referenceDistance = (CWPHelper.getRaycastPoint(secondPeg) - previousPos).sqrMagnitude;
 			}
 			else
 			{
@@ -440,14 +440,14 @@ namespace CustomWirePlacer.Client.CWP
 			while(isSame(distance, dist0))
 			{
 				//Get the next peg, to compare the distances:
-				PegAddress peg1 = CWPHelper.findNextPeg(pos0, ray);
+				PegAddress peg1 = CWPHelper.findNextPeg(pos0, ray, out Vector3? pos1nullable);
 				if(peg1 == null)
 				{
 					//No next peg, then the peg must belong to the active section.
 					discoverList.Add(peg0);
 					return;
 				}
-				Vector3 pos1 = CWPHelper.getWireConnectionPoint(peg1);
+				Vector3 pos1 = pos1nullable.Value;
 				float dist1 = (pos1 - pos0).sqrMagnitude;
 
 				//If the distance of the probe peg to the current peg is smaller than the previous distance,
