@@ -87,11 +87,8 @@ namespace CustomWirePlacer.Client.CWP
 			hide(); //Hide all visible outlines, since some might be removed.
 
 			this.secondPeg = secondPeg;
-			if(secondPeg != null)
-			{
-				inBetween = CWPHelper.collectPegsInBetween(firstPeg, secondPeg);
-				backwards = forwards = null; //These get reset, now that their axis might have changed.
-			}
+			inBetween = secondPeg != null ? CWPHelper.collectPegsInBetween(firstPeg, secondPeg) : null;
+			backwards = forwards = null; //These get reset, now that their axis might have changed.
 
 			show(); //Redraw all visible outlines, respecting the skip number.
 		}
