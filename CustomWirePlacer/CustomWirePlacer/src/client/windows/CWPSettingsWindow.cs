@@ -41,7 +41,7 @@ namespace CustomWirePlacer.Client.Windows
 				h = 200,
 				isResizableX = false,
 				isResizableY = false,
-				rootName = "CustomWirePlacer", //Used as file-name by LogicWorld to store settings in.
+				rootName = "Custom Wire Placer", //Used as file-name by LogicWorld to store settings in.
 				titleKey = "CustomWirePlacer.WindowTitle",
 				settingsTitleKey = "CustomWirePlacer.WindowSettingsTitle",
 				singletonClass = typeof(CWPSettingsWindow),

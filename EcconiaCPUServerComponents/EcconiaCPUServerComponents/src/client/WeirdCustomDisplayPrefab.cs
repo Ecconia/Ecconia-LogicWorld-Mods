@@ -18,7 +18,7 @@ namespace EcconiaCPUServerComponents.Client
 		//MUST BE AN EVEN NUMBER, OR CODE AND MODEL BREAK! Actually it is used everywhere now, do not change.
 		private const int DisplaySideLength = 32;
 		private const int PegAmount = DisplaySideLength * 4 + 1;
-		
+
 		//This is how far a panel displays stands out of a board. This display should be aligned with them:
 		private const float PanelDisplayOffset = 1f / 3f; //Third of a square.
 		//Other offsets:
