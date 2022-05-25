@@ -17,6 +17,9 @@ namespace CustomWirePlacer.Client.CWP
 		public List<PegAddress> forwards;
 		public List<PegAddress> backwards;
 
+		private List<PegAddress> blacklist = new List<PegAddress>();
+		private List<PegAddress> whitelist = new List<PegAddress>();
+
 		private bool binarySkipping;
 		private int skipNumber;
 		private int skipOffset;
@@ -28,6 +31,8 @@ namespace CustomWirePlacer.Client.CWP
 			inBetween = forwards = backwards = null;
 			skipNumber = skipOffset = 0;
 			binarySkipping = false;
+			blacklist.Clear();
+			whitelist.Clear();
 		}
 
 		public void hide()
@@ -46,6 +51,8 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				Outliner.RemoveHardOutline(backwards);
 			}
+			Outliner.RemoveHardOutline(blacklist);
+			Outliner.RemoveHardOutline(whitelist);
 		}
 
 		public void show()
@@ -55,10 +62,14 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				for(int index = backwards.Count - 1; index >= 0; index--)
 				{
-					Outliner.HardOutline(backwards[index], isNotSkipped(ref skipIndex) ? CWPOutlineData.firstDiscoveredPegs : CWPOutlineData.skippedPeg);
+					PegAddress peg = backwards[index];
+					if(!blacklist.Contains(peg))
+					{
+						Outliner.HardOutline(peg, isNotSkipped(ref skipIndex) ? CWPOutlineData.firstDiscoveredPegs : CWPOutlineData.skippedPeg);
+					}
 				}
 			}
-			if(firstPeg != null)
+			if(firstPeg != null && !blacklist.Contains(firstPeg))
 			{
 				Outliner.HardOutline(firstPeg, isNotSkipped(ref skipIndex) ? CWPOutlineData.firstPeg : CWPOutlineData.firstSkippedPeg);
 			}
@@ -66,10 +77,13 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				foreach(PegAddress peg in inBetween)
 				{
-					Outliner.HardOutline(peg, isNotSkipped(ref skipIndex) ? CWPOutlineData.middlePegs : CWPOutlineData.skippedPeg);
+					if(!blacklist.Contains(peg))
+					{
+						Outliner.HardOutline(peg, isNotSkipped(ref skipIndex) ? CWPOutlineData.middlePegs : CWPOutlineData.skippedPeg);
+					}
 				}
 			}
-			if(secondPeg != null)
+			if(secondPeg != null && !blacklist.Contains(secondPeg))
 			{
 				Outliner.HardOutline(secondPeg, isNotSkipped(ref skipIndex) ? CWPOutlineData.secondPeg : CWPOutlineData.secondSkippedPeg);
 			}
@@ -77,8 +91,19 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				foreach(PegAddress peg in forwards)
 				{
-					Outliner.HardOutline(peg, isNotSkipped(ref skipIndex) ? CWPOutlineData.secondDiscoveredPegs : CWPOutlineData.skippedPeg);
+					if(!blacklist.Contains(peg))
+					{
+						Outliner.HardOutline(peg, isNotSkipped(ref skipIndex) ? CWPOutlineData.secondDiscoveredPegs : CWPOutlineData.skippedPeg);
+					}
 				}
+			}
+			foreach(PegAddress peg in blacklist)
+			{
+				Outliner.HardOutline(peg, CWPOutlineData.blacklistedPeg);
+			}
+			foreach(PegAddress peg in whitelist)
+			{
+				Outliner.HardOutline(peg, CWPOutlineData.whitelistedPeg);
 			}
 		}
 
@@ -100,13 +125,14 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				for(int index = backwards.Count - 1; index >= 0; index--)
 				{
-					if(isNotSkipped(ref skipIndex))
+					PegAddress peg = backwards[index];
+					if(!blacklist.Contains(peg) && isNotSkipped(ref skipIndex))
 					{
-						yield return backwards[index];
+						yield return peg;
 					}
 				}
 			}
-			if(isNotSkipped(ref skipIndex))
+			if(!blacklist.Contains(firstPeg) && isNotSkipped(ref skipIndex))
 			{
 				yield return firstPeg;
 			}
@@ -114,7 +140,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				foreach(PegAddress peg in inBetween)
 				{
-					if(isNotSkipped(ref skipIndex))
+					if(!blacklist.Contains(peg) && isNotSkipped(ref skipIndex))
 					{
 						yield return peg;
 					}
@@ -122,7 +148,7 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			if(secondPeg != null)
 			{
-				if(isNotSkipped(ref skipIndex))
+				if(!blacklist.Contains(secondPeg) && isNotSkipped(ref skipIndex))
 				{
 					yield return secondPeg;
 				}
@@ -131,11 +157,15 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				foreach(PegAddress peg in forwards)
 				{
-					if(isNotSkipped(ref skipIndex))
+					if(!blacklist.Contains(peg) && isNotSkipped(ref skipIndex))
 					{
 						yield return peg;
 					}
 				}
+			}
+			foreach(PegAddress peg in whitelist)
+			{
+				yield return peg;
 			}
 		}
 
@@ -176,7 +206,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				return binarySkipping ? 0 : 1;
 			}
-			
+
 			if(binarySkipping)
 			{
 				int start = -skipOffset;
@@ -205,7 +235,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				return true; //Skipping is not enabled.
 			}
-			
+
 			if(binarySkipping)
 			{
 				bool result = skipIndex >= skipNumber;
@@ -233,7 +263,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				if(offset == 1)
 				{
-					skipNumber = skipNumber == 0 ? 1 : skipNumber * 2; 
+					skipNumber = skipNumber == 0 ? 1 : skipNumber * 2;
 				}
 				else
 				{
@@ -272,7 +302,7 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			return false;
 		}
-		
+
 		public bool updateSkipOffset(int offset)
 		{
 			if(skipNumber == 0) //If currently not skipping.
@@ -285,7 +315,7 @@ namespace CustomWirePlacer.Client.CWP
 			show();
 			return true;
 		}
-		
+
 		public void checkSkipOffsetReset()
 		{
 			if(skipOffset == 0 || skipNumber != 0)
@@ -341,7 +371,7 @@ namespace CustomWirePlacer.Client.CWP
 			//One ray to rule them all. The ray should always be constructed from the two main pegs, it shall never bend in any other direction.
 			Vector3 rayStart = CWPHelper.getRaycastPoint(firstPeg);
 			Vector3 ray = (CWPHelper.getRaycastPoint(secondPeg) - rayStart).normalized; //For later calculations, it has to be normalized.
-			
+
 			//This is the peg, which is before the last peg in expand direction.
 			// Required to get the distance between this one and the actual last peg.
 			PegAddress peg0 =
@@ -480,6 +510,7 @@ namespace CustomWirePlacer.Client.CWP
 				clear();
 				this.firstPeg = firstPeg;
 				this.binarySkipping = otherAxis.binarySkipping;
+				applyLists(otherAxis);
 				show();
 				return; //Done.
 			}
@@ -504,8 +535,21 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				expandFurtherInternal();
 			}
+			applyLists(otherAxis);
 
 			show();
+		}
+
+		private void applyLists(CWPGroupAxis otherAxis)
+		{
+			foreach(PegAddress peg in otherAxis.blacklist)
+			{
+				blacklist.Add(CWPHelper.getPegRelativeToOtherPeg(firstPeg, otherAxis.firstPeg, peg));
+			}
+			foreach(PegAddress peg in otherAxis.whitelist)
+			{
+				whitelist.Add(CWPHelper.getPegRelativeToOtherPeg(firstPeg, otherAxis.firstPeg, peg));
+			}
 		}
 
 		public void updateExpandBackwardsCount(int offset)
@@ -550,6 +594,39 @@ namespace CustomWirePlacer.Client.CWP
 				SoundPlayer.PlayFail();
 			}
 			show();
+		}
+
+		public void toggleList(PegAddress peg)
+		{
+			hide();
+
+			if(blacklist.Contains(peg))
+			{
+				blacklist.Remove(peg);
+			}
+			else if(whitelist.Contains(peg))
+			{
+				whitelist.Remove(peg);
+			}
+			else if(isPartOfMainAxis(peg))
+			{
+				blacklist.Add(peg);
+			}
+			else
+			{
+				whitelist.Add(peg);
+			}
+
+			show();
+		}
+
+		private bool isPartOfMainAxis(PegAddress peg)
+		{
+			return firstPeg == peg
+				|| secondPeg == peg
+				|| (inBetween != null && inBetween.Contains(peg))
+				|| (forwards != null && forwards.Contains(peg))
+				|| (backwards != null && backwards.Contains(peg));
 		}
 	}
 }

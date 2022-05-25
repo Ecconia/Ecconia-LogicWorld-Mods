@@ -21,6 +21,8 @@ namespace CustomWirePlacer.Client.CWP
 		//The current group is used to reference the group which currently is being modified.
 		private static CWPGroup currentGroup;
 
+		private static PegAddress lastLookedAtPeg;
+
 		private static bool active;
 		//Indicates, if the mouse is down while editing a group. And not just down.
 		private static bool drawing;
@@ -34,6 +36,7 @@ namespace CustomWirePlacer.Client.CWP
 		private static bool doNotApplyExpandBackwards;
 
 		private static bool pendingTwoDimensional;
+		private static bool toggleListMode;
 
 		//Stores all generated and used wire-ghosts, to easily remove them again.
 		private static readonly List<WireGhost> ghosts = new List<WireGhost>();
@@ -82,6 +85,7 @@ namespace CustomWirePlacer.Client.CWP
 			waitForPegToApplyPatternTo = false;
 			pendingTwoDimensional = false;
 			doNotApplyExpandForward = doNotApplyExpandBackwards = false;
+			toggleListMode = false;
 
 			currentGroup = firstGroup;
 
@@ -118,6 +122,7 @@ namespace CustomWirePlacer.Client.CWP
 			currentGroup = null;
 			firstGroup.clear();
 			secondGroup.clear();
+			lastLookedAtPeg = null;
 		}
 
 		public static void onUpdate()
@@ -149,7 +154,14 @@ namespace CustomWirePlacer.Client.CWP
 				PegAddress currentlyLookingAtPeg = CWPHelper.getPegCurrentlyLookingAt();
 				if(currentlyLookingAtPeg != null)
 				{
-					if(currentlyLookingAtPeg == currentGroup.getStartPeg())
+					if(toggleListMode)
+					{
+						if(currentlyLookingAtPeg != lastLookedAtPeg)
+						{
+							currentGroup.toggleList(currentlyLookingAtPeg);
+						}
+					}
+					else if(currentlyLookingAtPeg == currentGroup.getStartPeg())
 					{
 						if(currentGroup.getSecondPeg() != null)
 						{
@@ -188,6 +200,7 @@ namespace CustomWirePlacer.Client.CWP
 						SoundPlayer.PlayFail();
 					}
 				}
+				lastLookedAtPeg = currentlyLookingAtPeg;
 			}
 			else //Handle the start of the second group and applying of build action.
 			{
@@ -201,7 +214,14 @@ namespace CustomWirePlacer.Client.CWP
 					PegAddress lookingAt = CWPHelper.getPegCurrentlyLookingAt();
 					if(lookingAt != null)
 					{
-						if(pendingTwoDimensional)
+						if(CWPTrigger.ModificatorAlternative.Held())
+						{
+							toggleListMode = true;
+							drawing = true;
+							currentGroup.toggleList(lookingAt);
+							updated = true;
+						}
+						else if(pendingTwoDimensional)
 						{
 							pendingTwoDimensional = false;
 							//Starting two dimensional:
@@ -247,6 +267,7 @@ namespace CustomWirePlacer.Client.CWP
 							}
 						}
 					}
+					lastLookedAtPeg = lookingAt;
 				}
 				//Else this click is for now meaningless.
 
@@ -374,6 +395,7 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			if(Trigger.DrawWire.UpThisFrame())
 			{
+				toggleListMode = false;
 				drawing = false; //No longer drawing.
 				if(!applyOnUp)
 				{

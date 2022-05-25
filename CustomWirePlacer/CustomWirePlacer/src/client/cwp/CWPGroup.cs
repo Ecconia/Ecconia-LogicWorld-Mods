@@ -187,7 +187,7 @@ namespace CustomWirePlacer.Client.CWP
 			updated2D();
 			return result;
 		}
-		
+
 		public bool updateSkipOffset(int offset)
 		{
 			bool result = currentAxis.updateSkipOffset(offset);
@@ -239,18 +239,25 @@ namespace CustomWirePlacer.Client.CWP
 					SoundPlayer.PlayFail();
 					return;
 				}
-				otherAxisSecondPeg = CWPHelper.getPegRelativeToOtherPeg(firstPeg, firstGroup.secondAxis.firstPeg, firstGroup.secondAxis.secondPeg);
-				if(otherAxisSecondPeg == null)
+				if(firstGroup.secondAxis.secondPeg != null)
+				{
+					otherAxisSecondPeg = CWPHelper.getPegRelativeToOtherPeg(firstPeg, firstGroup.secondAxis.firstPeg, firstGroup.secondAxis.secondPeg);
+					if(otherAxisSecondPeg == null)
+					{
+						SoundPlayer.PlayFail();
+						return;
+					}
+				}
+			}
+			PegAddress firstGroupSecondPeg = null;
+			if(firstGroup.firstAxis.secondPeg != null)
+			{
+				firstGroupSecondPeg = CWPHelper.getPegRelativeToOtherPeg(firstPeg, firstGroup.firstAxis.firstPeg, firstGroup.firstAxis.secondPeg);
+				if(firstGroupSecondPeg == null)
 				{
 					SoundPlayer.PlayFail();
 					return;
 				}
-			}
-			PegAddress firstGroupSecondPeg = CWPHelper.getPegRelativeToOtherPeg(firstPeg, firstGroup.firstAxis.firstPeg, firstGroup.firstAxis.secondPeg);
-			if(firstGroupSecondPeg == null)
-			{
-				SoundPlayer.PlayFail();
-				return;
 			}
 
 			//Apply the axes:
@@ -288,6 +295,12 @@ namespace CustomWirePlacer.Client.CWP
 		public CWPGroupAxis getCurrentAxis()
 		{
 			return currentAxis;
+		}
+
+		public void toggleList(PegAddress peg)
+		{
+			currentAxis.toggleList(peg);
+			updated2D();
 		}
 	}
 }

@@ -34,6 +34,14 @@ namespace CustomWirePlacer.Client.CWP
 			new Color24(150, 100, 80), //Darker/Grayer than 'secondPeg'
 			OutlineLayer.Layer0);
 
+		public static readonly OutlineData whitelistedPeg = new OutlineData(
+			new Color24(0, 255, 0),
+			OutlineLayer.Layer0);
+
+		public static readonly OutlineData blacklistedPeg = new OutlineData(
+			new Color24(255, 0, 0),
+			OutlineLayer.Layer0);
+
 		public static readonly OutlineData secondDiscoveredPegs = new OutlineData(
 			new Color24(255, 200, 100), //Brighter than 'secondPeg'
 			OutlineLayer.Layer0);
