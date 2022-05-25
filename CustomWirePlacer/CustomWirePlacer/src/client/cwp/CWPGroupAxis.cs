@@ -18,7 +18,7 @@ namespace CustomWirePlacer.Client.CWP
 		public List<PegAddress> backwards;
 
 		private List<PegAddress> blacklist = new List<PegAddress>();
-		private List<PegAddress> whitelist = new List<PegAddress>();
+		public List<PegAddress> whitelist = new List<PegAddress>();
 
 		private bool binarySkipping;
 		private int skipNumber;
@@ -169,7 +169,6 @@ namespace CustomWirePlacer.Client.CWP
 			}
 		}
 
-		//TODO: Discard this, and do properly respect of skipping when in-line MWP.
 		public IEnumerable<PegAddress> getAllPegs()
 		{
 			if(backwards != null)
@@ -197,6 +196,10 @@ namespace CustomWirePlacer.Client.CWP
 				{
 					yield return peg;
 				}
+			}
+			foreach(PegAddress peg in whitelist)
+			{
+				yield return peg;
 			}
 		}
 

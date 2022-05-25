@@ -159,6 +159,7 @@ namespace CustomWirePlacer.Client.CWP
 						if(currentlyLookingAtPeg != lastLookedAtPeg)
 						{
 							currentGroup.toggleList(currentlyLookingAtPeg);
+							updated = true;
 						}
 					}
 					else if(currentlyLookingAtPeg == currentGroup.getStartPeg())
@@ -327,6 +328,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				//TODO: Make groups restore the mode, which was last used.
 				currentGroup.switchSkipMode();
+				updated = true;
 			}
 
 			{
@@ -420,8 +422,6 @@ namespace CustomWirePlacer.Client.CWP
 			return false;
 		}
 
-		//TODO: Support peg skipping for in-line connections, but don't show wires, if there was a skip?
-
 		private static void updateWireGhosts()
 		{
 			cleanUpWireGhosts();
@@ -457,7 +457,7 @@ namespace CustomWirePlacer.Client.CWP
 					invalid = CWPOutlineData.invalidMultiWire;
 				}
 				//Drawing 1-group connections:
-				IEnumerator<PegAddress> it = firstGroup.getAllPegs().GetEnumerator();
+				IEnumerator<PegAddress> it = firstGroup.getPegs().GetEnumerator();
 				it.MoveNext();
 				PegAddress last = it.Current;
 				while(it.MoveNext())
@@ -556,14 +556,14 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				//Only one group!
 				//If the second peg is 'null' and no modifer was pressed, we only have a single peg. Hence just abort.
-				if(firstGroup.getSecondPeg() != null)
+				if(firstGroup.getSecondPeg() != null || firstGroup.getFirstAxis().whitelist.Any())
 				{
 					//We have more than 1 peg.
 					if(firstGroup.hasExtraPegs())
 					{
 						//We are placing more than 1 wire:
 						List<BuildRequest> requests = new List<BuildRequest>();
-						IEnumerator<PegAddress> it = firstGroup.getAllPegs().GetEnumerator();
+						IEnumerator<PegAddress> it = firstGroup.getPegs().GetEnumerator();
 						it.MoveNext();
 						PegAddress last = it.Current;
 						while(it.MoveNext())

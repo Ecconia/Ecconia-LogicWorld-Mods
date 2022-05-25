@@ -33,13 +33,6 @@ namespace CustomWirePlacer.Client.CWP
 			pegs2DOutlined.Clear();
 		}
 
-		public void hide()
-		{
-			firstAxis.hide();
-			secondAxis.hide();
-			hideInternal();
-		}
-
 		private void hideInternal()
 		{
 			foreach(PegAddress peg in pegs2DOutlined)
@@ -111,13 +104,6 @@ namespace CustomWirePlacer.Client.CWP
 			}
 		}
 
-		public void show()
-		{
-			firstAxis.show();
-			secondAxis.show();
-			showInternal();
-		}
-
 		private void showInternal()
 		{
 			foreach(PegAddress peg in pegs2DOutlined)
@@ -166,19 +152,13 @@ namespace CustomWirePlacer.Client.CWP
 		//This is only called when there is one 1D group. 
 		public bool hasExtraPegs()
 		{
-			return firstAxis.inBetween != null || firstAxis.backwards != null || firstAxis.forwards != null;
+			return firstAxis.inBetween != null || firstAxis.backwards != null || firstAxis.forwards != null || firstAxis.whitelist.Any();
 		}
 
 		//Should only be called when the content has changed, since quite expensive.
 		public IEnumerable<PegAddress> getPegs()
 		{
 			return isTwoDimensional() ? pegs2D : currentAxis.getPegs();
-		}
-
-		//Ignores peg skipping, and gets used by 1-group MWP actions.
-		public IEnumerable<PegAddress> getAllPegs()
-		{
-			return currentAxis.getAllPegs();
 		}
 
 		public bool updateSkipNumber(int value)
