@@ -1,0 +1,8 @@
+ID: FixCompilerOnClient
+Name: FixCompilerOnClient
+Author: Ecconia
+Version: 1.0.0
+Priority: 97
+ClientOnly: true
+Dependencies:
+    - lwharmony

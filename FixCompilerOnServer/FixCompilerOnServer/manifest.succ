@@ -1,0 +1,8 @@
+ID: FixCompilerOnServer
+Name: FixCompilerOnServer
+Author: Ecconia
+Version: 1.0.0
+Priority: 84
+Dependencies:
+    - ServerOnlyMods
+    - HarmonyForServers
