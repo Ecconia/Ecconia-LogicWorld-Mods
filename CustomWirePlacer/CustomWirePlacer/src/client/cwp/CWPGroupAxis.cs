@@ -432,6 +432,7 @@ namespace CustomWirePlacer.Client.CWP
 			float dist0, Vector3 pos0, PegAddress peg0
 		)
 		{
+			int pegCounter = 0;
 			//If the reference distance, is not the same as the distance to this peg,
 			// The section is 100% changed, thus stop collecting pegs here.
 			while(isSame(distance, dist0))
@@ -459,6 +460,10 @@ namespace CustomWirePlacer.Client.CWP
 				dist0 = dist1;
 				pos0 = pos1;
 				peg0 = peg1;
+				if(pegCounter++ > 1000)
+				{
+					return; //Okay this is enough for now. The client might freeze for too long.
+				}
 			}
 		}
 
