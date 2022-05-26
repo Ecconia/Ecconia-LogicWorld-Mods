@@ -13,13 +13,18 @@ You can ignore all other files outside of the `mod folder`s.
 
 ## Logic World black screen: "Path is empty" => Install the fix mod!
 
+You got a black screen when installing new mods and your logs say something with "path is empty/null"?
+
+**Install `FixCompilerOnClient` and/or `FixCompilerOnServer`** depend on where the issue occurs.\
+You can also install them if the issue does not happen, then you are prepared for the future.
+
+#### What is the bug?
+
 There is currently an issue with the `Logic World` compiler and `Harmony`.\
 Quite a few `Logic World` mods are using the framework `Harmony`.\
 But as soon as one of the mods which use `Harmony` is loaded, the `Logic World` compiler breaks.\
+Because `Harmony` injects an assembly that is not dynamic, yet has no location on disk.\
 This means, you can only compile new mods, as long as no other mod which uses `Harmony` is loaded.
-
-**But even for this there is a mod! Install `FixCompilerOnClient` and/or `FixCompilerOnServer`** depend on where the issue occurs.\
-You can also install them if the issue does not happen, then you are prepared for the future.
 
 ## List of mods:
 
@@ -33,7 +38,7 @@ You can also install them if the issue does not happen, then you are prepared fo
 - `FixCompilerOnClient`: Fixes the compiler from breaking if Harmony is loaded.
 - `CustomSkybox`: Experimental tool, that allows you to load custom skyboxes from an image. "Works for me" - Ecconia.
 
-##### Libraries:
+Libraries:
 
 - `DllUtil`: Loads DLL files (like for example Harmony) into runtime.
 - `LWHarmony`: Loads Harmony into the runtime.
@@ -44,16 +49,16 @@ You can also install them if the issue does not happen, then you are prepared fo
 - `CustomChatManager`: Prevents players from abusing `sayraw` and adds chat commands, such as `/list` and `/tps` which allows anyone in multiplayer to control the simulation. 
 - `FixCompilerOnServer`: Fixes the compiler from breaking if Harmony is loaded.
 
-##### Libraries:
+Libraries:
 
 - `ServerOnlyMods`: Allows you to develop mods for the server, that the client does not need to install.
 - `AssemblyLoader`: Loads DLL files (like for example Harmony) into runtime.
 - `HarmonyForServers`: Loads Harmony into the runtime.
 - `ServerModdingTools`: Very small collection of convenience features.
 
-#### Both:
+#### Client & Server:
 
-- `EcconiaCPUServerComponents`: Components that I use in my text-editor project. My favorite is the custom key. As for it as a standalone mod :)
+- `EcconiaCPUServerComponents`: Components that I use in my text-editor project. My favorite is the custom key. Ask for it as a standalone mod :)
 
 ### How to contribute / develop on these?
 
