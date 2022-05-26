@@ -5,17 +5,9 @@ namespace CustomWirePlacer.Client.CWP
 {
 	public static class CWPSettings
 	{
-		public static bool flipping;
+		public static bool flipping; //TODO: Should this be here for now?
 
-		private static bool _resetFlipping = true;
-
-		public static bool resetFlipping
-		{
-			get => _resetFlipping;
-			set { _resetFlipping = value; }
-		}
-
-		private static bool _showDetails = false;
+		private static bool _showDetails; //TODO: Make window for this.
 
 		public static bool showDetails
 		{
@@ -26,8 +18,6 @@ namespace CustomWirePlacer.Client.CWP
 		public static bool raycastAtBottomOfPegs { get; set; }
 
 		public static bool expandOnlyUniformDistance { get; set; }
-
-		public static bool skipScrollInBinarySteps { get; set; }
 
 		private static bool _resetSkipOffsetWhenNotSkipping = true;
 
@@ -40,6 +30,24 @@ namespace CustomWirePlacer.Client.CWP
 				if(value && CustomWirePlacer.isActive())
 				{
 					CustomWirePlacer.getCurrentGroup().getCurrentAxis().checkSkipOffsetReset();
+				}
+			}
+		}
+		
+		public static bool scrollSkipInMulDivOfTwoSteps { get; set; }
+
+		private static bool _roundSkipOffsetToNextBinaryNumber = true;
+
+		public static bool roundSkipOffsetToNextBinaryNumber
+		{
+			get => _roundSkipOffsetToNextBinaryNumber;
+			set
+			{
+				_roundSkipOffsetToNextBinaryNumber = value;
+				if(value && CustomWirePlacer.isActive())
+				{
+					CustomWirePlacer.getCurrentGroup().getCurrentAxis().roundSkipOffsetToBinary(true);
+					CustomWirePlacer.updateWireGhosts();
 				}
 			}
 		}
@@ -65,39 +73,6 @@ namespace CustomWirePlacer.Client.CWP
 
 		public static IEnumerable<CWPSetting> collectSettings()
 		{
-			// yield return new CWPSetting
-			// {
-			// 	key = "CWP.Settings.ResetFlipping",
-			// 	setter = b => resetFlipping = b,
-			// 	defaultValue = resetFlipping,
-			// };
-			// yield return new CWPSetting
-			// {
-			// 	key = "CWP.Setting.ShowDetails",
-			// 	setter = b => showDetails = b,
-			// 	defaultValue = showDetails,
-			// };
-			yield return new CWPSetting
-			{
-				key = "CWP.Setting.ExpandUniformDistance",
-				setter = b => expandOnlyUniformDistance = b,
-				defaultValue = expandOnlyUniformDistance,
-				hoverKey = "CWP.Setting.ExpandUniformDistance.Description",
-			};
-			yield return new CWPSetting
-			{
-				key = "CWP.Setting.SkipScrollInBinarySteps",
-				setter = b => skipScrollInBinarySteps = b,
-				defaultValue = skipScrollInBinarySteps,
-				hoverKey = "CWP.Setting.SkipScrollInBinarySteps.Description",
-			};
-			yield return new CWPSetting
-			{
-				key = "CWP.Setting.ResetSkipOffsetWhenNotSkipping",
-				setter = b => resetSkipOffsetWhenNotSkipping = b,
-				defaultValue = resetSkipOffsetWhenNotSkipping,
-				hoverKey = "CWP.Setting.ResetSkipOffsetWhenNotSkipping.Description",
-			};
 			yield return new CWPSetting
 			{
 				key = "CWP.Setting.RaycastAtBottomOfPegs",
@@ -107,10 +82,38 @@ namespace CustomWirePlacer.Client.CWP
 			};
 			yield return new CWPSetting
 			{
+				key = "CWP.Setting.ExpandUniformDistance",
+				setter = b => expandOnlyUniformDistance = b,
+				defaultValue = expandOnlyUniformDistance,
+				hoverKey = "CWP.Setting.ExpandUniformDistance.Description",
+			};
+			yield return new CWPSetting
+			{
 				key = "CWP.Setting.ConnectPegsInOneGroupWithEachOther",
 				setter = b => connectPegsInOneGroupWithEachOther = b,
 				defaultValue = connectPegsInOneGroupWithEachOther,
 				hoverKey = "CWP.Setting.ConnectPegsInOneGroupWithEachOther.Description",
+			};
+			yield return new CWPSetting
+			{
+				key = "CWP.Setting.ScrollSkipInMulDivOfTwoSteps",
+				setter = b => scrollSkipInMulDivOfTwoSteps = b,
+				defaultValue = scrollSkipInMulDivOfTwoSteps,
+				hoverKey = "CWP.Setting.ScrollSkipInMulDivOfTwoSteps.Description",
+			};
+			yield return new CWPSetting
+			{
+				key = "CWP.Setting.RoundSkipOffsetToNextBinaryNumber",
+				setter = b => roundSkipOffsetToNextBinaryNumber = b,
+				defaultValue = roundSkipOffsetToNextBinaryNumber,
+				hoverKey = "CWP.Setting.RoundSkipOffsetToNextBinaryNumber.Description",
+			};
+			yield return new CWPSetting
+			{
+				key = "CWP.Setting.ResetSkipOffsetWhenNotSkipping",
+				setter = b => resetSkipOffsetWhenNotSkipping = b,
+				defaultValue = resetSkipOffsetWhenNotSkipping,
+				hoverKey = "CWP.Setting.ResetSkipOffsetWhenNotSkipping.Description",
 			};
 		}
 	}

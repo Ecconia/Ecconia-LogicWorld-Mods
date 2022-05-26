@@ -262,39 +262,26 @@ namespace CustomWirePlacer.Client.CWP
 		public bool updateSkipNumber(int offset)
 		{
 			int oldValue = skipNumber;
-			if(binarySkipping && CWPSettings.skipScrollInBinarySteps)
+			if(binarySkipping && CWPSettings.scrollSkipInMulDivOfTwoSteps)
 			{
-				if(offset == 1)
-				{
-					skipNumber = skipNumber == 0 ? 1 : skipNumber * 2;
-				}
-				else
-				{
-					if(skipNumber == 1)
-					{
-						if(CWPSettings.resetSkipOffsetWhenNotSkipping)
-						{
-							skipOffset = 0;
-						}
-						skipNumber = 0;
-					}
-					else
-					{
-						skipNumber /= 2;
-					}
-				}
+				roundSkipOffsetToBinary(); //Make the value valid (if required) before changing it.
+				skipNumber = offset == 1 //If UP
+					? skipNumber == 0
+						? 1
+						: skipNumber * 2
+					: skipNumber / 2;
 			}
 			else
 			{
 				skipNumber += offset;
-				if(skipNumber < 0)
-				{
-					skipNumber = 0;
-					if(CWPSettings.resetSkipOffsetWhenNotSkipping)
-					{
-						skipOffset = 0;
-					}
-				}
+			}
+			if(skipNumber < 0) //In case that we got an over or underflow, it gets captured here.
+			{
+				skipNumber = 0;
+			}
+			if(skipNumber == 0 && CWPSettings.resetSkipOffsetWhenNotSkipping)
+			{
+				skipOffset = 0;
 			}
 			if(skipNumber != oldValue)
 			{
@@ -330,10 +317,49 @@ namespace CustomWirePlacer.Client.CWP
 			skipOffset = 0;
 		}
 
+		public void roundSkipOffsetToBinary(bool update = false)
+		{
+			if(binarySkipping && CWPSettings.roundSkipOffsetToNextBinaryNumber)
+			{
+				uint value = (uint) skipNumber;
+				uint mask = 0x40000000; //Do not start at the very top, to prevent generating negative numbers - should not be possible, because the input is in theory non-negative.
+				while(mask != 0)
+				{
+					if((value & mask) != 0)
+					{
+						uint nextBitMask = mask >> 1;
+						if(nextBitMask == 0)
+						{
+							//We are at the lowest bit, just leave it as is (SET).
+						}
+						else if((value & nextBitMask) == 0 || mask == 0x40000000) //If the mask is already at the top, do not go higher.
+						{
+							//Rounding down!
+							skipNumber = (int) mask;
+						}
+						else
+						{
+							mask <<= 1;
+							skipNumber = (int) mask;
+						}
+						break;
+					}
+					mask >>= 1;
+				}
+				if(update)
+				{
+					//Only the skip number changed, the pegs are not hidden by that criteria.
+					hide();
+					show();
+				}
+			}
+		}
+
 		public void switchSkipMode()
 		{
 			hide();
 			binarySkipping = !binarySkipping;
+			roundSkipOffsetToBinary();
 			show();
 		}
 

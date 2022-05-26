@@ -90,10 +90,7 @@ namespace CustomWirePlacer.Client.CWP
 			currentGroup = firstGroup;
 
 			//Handle settings:
-			if(CWPSettings.resetFlipping)
-			{
-				CWPSettings.flipping = false;
-			}
+			CWPSettings.flipping = false;
 
 			if(CWPSettings.showDetails)
 			{
