@@ -22,7 +22,7 @@ namespace CustomWirePlacer.Client.CWP
 			get => _showDetails;
 			set { _showDetails = value; }
 		}
-		
+
 		public static bool raycastAtBottomOfPegs { get; set; }
 
 		public static bool expandOnlyUniformDistance { get; set; }
@@ -40,6 +40,21 @@ namespace CustomWirePlacer.Client.CWP
 				if(value && CustomWirePlacer.isActive())
 				{
 					CustomWirePlacer.getCurrentGroup().getCurrentAxis().checkSkipOffsetReset();
+				}
+			}
+		}
+
+		private static bool _connectPegsInOneGroupWithEachOther = true;
+
+		public static bool connectPegsInOneGroupWithEachOther
+		{
+			get => _connectPegsInOneGroupWithEachOther;
+			set
+			{
+				_connectPegsInOneGroupWithEachOther = value;
+				if(CustomWirePlacer.isActive())
+				{
+					CustomWirePlacer.updateWireGhosts();
 				}
 			}
 		}
@@ -89,6 +104,13 @@ namespace CustomWirePlacer.Client.CWP
 				setter = b => raycastAtBottomOfPegs = b,
 				defaultValue = raycastAtBottomOfPegs,
 				hoverKey = "CWP.Setting.RaycastAtBottomOfPegs.Description",
+			};
+			yield return new CWPSetting
+			{
+				key = "CWP.Setting.ConnectPegsInOneGroupWithEachOther",
+				setter = b => connectPegsInOneGroupWithEachOther = b,
+				defaultValue = connectPegsInOneGroupWithEachOther,
+				hoverKey = "CWP.Setting.ConnectPegsInOneGroupWithEachOther.Description",
 			};
 		}
 	}

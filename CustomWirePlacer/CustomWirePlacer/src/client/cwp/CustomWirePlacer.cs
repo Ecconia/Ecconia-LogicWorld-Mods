@@ -422,7 +422,7 @@ namespace CustomWirePlacer.Client.CWP
 			return false;
 		}
 
-		private static void updateWireGhosts()
+		public static void updateWireGhosts()
 		{
 			cleanUpWireGhosts();
 			if(secondGroup.isSet())
@@ -447,45 +447,48 @@ namespace CustomWirePlacer.Client.CWP
 					connect(constant, bigger[i], CWPOutlineData.validWire, CWPOutlineData.invalidWire);
 				}
 			}
-			else if(!firstGroup.isTwoDimensional())
+			else if(CWPSettings.connectPegsInOneGroupWithEachOther)
 			{
-				OutlineData valid = CWPOutlineData.validWire;
-				OutlineData invalid = CWPOutlineData.invalidWire;
-				if(firstGroup.hasExtraPegs())
+				if(!firstGroup.isTwoDimensional())
 				{
-					valid = CWPOutlineData.validMultiWire;
-					invalid = CWPOutlineData.invalidMultiWire;
-				}
-				//Drawing 1-group connections:
-				IEnumerator<PegAddress> it = firstGroup.getPegs().GetEnumerator();
-				it.MoveNext();
-				PegAddress last = it.Current;
-				while(it.MoveNext())
-				{
-					PegAddress current = it.Current;
-					connect(last, current, valid, invalid);
-					last = current;
-				}
-				it.Dispose();
-			}
-			else //1 group and 2D:
-			{
-				OutlineData valid = CWPOutlineData.validMultiWire;
-				OutlineData invalid = CWPOutlineData.invalidMultiWire;
-				var offsets = firstGroup.get2DOffsets();
-				foreach(var startingPeg in firstGroup.getFirstAxis().getPegs())
-				{
-					PegAddress last = null;
-					foreach(var current in CWPGroup.get2DPegs(startingPeg, offsets))
+					OutlineData valid = CWPOutlineData.validWire;
+					OutlineData invalid = CWPOutlineData.invalidWire;
+					if(firstGroup.hasExtraPegs())
 					{
-						if(last == null)
+						valid = CWPOutlineData.validMultiWire;
+						invalid = CWPOutlineData.invalidMultiWire;
+					}
+					//Drawing 1-group connections:
+					IEnumerator<PegAddress> it = firstGroup.getPegs().GetEnumerator();
+					it.MoveNext();
+					PegAddress last = it.Current;
+					while(it.MoveNext())
+					{
+						PegAddress current = it.Current;
+						connect(last, current, valid, invalid);
+						last = current;
+					}
+					it.Dispose();
+				}
+				else //1 group and 2D:
+				{
+					OutlineData valid = CWPOutlineData.validMultiWire;
+					OutlineData invalid = CWPOutlineData.invalidMultiWire;
+					var offsets = firstGroup.get2DOffsets();
+					foreach(var startingPeg in firstGroup.getFirstAxis().getPegs())
+					{
+						PegAddress last = null;
+						foreach(var current in CWPGroup.get2DPegs(startingPeg, offsets))
 						{
-							last = current;
-						}
-						else
-						{
-							connect(last, current, valid, invalid);
-							last = current;
+							if(last == null)
+							{
+								last = current;
+							}
+							else
+							{
+								connect(last, current, valid, invalid);
+								last = current;
+							}
 						}
 					}
 				}
@@ -552,86 +555,93 @@ namespace CustomWirePlacer.Client.CWP
 					SoundPlayer.PlayFail();
 				}
 			}
-			else if(!firstGroup.isTwoDimensional())
+			else if(CWPSettings.connectPegsInOneGroupWithEachOther)
 			{
-				//Only one group!
-				//If the second peg is 'null' and no modifer was pressed, we only have a single peg. Hence just abort.
-				if(firstGroup.getSecondPeg() != null || firstGroup.getFirstAxis().whitelist.Any())
+				if(!firstGroup.isTwoDimensional())
 				{
-					//We have more than 1 peg.
-					if(firstGroup.hasExtraPegs())
+					//Only one group!
+					//If the second peg is 'null' and no modifer was pressed, we only have a single peg. Hence just abort.
+					if(firstGroup.getSecondPeg() != null || firstGroup.getFirstAxis().whitelist.Any())
 					{
-						//We are placing more than 1 wire:
-						List<BuildRequest> requests = new List<BuildRequest>();
-						IEnumerator<PegAddress> it = firstGroup.getPegs().GetEnumerator();
-						it.MoveNext();
-						PegAddress last = it.Current;
-						while(it.MoveNext())
+						//We have more than 1 peg.
+						if(firstGroup.hasExtraPegs())
 						{
-							PegAddress current = it.Current;
-							if(WireUtility.WireWouldBeValid(last, current))
+							//We are placing more than 1 wire:
+							List<BuildRequest> requests = new List<BuildRequest>();
+							IEnumerator<PegAddress> it = firstGroup.getPegs().GetEnumerator();
+							it.MoveNext();
+							PegAddress last = it.Current;
+							while(it.MoveNext())
 							{
-								requests.Add(new BuildRequest_CreateWire(new WireData(last, current, 0f)));
+								PegAddress current = it.Current;
+								if(WireUtility.WireWouldBeValid(last, current))
+								{
+									requests.Add(new BuildRequest_CreateWire(new WireData(last, current, 0f)));
+								}
+								last = current;
 							}
-							last = current;
-						}
-						it.Dispose();
-						if(requests.Any())
-						{
-							BuildRequestManager.SendManyBuildRequestsAsMultiUndoItem(requests);
+							it.Dispose();
+							if(requests.Any())
+							{
+								BuildRequestManager.SendManyBuildRequestsAsMultiUndoItem(requests);
+							}
+							else
+							{
+								SoundPlayer.PlayFail();
+							}
 						}
 						else
 						{
-							SoundPlayer.PlayFail();
+							//Only placing one wire:
+							if(WireUtility.WireWouldBeValid(firstGroup.getFirstPeg(), firstGroup.getSecondPeg()))
+							{
+								BuildRequestManager.SendBuildRequest(new BuildRequest_CreateWire(new WireData(firstGroup.getFirstPeg(), firstGroup.getSecondPeg(), 0f)));
+							}
+							else
+							{
+								SoundPlayer.PlayFail();
+							}
 						}
+					}
+				}
+				else //1 group and 2D:
+				{
+					List<BuildRequest> requests = new List<BuildRequest>();
+
+					var offsets = firstGroup.get2DOffsets();
+					foreach(var startingPeg in firstGroup.getFirstAxis().getPegs())
+					{
+						PegAddress last = null;
+						foreach(var current in CWPGroup.get2DPegs(startingPeg, offsets))
+						{
+							if(last == null)
+							{
+								last = current;
+							}
+							else
+							{
+								if(WireUtility.WireWouldBeValid(last, current))
+								{
+									requests.Add(new BuildRequest_CreateWire(new WireData(last, current, 0f)));
+								}
+								last = current;
+							}
+						}
+					}
+
+					if(requests.Any())
+					{
+						BuildRequestManager.SendManyBuildRequestsAsMultiUndoItem(requests);
 					}
 					else
 					{
-						//Only placing one wire:
-						if(WireUtility.WireWouldBeValid(firstGroup.getFirstPeg(), firstGroup.getSecondPeg()))
-						{
-							BuildRequestManager.SendBuildRequest(new BuildRequest_CreateWire(new WireData(firstGroup.getFirstPeg(), firstGroup.getSecondPeg(), 0f)));
-						}
-						else
-						{
-							SoundPlayer.PlayFail();
-						}
+						SoundPlayer.PlayFail();
 					}
 				}
 			}
-			else //1 group and 2D:
+			else
 			{
-				List<BuildRequest> requests = new List<BuildRequest>();
-
-				var offsets = firstGroup.get2DOffsets();
-				foreach(var startingPeg in firstGroup.getFirstAxis().getPegs())
-				{
-					PegAddress last = null;
-					foreach(var current in CWPGroup.get2DPegs(startingPeg, offsets))
-					{
-						if(last == null)
-						{
-							last = current;
-						}
-						else
-						{
-							if(WireUtility.WireWouldBeValid(last, current))
-							{
-								requests.Add(new BuildRequest_CreateWire(new WireData(last, current, 0f)));
-							}
-							last = current;
-						}
-					}
-				}
-
-				if(requests.Any())
-				{
-					BuildRequestManager.SendManyBuildRequestsAsMultiUndoItem(requests);
-				}
-				else
-				{
-					SoundPlayer.PlayFail();
-				}
+				SoundPlayer.PlayFail();
 			}
 		}
 
