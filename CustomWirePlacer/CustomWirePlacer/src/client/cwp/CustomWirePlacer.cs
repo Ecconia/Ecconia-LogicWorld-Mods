@@ -10,6 +10,7 @@ using LogicWorld.Building;
 using LogicWorld.BuildingManagement;
 using LogicWorld.GameStates;
 using LogicWorld.Input;
+using LogicWorld.Interfaces;
 using LogicWorld.Outlines;
 
 namespace CustomWirePlacer.Client.CWP
@@ -419,9 +420,8 @@ namespace CustomWirePlacer.Client.CWP
 			return false;
 		}
 
-		public static void updateWireGhosts()
+		private static IEnumerable<(PegAddress first, PegAddress second, bool valid)> getWires()
 		{
-			cleanUpWireGhosts();
 			if(secondGroup.isSet())
 			{
 				List<PegAddress> smaller = firstGroup.getPegs().ToList();
@@ -434,206 +434,160 @@ namespace CustomWirePlacer.Client.CWP
 				{
 					(smaller, bigger) = (bigger, smaller);
 				}
+				var counts = getWireCounts(smaller, bigger);
 				for(int i = 0; i < smaller.Count; i++)
 				{
-					connect(smaller[i], bigger[i], CWPOutlineData.validWire, CWPOutlineData.invalidWire);
+					PegAddress first = smaller[i];
+					PegAddress second = bigger[i];
+					if(shouldEmit(first, second))
+					{
+						yield return (first, second, isValid(first, second, counts));
+					}
 				}
 				PegAddress constant = smaller[smaller.Count - 1];
 				for(int i = smaller.Count; i < bigger.Count; i++)
 				{
-					connect(constant, bigger[i], CWPOutlineData.validWire, CWPOutlineData.invalidWire);
+					PegAddress other = bigger[i];
+					if(shouldEmit(constant, other))
+					{
+						yield return (constant, other, isValid(constant, other, counts));
+					}
 				}
 			}
 			else if(CWPSettings.connectPegsInOneGroupWithEachOther)
 			{
-				if(!firstGroup.isTwoDimensional())
+				if(firstGroup.isTwoDimensional())
 				{
-					OutlineData valid = CWPOutlineData.validWire;
-					OutlineData invalid = CWPOutlineData.invalidWire;
-					if(firstGroup.hasExtraPegs())
-					{
-						valid = CWPOutlineData.validMultiWire;
-						invalid = CWPOutlineData.invalidMultiWire;
-					}
-					//Drawing 1-group connections:
-					IEnumerator<PegAddress> it = firstGroup.getPegs().GetEnumerator();
-					it.MoveNext();
-					PegAddress last = it.Current;
-					while(it.MoveNext())
-					{
-						PegAddress current = it.Current;
-						connect(last, current, valid, invalid);
-						last = current;
-					}
-					it.Dispose();
-				}
-				else //1 group and 2D:
-				{
-					OutlineData valid = CWPOutlineData.validMultiWire;
-					OutlineData invalid = CWPOutlineData.invalidMultiWire;
 					var offsets = firstGroup.get2DOffsets();
 					foreach(var startingPeg in firstGroup.getFirstAxis().getPegs())
 					{
-						PegAddress last = null;
-						foreach(var current in CWPGroup.get2DPegs(startingPeg, offsets))
+						var pegs = CWPGroup.get2DPegs(startingPeg, offsets).ToList();
+						//TBI: Literally the same code as in the block below, but the inputs are different. Not sure yet how to make this more pretty - while staying efficient enough. Could loop one more time...
+						var counts = getWireCounts(pegs);
+						PegAddress last = pegs[0];
+						for(int i = 1; i < pegs.Count; i++)
 						{
-							if(last == null)
+							PegAddress current = pegs[i];
+							if(shouldEmit(last, current))
 							{
-								last = current;
+								yield return (last, current, isValid(last, current, counts));
 							}
-							else
-							{
-								connect(last, current, valid, invalid);
-								last = current;
-							}
+							last = current;
 						}
+					}
+				}
+				else
+				{
+					var pegs = firstGroup.getPegs().ToList();
+					var counts = getWireCounts(pegs);
+					PegAddress last = pegs[0];
+					for(int i = 1; i < pegs.Count; i++)
+					{
+						PegAddress current = pegs[i];
+						if(shouldEmit(last, current))
+						{
+							yield return (last, current, isValid(last, current, counts));
+						}
+						last = current;
 					}
 				}
 			}
 
-			void connect(PegAddress first, PegAddress second, OutlineData valid, OutlineData invalid)
+			bool shouldEmit(PegAddress first, PegAddress second)
 			{
-				if(first == second)
+				return first != second; //May happen, don't ever forward these.
+			}
+
+			bool isValid(PegAddress first, PegAddress second, Dictionary<PegAddress, int> counts)
+			{
+				//Before doing any ray casting, check that both pegs have at least one more slot for wires.
+				if(counts[first] >= (first.IsInput ? WireUtility.MaxWiresPerInput : WireUtility.MaxWiresPerOutput))
 				{
-					//Same peg, it is pointless to create this wire-ghost.
-					return;
+					return false;
 				}
+				if(counts[second] >= (second.IsInput ? WireUtility.MaxWiresPerInput : WireUtility.MaxWiresPerOutput))
+				{
+					return false;
+				}
+				//Both pegs can accept one more wire, check if the wire would be valid:
+				bool valid = WireUtility.WireWouldBeValid(first, second);
+				if(!valid)
+				{
+					//Not valid, don't add counts.
+					return false;
+				}
+				//Both pegs have space for one more wire. So lets increase the wire count, since we potentially add another wire now:
+				counts[first] += 1;
+				counts[second] += 1;
+				return true;
+			}
+
+			Dictionary<PegAddress, int> getWireCounts(List<PegAddress> pegs1, List<PegAddress> pegs2 = null)
+			{
+				var counts = new Dictionary<PegAddress, int>();
+				foreach(var peg in pegs1)
+				{
+					var set = Instances.MainWorld.Data.LookupPegWires(peg);
+					counts.TryAdd(peg, set == null ? 0 : set.Count);
+				}
+				if(pegs2 != null)
+				{
+					foreach(var peg in pegs2)
+					{
+						var set = Instances.MainWorld.Data.LookupPegWires(peg);
+						counts.TryAdd(peg, set == null ? 0 : set.Count);
+					}
+				}
+				return counts;
+			}
+		}
+
+		public static void updateWireGhosts()
+		{
+			cleanUpWireGhosts();
+			OutlineData validColor = CWPOutlineData.validWire;
+			OutlineData invalidColor = CWPOutlineData.invalidWire;
+			if(!secondGroup.isSet() && (firstGroup.isTwoDimensional() || firstGroup.hasExtraPegs()))
+			{
+				validColor = CWPOutlineData.validMultiWire;
+				invalidColor = CWPOutlineData.invalidMultiWire;
+			}
+			foreach((PegAddress first, PegAddress second, bool valid) in getWires())
+			{
 				WireGhost wire = WireGhost.GetNewGhost();
 				wire.SetInfo(first, second, 0f);
-				wire.SetOutlineData(WireUtility.WireWouldBeValid(first, second) ? valid : invalid);
-				ghosts.Add(wire);
+				wire.SetOutlineData(valid ? validColor : invalidColor);
+				ghosts.Add(wire); //Add the wire to list, so that it can be removed on next update.
 			}
 		}
 
 		private static void applyNormalAction()
 		{
-			if(secondGroup.isSet())
+			cleanUpWireGhosts();
+			List<BuildRequest> requests = new List<BuildRequest>();
+			OutlineData outline = (!secondGroup.isSet() && (firstGroup.isTwoDimensional() || firstGroup.hasExtraPegs())) ? CWPOutlineData.validMultiWire : CWPOutlineData.validWire;
+			foreach((PegAddress first, PegAddress second, bool valid) in getWires())
 			{
-				//Two groups!
-				List<BuildRequest> requests = new List<BuildRequest>();
+				if(valid)
 				{
-					List<PegAddress> smaller = firstGroup.getPegs().ToList();
-					List<PegAddress> bigger = secondGroup.getPegs().ToList();
-					if(CWPSettings.flipping)
-					{
-						bigger.Reverse(); //Not pretty, but does the job reliably.
-					}
-					if(smaller.Count > bigger.Count)
-					{
-						(smaller, bigger) = (bigger, smaller);
-					}
-					for(int i = 0; i < smaller.Count; i++)
-					{
-						PegAddress first = smaller[i];
-						PegAddress second = bigger[i];
-						if(first == second || !WireUtility.WireWouldBeValid(first, second))
-						{
-							continue;
-						}
-						requests.Add(new BuildRequest_CreateWire(new WireData(first, second, 0f)));
-					}
-					PegAddress constant = smaller[smaller.Count - 1];
-					for(int i = smaller.Count; i < bigger.Count; i++)
-					{
-						PegAddress other = bigger[i];
-						if(constant == other || !WireUtility.WireWouldBeValid(constant, other))
-						{
-							continue;
-						}
-						requests.Add(new BuildRequest_CreateWire(new WireData(constant, other, 0f)));
-					}
+					requests.Add(new BuildRequest_CreateWire(new WireData(first, second, 0f)));
+					//Since I do not know which of the wire ghosts is related to which pegs,
+					// there will just be new wire ghosts for only the valid wires:
+					WireGhost wire = WireGhost.GetNewGhost();
+					wire.SetInfo(first, second, 0f);
+					wire.SetOutlineData(outline);
+					wire.RecycleOnWorldUpdate();
 				}
-				if(requests.Any())
+			}
+			if(requests.Any())
+			{
+				if(requests.Count == 1)
 				{
-					BuildRequestManager.SendManyBuildRequestsAsMultiUndoItem(requests);
+					BuildRequestManager.SendBuildRequest(requests[0]);
 				}
 				else
 				{
-					SoundPlayer.PlayFail();
-				}
-			}
-			else if(CWPSettings.connectPegsInOneGroupWithEachOther)
-			{
-				if(!firstGroup.isTwoDimensional())
-				{
-					//Only one group!
-					//If the second peg is 'null' and no modifer was pressed, we only have a single peg. Hence just abort.
-					if(firstGroup.getSecondPeg() != null || firstGroup.getFirstAxis().whitelist.Any())
-					{
-						//We have more than 1 peg.
-						if(firstGroup.hasExtraPegs())
-						{
-							//We are placing more than 1 wire:
-							List<BuildRequest> requests = new List<BuildRequest>();
-							IEnumerator<PegAddress> it = firstGroup.getPegs().GetEnumerator();
-							it.MoveNext();
-							PegAddress last = it.Current;
-							while(it.MoveNext())
-							{
-								PegAddress current = it.Current;
-								if(WireUtility.WireWouldBeValid(last, current))
-								{
-									requests.Add(new BuildRequest_CreateWire(new WireData(last, current, 0f)));
-								}
-								last = current;
-							}
-							it.Dispose();
-							if(requests.Any())
-							{
-								BuildRequestManager.SendManyBuildRequestsAsMultiUndoItem(requests);
-							}
-							else
-							{
-								SoundPlayer.PlayFail();
-							}
-						}
-						else
-						{
-							//Only placing one wire:
-							if(WireUtility.WireWouldBeValid(firstGroup.getFirstPeg(), firstGroup.getSecondPeg()))
-							{
-								BuildRequestManager.SendBuildRequest(new BuildRequest_CreateWire(new WireData(firstGroup.getFirstPeg(), firstGroup.getSecondPeg(), 0f)));
-							}
-							else
-							{
-								SoundPlayer.PlayFail();
-							}
-						}
-					}
-				}
-				else //1 group and 2D:
-				{
-					List<BuildRequest> requests = new List<BuildRequest>();
-
-					var offsets = firstGroup.get2DOffsets();
-					foreach(var startingPeg in firstGroup.getFirstAxis().getPegs())
-					{
-						PegAddress last = null;
-						foreach(var current in CWPGroup.get2DPegs(startingPeg, offsets))
-						{
-							if(last == null)
-							{
-								last = current;
-							}
-							else
-							{
-								if(WireUtility.WireWouldBeValid(last, current))
-								{
-									requests.Add(new BuildRequest_CreateWire(new WireData(last, current, 0f)));
-								}
-								last = current;
-							}
-						}
-					}
-
-					if(requests.Any())
-					{
-						BuildRequestManager.SendManyBuildRequestsAsMultiUndoItem(requests);
-					}
-					else
-					{
-						SoundPlayer.PlayFail();
-					}
+					BuildRequestManager.SendManyBuildRequestsAsMultiUndoItem(requests);
 				}
 			}
 			else
