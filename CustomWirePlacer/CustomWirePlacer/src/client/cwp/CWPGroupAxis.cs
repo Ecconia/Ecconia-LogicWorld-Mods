@@ -573,11 +573,19 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			foreach(PegAddress peg in otherAxis.blacklist)
 			{
-				blacklist.Add(CWPHelper.getPegRelativeToOtherPeg(firstPeg, otherAxis.firstPeg, peg));
+				PegAddress other = CWPHelper.getPegRelativeToOtherPeg(firstPeg, otherAxis.firstPeg, peg);
+				if(other != null)
+				{
+					blacklist.Add(other);
+				}
 			}
 			foreach(PegAddress peg in otherAxis.whitelist)
 			{
-				whitelist.Add(CWPHelper.getPegRelativeToOtherPeg(firstPeg, otherAxis.firstPeg, peg));
+				PegAddress other = CWPHelper.getPegRelativeToOtherPeg(firstPeg, otherAxis.firstPeg, peg);
+				if(other != null)
+				{
+					whitelist.Add(other);
+				}
 			}
 		}
 
