@@ -71,8 +71,8 @@ namespace CustomWirePlacer.Client.CWP
 				return;
 			}
 
-			//Set the first peg:
-			firstGroup.setFirstPeg(initialPeg);
+			// Set the first peg:
+			firstGroup.setFirstPeg(initialPeg, false);
 			SoundPlayer.PlaySoundAt(Sounds.ConnectionInitial, CWPHelper.getWireConnectionPoint(initialPeg));
 
 			//Switch state:
@@ -88,6 +88,7 @@ namespace CustomWirePlacer.Client.CWP
 			doNotApplyExpandForward = doNotApplyExpandBackwards = false;
 			toggleListMode = false;
 
+			firstGroup.showFirstPeg();
 			currentGroup = firstGroup;
 
 			//Handle settings:
@@ -121,6 +122,7 @@ namespace CustomWirePlacer.Client.CWP
 			firstGroup.clear();
 			secondGroup.clear();
 			lastLookedAtPeg = null;
+			CWPOutliner.RemoveAllOutlines(); //Cleanup leftover (baked) outlines.
 		}
 
 		public static void onUpdate()
@@ -226,12 +228,14 @@ namespace CustomWirePlacer.Client.CWP
 							//Starting two dimensional:
 							applyOnUp = secondGroup.isSet();
 							drawing = true;
+							currentGroup.bakePegOutlines();
 							currentGroup.startTwoDimensional(lookingAt);
 							updated = true;
 						}
 						else if(!secondGroup.isSet())
 						{
 							applyOnUp = true;
+							firstGroup.bakePegOutlines();
 							if(waitForPegToApplyPatternTo)
 							{
 								waitForPegToApplyPatternTo = false;
@@ -252,6 +256,8 @@ namespace CustomWirePlacer.Client.CWP
 							(firstGroup, secondGroup) = (secondGroup, firstGroup);
 							currentGroup = secondGroup;
 							secondGroup.clear();
+							CWPOutliner.RemoveAllOutlines();
+							firstGroup.bakePegOutlines();
 							updated = true;
 							applyOnUp = true;
 							if(waitForPegToApplyPatternTo)

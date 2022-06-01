@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using LogicAPI.Data;
 using LogicWorld.Audio;
-using LogicWorld.Outlines;
 using UnityEngine;
 
 namespace CustomWirePlacer.Client.CWP
@@ -37,7 +36,7 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			foreach(PegAddress peg in pegs2DOutlined)
 			{
-				Outliner.RemoveHardOutline(peg);
+				CWPOutliner.RemoveOutlineHard(peg);
 			}
 		}
 
@@ -52,8 +51,10 @@ namespace CustomWirePlacer.Client.CWP
 			hideInternal();
 			pegs2DOutlined.Clear();
 
+			//TODO: Fix bug without offsets...
+
 			//Collecting the pegs is redundant here...
-			HashSet<PegAddress> skipHighlightPegs = firstAxis.getAllPegs().Concat(secondAxis.getAllPegs()).ToHashSet();
+			HashSet<PegAddress> skipHighlightPegs = secondAxis.getAllPegs().ToHashSet();
 
 			List<Vector3> secondOffsets = get2DOffsets();
 			foreach(PegAddress startingPeg in firstAxis.getPegs())
@@ -108,8 +109,33 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			foreach(PegAddress peg in pegs2DOutlined)
 			{
-				Outliner.HardOutline(peg, CWPOutlineData.middlePegs);
+				CWPOutliner.OutlineHard(peg, CWPOutlineData.middlePegs);
 			}
+		}
+
+		public void bakePegOutlines()
+		{
+			if(isTwoDimensional())
+			{
+				//Remove the already backed pegs of the first axis:
+				foreach(var peg in firstAxis.getPegs())
+				{
+					CWPOutliner.RemoveOutlineSoft(peg);
+				}
+				CWPOutliner.RemoveOutlineSoft(firstAxis.firstPeg);
+				//And remove all hard outlines:
+				hideInternal();
+				secondAxis.hide();
+			}
+			else
+			{
+				firstAxis.hide();
+			}
+			foreach(var peg in getPegs())
+			{
+				CWPOutliner.OutlineSoft(peg, CWPOutlineData.backedGroupOne);
+			}
+			CWPOutliner.OutlineSoft(firstAxis.firstPeg, CWPOutlineData.backedGroupOneFirst, true);
 		}
 
 		public bool isSet()
@@ -117,7 +143,7 @@ namespace CustomWirePlacer.Client.CWP
 			return firstAxis.firstPeg != null;
 		}
 
-		public void setFirstPeg(PegAddress firstPeg)
+		public void setFirstPeg(PegAddress firstPeg, bool outline = true)
 		{
 			//If dirty call, handle anyway:
 			if(firstAxis.firstPeg != null)
@@ -130,7 +156,15 @@ namespace CustomWirePlacer.Client.CWP
 			firstAxis.firstPeg = firstPeg;
 
 			//Outline the first peg:
-			Outliner.HardOutline(firstPeg, CWPOutlineData.firstPeg);
+			if(outline)
+			{
+				CWPOutliner.OutlineHard(firstPeg, CWPOutlineData.firstPeg);
+			}
+		}
+
+		public void showFirstPeg()
+		{
+			CWPOutliner.OutlineHard(firstAxis.firstPeg, CWPOutlineData.firstPeg);
 		}
 
 		public PegAddress getFirstPeg()

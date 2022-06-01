@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using LogicAPI.Data;
 using LogicWorld.Audio;
-using LogicWorld.Outlines;
 using UnityEngine;
 
 namespace CustomWirePlacer.Client.CWP
@@ -37,22 +36,13 @@ namespace CustomWirePlacer.Client.CWP
 
 		public void hide()
 		{
-			Outliner.RemoveHardOutline(firstPeg);
-			Outliner.RemoveHardOutline(secondPeg);
-			if(inBetween != null)
-			{
-				Outliner.RemoveHardOutline(inBetween);
-			}
-			if(forwards != null)
-			{
-				Outliner.RemoveHardOutline(forwards);
-			}
-			if(backwards != null)
-			{
-				Outliner.RemoveHardOutline(backwards);
-			}
-			Outliner.RemoveHardOutline(blacklist);
-			Outliner.RemoveHardOutline(whitelist);
+			CWPOutliner.RemoveOutlineHard(firstPeg);
+			CWPOutliner.RemoveOutlineHard(secondPeg);
+			CWPOutliner.RemoveOutlineHard(inBetween);
+			CWPOutliner.RemoveOutlineHard(forwards);
+			CWPOutliner.RemoveOutlineHard(backwards);
+			CWPOutliner.RemoveOutlineHard(blacklist);
+			CWPOutliner.RemoveOutlineHard(whitelist);
 		}
 
 		public void show()
@@ -65,13 +55,13 @@ namespace CustomWirePlacer.Client.CWP
 					PegAddress peg = backwards[index];
 					if(!blacklist.Contains(peg))
 					{
-						Outliner.HardOutline(peg, isNotSkipped(ref skipIndex) ? CWPOutlineData.firstDiscoveredPegs : CWPOutlineData.skippedPeg);
+						CWPOutliner.OutlineHard(peg, isNotSkipped(ref skipIndex) ? CWPOutlineData.firstDiscoveredPegs : CWPOutlineData.skippedPeg);
 					}
 				}
 			}
 			if(firstPeg != null && !blacklist.Contains(firstPeg))
 			{
-				Outliner.HardOutline(firstPeg, isNotSkipped(ref skipIndex) ? CWPOutlineData.firstPeg : CWPOutlineData.firstSkippedPeg);
+				CWPOutliner.OutlineHard(firstPeg, isNotSkipped(ref skipIndex) ? CWPOutlineData.firstPeg : CWPOutlineData.firstSkippedPeg);
 			}
 			if(inBetween != null)
 			{
@@ -79,13 +69,13 @@ namespace CustomWirePlacer.Client.CWP
 				{
 					if(!blacklist.Contains(peg))
 					{
-						Outliner.HardOutline(peg, isNotSkipped(ref skipIndex) ? CWPOutlineData.middlePegs : CWPOutlineData.skippedPeg);
+						CWPOutliner.OutlineHard(peg, isNotSkipped(ref skipIndex) ? CWPOutlineData.middlePegs : CWPOutlineData.skippedPeg);
 					}
 				}
 			}
 			if(secondPeg != null && !blacklist.Contains(secondPeg))
 			{
-				Outliner.HardOutline(secondPeg, isNotSkipped(ref skipIndex) ? CWPOutlineData.secondPeg : CWPOutlineData.secondSkippedPeg);
+				CWPOutliner.OutlineHard(secondPeg, isNotSkipped(ref skipIndex) ? CWPOutlineData.secondPeg : CWPOutlineData.skippedPeg);
 			}
 			if(forwards != null)
 			{
@@ -93,17 +83,17 @@ namespace CustomWirePlacer.Client.CWP
 				{
 					if(!blacklist.Contains(peg))
 					{
-						Outliner.HardOutline(peg, isNotSkipped(ref skipIndex) ? CWPOutlineData.secondDiscoveredPegs : CWPOutlineData.skippedPeg);
+						CWPOutliner.OutlineHard(peg, isNotSkipped(ref skipIndex) ? CWPOutlineData.secondDiscoveredPegs : CWPOutlineData.skippedPeg);
 					}
 				}
 			}
 			foreach(PegAddress peg in blacklist)
 			{
-				Outliner.HardOutline(peg, CWPOutlineData.blacklistedPeg);
+				CWPOutliner.OutlineHard(peg, CWPOutlineData.blacklistedPeg);
 			}
 			foreach(PegAddress peg in whitelist)
 			{
-				Outliner.HardOutline(peg, CWPOutlineData.whitelistedPeg);
+				CWPOutliner.OutlineHard(peg, CWPOutlineData.whitelistedPeg);
 			}
 		}
 
