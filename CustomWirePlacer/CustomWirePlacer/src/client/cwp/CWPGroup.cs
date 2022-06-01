@@ -51,8 +51,6 @@ namespace CustomWirePlacer.Client.CWP
 			hideInternal();
 			pegs2DOutlined.Clear();
 
-			//TODO: Fix bug without offsets...
-
 			//Collecting the pegs is redundant here...
 			HashSet<PegAddress> skipHighlightPegs = secondAxis.getAllPegs().ToHashSet();
 
@@ -289,6 +287,7 @@ namespace CustomWirePlacer.Client.CWP
 			currentAxis = secondAxis;
 			currentAxis.firstPeg = startingPeg;
 			currentAxis.show();
+			updated2D();
 		}
 
 		public bool isTwoDimensional()
