@@ -32,10 +32,10 @@ namespace CustomWirePlacer.Client.CWP
 		// First group backed axis:
 		
 		public static readonly OutlineData backedGroupOneFirst = new OutlineData(
-			new Color24(64, 121, 150));
+			new Color24(212, 188, 0));
 
 		public static readonly OutlineData backedGroupOne = new OutlineData(
-			new Color24(65, 58, 150));
+			new Color24(192, 115, 0));
 
 		// White/Blacklist:
 
