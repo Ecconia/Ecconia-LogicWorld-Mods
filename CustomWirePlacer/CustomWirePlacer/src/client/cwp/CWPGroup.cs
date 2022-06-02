@@ -253,7 +253,7 @@ namespace CustomWirePlacer.Client.CWP
 				}
 				if(firstGroup.secondAxis.secondPeg != null)
 				{
-					otherAxisSecondPeg = CWPHelper.getPegRelativeToOtherPeg(firstPeg, firstGroup.secondAxis.firstPeg, firstGroup.secondAxis.secondPeg);
+					otherAxisSecondPeg = CWPHelper.getPegRelativeToOtherPeg(firstPeg, firstGroup.firstAxis.firstPeg, firstGroup.secondAxis.secondPeg);
 					if(otherAxisSecondPeg == null)
 					{
 						SoundPlayer.PlayFail();

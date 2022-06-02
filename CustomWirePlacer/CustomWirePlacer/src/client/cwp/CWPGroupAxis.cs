@@ -360,13 +360,16 @@ namespace CustomWirePlacer.Client.CWP
 				return;
 			}
 			hide();
-			expandFurtherInternal();
+			if(!expandFurtherInternal())
+			{
+				SoundPlayer.PlayFail();
+			}
 			show();
 		}
 
-		private void expandFurtherInternal()
+		private bool expandFurtherInternal(bool onlyOne = false)
 		{
-			expandInternal(ref forwards, firstPeg, secondPeg, inBetween?.Last());
+			return expandInternal(ref forwards, firstPeg, secondPeg, inBetween?.Last(), onlyOne);
 		}
 
 		public void expandBackwards()
@@ -376,16 +379,19 @@ namespace CustomWirePlacer.Client.CWP
 				return;
 			}
 			hide();
-			expandBackwardsInternal();
+			if(!expandBackwardsInternal())
+			{
+				SoundPlayer.PlayFail();
+			}
 			show();
 		}
 
-		private void expandBackwardsInternal()
+		private bool expandBackwardsInternal(bool onlyOne = false)
 		{
-			expandInternal(ref backwards, secondPeg, firstPeg, inBetween?.First());
+			return expandInternal(ref backwards, secondPeg, firstPeg, inBetween?.First(), onlyOne);
 		}
 
-		private static void expandInternal(ref List<PegAddress> discoverList, PegAddress firstPeg, PegAddress secondPeg, PegAddress inBetweenPeg, bool onlyOne = false)
+		private static bool expandInternal(ref List<PegAddress> discoverList, PegAddress firstPeg, PegAddress secondPeg, PegAddress inBetweenPeg, bool onlyOne = false)
 		{
 			//One ray to rule them all. The ray should always be constructed from the two main pegs, it shall never bend in any other direction.
 			Vector3 rayStart = CWPHelper.getRaycastPoint(firstPeg);
@@ -416,8 +422,7 @@ namespace CustomWirePlacer.Client.CWP
 			PegAddress peg2 = CWPHelper.findNextPeg(pos1, ray, out Vector3? pos2nullable);
 			if(peg2 == null)
 			{
-				SoundPlayer.PlayFail();
-				return;
+				return false;
 			}
 			Vector3 pos2 = pos2nullable.Value; //TBI: This works, but is it possible to do this syntactically more pretty?
 			//The list is null when it is empty, but we found at least one peg,
@@ -429,7 +434,7 @@ namespace CustomWirePlacer.Client.CWP
 			discoverList.Add(peg2);
 			if(onlyOne)
 			{
-				return; //Expanding by mouse-wheel only requires one peg to detect.
+				return true; //Expanding by mouse-wheel only requires one peg to detect.
 			}
 
 			//Now that we got one peg, there is the possibility to collect more.
@@ -437,7 +442,7 @@ namespace CustomWirePlacer.Client.CWP
 			if(peg3 == null)
 			{
 				//However there is no more peg, so there is no need to expand from here on.
-				return;
+				return true;
 			}
 			Vector3 pos3 = pos3nullable.Value;
 
@@ -471,6 +476,7 @@ namespace CustomWirePlacer.Client.CWP
 				discoverList, ray, referenceDistance,
 				dist3, pos3, peg3
 			);
+			return true;
 		}
 
 		//When this method gets called, we are trying to figure out if the provided peg
@@ -547,12 +553,24 @@ namespace CustomWirePlacer.Client.CWP
 			//Backwards:
 			if(otherAxis.backwards != null)
 			{
-				expandBackwardsInternal();
+				for(int i = 0; i < otherAxis.backwards.Count; i++)
+				{
+					if(!expandBackwardsInternal(true))
+					{
+						break;
+					}
+				}
 			}
 			//Forwards:
 			if(otherAxis.forwards != null)
 			{
-				expandFurtherInternal();
+				for(int i = 0; i < otherAxis.forwards.Count; i++)
+				{
+					if(!expandFurtherInternal(true))
+					{
+						break;
+					}
+				}
 			}
 			applyLists(otherAxis);
 
@@ -584,7 +602,7 @@ namespace CustomWirePlacer.Client.CWP
 			hide();
 			if(offset == 1)
 			{
-				expandInternal(ref backwards, secondPeg, firstPeg, inBetween?.First(), true);
+				expandBackwardsInternal(true);
 			}
 			else if(backwards != null)
 			{
@@ -606,7 +624,7 @@ namespace CustomWirePlacer.Client.CWP
 			hide();
 			if(offset == 1)
 			{
-				expandInternal(ref forwards, firstPeg, secondPeg, inBetween?.Last(), true);
+				expandFurtherInternal(true);
 			}
 			else if(forwards != null)
 			{
