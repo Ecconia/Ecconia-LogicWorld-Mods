@@ -315,5 +315,10 @@ namespace CustomWirePlacer.Client.CWP
 			currentAxis.toggleList(peg);
 			updated2D();
 		}
+
+		public bool hasMultiplePegs()
+		{
+			return firstAxis.secondPeg != null || firstAxis.whitelist.Any() || secondAxis.firstPeg != null;
+		}
 	}
 }

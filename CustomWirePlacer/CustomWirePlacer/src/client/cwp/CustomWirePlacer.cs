@@ -212,6 +212,13 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			else //Handle the start of the second group and applying of build action.
 			{
+				if(!CWPSettings.allowStartingWithOnePegGroup && !firstGroup.hasMultiplePegs())
+				{
+					//We only have one peg selected in the first group, yet that is not allowed by settings, abort.
+					GameStateManager.TransitionBackToBuildingState();
+					return;
+				}
+				
 				if(CWPTrigger.ApplyPattern.DownThisFrame())
 				{
 					waitForPegToApplyPatternTo = true;
@@ -424,6 +431,12 @@ namespace CustomWirePlacer.Client.CWP
 					return false;
 				}
 				applyOnUp = false; //No longer handling mouse up.
+				if(!CWPSettings.allowStartingWithOnePegGroup && !firstGroup.hasMultiplePegs())
+				{
+					//We only have one peg selected in the first group, yet that is not allowed by settings, abort.
+					GameStateManager.TransitionBackToBuildingState();
+					return true;
+				}
 				if(!CWPTrigger.Modificator.Held())
 				{
 					applyNormalAction();

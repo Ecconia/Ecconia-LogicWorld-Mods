@@ -15,6 +15,8 @@ namespace CustomWirePlacer.Client.CWP
 			set { _showDetails = value; }
 		}
 
+		public static bool allowStartingWithOnePegGroup { get; set; } = false;
+
 		private static bool _raycastAtBottomOfPegs;
 
 		public static bool raycastAtBottomOfPegs
@@ -28,7 +30,7 @@ namespace CustomWirePlacer.Client.CWP
 		}
 
 		private static bool _showRaycastRay;
-		
+
 		public static bool showRaycastRay
 		{
 			get => _showRaycastRay;
@@ -143,6 +145,13 @@ namespace CustomWirePlacer.Client.CWP
 				setter = b => resetSkipOffsetWhenNotSkipping = b,
 				defaultValue = resetSkipOffsetWhenNotSkipping,
 				hoverKey = "CWP.Setting.ResetSkipOffsetWhenNotSkipping.Description",
+			};
+			yield return new CWPSetting
+			{
+				key = "CWP.Setting.AllowStartingWithOnePegGroup",
+				setter = b => allowStartingWithOnePegGroup = b,
+				defaultValue = allowStartingWithOnePegGroup,
+				hoverKey = "CWP.Setting.AllowStartingWithOnePegGroup.Description",
 			};
 		}
 	}
