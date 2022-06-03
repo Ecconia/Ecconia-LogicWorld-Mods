@@ -171,8 +171,8 @@ namespace CustomWirePlacer.Client.CWP
 						if(currentGroup.getSecondPeg() != null)
 						{
 							//Peg reset:
-							raycastLine.refresh();
 							currentGroup.setSecondPeg(null);
+							raycastLine.refresh();
 							if(secondGroup.isSet())
 							{
 								//In the first group, we are not making the sound, since then no wire is drawn at all.
