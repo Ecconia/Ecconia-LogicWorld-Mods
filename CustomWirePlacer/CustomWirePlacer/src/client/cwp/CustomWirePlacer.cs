@@ -218,7 +218,7 @@ namespace CustomWirePlacer.Client.CWP
 					GameStateManager.TransitionBackToBuildingState();
 					return;
 				}
-				
+
 				if(CWPTrigger.ApplyPattern.DownThisFrame())
 				{
 					waitForPegToApplyPatternTo = true;
@@ -416,36 +416,42 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				updateWireGhosts();
 			}
-			
+
 			raycastLine.onUpdate();
 		}
 
 		private static bool checkForMouseUp()
 		{
-			if(Trigger.DrawWire.UpThisFrame())
+			if(!drawing || Trigger.DrawWire.Held())
 			{
-				toggleListMode = false;
-				drawing = false; //No longer drawing.
-				if(!applyOnUp)
-				{
-					return false;
-				}
-				applyOnUp = false; //No longer handling mouse up.
-				if(!CWPSettings.allowStartingWithOnePegGroup && !firstGroup.hasMultiplePegs())
-				{
-					//We only have one peg selected in the first group, yet that is not allowed by settings, abort.
-					GameStateManager.TransitionBackToBuildingState();
-					return true;
-				}
-				if(!CWPTrigger.Modificator.Held())
-				{
-					applyNormalAction();
-					GameStateManager.TransitionBackToBuildingState(); //Does the cleanup.
-					return true;
-				}
-				//Stall mode, here the group can be edited, or a new one started.
+				//If not drawing or still holding draw key, abort.
+				return false;
 			}
-			return false;
+			//Else we have to turn off the drawing mode:
+			toggleListMode = false;
+			drawing = false;
+			if(!applyOnUp)
+			{
+				//We ran an action that stopped drawing mode, before the mouse was released.
+				return false;
+			}
+			applyOnUp = false; //No longer handling mouse up.
+			if(!CWPSettings.allowStartingWithOnePegGroup && !firstGroup.hasMultiplePegs() && !secondGroup.isSet())
+			{
+				//We only have one peg selected in the first group, yet that is not allowed by settings, abort.
+				GameStateManager.TransitionBackToBuildingState();
+				return true;
+			}
+			if(CWPTrigger.Modificator.Held() || !Trigger.DrawWire.UpThisFrame())
+			{
+				//Either we are currently holding MOD, which goes into stall mode.
+				//Or the mouse was released while CWP did not have the focus, then it also switches to stall mode to be safe.
+				return false;
+			}
+			//Apply the normal actions, nothing prevents it:
+			applyNormalAction();
+			GameStateManager.TransitionBackToBuildingState(); //Does the cleanup.
+			return true;
 		}
 
 		private static IEnumerable<(PegAddress first, PegAddress second, bool valid)> getWires()
