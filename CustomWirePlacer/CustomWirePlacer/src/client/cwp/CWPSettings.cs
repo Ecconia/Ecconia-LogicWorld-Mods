@@ -15,7 +15,29 @@ namespace CustomWirePlacer.Client.CWP
 			set { _showDetails = value; }
 		}
 
-		public static bool raycastAtBottomOfPegs { get; set; }
+		private static bool _raycastAtBottomOfPegs;
+
+		public static bool raycastAtBottomOfPegs
+		{
+			get => _raycastAtBottomOfPegs;
+			set
+			{
+				_raycastAtBottomOfPegs = value;
+				CustomWirePlacer.raycastLine.refresh();
+			}
+		}
+
+		private static bool _showRaycastRay;
+		
+		public static bool showRaycastRay
+		{
+			get => _showRaycastRay;
+			set
+			{
+				_showRaycastRay = value;
+				CustomWirePlacer.raycastLine.refresh();
+			}
+		}
 
 		public static bool expandOnlyUniformDistance { get; set; }
 
@@ -33,7 +55,7 @@ namespace CustomWirePlacer.Client.CWP
 				}
 			}
 		}
-		
+
 		public static bool scrollSkipInMulDivOfTwoSteps { get; set; }
 
 		private static bool _roundSkipOffsetToNextBinaryNumber = true;
@@ -79,6 +101,13 @@ namespace CustomWirePlacer.Client.CWP
 				setter = b => raycastAtBottomOfPegs = b,
 				defaultValue = raycastAtBottomOfPegs,
 				hoverKey = "CWP.Setting.RaycastAtBottomOfPegs.Description",
+			};
+			yield return new CWPSetting
+			{
+				key = "CWP.Setting.ShowRaycastRay",
+				setter = b => showRaycastRay = b,
+				defaultValue = showRaycastRay,
+				hoverKey = "CWP.Setting.ShowRaycastRay.Description",
 			};
 			yield return new CWPSetting
 			{

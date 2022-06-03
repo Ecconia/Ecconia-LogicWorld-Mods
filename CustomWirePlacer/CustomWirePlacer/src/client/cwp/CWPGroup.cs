@@ -165,7 +165,7 @@ namespace CustomWirePlacer.Client.CWP
 			CWPOutliner.OutlineHard(firstAxis.firstPeg, CWPOutlineData.firstPeg);
 		}
 
-		public PegAddress getFirstPeg()
+		public PegAddress getRootPeg()
 		{
 			return firstAxis.firstPeg;
 		}
@@ -295,7 +295,7 @@ namespace CustomWirePlacer.Client.CWP
 			return secondAxis.firstPeg != null;
 		}
 
-		public PegAddress getStartPeg()
+		public PegAddress getFirstPeg()
 		{
 			return currentAxis.firstPeg;
 		}

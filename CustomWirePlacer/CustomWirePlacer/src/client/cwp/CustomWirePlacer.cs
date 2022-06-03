@@ -24,6 +24,8 @@ namespace CustomWirePlacer.Client.CWP
 
 		private static PegAddress lastLookedAtPeg;
 
+		public static readonly CWPRaycastLine raycastLine = new CWPRaycastLine();
+
 		private static bool active;
 		//Indicates, if the mouse is down while editing a group. And not just down.
 		private static bool drawing;
@@ -73,6 +75,7 @@ namespace CustomWirePlacer.Client.CWP
 
 			// Set the first peg:
 			firstGroup.setFirstPeg(initialPeg, false);
+			raycastLine.setAxis(firstGroup.getCurrentAxis());
 			SoundPlayer.PlaySoundAt(Sounds.ConnectionInitial, CWPHelper.getWireConnectionPoint(initialPeg));
 
 			//Switch state:
@@ -115,6 +118,7 @@ namespace CustomWirePlacer.Client.CWP
 			active = false;
 			CWPSettingsWindow.setVisible(false);
 			CWPStatusDisplay.setVisible(false);
+			raycastLine.reset();
 
 			//Undo all outlining, and reset all data:
 			cleanUpWireGhosts();
@@ -162,11 +166,12 @@ namespace CustomWirePlacer.Client.CWP
 							updated = true;
 						}
 					}
-					else if(currentlyLookingAtPeg == currentGroup.getStartPeg())
+					else if(currentlyLookingAtPeg == currentGroup.getFirstPeg())
 					{
 						if(currentGroup.getSecondPeg() != null)
 						{
 							//Peg reset:
+							raycastLine.refresh();
 							currentGroup.setSecondPeg(null);
 							if(secondGroup.isSet())
 							{
@@ -181,6 +186,7 @@ namespace CustomWirePlacer.Client.CWP
 					{
 						//Peg switched:
 						currentGroup.setSecondPeg(currentlyLookingAtPeg);
+						raycastLine.refresh();
 						SoundPlayer.PlaySoundAt(Sounds.ConnectionInitial, currentlyLookingAtPeg);
 						updated = true;
 					}
@@ -191,7 +197,8 @@ namespace CustomWirePlacer.Client.CWP
 					if(secondGroup.isSet())
 					{
 						//Currently drawing the second group. Apply the first group to it.
-						secondGroup.applyGroup(firstGroup, secondGroup.getFirstPeg());
+						secondGroup.applyGroup(firstGroup, secondGroup.getRootPeg());
+						raycastLine.refresh();
 						updated = true;
 						//Drawing must stop now, else the pattern may break.
 						drawing = false;
@@ -231,6 +238,7 @@ namespace CustomWirePlacer.Client.CWP
 							currentGroup.bakePegOutlines();
 							currentGroup.startTwoDimensional(lookingAt);
 							updated = true;
+							raycastLine.setAxis(currentGroup.getCurrentAxis());
 						}
 						else if(!secondGroup.isSet())
 						{
@@ -249,6 +257,7 @@ namespace CustomWirePlacer.Client.CWP
 							}
 							currentGroup = secondGroup;
 							updated = true;
+							raycastLine.setAxis(currentGroup.getCurrentAxis());
 						}
 						else //Do the BUS feature action: (Second group must be set now)
 						{
@@ -270,6 +279,7 @@ namespace CustomWirePlacer.Client.CWP
 								drawing = true;
 								secondGroup.setFirstPeg(lookingAt);
 							}
+							raycastLine.setAxis(currentGroup.getCurrentAxis());
 						}
 					}
 					lastLookedAtPeg = lookingAt;
@@ -289,7 +299,7 @@ namespace CustomWirePlacer.Client.CWP
 				}
 			}
 
-			if(checkForMouseUp(updated))
+			if(checkForMouseUp())
 			{
 				return;
 			}
@@ -302,6 +312,7 @@ namespace CustomWirePlacer.Client.CWP
 				if(!doNotApplyExpandBackwards)
 				{
 					currentGroup.expandBackwards();
+					raycastLine.refresh();
 					updated = true; //Always update, detecting changes is too complicated.
 				}
 				doNotApplyExpandBackwards = false;
@@ -311,6 +322,7 @@ namespace CustomWirePlacer.Client.CWP
 				if(!doNotApplyExpandForward)
 				{
 					currentGroup.expandFurther();
+					raycastLine.refresh();
 					updated = true; //Always update, detecting changes is too complicated.
 				}
 				doNotApplyExpandForward = false;
@@ -345,6 +357,7 @@ namespace CustomWirePlacer.Client.CWP
 					if(CWPTrigger.ExpandBackwards.Held())
 					{
 						currentGroup.updateExpandBackwardsCount(offset);
+						raycastLine.refresh();
 						doNotApplyExpandBackwards = true;
 						doSkipping = false;
 						updated = true;
@@ -352,6 +365,7 @@ namespace CustomWirePlacer.Client.CWP
 					if(CWPTrigger.ExpandFurther.Held())
 					{
 						currentGroup.updateExpandFurtherCount(offset);
+						raycastLine.refresh();
 						doNotApplyExpandForward = true;
 						doSkipping = false;
 						updated = true;
@@ -395,9 +409,11 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				updateWireGhosts();
 			}
+			
+			raycastLine.onUpdate();
 		}
 
-		private static bool checkForMouseUp(bool updated)
+		private static bool checkForMouseUp()
 		{
 			if(Trigger.DrawWire.UpThisFrame())
 			{
@@ -410,13 +426,6 @@ namespace CustomWirePlacer.Client.CWP
 				applyOnUp = false; //No longer handling mouse up.
 				if(!CWPTrigger.Modificator.Held())
 				{
-					if(updated)
-					{
-						//Might have happened in this frame, but the update only happens at the end of a frame.
-						// With the return here, it won't happen - and if the server takes some time, invalid wires will be shown.
-						// Hence update it here.
-						updateWireGhosts();
-					}
 					applyNormalAction();
 					GameStateManager.TransitionBackToBuildingState(); //Does the cleanup.
 					return true;
