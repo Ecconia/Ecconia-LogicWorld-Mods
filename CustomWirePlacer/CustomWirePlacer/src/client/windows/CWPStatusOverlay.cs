@@ -245,28 +245,34 @@ namespace CustomWirePlacer.Client.Windows
 				}
 			}
 
-			//Random states:
-			if(CWPSettings.flipping)
+			//Modifiers:
+			if(CWPSettings.showStatusOverlayModifiers)
 			{
-				sb.Append("<color=yellow>Flipping wires</color>\n");
-			}
-			if(CWP.CustomWirePlacer.pendingTwoDimensional)
-			{
-				sb.Append("<color=yellow>Add 2D axis</color>\n");
-			}
-			if(CWP.CustomWirePlacer.waitForPegToApplyPatternTo)
-			{
-				sb.Append("<color=yellow>Apply Pattern</color>\n");
+				if(CWPSettings.flipping)
+				{
+					sb.Append("<color=yellow>Flipping wires</color>\n");
+				}
+				if(CWP.CustomWirePlacer.pendingTwoDimensional)
+				{
+					sb.Append("<color=yellow>Add 2D axis</color>\n");
+				}
+				if(CWP.CustomWirePlacer.waitForPegToApplyPatternTo)
+				{
+					sb.Append("<color=yellow>Apply Pattern</color>\n");
+				}
 			}
 
 			//Settings:
-			if(CWPSettings.raycastAtBottomOfPegs)
+			if(CWPSettings.showStatusOverlaySettings)
 			{
-				sb.Append("<color=#0ff>Raycast at bottom</color>\n");
-			}
-			if(CWPSettings.expandOnlyUniformDistance)
-			{
-				sb.Append("<color=#0ff>Fixed expand gaps</color>\n");
+				if(CWPSettings.raycastAtBottomOfPegs)
+				{
+					sb.Append("<color=#0ff>Raycast at bottom</color>\n");
+				}
+				if(CWPSettings.expandOnlyUniformDistance)
+				{
+					sb.Append("<color=#0ff>Fixed expand gaps</color>\n");
+				}
 			}
 
 			setText(sb.ToString());
@@ -278,6 +284,11 @@ namespace CustomWirePlacer.Client.Windows
 		}
 
 		public static void setDirtySettings()
+		{
+			setDirtyGeneric();
+		}
+
+		public static void setDirtySettingsConfig()
 		{
 			setDirtyGeneric();
 		}

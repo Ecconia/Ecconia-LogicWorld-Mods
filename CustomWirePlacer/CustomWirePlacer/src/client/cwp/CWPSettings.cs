@@ -22,6 +22,30 @@ namespace CustomWirePlacer.Client.CWP
 				}
 			}
 		}
+		
+		private static bool _showStatusOverlayModifiers = true;
+
+		public static bool showStatusOverlayModifiers
+		{
+			get => _showStatusOverlayModifiers;
+			private set
+			{
+				_showStatusOverlayModifiers = value;
+				CWPStatusOverlay.setDirtySettingsConfig();
+			}
+		}
+		
+		private static bool _showStatusOverlaySettings;
+
+		public static bool showStatusOverlaySettings
+		{
+			get => _showStatusOverlaySettings;
+			private set
+			{
+				_showStatusOverlaySettings = value;
+				CWPStatusOverlay.setDirtySettingsConfig();
+			}
+		}
 
 		public static bool allowStartingWithOnePegGroup { get; private set; }
 
@@ -122,6 +146,20 @@ namespace CustomWirePlacer.Client.CWP
 				setter = b => showStatusOverlay = b,
 				defaultValue = showStatusOverlay,
 				hoverKey = "CWP.Setting.ShowStatusOverlay.Description",
+			};
+			yield return new CWPSetting
+			{
+				key = "CWP.Setting.ShowStatusOverlayModifiers",
+				setter = b => showStatusOverlayModifiers = b,
+				defaultValue = showStatusOverlayModifiers,
+				hoverKey = "CWP.Setting.ShowStatusOverlayModifiers.Description",
+			};
+			yield return new CWPSetting
+			{
+				key = "CWP.Setting.ShowStatusOverlaySettings",
+				setter = b => showStatusOverlaySettings = b,
+				defaultValue = showStatusOverlaySettings,
+				hoverKey = "CWP.Setting.ShowStatusOverlaySettings.Description",
 			};
 			yield return new CWPSetting
 			{
