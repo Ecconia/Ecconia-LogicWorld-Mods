@@ -10,6 +10,7 @@ using LogicUI.Enhancements;
 using LogicUI.HoverTags;
 using LogicUI.InputFieldStuff;
 using LogicUI.MenuParts;
+using LogicUI.MenuParts.Popups;
 using LogicUI.MenuParts.Toggles;
 using LogicUI.MenuTypes.ConfigurableMenus;
 using LogicUI.Palettes;
@@ -61,6 +62,30 @@ namespace EccsWindowHelper.Client.Experimental
 					writer.WriteLine();
 					writer.Flush();
 				}
+			}
+			catch(Exception e)
+			{
+				LConsole.WriteLine(e);
+				throw;
+			}
+			writer.Flush();
+			writer.Close();
+			LConsole.WriteLine("Done!");
+		}
+
+		public static void debugGameObject(GameObject obj)
+		{
+			StreamWriter writer = new StreamWriter("eccGODebug.txt");
+			try
+			{
+				writer.WriteLine("Processing: " + obj.name);
+				writer.WriteLine();
+				GameObject c = obj;
+				c = getParent(c);
+				storeReferences(c, "@->");
+				inspectObject(writer, "", c);
+				writer.WriteLine();
+				writer.Flush();
 			}
 			catch(Exception e)
 			{
@@ -551,6 +576,8 @@ namespace EccsWindowHelper.Client.Experimental
 				|| t == typeof(GeoUtils.ShadowsProperties)
 				|| t == typeof(GeoUtils.AntiAliasingProperties)
 				|| t == typeof(Rectangle)
+				|| t == typeof(PopupsManager)
+				// || t == typeof(PopupBlocker) //Internal, but not interesting anyway.
 				;
 		}
 

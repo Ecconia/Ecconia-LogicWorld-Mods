@@ -4,6 +4,7 @@ using System.Reflection;
 using LogicWorld.GameStates;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 namespace EccsWindowHelper.Client
@@ -11,7 +12,7 @@ namespace EccsWindowHelper.Client
 	public static class WindowHelper
 	{
 		//Two helpers that both establish the relationship of parent and child in pretty.
-		
+
 		public static void addChild(this GameObject parent, GameObject child)
 		{
 			child.transform.SetParent(parent.transform, false);
@@ -23,7 +24,7 @@ namespace EccsWindowHelper.Client
 		}
 
 		//Adds or creates parts needed for UI:
-		
+
 		public static TextMeshProUGUI addTMP(GameObject gameObject)
 		{
 			//Some random default settings, that kind of work in most cases:
@@ -46,10 +47,23 @@ namespace EccsWindowHelper.Client
 			Object.DontDestroyOnLoad(gameObject);
 			return gameObject;
 		}
-		
+
+		public static GameObject makeOverlayCanvas(string name)
+		{
+			GameObject gameObject = makeGameObject(name);
+			gameObject.AddComponent<RectTransform>();
+			Canvas canvas = gameObject.AddComponent<Canvas>();
+			canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+			CanvasScaler scaler = gameObject.AddComponent<CanvasScaler>();
+			scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+			scaler.referenceResolution = new Vector2(3840, 2160);
+			scaler.matchWidthOrHeight = 1;
+			return gameObject;
+		}
+
 		//These two functions allow access to the game state overlay actions:
 		// Uses reflection, since both are set to private.
-		
+
 		public static Action getOverlayShownAction()
 		{
 			var method = typeof(GameStateManager).GetMethod("OverlayAdded", BindingFlags.Static | BindingFlags.NonPublic);

@@ -19,13 +19,16 @@ namespace CustomWirePlacer.Client.CWP
 		private readonly List<PegAddress> blacklist = new List<PegAddress>();
 		public readonly List<PegAddress> whitelist = new List<PegAddress>();
 
-		private bool binarySkipping;
-		private int skipNumber;
-		private int skipOffset;
+		public bool binarySkipping;
+		public int skipNumber;
+		public int skipOffset;
+
+		private int pegCount;
 
 		public void clear()
 		{
 			hide();
+			pegCount = 0;
 			firstPeg = secondPeg = null;
 			inBetween = forwards = backwards = null;
 			skipNumber = skipOffset = 0;
@@ -110,6 +113,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		public IEnumerable<PegAddress> getPegs()
 		{
+			int pegCount = 0;
 			int skipIndex = getSkipStart(); //Start with skipNumber, to always select the first peg.
 			if(backwards != null)
 			{
@@ -118,12 +122,14 @@ namespace CustomWirePlacer.Client.CWP
 					PegAddress peg = backwards[index];
 					if(!blacklist.Contains(peg) && isNotSkipped(ref skipIndex))
 					{
+						pegCount++;
 						yield return peg;
 					}
 				}
 			}
 			if(!blacklist.Contains(firstPeg) && isNotSkipped(ref skipIndex))
 			{
+				pegCount++;
 				yield return firstPeg;
 			}
 			if(inBetween != null)
@@ -132,6 +138,7 @@ namespace CustomWirePlacer.Client.CWP
 				{
 					if(!blacklist.Contains(peg) && isNotSkipped(ref skipIndex))
 					{
+						pegCount++;
 						yield return peg;
 					}
 				}
@@ -140,6 +147,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				if(!blacklist.Contains(secondPeg) && isNotSkipped(ref skipIndex))
 				{
+					pegCount++;
 					yield return secondPeg;
 				}
 			}
@@ -149,14 +157,17 @@ namespace CustomWirePlacer.Client.CWP
 				{
 					if(!blacklist.Contains(peg) && isNotSkipped(ref skipIndex))
 					{
+						pegCount++;
 						yield return peg;
 					}
 				}
 			}
 			foreach(PegAddress peg in whitelist)
 			{
+				pegCount++;
 				yield return peg;
 			}
+			this.pegCount = pegCount; //Side effect, but that is fine, since there is no caching.
 		}
 
 		public IEnumerable<PegAddress> getAllPegs()
@@ -672,6 +683,11 @@ namespace CustomWirePlacer.Client.CWP
 				|| (inBetween != null && inBetween.Contains(peg))
 				|| (forwards != null && forwards.Contains(peg))
 				|| (backwards != null && backwards.Contains(peg));
+		}
+
+		public int getPegCount()
+		{
+			return pegCount;
 		}
 	}
 }

@@ -33,15 +33,7 @@ namespace EccsWindowHelper.Client
 
 		public WindowController build()
 		{
-			GameObject gameObject = WindowHelper.makeGameObject(rootName);
-			gameObject.AddComponent<RectTransform>();
-			gameObject.AddComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
-			CanvasScaler scaler = gameObject.AddComponent<CanvasScaler>();
-			{
-				scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-				scaler.referenceResolution = new Vector2(3840, 2160);
-				scaler.matchWidthOrHeight = 1;
-			}
+			GameObject gameObject = WindowHelper.makeOverlayCanvas(rootName);
 			gameObject.AddComponent<GraphicRaycaster>();
 
 			prepareGameObject?.Invoke(gameObject);

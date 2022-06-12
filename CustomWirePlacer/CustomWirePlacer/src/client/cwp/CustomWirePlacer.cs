@@ -33,12 +33,12 @@ namespace CustomWirePlacer.Client.CWP
 		// This flag here keeps the checking for mouse up going.
 		private static bool applyOnUp;
 		//When this is set, the next peg clicked will be used for the pattern of the second group.
-		private static bool waitForPegToApplyPatternTo;
+		public static bool waitForPegToApplyPatternTo;
 
 		private static bool doNotApplyExpandForward;
 		private static bool doNotApplyExpandBackwards;
 
-		private static bool pendingTwoDimensional;
+		public static bool pendingTwoDimensional;
 		private static bool toggleListMode;
 
 		//Stores all generated and used wire-ghosts, to easily remove them again.
@@ -150,6 +150,7 @@ namespace CustomWirePlacer.Client.CWP
 				{
 					pendingTwoDimensional = false;
 				}
+				CWPStatusDisplay.setDirtyGeneric();
 			}
 
 			//Handle peg-selection and mouse-up while drawing:
@@ -222,6 +223,7 @@ namespace CustomWirePlacer.Client.CWP
 				if(CWPTrigger.ApplyPattern.DownThisFrame())
 				{
 					waitForPegToApplyPatternTo = true;
+					CWPStatusDisplay.setDirtyGeneric();
 				}
 
 				if(Trigger.DrawWire.DownThisFrame())
@@ -295,11 +297,6 @@ namespace CustomWirePlacer.Client.CWP
 
 				if(CWPTrigger.ApplyNormalAction.UpThisFrame())
 				{
-					if(updated)
-					{
-						//Same as above, due to return has to be updated here (if change).
-						updateWireGhosts();
-					}
 					applyNormalAction();
 					GameStateManager.TransitionBackToBuildingState(); //Does the cleanup.
 					return;
@@ -415,6 +412,7 @@ namespace CustomWirePlacer.Client.CWP
 			if(updated)
 			{
 				updateWireGhosts();
+				CWPStatusDisplay.setDirtyGeneric();
 			}
 
 			raycastLine.onUpdate();
@@ -638,6 +636,16 @@ namespace CustomWirePlacer.Client.CWP
 		public static bool isActive()
 		{
 			return active;
+		}
+
+		public static CWPGroup getFirstGroup()
+		{
+			return firstGroup;
+		}
+
+		public static CWPGroup getSecondGroup()
+		{
+			return secondGroup;
 		}
 	}
 }

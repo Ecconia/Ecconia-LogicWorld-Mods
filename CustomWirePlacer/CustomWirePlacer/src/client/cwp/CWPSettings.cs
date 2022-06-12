@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CustomWirePlacer.Client.Windows;
 
 namespace CustomWirePlacer.Client.CWP
 {
@@ -7,25 +8,33 @@ namespace CustomWirePlacer.Client.CWP
 	{
 		public static bool flipping; //TODO: Should this be here for now?
 
-		private static bool _showDetails; //TODO: Make window for this.
+		private static bool _showDetails = true;
 
 		public static bool showDetails
 		{
 			get => _showDetails;
-			set { _showDetails = value; }
+			private set
+			{
+				_showDetails = value;
+				if(CustomWirePlacer.isActive())
+				{
+					CWPStatusDisplay.setVisible(value);
+				}
+			}
 		}
 
-		public static bool allowStartingWithOnePegGroup { get; set; } = false;
+		public static bool allowStartingWithOnePegGroup { get; private set; }
 
 		private static bool _raycastAtBottomOfPegs;
 
 		public static bool raycastAtBottomOfPegs
 		{
 			get => _raycastAtBottomOfPegs;
-			set
+			private set
 			{
 				_raycastAtBottomOfPegs = value;
 				CustomWirePlacer.raycastLine.refresh();
+				CWPStatusDisplay.setDirtySettings();
 			}
 		}
 
@@ -34,21 +43,31 @@ namespace CustomWirePlacer.Client.CWP
 		public static bool showRaycastRay
 		{
 			get => _showRaycastRay;
-			set
+			private set
 			{
 				_showRaycastRay = value;
 				CustomWirePlacer.raycastLine.refresh();
 			}
 		}
 
-		public static bool expandOnlyUniformDistance { get; set; }
+		private static bool _expandOnlyUniformDistance;
+
+		public static bool expandOnlyUniformDistance
+		{
+			get => _expandOnlyUniformDistance;
+			private set
+			{
+				_expandOnlyUniformDistance = value;
+				CWPStatusDisplay.setDirtySettings();
+			}
+		}
 
 		private static bool _resetSkipOffsetWhenNotSkipping = true;
 
 		public static bool resetSkipOffsetWhenNotSkipping
 		{
 			get => _resetSkipOffsetWhenNotSkipping;
-			set
+			private set
 			{
 				_resetSkipOffsetWhenNotSkipping = value;
 				if(value && CustomWirePlacer.isActive())
@@ -58,14 +77,14 @@ namespace CustomWirePlacer.Client.CWP
 			}
 		}
 
-		public static bool scrollSkipInMulDivOfTwoSteps { get; set; }
+		public static bool scrollSkipInMulDivOfTwoSteps { get; private set; }
 
 		private static bool _roundSkipOffsetToNextBinaryNumber = true;
 
 		public static bool roundSkipOffsetToNextBinaryNumber
 		{
 			get => _roundSkipOffsetToNextBinaryNumber;
-			set
+			private set
 			{
 				_roundSkipOffsetToNextBinaryNumber = value;
 				if(value && CustomWirePlacer.isActive())
@@ -81,7 +100,7 @@ namespace CustomWirePlacer.Client.CWP
 		public static bool connectPegsInOneGroupWithEachOther
 		{
 			get => _connectPegsInOneGroupWithEachOther;
-			set
+			private set
 			{
 				_connectPegsInOneGroupWithEachOther = value;
 				if(CustomWirePlacer.isActive())
@@ -97,6 +116,13 @@ namespace CustomWirePlacer.Client.CWP
 
 		public static IEnumerable<CWPSetting> collectSettings()
 		{
+			yield return new CWPSetting
+			{
+				key = "CWP.Setting.ShowDetails",
+				setter = b => showDetails = b,
+				defaultValue = showDetails,
+				hoverKey = "CWP.Setting.ShowDetails.Description",
+			};
 			yield return new CWPSetting
 			{
 				key = "CWP.Setting.RaycastAtBottomOfPegs",

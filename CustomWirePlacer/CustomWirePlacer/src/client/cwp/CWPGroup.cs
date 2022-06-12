@@ -304,6 +304,11 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			return firstAxis;
 		}
+		
+		public CWPGroupAxis getSecondAxis()
+		{
+			return secondAxis;
+		}
 
 		public CWPGroupAxis getCurrentAxis()
 		{
@@ -319,6 +324,11 @@ namespace CustomWirePlacer.Client.CWP
 		public bool hasMultiplePegs()
 		{
 			return firstAxis.secondPeg != null || firstAxis.whitelist.Any() || secondAxis.firstPeg != null;
+		}
+
+		public int getPegCount()
+		{
+			return isTwoDimensional() ? pegs2D.Count : firstAxis.getPegCount();
 		}
 	}
 }
