@@ -97,9 +97,9 @@ namespace CustomWirePlacer.Client.CWP
 			//Handle settings:
 			CWPSettings.flipping = false;
 
-			if(CWPSettings.showDetails)
+			if(CWPSettings.showStatusOverlay)
 			{
-				CWPStatusDisplay.setVisible(true);
+				CWPStatusOverlay.setVisible(true);
 			}
 			active = true;
 		}
@@ -117,7 +117,7 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			active = false;
 			CWPSettingsWindow.setVisible(false);
-			CWPStatusDisplay.setVisible(false);
+			CWPStatusOverlay.setVisible(false);
 			raycastLine.reset();
 
 			//Undo all outlining, and reset all data:
@@ -150,7 +150,7 @@ namespace CustomWirePlacer.Client.CWP
 				{
 					pendingTwoDimensional = false;
 				}
-				CWPStatusDisplay.setDirtyGeneric();
+				CWPStatusOverlay.setDirtyGeneric();
 			}
 
 			//Handle peg-selection and mouse-up while drawing:
@@ -223,7 +223,7 @@ namespace CustomWirePlacer.Client.CWP
 				if(CWPTrigger.ApplyPattern.DownThisFrame())
 				{
 					waitForPegToApplyPatternTo = true;
-					CWPStatusDisplay.setDirtyGeneric();
+					CWPStatusOverlay.setDirtyGeneric();
 				}
 
 				if(Trigger.DrawWire.DownThisFrame())
@@ -412,7 +412,7 @@ namespace CustomWirePlacer.Client.CWP
 			if(updated)
 			{
 				updateWireGhosts();
-				CWPStatusDisplay.setDirtyGeneric();
+				CWPStatusOverlay.setDirtyGeneric();
 			}
 
 			raycastLine.onUpdate();

@@ -8,17 +8,17 @@ namespace CustomWirePlacer.Client.CWP
 	{
 		public static bool flipping; //TODO: Should this be here for now?
 
-		private static bool _showDetails = true;
+		private static bool _showStatusOverlay = true;
 
-		public static bool showDetails
+		public static bool showStatusOverlay
 		{
-			get => _showDetails;
+			get => _showStatusOverlay;
 			private set
 			{
-				_showDetails = value;
+				_showStatusOverlay = value;
 				if(CustomWirePlacer.isActive())
 				{
-					CWPStatusDisplay.setVisible(value);
+					CWPStatusOverlay.setVisible(value);
 				}
 			}
 		}
@@ -34,7 +34,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				_raycastAtBottomOfPegs = value;
 				CustomWirePlacer.raycastLine.refresh();
-				CWPStatusDisplay.setDirtySettings();
+				CWPStatusOverlay.setDirtySettings();
 			}
 		}
 
@@ -58,7 +58,7 @@ namespace CustomWirePlacer.Client.CWP
 			private set
 			{
 				_expandOnlyUniformDistance = value;
-				CWPStatusDisplay.setDirtySettings();
+				CWPStatusOverlay.setDirtySettings();
 			}
 		}
 
@@ -118,10 +118,10 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			yield return new CWPSetting
 			{
-				key = "CWP.Setting.ShowDetails",
-				setter = b => showDetails = b,
-				defaultValue = showDetails,
-				hoverKey = "CWP.Setting.ShowDetails.Description",
+				key = "CWP.Setting.ShowStatusOverlay",
+				setter = b => showStatusOverlay = b,
+				defaultValue = showStatusOverlay,
+				hoverKey = "CWP.Setting.ShowStatusOverlay.Description",
 			};
 			yield return new CWPSetting
 			{

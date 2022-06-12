@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace CustomWirePlacer.Client.Windows
 {
-	public class CWPStatusDisplay : MonoBehaviour
+	public class CWPStatusOverlay : MonoBehaviour
 	{
 		private static GameObject rootObject;
 		private static RectTransform windowRect;
@@ -80,7 +80,7 @@ namespace CustomWirePlacer.Client.Windows
 
 				textObject.AddComponent<TextMeshProUGUI>();
 
-				CWPStatusDisplay window = textObject.AddComponent<CWPStatusDisplay>();
+				CWPStatusOverlay window = textObject.AddComponent<CWPStatusOverlay>();
 				window.Initialize();
 
 				textObject.SetActive(true);
