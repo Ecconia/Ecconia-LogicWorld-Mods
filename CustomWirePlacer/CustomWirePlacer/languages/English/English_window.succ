@@ -1,8 +1,3 @@
 CustomWirePlacer.WindowTitle : "Custom Wire Placer Settings"
 CustomWirePlacer.WindowSettingsTitle : "CWP Window Settings"
 CWP.WindowSetting.CloseWindowOnBackgroundClick : "Close on background click"
-
-CWP.Settings.ResetFlipping : "Keep flip state between CWP operations"
-CWP.Setting.ShowDetails : "Show overlay with current state of CWP"
-CWP.Setting.ExpandUniformDistance : "Uniform expand distance"
-CWP.Setting.ExpandUniformDistance.Description : "Take the distance of the first section, and apply it in any new section, instead of trying to detect a new distance for every new section."

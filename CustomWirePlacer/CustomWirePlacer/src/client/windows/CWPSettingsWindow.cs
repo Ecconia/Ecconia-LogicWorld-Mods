@@ -7,6 +7,7 @@ using LogicUI.HoverTags;
 using LogicUI.MenuParts.Toggles;
 using LogicUI.MenuTypes;
 using LogicUI.MenuTypes.ConfigurableMenus;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -68,22 +69,28 @@ namespace CustomWirePlacer.Client.Windows
 					DefaultValue = true,
 					OnValueUpdated = b => menuBackgroundClosesWindow.quickCloseMenu = b,
 				});
-				
+
 				//Add all CWP specific settings:
-				foreach(var setting in CWPSettings.collectSettings())
+				foreach(var entry in CWPSettings.collectSettings())
 				{
+					if(entry is SettingsWindowTitle title)
+					{
+						injectTitleEntry(contentPlane, title.title, 900);
+						continue;
+					}
+					SettingsWindowSetting setting = (SettingsWindowSetting) entry;
 					GameObject toggleEntry = WindowSettingsEntryPrefab.settingsPrefab(
 						TogglePrefab.generateToggle(),
-						1000,
-						800,
-						200 - 35
+						900,
+						700,
+						200 - 35,
+						true
 					);
 					toggleEntry.GetComponentInChildren<LocalizedTextMesh>().SetLocalizationKey(setting.key);
 					//Optionally add hover text for more details:
 					if(setting.hoverKey != null)
 					{
-						HoverTagArea_Localized hoverTag = toggleEntry.transform.GetChild(0).gameObject.AddComponent<HoverTagArea_Localized>();
-						hoverTag.LocalizationKey = setting.hoverKey;
+						injectHoverArea(toggleEntry, setting.hoverKey, 700);
 					}
 
 					//Add secret setting to LWs settings file:
@@ -108,6 +115,52 @@ namespace CustomWirePlacer.Client.Windows
 				WindowBuilder.updateContentPlane(contentPlane); //After content has been added, the window has to be formatted. Else it flickers on first opening.
 				// ShowMenu(); //When debugging the window, it is handy to see it on launch.
 			});
+		}
+
+		private static void injectTitleEntry(GameObject contentArea, string titleKey, int width)
+		{
+			GameObject gameObject = WindowHelper.makeGameObject("Eccs: Settings Entry Title");
+			RectTransform rectTransform = gameObject.AddComponent<RectTransform>();
+			{
+				rectTransform.anchorMin = new Vector2(0, 0);
+				rectTransform.anchorMax = new Vector2(0, 0);
+				rectTransform.pivot = new Vector2(0, 0);
+				rectTransform.anchoredPosition = new Vector2(0, 0);
+				rectTransform.sizeDelta = new Vector2(width, 60f);
+			}
+			gameObject.AddComponent<CanvasRenderer>();
+			
+			TextMeshProUGUI text = WindowHelper.addTMP(gameObject);
+			text.enableAutoSizing = false;
+			text.autoSizeTextContainer = false;
+			text.fontSize = 50f;
+			text.verticalAlignment = VerticalAlignmentOptions.Bottom;
+			text.horizontalAlignment = HorizontalAlignmentOptions.Center;
+			LocalizedTextMesh localizedTextMesh = gameObject.addLocalizedTextMesh();
+			localizedTextMesh.SetLocalizationKey(titleKey);
+			
+			gameObject.SetActive(true);
+			gameObject.setParent(contentArea);
+		}
+
+		private static void injectHoverArea(GameObject into, string key, int width)
+		{
+			GameObject gameObject = WindowHelper.makeGameObject("Eccs: Settings Entry Hover Area");
+			RectTransform rectTransform = gameObject.AddComponent<RectTransform>();
+			{
+				rectTransform.anchorMin = new Vector2(0, 0);
+				rectTransform.anchorMax = new Vector2(0, 1);
+				rectTransform.pivot = new Vector2(0, 0.5f);
+				rectTransform.anchoredPosition = new Vector2(0, 0);
+				rectTransform.sizeDelta = new Vector2(width, 0f);
+			}
+			gameObject.AddComponent<CanvasRenderer>();
+
+			gameObject.AddComponent<Image>().color = new Color(0, 0, 0, 0);
+			gameObject.AddComponent<HoverTagArea_Localized>().LocalizationKey = key;
+
+			gameObject.SetActive(true);
+			gameObject.setParent(into);
 		}
 
 		private static GameObject constructContent()

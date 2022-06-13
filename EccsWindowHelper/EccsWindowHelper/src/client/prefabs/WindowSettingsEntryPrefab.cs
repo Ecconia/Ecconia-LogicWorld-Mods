@@ -7,7 +7,7 @@ namespace EccsWindowHelper.Client.Prefabs
 {
 	public static class WindowSettingsEntryPrefab
 	{
-		public static GameObject settingsPrefab(GameObject otherContent, int width = 930, int titleWidth = 400, int interactableWidth = 495)
+		public static GameObject settingsPrefab(GameObject otherContent, int width = 930, int titleWidth = 400, int interactableWidth = 495, bool alignTitleLeft = false)
 		{
 			GameObject gameObject = WindowHelper.makeGameObject("Eccs: Settings Entry");
 			RectTransform rectTransform = gameObject.AddComponent<RectTransform>();
@@ -21,7 +21,7 @@ namespace EccsWindowHelper.Client.Prefabs
 			gameObject.AddComponent<CanvasRenderer>();
 
 			//Content:
-			constructSettingsTitle(gameObject, titleWidth);
+			constructSettingsTitle(gameObject, titleWidth, alignTitleLeft);
 			constructSettingsArea(gameObject, otherContent, interactableWidth);
 
 			gameObject.AddComponent<VerSizeFit>().text = gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -80,7 +80,7 @@ namespace EccsWindowHelper.Client.Prefabs
 			}
 		}
 
-		private static void constructSettingsTitle(GameObject parent, int width)
+		private static void constructSettingsTitle(GameObject parent, int width, bool alignTitleLeft)
 		{
 			GameObject gameObject = WindowHelper.makeGameObject("Eccs: Settings Entry Title");
 			RectTransform rectTransform = gameObject.AddComponent<RectTransform>();
@@ -94,7 +94,7 @@ namespace EccsWindowHelper.Client.Prefabs
 			gameObject.AddComponent<CanvasRenderer>();
 
 			TextMeshProUGUI text = WindowHelper.addTMP(gameObject);
-			text.horizontalAlignment = HorizontalAlignmentOptions.Right;
+			text.horizontalAlignment = alignTitleLeft ? HorizontalAlignmentOptions.Left : HorizontalAlignmentOptions.Right;
 			text.enableAutoSizing = false;
 			text.autoSizeTextContainer = false;
 			text.fontSize = 38.1f;

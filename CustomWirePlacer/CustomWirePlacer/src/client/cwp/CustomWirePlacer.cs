@@ -333,7 +333,6 @@ namespace CustomWirePlacer.Client.CWP
 
 			if(CWPTrigger.OpenSettings.DownThisFrame())
 			{
-				//TODO: When the settings window is closed, the mouse cursor may be lifted. Might need special handling.
 				CWPSettingsWindow.toggleVisibility();
 			}
 

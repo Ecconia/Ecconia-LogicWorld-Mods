@@ -133,92 +133,111 @@ namespace CustomWirePlacer.Client.CWP
 		}
 
 		//TBI: Somehow option preserve last skip rate?
-
 		//Make second group 2D, if first was.
 
-		public static IEnumerable<CWPSetting> collectSettings()
+		public static IEnumerable<SettingsWindowEntry> collectSettings()
 		{
-			yield return new CWPSetting
-			{
-				key = "CWP.Setting.ShowStatusOverlay",
-				setter = b => showStatusOverlay = b,
-				defaultValue = showStatusOverlay,
-				hoverKey = "CWP.Setting.ShowStatusOverlay.Description",
-			};
-			yield return new CWPSetting
-			{
-				key = "CWP.Setting.ShowStatusOverlayModifiers",
-				setter = b => showStatusOverlayModifiers = b,
-				defaultValue = showStatusOverlayModifiers,
-				hoverKey = "CWP.Setting.ShowStatusOverlayModifiers.Description",
-			};
-			yield return new CWPSetting
-			{
-				key = "CWP.Setting.ShowStatusOverlaySettings",
-				setter = b => showStatusOverlaySettings = b,
-				defaultValue = showStatusOverlaySettings,
-				hoverKey = "CWP.Setting.ShowStatusOverlaySettings.Description",
-			};
-			yield return new CWPSetting
+			//Other settings:
+			yield return new SettingsWindowSetting
 			{
 				key = "CWP.Setting.RaycastAtBottomOfPegs",
 				setter = b => raycastAtBottomOfPegs = b,
 				defaultValue = raycastAtBottomOfPegs,
 				hoverKey = "CWP.Setting.RaycastAtBottomOfPegs.Description",
 			};
-			yield return new CWPSetting
-			{
-				key = "CWP.Setting.ShowRaycastRay",
-				setter = b => showRaycastRay = b,
-				defaultValue = showRaycastRay,
-				hoverKey = "CWP.Setting.ShowRaycastRay.Description",
-			};
-			yield return new CWPSetting
+			yield return new SettingsWindowSetting
 			{
 				key = "CWP.Setting.ExpandUniformDistance",
 				setter = b => expandOnlyUniformDistance = b,
 				defaultValue = expandOnlyUniformDistance,
 				hoverKey = "CWP.Setting.ExpandUniformDistance.Description",
 			};
-			yield return new CWPSetting
+			yield return new SettingsWindowSetting
+			{
+				key = "CWP.Setting.ShowRaycastRay",
+				setter = b => showRaycastRay = b,
+				defaultValue = showRaycastRay,
+				hoverKey = "CWP.Setting.ShowRaycastRay.Description",
+			};
+			yield return new SettingsWindowSetting
 			{
 				key = "CWP.Setting.ConnectPegsInOneGroupWithEachOther",
 				setter = b => connectPegsInOneGroupWithEachOther = b,
 				defaultValue = connectPegsInOneGroupWithEachOther,
 				hoverKey = "CWP.Setting.ConnectPegsInOneGroupWithEachOther.Description",
 			};
-			yield return new CWPSetting
-			{
-				key = "CWP.Setting.ScrollSkipInMulDivOfTwoSteps",
-				setter = b => scrollSkipInMulDivOfTwoSteps = b,
-				defaultValue = scrollSkipInMulDivOfTwoSteps,
-				hoverKey = "CWP.Setting.ScrollSkipInMulDivOfTwoSteps.Description",
-			};
-			yield return new CWPSetting
-			{
-				key = "CWP.Setting.RoundSkipOffsetToNextBinaryNumber",
-				setter = b => roundSkipOffsetToNextBinaryNumber = b,
-				defaultValue = roundSkipOffsetToNextBinaryNumber,
-				hoverKey = "CWP.Setting.RoundSkipOffsetToNextBinaryNumber.Description",
-			};
-			yield return new CWPSetting
-			{
-				key = "CWP.Setting.ResetSkipOffsetWhenNotSkipping",
-				setter = b => resetSkipOffsetWhenNotSkipping = b,
-				defaultValue = resetSkipOffsetWhenNotSkipping,
-				hoverKey = "CWP.Setting.ResetSkipOffsetWhenNotSkipping.Description",
-			};
-			yield return new CWPSetting
+			yield return new SettingsWindowSetting
 			{
 				key = "CWP.Setting.AllowStartingWithOnePegGroup",
 				setter = b => allowStartingWithOnePegGroup = b,
 				defaultValue = allowStartingWithOnePegGroup,
 				hoverKey = "CWP.Setting.AllowStartingWithOnePegGroup.Description",
 			};
+			//Skip settings:
+			yield return new SettingsWindowTitle()
+			{
+				title = "CWP.Setting.Title.Skipping",
+			};
+			yield return new SettingsWindowSetting
+			{
+				key = "CWP.Setting.RoundSkipOffsetToNextBinaryNumber",
+				setter = b => roundSkipOffsetToNextBinaryNumber = b,
+				defaultValue = roundSkipOffsetToNextBinaryNumber,
+				hoverKey = "CWP.Setting.RoundSkipOffsetToNextBinaryNumber.Description",
+			};
+			yield return new SettingsWindowSetting
+			{
+				key = "CWP.Setting.ScrollSkipInMulDivOfTwoSteps",
+				setter = b => scrollSkipInMulDivOfTwoSteps = b,
+				defaultValue = scrollSkipInMulDivOfTwoSteps,
+				hoverKey = "CWP.Setting.ScrollSkipInMulDivOfTwoSteps.Description",
+			};
+			yield return new SettingsWindowSetting
+			{
+				key = "CWP.Setting.ResetSkipOffsetWhenNotSkipping",
+				setter = b => resetSkipOffsetWhenNotSkipping = b,
+				defaultValue = resetSkipOffsetWhenNotSkipping,
+				hoverKey = "CWP.Setting.ResetSkipOffsetWhenNotSkipping.Description",
+			};
+			//Status overlay:
+			yield return new SettingsWindowTitle()
+			{
+				title = "CWP.Setting.Title.Overlay",
+			};
+			yield return new SettingsWindowSetting
+			{
+				key = "CWP.Setting.ShowStatusOverlay",
+				setter = b => showStatusOverlay = b,
+				defaultValue = showStatusOverlay,
+				hoverKey = "CWP.Setting.ShowStatusOverlay.Description",
+			};
+			yield return new SettingsWindowSetting
+			{
+				key = "CWP.Setting.ShowStatusOverlayModifiers",
+				setter = b => showStatusOverlayModifiers = b,
+				defaultValue = showStatusOverlayModifiers,
+				hoverKey = "CWP.Setting.ShowStatusOverlayModifiers.Description",
+			};
+			yield return new SettingsWindowSetting
+			{
+				key = "CWP.Setting.ShowStatusOverlaySettings",
+				setter = b => showStatusOverlaySettings = b,
+				defaultValue = showStatusOverlaySettings,
+				hoverKey = "CWP.Setting.ShowStatusOverlaySettings.Description",
+			};
 		}
 	}
 
-	public class CWPSetting
+	public abstract class SettingsWindowEntry
+	{
+	}
+
+	public class SettingsWindowTitle : SettingsWindowEntry
+	{
+		public string title;
+	}
+	
+	public class SettingsWindowSetting : SettingsWindowEntry
 	{
 		public string key;
 		public string hoverKey;

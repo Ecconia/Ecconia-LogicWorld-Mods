@@ -1,0 +1,29 @@
+#Skipping:
+CWP.Setting.Title.Skipping: "Peg skipping"
+CWP.Setting.RoundSkipOffsetToNextBinaryNumber: "Round group-skip amount to binary"
+CWP.Setting.RoundSkipOffsetToNextBinaryNumber.Description: "The amount of pegs to group-skip will be a binary place value: 1 2 4 8 16 etc... This means that the jump step setting is ignored"
+CWP.Setting.ScrollSkipInMulDivOfTwoSteps: "Change skip amount with /2×2 steps"
+CWP.Setting.ScrollSkipInMulDivOfTwoSteps.Description: "When not rounding to binary skip amounts, and this setting enabled, the group skip amount will be multiplied or divided by 2, instead of incremented or decremented. Useful for sequences like: 3 6 12 24 etc"
+CWP.Setting.ResetSkipOffsetWhenNotSkipping: "Reset offset, when not skipping"
+CWP.Setting.ResetSkipOffsetWhenNotSkipping.Description: "With this setting enabled and the skipping is set to 0, the offset will be reset to 0 too. Might be handy, when you intend to change the skip amount anyway."
+
+#General behavior:
+CWP.Setting.AllowStartingWithOnePegGroup: "Allow first group to only have one peg"
+CWP.Setting.AllowStartingWithOnePegGroup.Description: "This feature is pure convenience for some situations when you want to start with a single-peg group. But beware, when enabled, you accidentally might get stuck in CWP while fine placing."
+CWP.Setting.ConnectPegsInOneGroupWithEachOther: "Connect wires in a single group"
+CWP.Setting.ConnectPegsInOneGroupWithEachOther.Description: "Tired of connecting [2...N] with [1...N-1] to connect a row of pegs? With this setting enabled, pegs in one group will be connected to each other."
+CWP.Setting.RaycastAtBottomOfPegs: "Raycast at bottom of pegs"
+CWP.Setting.RaycastAtBottomOfPegs.Description: "When working with pegs that have a different length, it is sometimes more convenient to use their position for raycasting instead of the connection point of the wires. This setting will change the raycast point."
+CWP.Setting.ShowRaycastRay: "Show raycast ray"
+CWP.Setting.ShowRaycastRay.Description: "When unsure why some pegs are collected and others not. It helps to see the ray that collects the pegs. This setting makes it visible."
+CWP.Setting.ExpandUniformDistance : "Uniform expand distance"
+CWP.Setting.ExpandUniformDistance.Description : "When expanding, CWP will try to gather sections of pegs with equal distance between them. But this distance may not be the same for each collected section. With this setting only sections will be collected, that have the same distance between pegs as the main section."
+
+#Status overlay:
+CWP.Setting.Title.Overlay: "Status overlay"
+CWP.Setting.ShowStatusOverlay : "Enable status overlay"
+CWP.Setting.ShowStatusOverlay.Description : "Shows an overlay that contains peg count and skip type/amount/offset as well as other states of CWP."
+CWP.Setting.ShowStatusOverlayModifiers: "Include modifiers"
+CWP.Setting.ShowStatusOverlayModifiers.Description: "Show when a modifier for the next or current action is active."
+CWP.Setting.ShowStatusOverlaySettings: "Include settings"
+CWP.Setting.ShowStatusOverlaySettings.Description: "Show when there are settings enabled, which change the behavior quite a lot. Sometimes one wants to be aware that they are on, rather than being confused about the behavior."
