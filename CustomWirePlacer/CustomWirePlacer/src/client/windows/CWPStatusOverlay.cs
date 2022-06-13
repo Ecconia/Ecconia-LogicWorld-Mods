@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text;
 using CustomWirePlacer.Client.CWP;
 using EccsWindowHelper.Client;
+using LogicLocalization;
 using LogicUI.MenuTypes;
 using LogicWorld.UI.DebugToggleTexts;
 using LogicWorld.UI.HelpList;
@@ -12,11 +13,12 @@ using UnityEngine;
 
 namespace CustomWirePlacer.Client.Windows
 {
-	public class CWPStatusOverlay : MonoBehaviour
+	public class CWPStatusOverlay : MonoBehaviour, ILocalizedObject
 	{
 		private static GameObject rootObject;
 		private static RectTransform windowRect;
 
+		private static CWPStatusOverlay instance;
 		private static bool genericDirty = true;
 
 		private const float h = 0.5f;
@@ -41,10 +43,6 @@ namespace CustomWirePlacer.Client.Windows
 				windowRect = rectTransform;
 
 				windowObject.AddComponent<CanvasRenderer>();
-
-				// ContentSizeFitter fitter = windowObject.AddComponent<ContentSizeFitter>();
-				// fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-				// fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
 				windowObject.SetActive(true);
 				windowObject.setParent(rootObject);
@@ -91,12 +89,15 @@ namespace CustomWirePlacer.Client.Windows
 		public static void setVisible(bool val)
 		{
 			rootObject.SetActive(val);
+			instance.updatePosition(true);
 		}
 
 		private TextMeshProUGUI textMesh;
 
 		public void Initialize()
 		{
+			instance = this;
+
 			//Add a text-field:
 			textMesh = gameObject.GetComponent<TextMeshProUGUI>();
 			textMesh.fontSize = 40;
@@ -111,6 +112,8 @@ namespace CustomWirePlacer.Client.Windows
 			{
 				ModClass.logger.Error("Could not find field 'PlaceholdersParents' in class 'DebugToggleTextManager'. Cannot properly set status display depending on debug window state.");
 			}
+
+			TextLocalizer.Initialize(this);
 		}
 
 		private void setText(string text)
@@ -123,11 +126,6 @@ namespace CustomWirePlacer.Client.Windows
 		private DebugToggleTextManager obj;
 		private bool keyHelpOpen;
 		private byte debugState;
-
-		private void OnEnable()
-		{
-			updatePosition(true);
-		}
 
 		private void updatePosition(bool dirty = false)
 		{
@@ -181,12 +179,12 @@ namespace CustomWirePlacer.Client.Windows
 
 		private void Update()
 		{
-			updatePosition();
 			if(!CWP.CustomWirePlacer.isActive())
 			{
-				setText("CWP OFF");
+				setText(TextLocalizer.LocalizeByKey("CWP.StatusOverlay.Off"));
 				return;
 			}
+			updatePosition();
 			if(genericDirty)
 			{
 				constructText();
@@ -203,21 +201,29 @@ namespace CustomWirePlacer.Client.Windows
 			//Peg count:
 			if(firstGroup.isSet())
 			{
-				string text = "#1: " + firstGroup.getPegCount();
 				if(firstGroup.isTwoDimensional())
 				{
-					text += " (" + firstGroup.getFirstAxis().getPegCount() + "x" + firstGroup.getSecondAxis().getPegCount() + ")";
+					sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.Dim2Pegs", 1, firstGroup.getPegCount(),
+					                                        firstGroup.getFirstAxis().getPegCount(), firstGroup.getSecondAxis().getPegCount()));
 				}
-				sb.Append(text).Append('\n');
+				else
+				{
+					sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.Dim1Pegs", 1, firstGroup.getPegCount()));
+				}
+				sb.Append('\n');
 			}
 			if(secondGroup.isSet())
 			{
-				string text = "#2: " + secondGroup.getPegCount();
-				if(secondGroup.isTwoDimensional())
+				if(firstGroup.isTwoDimensional())
 				{
-					text += " (" + secondGroup.getFirstAxis().getPegCount() + "x" + secondGroup.getSecondAxis().getPegCount() + ")";
+					sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.Dim2Pegs", 2, firstGroup.getPegCount(),
+					                                        firstGroup.getFirstAxis().getPegCount(), firstGroup.getSecondAxis().getPegCount()));
 				}
-				sb.Append(text).Append('\n');
+				else
+				{
+					sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.Dim1Pegs", 2, firstGroup.getPegCount()));
+				}
+				sb.Append('\n');
 			}
 
 			//Current axis details:
@@ -226,22 +232,24 @@ namespace CustomWirePlacer.Client.Windows
 			int backward = currentAxis.backwards != null ? currentAxis.backwards.Count : 0;
 			if(forward != 0 || backward != 0)
 			{
-				sb.Append(backward + " ←→ " + forward + "\n");
+				sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.Expand", backward, forward)).Append('\n');
 			}
 
 			//Skipping:
 			int amount = currentGroup.getCurrentAxis().skipNumber;
 			if(amount != 0)
 			{
-				sb.Append("Skipping <color=yellow>" + (
-					          currentGroup.getCurrentAxis().binarySkipping
-						          ? amount + "</color>-peg groups"
-						          : amount + "</color> peg" + (amount == 1 ? "" : "s") + "."
-				          ) + "\n"
-				);
+				if(currentGroup.getCurrentAxis().binarySkipping)
+				{
+					sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.SkipStateGroup", amount)).Append('\n');
+				}
+				else
+				{
+					sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.SkipStateNormal", amount, (amount == 1 ? "" : "s"))).Append('\n');
+				}
 				if(currentGroup.getCurrentAxis().skipOffset != 0)
 				{
-					sb.Append("Skip offset: <color=yellow>" + currentGroup.getCurrentAxis().skipOffset + "</color>\n");
+					sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.SkipOffset", currentGroup.getCurrentAxis().skipOffset)).Append('\n');
 				}
 			}
 
@@ -250,15 +258,15 @@ namespace CustomWirePlacer.Client.Windows
 			{
 				if(CWPSettings.flipping)
 				{
-					sb.Append("<color=yellow>Flipping wires</color>\n");
+					sb.Append(TextLocalizer.LocalizeByKey("CWP.StatusOverlay.Flipping")).Append('\n');
 				}
 				if(CWP.CustomWirePlacer.pendingTwoDimensional)
 				{
-					sb.Append("<color=yellow>Add 2D axis</color>\n");
+					sb.Append(TextLocalizer.LocalizeByKey("CWP.StatusOverlay.TwoDim")).Append('\n');
 				}
 				if(CWP.CustomWirePlacer.waitForPegToApplyPatternTo)
 				{
-					sb.Append("<color=yellow>Apply Pattern</color>\n");
+					sb.Append(TextLocalizer.LocalizeByKey("CWP.StatusOverlay.Pattern")).Append('\n');
 				}
 			}
 
@@ -267,11 +275,11 @@ namespace CustomWirePlacer.Client.Windows
 			{
 				if(CWPSettings.raycastAtBottomOfPegs)
 				{
-					sb.Append("<color=#0ff>Raycast at bottom</color>\n");
+					sb.Append(TextLocalizer.LocalizeByKey("CWP.StatusOverlay.RaycastBottom")).Append('\n');
 				}
 				if(CWPSettings.expandOnlyUniformDistance)
 				{
-					sb.Append("<color=#0ff>Fixed expand gaps</color>\n");
+					sb.Append(TextLocalizer.LocalizeByKey("CWP.StatusOverlay.ExpandUniform")).Append('\n');
 				}
 			}
 
@@ -289,6 +297,11 @@ namespace CustomWirePlacer.Client.Windows
 		}
 
 		public static void setDirtySettingsConfig()
+		{
+			setDirtyGeneric();
+		}
+
+		public void UpdateLocalization()
 		{
 			setDirtyGeneric();
 		}
