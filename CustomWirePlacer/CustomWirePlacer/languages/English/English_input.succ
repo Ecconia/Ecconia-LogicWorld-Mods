@@ -1,7 +1,91 @@
-FancyInput.Trigger.CustomWirePlacer.OpenSettings : "Open Custom-Wire-Placer settings"
-FancyInput.Trigger.CustomWirePlacer.OpenSettings.Description: "Toggles the CWPs settings window."
-
-FancyInput.Trigger.CustomWirePlacer.ApplyNormalAction : "Apply default action"
-FancyInput.Trigger.CustomWirePlacer.ApplyNormalAction.Description: "Will apply the normal building action, as if you did not hold the mod key, on mouse release. For one group, this is connecting all pegs in a row, for two groups it is connecting them with each other."
-
 MHG.SettingsMenu.Pages.Controls.Headings.CustomWirePlacer: "Custom Wire Placer"
+
+FancyInput.Trigger.CustomWirePlacer.Modificator : "Mod"
+FancyInput.Trigger.CustomWirePlacer.Modificator.Description : """
+    The good old `Mod` key, just like LW normally uses it. But this one applies to CWP only.
+    
+    Main usage: When releasing `DrawWire` key while holding `Mod` CWP goes into a stall state, where you can modify your group or start a new one. Also part of the vanilla MWP.
+    
+    And that is already all usage. Any more feature here, and the usage of CWP would become much more complicated.   
+    The primary advantage is, that one can keep the `Mod` key easily held. Which makes it quite comfortable to use.
+    
+    (In case you wonder, mods cannot set meta keys yet - at least not in an obvious way).
+    """
+FancyInput.Trigger.CustomWirePlacer.ModificatorAlternative: "Alt"
+FancyInput.Trigger.CustomWirePlacer.ModificatorAlternative.Description: """
+    An alternative mod key.
+    
+    Since the normal `Mod` key, would easily become way to complicated to use, the `Alt` modifier contains all remaining features.  
+    `Alt` is always used in a way, that you never need to hold it, it only leads as a Modifier when using the mouse-wheel or pressing or releasing a key.  
+    By design you can set the `Alt` key to be the same key as `Mod`, but that is very difficult to use.
+    
+    List of features using `Alt`:
+    - When holding `Alt`, while clicking the very first peg of CWP, you can draw a peg with a wire connected to the starting peg. Good for free-form placement.
+    - When holding `Alt` and one of the two `Expand` keys, the mouse wheel allows expanding by 1 peg, or even removing one expanded peg.
+    - When holding `Alt`, when using `DrawWire` in stall mode, it will not start a new group, but white or blacklist pegs.<br>Blacklist pegs will be ignored, regardless of where in the group they are. While whitelisted pegs will be appended to the list of pegs (wires connect to it last).<br>If a peg was selected it becomes blacklisted, else whitelisted.
+    
+    If you can read this paragraph, then LogicWorld fixed a bug, where you could not scroll all the way down. Or you are lucky.
+    """
+FancyInput.Trigger.CustomWirePlacer.ApplyNormalAction : "Apply default action"
+FancyInput.Trigger.CustomWirePlacer.ApplyNormalAction.Description: """
+    Will apply the normal building action, as if you did not enter the stall mode.
+    
+    For one group, this is connecting all pegs in a row, for two groups it is connecting them with each other.
+    """
+FancyInput.Trigger.CustomWirePlacer.ExpandFurther: "Expand forwards"
+FancyInput.Trigger.CustomWirePlacer.ExpandFurther.Description: """
+    Once two pegs are selected, one can expand in that direction 'upwards'.
+    
+    Each press of this key will try to detect another section of pegs and add it.
+    
+    When holding `Alt` while pressing this key and using the mouse-wheel, you can expand by 1 or remove the last discovered peg again.
+    """
+FancyInput.Trigger.CustomWirePlacer.ExpandBackwards: "Expand backwards"
+FancyInput.Trigger.CustomWirePlacer.ExpandBackwards.Description: """
+    Once two pegs are selected, one can expand in that direction 'downwards'.
+    
+    Each press of this key will try to detect another section of pegs and add it.
+    
+    When holding `Alt` while pressing this key and using the mouse-wheel, you can expand by 1 or remove the last discovered peg again.
+    """
+FancyInput.Trigger.CustomWirePlacer.Flip: "Flip"
+FancyInput.Trigger.CustomWirePlacer.Flip.Description: """
+    Flip the order of the second group, so that the wires are connected the other way round.
+    """
+FancyInput.Trigger.CustomWirePlacer.RemoveWires: "Remove wires"
+FancyInput.Trigger.CustomWirePlacer.RemoveWires.Description: """
+    When only one group is selected, it removes all wires from the selected pegs.  
+    With two groups it removes the wires in between these two groups.
+    
+    It does not terminate CWP, to allow further actions with the same group (Good for replacing wires in a different way).
+    """
+FancyInput.Trigger.CustomWirePlacer.ApplyPattern: "Apply pattern"
+FancyInput.Trigger.CustomWirePlacer.ApplyPattern.Description: """
+    Attempts to apply the pattern of pegs of the first group with the first peg of it as origin onto the second group.  
+    Here the first peg of that group will be the new origin.
+    
+    The pattern will not get rotated or modified.  
+    When already holding 'DrawWire', then the pattern applies immediately.
+    """
+FancyInput.Trigger.CustomWirePlacer.SkipModeSwitch: "Switch skip mode"
+FancyInput.Trigger.CustomWirePlacer.SkipModeSwitch.Description: """
+    Switches between `Skip N pegs and select 1 peg` and `Skip N pegs and select N pegs` modes.
+    
+    Check the settings, to further customize the skipping.
+    """
+FancyInput.Trigger.CustomWirePlacer.GoTwoDimensional: "Switch to 2D group"
+FancyInput.Trigger.CustomWirePlacer.GoTwoDimensional.Description: """
+    Toggles the 2D mode.  
+    Once enabled, the next `DrawWire` action is treated as the second axis for the current (now 2D) group.
+    
+    The first axis are selected pegs. The second axis only defines the offsets.  
+    Each offset (vector from a peg to the next one), of the second axis, will be added to the pegs from the first axis.  
+    This way a grid can be constructed. It does not matter where the second axis is, as long as the offsets match.
+    
+    If you have 1-group MWP enabled, the wires will be connected along the second axis (each peg of the first axis, is part of its own wire).
+    """
+FancyInput.Trigger.CustomWirePlacer.OpenSettings : "Open CustomWirePlacer settings"
+FancyInput.Trigger.CustomWirePlacer.OpenSettings.Description: """
+    Toggles the CWPs settings window.  
+    Active while performing a CWP action (placing a wire/selecting pegs for it).
+    """
