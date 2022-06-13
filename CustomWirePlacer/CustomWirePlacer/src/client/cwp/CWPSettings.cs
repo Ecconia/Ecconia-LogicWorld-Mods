@@ -6,8 +6,6 @@ namespace CustomWirePlacer.Client.CWP
 {
 	public static class CWPSettings
 	{
-		public static bool flipping; //TODO: Should this be here for now?
-
 		private static bool _showStatusOverlay = true;
 
 		public static bool showStatusOverlay

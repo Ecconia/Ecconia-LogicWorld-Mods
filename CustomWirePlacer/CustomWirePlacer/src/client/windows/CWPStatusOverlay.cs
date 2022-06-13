@@ -256,7 +256,7 @@ namespace CustomWirePlacer.Client.Windows
 			//Modifiers:
 			if(CWPSettings.showStatusOverlayModifiers)
 			{
-				if(CWPSettings.flipping)
+				if(CWP.CustomWirePlacer.flipping)
 				{
 					sb.Append(TextLocalizer.LocalizeByKey("CWP.StatusOverlay.Flipping")).Append('\n');
 				}

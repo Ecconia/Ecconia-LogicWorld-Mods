@@ -34,6 +34,7 @@ namespace CustomWirePlacer.Client.CWP
 		private static bool applyOnUp;
 		//When this is set, the next peg clicked will be used for the pattern of the second group.
 		public static bool waitForPegToApplyPatternTo;
+		public static bool flipping;
 
 		private static bool doNotApplyExpandForward;
 		private static bool doNotApplyExpandBackwards;
@@ -90,12 +91,10 @@ namespace CustomWirePlacer.Client.CWP
 			pendingTwoDimensional = false;
 			doNotApplyExpandForward = doNotApplyExpandBackwards = false;
 			toggleListMode = false;
+			flipping = false;
 
 			firstGroup.showFirstPeg();
 			currentGroup = firstGroup;
-
-			//Handle settings:
-			CWPSettings.flipping = false;
 
 			if(CWPSettings.showStatusOverlay)
 			{
@@ -222,7 +221,7 @@ namespace CustomWirePlacer.Client.CWP
 
 				if(CWPTrigger.ApplyPattern.DownThisFrame())
 				{
-					waitForPegToApplyPatternTo = true;
+					waitForPegToApplyPatternTo = !waitForPegToApplyPatternTo;
 					CWPStatusOverlay.setDirtyGeneric();
 				}
 
@@ -340,7 +339,7 @@ namespace CustomWirePlacer.Client.CWP
 
 			if(CWPTrigger.Flip.DownThisFrame())
 			{
-				CWPSettings.flipping = !CWPSettings.flipping;
+				flipping = !flipping;
 				updated = true;
 			}
 
@@ -458,7 +457,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				List<PegAddress> smaller = firstGroup.getPegs().ToList();
 				List<PegAddress> bigger = secondGroup.getPegs().ToList();
-				if(CWPSettings.flipping)
+				if(flipping)
 				{
 					bigger.Reverse(); //Not pretty, but does the job reliably.
 				}
