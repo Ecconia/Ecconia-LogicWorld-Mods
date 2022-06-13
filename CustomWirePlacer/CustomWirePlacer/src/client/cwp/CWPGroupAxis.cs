@@ -263,7 +263,7 @@ namespace CustomWirePlacer.Client.CWP
 		public bool updateSkipNumber(int offset)
 		{
 			int oldValue = skipNumber;
-			if(binarySkipping && CWPSettings.scrollSkipInMulDivOfTwoSteps)
+			if(binarySkipping && (CWPSettings.scrollSkipInMulDivOfTwoSteps || CWPSettings.roundSkipOffsetToNextBinaryNumber))
 			{
 				roundSkipOffsetToBinary(); //Make the value valid (if required) before changing it.
 				skipNumber = offset == 1 //If UP
