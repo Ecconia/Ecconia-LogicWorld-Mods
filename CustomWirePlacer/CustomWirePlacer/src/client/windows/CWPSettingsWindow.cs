@@ -129,7 +129,7 @@ namespace CustomWirePlacer.Client.Windows
 				rectTransform.sizeDelta = new Vector2(width, 60f);
 			}
 			gameObject.AddComponent<CanvasRenderer>();
-			
+
 			TextMeshProUGUI text = WindowHelper.addTMP(gameObject);
 			text.enableAutoSizing = false;
 			text.autoSizeTextContainer = false;
@@ -138,7 +138,7 @@ namespace CustomWirePlacer.Client.Windows
 			text.horizontalAlignment = HorizontalAlignmentOptions.Center;
 			LocalizedTextMesh localizedTextMesh = gameObject.addLocalizedTextMesh();
 			localizedTextMesh.SetLocalizationKey(titleKey);
-			
+
 			gameObject.SetActive(true);
 			gameObject.setParent(contentArea);
 		}

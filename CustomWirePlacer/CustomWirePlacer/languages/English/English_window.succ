@@ -1,3 +1,4 @@
 CustomWirePlacer.WindowTitle : "Custom Wire Placer Settings"
 CustomWirePlacer.WindowSettingsTitle : "CWP Window Settings"
+
 CWP.WindowSetting.CloseWindowOnBackgroundClick : "Close on background click"
