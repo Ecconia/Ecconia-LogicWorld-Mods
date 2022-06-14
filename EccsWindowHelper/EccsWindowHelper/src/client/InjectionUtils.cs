@@ -197,6 +197,7 @@ namespace EccsWindowHelper.Client
 		// ### Localized Text Mesh ###
 
 		private static FieldInfo fieldLocalizedTextMeshTextMesh;
+		private static FieldInfo fieldLocalizedTextMeshKey;
 
 		public static LocalizedTextMesh addLocalizedTextMesh(this GameObject gameObject)
 		{
@@ -211,6 +212,11 @@ namespace EccsWindowHelper.Client
 				loadField(out fieldLocalizedTextMeshTextMesh, typeof(LocalizedTextMesh), "textmesh");
 			}
 			fieldLocalizedTextMeshTextMesh.SetValue(localizedTextMesh, tmpText);
+			if(fieldLocalizedTextMeshKey == null)
+			{
+				loadField(out fieldLocalizedTextMeshKey, typeof(LocalizedTextMesh), "Key");
+			}
+			fieldLocalizedTextMeshKey.SetValue(localizedTextMesh, TextLocalizer.LocalizationKeyForEmptyString);
 			return localizedTextMesh;
 		}
 
