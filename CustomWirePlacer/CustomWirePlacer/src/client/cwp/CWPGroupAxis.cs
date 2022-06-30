@@ -610,6 +610,10 @@ namespace CustomWirePlacer.Client.CWP
 
 		public void updateExpandBackwardsCount(int offset)
 		{
+			if(secondPeg == null)
+			{
+				return;
+			}
 			hide();
 			if(offset == 1)
 			{
@@ -632,6 +636,10 @@ namespace CustomWirePlacer.Client.CWP
 
 		public void updateExpandFurtherCount(int offset)
 		{
+			if(secondPeg == null)
+			{
+				return;
+			}
 			hide();
 			if(offset == 1)
 			{
