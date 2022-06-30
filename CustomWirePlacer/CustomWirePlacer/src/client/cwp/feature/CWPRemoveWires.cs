@@ -17,7 +17,12 @@ namespace CustomWirePlacer.Client.CWP.feature
 			for(int index = 0; index < pegs.Count; index++)
 			{
 				PegAddress peg = pegs[index];
-				foreach(WireAddress wireAddress in world.LookupPegWires(peg))
+				HashSet<WireAddress> wires = world.LookupPegWires(peg);
+				if(wires == null)
+				{
+					continue;
+				}
+				foreach(WireAddress wireAddress in wires)
 				{
 					Wire wire = world.Lookup(wireAddress);
 					PegAddress pegOtherSide = wire.Point1 == peg ? wire.Point2 : wire.Point1;
@@ -45,7 +50,12 @@ namespace CustomWirePlacer.Client.CWP.feature
 			for(int index = 0; index < pegs.Count; index++)
 			{
 				PegAddress peg = pegs[index];
-				foreach(WireAddress wireAddress in world.LookupPegWires(peg))
+				HashSet<WireAddress> wires = world.LookupPegWires(peg);
+				if(wires == null)
+				{
+					continue;
+				}
+				foreach(WireAddress wireAddress in wires)
 				{
 					Wire wire = world.Lookup(wireAddress);
 					PegAddress pegOtherSide = wire.Point1 == peg ? wire.Point2 : wire.Point1;
@@ -61,20 +71,6 @@ namespace CustomWirePlacer.Client.CWP.feature
 			{
 				BuildRequestManager.SendManyBuildRequestsAsMultiUndoItem(requests);
 			}
-		}
-
-		private static int lookupPegIndex(List<PegAddress> pegs, PegAddress target)
-		{
-			int result = 0;
-			foreach(PegAddress p in pegs)
-			{
-				if(p == target)
-				{
-					return result;
-				}
-				result++;
-			}
-			return -1;
 		}
 	}
 }
