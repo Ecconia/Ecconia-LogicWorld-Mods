@@ -7,7 +7,6 @@ using LogicLocalization;
 using LogicUI.MenuTypes;
 using LogicWorld.UI.DebugToggleTexts;
 using LogicWorld.UI.HelpList;
-using ThisOtherThing.UI.Shapes;
 using TMPro;
 using UnityEngine;
 
@@ -20,8 +19,6 @@ namespace CustomWirePlacer.Client.Windows
 
 		private static CWPStatusOverlay instance;
 		private static bool genericDirty = true;
-
-		private const float h = 0.5f;
 
 		public static void Init()
 		{
@@ -47,24 +44,8 @@ namespace CustomWirePlacer.Client.Windows
 				windowObject.SetActive(true);
 				windowObject.setParent(rootObject);
 			}
-
-			//Add background:
-			{
-				GameObject backgroundObject = WindowHelper.makeGameObject("CWP - Status background");
-				RectTransform rectTransform = backgroundObject.AddComponent<RectTransform>();
-				rectTransform.anchorMin = new Vector2(0, 0);
-				rectTransform.anchorMax = new Vector2(1, 1);
-				rectTransform.pivot = new Vector2(h, h);
-				rectTransform.sizeDelta = new Vector2(0, 0);
-
-				backgroundObject.AddComponent<CanvasRenderer>();
-
-				Rectangle background = backgroundObject.AddComponent<Rectangle>();
-				background.color = new Color(0f, 0f, 0f, 0.5f);
-
-				backgroundObject.SetActive(true);
-				backgroundObject.setParent(windowObject);
-			}
+			
+			CWPUIHelper.addBackground(windowObject);
 
 			//Add foreground:
 			{
@@ -104,7 +85,6 @@ namespace CustomWirePlacer.Client.Windows
 			textMesh.verticalAlignment = VerticalAlignmentOptions.Top;
 			textMesh.horizontalAlignment = HorizontalAlignmentOptions.Left;
 			textMesh.autoSizeTextContainer = true;
-			textMesh.overflowMode = TextOverflowModes.Overflow;
 			textMesh.enableWordWrapping = false;
 
 			fieldRect = typeof(DebugToggleTextManager).GetField("PlaceholdersParent", BindingFlags.Instance | BindingFlags.NonPublic);

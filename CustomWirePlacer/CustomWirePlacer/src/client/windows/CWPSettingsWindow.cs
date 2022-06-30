@@ -37,7 +37,7 @@ namespace CustomWirePlacer.Client.Windows
 			WindowBuilder builder = new WindowBuilder
 			{
 				x = 0,
-				y = 100, //Half of height, centers the window. 
+				y = 550, //Half of height, centers the window roughly. 
 				w = 300,
 				h = 200,
 				isResizableX = false,

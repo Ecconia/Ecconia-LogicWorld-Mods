@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using FancyInput;
+using LogicUI;
 using LogicWorld.GameStates;
+using LogicWorld.Input;
 
 namespace CustomWirePlacer.Client.CWP.PegDrawing
 {
@@ -16,6 +19,9 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 
 		public override IEnumerable<InputTrigger> HelpScreenTriggers => new InputTrigger[]
 		{
+			(InputTrigger) (Enum) UITrigger.Back,
+			(InputTrigger) (Enum) Trigger.CancelPlacing,
+			(InputTrigger) (Enum) Trigger.DrawWire,
 		};
 
 		//Routines:

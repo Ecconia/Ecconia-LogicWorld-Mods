@@ -20,6 +20,18 @@ namespace CustomWirePlacer.Client.CWP
 				}
 			}
 		}
+
+		private static bool _showHelpOverlay = true;
+
+		public static bool showHelpOverlay
+		{
+			get => _showHelpOverlay;
+			private set
+			{
+				_showHelpOverlay = value;
+				CWPHelpOverlay.checkVisibility();
+			}
+		}
 		
 		private static bool _showStatusOverlayModifiers = true;
 
@@ -224,6 +236,13 @@ namespace CustomWirePlacer.Client.CWP
 				setter = b => showStatusOverlaySettings = b,
 				defaultValue = showStatusOverlaySettings,
 				hoverKey = "CWP.Setting.ShowStatusOverlaySettings.Description",
+			};
+			yield return new SettingsWindowSetting
+			{
+				key = "CWP.Setting.ShowHelpOverlay",
+				setter = b => showHelpOverlay = b,
+				defaultValue = showHelpOverlay,
+				hoverKey = "CWP.Setting.ShowHelpOverlay.Description",
 			};
 		}
 	}

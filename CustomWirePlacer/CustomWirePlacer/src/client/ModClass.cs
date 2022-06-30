@@ -16,11 +16,12 @@ namespace CustomWirePlacer.Client
 
 			//Hijack the original WirePlacer to do nothing and instead use the custom one.
 			Hijacker.hijackWirePlacer();
-			//Initialize the status overlay:
+			//Initialize the overlays:
 			CWPStatusOverlay.Init();
+			CWPHelpOverlay.Init();
 			//Initialize keys:
 			CustomInput.Register<CWPContext, CWPTrigger>("CustomWirePlacer");
-			
+
 			//Prepare settings window:
 			CWPSettingsWindow.init();
 		}

@@ -84,8 +84,10 @@ FancyInput.Trigger.CustomWirePlacer.GoTwoDimensional.Description: """
     
     If you have 1-group MWP enabled, the wires will be connected along the second axis (each peg of the first axis, is part of its own wire).
     """
-FancyInput.Trigger.CustomWirePlacer.OpenSettings : "Open CustomWirePlacer settings"
+FancyInput.Trigger.CustomWirePlacer.OpenSettings : "CWP Settings"
 FancyInput.Trigger.CustomWirePlacer.OpenSettings.Description: """
     Toggles the CWPs settings window.  
     Active while performing a CWP action (placing a wire/selecting pegs for it).
     """
+
+FancyInput.Trigger.CustomWirePlacer.GenericMouseWheel : "Mouse Wheel"

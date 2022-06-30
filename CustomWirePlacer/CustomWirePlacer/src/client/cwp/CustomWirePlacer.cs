@@ -5,6 +5,7 @@ using CustomWirePlacer.Client.Windows;
 using LogicAPI.Data;
 using LogicAPI.Data.BuildingRequests;
 using LogicUI;
+using LogicUI.MenuTypes;
 using LogicWorld.Audio;
 using LogicWorld.Building;
 using LogicWorld.BuildingManagement;
@@ -12,6 +13,7 @@ using LogicWorld.GameStates;
 using LogicWorld.Input;
 using LogicWorld.Interfaces;
 using LogicWorld.Outlines;
+using LogicWorld.UI.HelpList;
 
 namespace CustomWirePlacer.Client.CWP
 {
@@ -36,8 +38,8 @@ namespace CustomWirePlacer.Client.CWP
 		public static bool waitForPegToApplyPatternTo;
 		public static bool flipping;
 
-		private static bool doNotApplyExpandForward;
-		private static bool doNotApplyExpandBackwards;
+		public static bool doNotApplyExpandForward;
+		public static bool doNotApplyExpandBackwards;
 
 		public static bool pendingTwoDimensional;
 		private static bool toggleListMode;
@@ -67,8 +69,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		private static void startWireDrawing(PegAddress initialPeg)
 		{
-			bool isAlternativeMode = CWPTrigger.ModificatorAlternative.Held();
-			if(isAlternativeMode)
+			if(CWPTrigger.ModificatorAlternative.Held())
 			{
 				PegDrawing.PegDrawing.switchToPegDrawingMode(initialPeg);
 				return;
@@ -101,6 +102,7 @@ namespace CustomWirePlacer.Client.CWP
 				CWPStatusOverlay.setVisible(true);
 			}
 			active = true;
+			CWPHelpOverlay.updateText(); //Has to be called manually, because it only works after this initialization.
 		}
 
 		private static void cleanUpWireGhosts()
@@ -140,16 +142,26 @@ namespace CustomWirePlacer.Client.CWP
 				return;
 			}
 
+			if(Trigger.ToggleHelp.DownThisFrame())
+			{
+				ToggleableSingletonMenu<HelpListMenu>.ToggleMenu();
+			}
+
 			bool updated = false;
 
 			if(CWPTrigger.GoTwoDimensional.DownThisFrame())
 			{
+				bool old = pendingTwoDimensional;
 				pendingTwoDimensional = !pendingTwoDimensional;
 				if(currentGroup.isTwoDimensional())
 				{
 					pendingTwoDimensional = false;
 				}
-				CWPStatusOverlay.setDirtyGeneric();
+				if(pendingTwoDimensional != old)
+				{
+					CWPStatusOverlay.setDirtyGeneric();
+					CWPHelpOverlay.updateText();
+				}
 			}
 
 			//Handle peg-selection and mouse-up while drawing:
@@ -179,13 +191,22 @@ namespace CustomWirePlacer.Client.CWP
 								// But when a second group exists, the wire will update and a sound has to be played.
 								SoundPlayer.PlaySoundAt(Sounds.ConnectionInitial, currentlyLookingAtPeg);
 							}
+							//Group has only one peg now -> Update the help, no longer stall mode with first group, and expand disabled.
+							CWPHelpOverlay.updateText();
 							updated = true;
 						}
 					}
 					else if(currentlyLookingAtPeg != currentGroup.getSecondPeg())
 					{
+						bool updateHelp = currentGroup.getCurrentAxis().secondPeg == null || !currentGroup.hasMultiplePegs();
 						//Peg switched:
 						currentGroup.setSecondPeg(currentlyLookingAtPeg);
+						if(updateHelp)
+						{
+							//More than one peg in first group -> Update the help, because we might no longer be able to go to stall mode.
+							//Or had no second peg, but now have a second peg, expand in help needs to be updated.
+							CWPHelpOverlay.updateText();
+						}
 						raycastLine.refresh();
 						SoundPlayer.PlaySoundAt(Sounds.ConnectionInitial, currentlyLookingAtPeg);
 						updated = true;
@@ -289,6 +310,8 @@ namespace CustomWirePlacer.Client.CWP
 							}
 							raycastLine.setAxis(currentGroup.getCurrentAxis());
 						}
+						//The mouse click state changed, update the help text, because there very likely was a change to the state.
+						CWPHelpOverlay.updateText();
 					}
 					lastLookedAtPeg = lookingAt;
 				}
@@ -310,6 +333,10 @@ namespace CustomWirePlacer.Client.CWP
 			//Feature handling, that do not depend on the drawing state:
 
 			//The expand/discover feature may actually be used while still drawing. However they get reset, if the second peg changes.
+			if(CWPTrigger.ExpandFurther.DownThisFrame() || CWPTrigger.ExpandBackwards.DownThisFrame())
+			{
+				CWPHelpOverlay.updateText();
+			}
 			if(CWPTrigger.ExpandBackwards.UpThisFrame())
 			{
 				if(!doNotApplyExpandBackwards)
@@ -319,6 +346,7 @@ namespace CustomWirePlacer.Client.CWP
 					updated = true; //Always update, detecting changes is too complicated.
 				}
 				doNotApplyExpandBackwards = false;
+				CWPHelpOverlay.updateText();
 			}
 			if(CWPTrigger.ExpandFurther.UpThisFrame())
 			{
@@ -329,6 +357,7 @@ namespace CustomWirePlacer.Client.CWP
 					updated = true; //Always update, detecting changes is too complicated.
 				}
 				doNotApplyExpandForward = false;
+				CWPHelpOverlay.updateText();
 			}
 
 			if(CWPTrigger.OpenSettings.DownThisFrame())
@@ -349,6 +378,11 @@ namespace CustomWirePlacer.Client.CWP
 				updated = true;
 			}
 
+			if(CWPTrigger.ModificatorAlternative.UpThisFrame() || CWPTrigger.ModificatorAlternative.DownThisFrame())
+			{
+				//Required, to update the skip text.
+				CWPHelpOverlay.updateText();
+			}
 			{
 				bool up = Trigger.IncreaseMultiWirePlacingInterval.Held();
 				bool down = Trigger.DecreaseMultiWirePlacingInterval.Held();
@@ -360,7 +394,12 @@ namespace CustomWirePlacer.Client.CWP
 					{
 						currentGroup.updateExpandBackwardsCount(offset);
 						raycastLine.refresh();
+						bool old = doNotApplyExpandBackwards;
 						doNotApplyExpandBackwards = true;
+						if(doNotApplyExpandBackwards != old)
+						{
+							CWPHelpOverlay.updateText();
+						}
 						doSkipping = false;
 						updated = true;
 					}
@@ -368,7 +407,12 @@ namespace CustomWirePlacer.Client.CWP
 					{
 						currentGroup.updateExpandFurtherCount(offset);
 						raycastLine.refresh();
+						bool old = doNotApplyExpandForward;
 						doNotApplyExpandForward = true;
+						if(doNotApplyExpandForward != old)
+						{
+							CWPHelpOverlay.updateText();
+						}
 						doSkipping = false;
 						updated = true;
 					}
@@ -429,6 +473,7 @@ namespace CustomWirePlacer.Client.CWP
 			if(!applyOnUp)
 			{
 				//We ran an action that stopped drawing mode, before the mouse was released.
+				CWPHelpOverlay.updateText(); //Switching state (going into stall), update help.
 				return false;
 			}
 			applyOnUp = false; //No longer handling mouse up.
@@ -442,6 +487,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				//Either we are currently holding MOD, which goes into stall mode.
 				//Or the mouse was released while CWP did not have the focus, then it also switches to stall mode to be safe.
+				CWPHelpOverlay.updateText(); //Switching state (going into stall), update help.
 				return false;
 			}
 			//Apply the normal actions, nothing prevents it:
@@ -644,6 +690,16 @@ namespace CustomWirePlacer.Client.CWP
 		public static CWPGroup getSecondGroup()
 		{
 			return secondGroup;
+		}
+
+		public static bool isCurrentlyEditingAxis()
+		{
+			return applyOnUp;
+		}
+
+		public static bool isCurrentlyInToggleListMode()
+		{
+			return toggleListMode;
 		}
 	}
 }
