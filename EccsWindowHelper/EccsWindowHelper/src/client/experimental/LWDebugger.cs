@@ -5,16 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using LICC;
-using LogicLocalization;
-using LogicUI.Enhancements;
-using LogicUI.HoverTags;
-using LogicUI.InputFieldStuff;
-using LogicUI.MenuParts;
-using LogicUI.MenuParts.Popups;
-using LogicUI.MenuParts.Toggles;
-using LogicUI.MenuTypes.ConfigurableMenus;
-using LogicUI.Palettes;
-using LogicWorld.UI;
 using ThisOtherThing.UI;
 using ThisOtherThing.UI.Shapes;
 using ThisOtherThing.UI.ShapeUtils;
@@ -23,7 +13,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
-using Toggle = LogicUI.MenuParts.Toggles.Toggle;
 
 namespace EccsWindowHelper.Client.Experimental
 {
@@ -437,7 +426,7 @@ namespace EccsWindowHelper.Client.Experimental
 					}
 				}
 			}
-			
+
 			Type superType = mainType.BaseType;
 			if(superType != null && isInteresting(superType))
 			{
@@ -483,13 +472,13 @@ namespace EccsWindowHelper.Client.Experimental
 			//Special debugging for rectangle, was used to extract textures.
 			// if(t.FullName.Equals("ThisOtherThing.UI.Shapes.Rectangle"))
 			// {
-				// writer.WriteLine("  Has Sprite:" + (r.Sprite != null));
-				// writer.WriteLine("  Has Sprite:" + (r.mainTexture != null));
-				// writer.WriteLine("  Has texture:" + r.mainTexture);
-				// writer.WriteLine("  Has texture:" + r.mainTexture.graphicsFormat);
-				// writer.WriteLine("  Has texture:" + r.mainTexture.width);
-				// writer.WriteLine("  Has texture:" + r.mainTexture.height);
-				// File.WriteAllBytes("image.png", ((Texture2D) r.mainTexture).EncodeToPNG());
+			// writer.WriteLine("  Has Sprite:" + (r.Sprite != null));
+			// writer.WriteLine("  Has Sprite:" + (r.mainTexture != null));
+			// writer.WriteLine("  Has texture:" + r.mainTexture);
+			// writer.WriteLine("  Has texture:" + r.mainTexture.graphicsFormat);
+			// writer.WriteLine("  Has texture:" + r.mainTexture.width);
+			// writer.WriteLine("  Has texture:" + r.mainTexture.height);
+			// File.WriteAllBytes("image.png", ((Texture2D) r.mainTexture).EncodeToPNG());
 			// }
 			if(isKnownType(t))
 			{
@@ -512,73 +501,101 @@ namespace EccsWindowHelper.Client.Experimental
 		}
 
 		//Ugly hack, to check for an internal class.
-		private static readonly Type t1 = typeof(Hotbar).Assembly.GetType("LogicWorld.UI.ClickableMenuBackground");
+		// private static readonly Type t1 = typeof(Hotbar).Assembly.GetType("LogicWorld.UI.ClickableMenuBackground");
 
 		private static bool isInteresting(Type t)
 		{
-			return false
-				|| t == typeof(ToggleSwitch)
-				|| t == typeof(AnimationTriggers)
-				|| t == typeof(SpriteState)
-				|| t == typeof(Navigation)
-				|| t == typeof(SliderSettingData)
+			//Whitelist:
+			if(false
+				//Unity:
 				|| t == typeof(LayoutGroup)
 				|| t == typeof(HorizontalOrVerticalLayoutGroup)
-				|| t == typeof(TMP_SelectionCaret)
+				|| t == typeof(HorizontalLayoutGroup)
+				|| t == typeof(SpriteState)
+				|| t == typeof(Navigation)
+				|| t == typeof(AnimationTriggers)
 				|| t == typeof(RectMask2D)
-				|| t == typeof(MakeInputFieldTabbable)
-				|| t == typeof(PaletteInputFieldSelection)
 				|| t == typeof(Selectable)
-				|| t == typeof(TMP_InputField)
-				|| t == typeof(InputFieldSettingsApplier)
 				|| t == typeof(Mask)
-				|| t == typeof(MakeSliderScrollable)
-				|| t == typeof(PaletteSelectable)
 				|| t == typeof(Slider)
-				|| t == typeof(InputSlider)
 				|| t == typeof(LayoutElement)
-				|| t == typeof(ConfigurableMenuSettings)
 				|| t == typeof(ContentSizeFitter)
 				|| t == typeof(VerticalLayoutGroup)
-				|| t == typeof(ToggleWithText)
-				|| t == typeof(Toggle)
-				|| t == typeof(ConfigurableMenuUtility)
-				|| t == typeof(ConfigurableMenu)
-				|| t == typeof(FancyPantsConsole.Console)
-				|| t == t1
-				|| t == typeof(Image)
-				|| t == typeof(HoverTagArea_Localized)
-				|| t == typeof(ToggleIcon)
-				|| t == typeof(HoverButton)
+				// || t == typeof(CanvasRenderer) //Do not take apart this one, since it does not contain anything too relevant.
+				|| t == typeof(Transform)
+				|| t == typeof(RectTransform)
+				|| t == typeof(Canvas)
+				|| t == typeof(CanvasScaler)
+				|| t == typeof(GraphicRaycaster)
 				|| t == typeof(Graphic)
-				|| t == typeof(LocalizedTextMesh)
+				|| t == typeof(MaskableGraphic)
+				|| t == typeof(Image)
+				|| t == typeof(AspectRatioFitter)
+				|| t == typeof(Rectangle)
+				//TMP:
+				|| t == typeof(TMP_SelectionCaret)
+				|| t == typeof(TMP_InputField)
 				|| t == typeof(TextMeshProUGUI)
 				|| t == typeof(TMP_Text)
 				|| t == typeof(TMP_Style)
-				|| t == typeof(FontIcon)
+				//System:
+				
+				//LW:
+				// || t == typeof(BindingOptionRenderer)
+				// || t == typeof(BindingRenderer)
+				// || t == typeof(ToggleSwitch)
+				// || t == typeof(SliderSettingData)
+				// || t == typeof(MakeInputFieldTabbable)
+				// || t == typeof(PaletteInputFieldSelection)
+				// || t == typeof(InputFieldSettingsApplier)
+				// || t == typeof(MakeSliderScrollable)
+				// || t == typeof(PaletteSelectable)
+				// || t == typeof(InputSlider)
+				// || t == typeof(ConfigurableMenuSettings)
+				// || t == typeof(ToggleWithText)
+				// || t == typeof(Toggle)
+				// || t == typeof(ConfigurableMenuUtility)
+				// || t == typeof(ConfigurableMenu)
+				// || t == typeof(FancyPantsConsole.Console)
+				// || t == t1
+				// || t == typeof(HoverTagArea_Localized)
+				// || t == typeof(ToggleIcon)
+				// || t == typeof(HoverButton)
+				// || t == typeof(LocalizedTextMesh)
+				// || t == typeof(FontIcon)
+				// || t == typeof(PaletteData)
+				// || t == typeof(PaletteGraphic)
+				// || t == typeof(PaletteRectangleOutline)
+				// || t == typeof(PaletteElement)
+				// || t == typeof(PopupsManager)
+				// // || t == typeof(PopupBlocker) //Internal, but not interesting anyway.
+				
+				//ShapesUI:
 				|| t == typeof(GeoUtils.ShadowProperties)
-				|| t == typeof(AspectRatioFitter)
-				// || t == typeof(CanvasRenderer) //Do not take apart this one, since it does not contain anything too relevant. 
-				|| t == typeof(PaletteData)
-				|| t == typeof(Canvas)
-				|| t == typeof(GraphicRaycaster)
-				|| t == typeof(CanvasScaler)
-				|| t == typeof(Transform)
-				|| t == typeof(RectTransform)
-				|| t == typeof(MaskableGraphic)
-				|| t == typeof(PaletteGraphic)
-				|| t == typeof(PaletteRectangleOutline)
-				|| t == typeof(PaletteElement)
 				|| t == typeof(GeoUtils.OutlineShapeProperties)
 				|| t == typeof(RoundedRects.RoundedProperties)
 				|| t == typeof(GeoUtils.RoundingProperties)
 				|| t == typeof(GeoUtils.OutlineProperties)
 				|| t == typeof(GeoUtils.ShadowsProperties)
 				|| t == typeof(GeoUtils.AntiAliasingProperties)
-				|| t == typeof(Rectangle)
-				|| t == typeof(PopupsManager)
-				// || t == typeof(PopupBlocker) //Internal, but not interesting anyway.
-				;
+			)
+			{
+				return true;
+			}
+
+			//Generic blacklist:
+			string path = t.ToString();
+			if(false
+				|| path.StartsWith("System.")
+				|| path.StartsWith("TMPro.")
+				|| path.StartsWith("UnityEngine.")
+			)
+			{
+				return false;
+			}
+
+			//Else allow anything:
+			return true;
 		}
 
 		//Where to stop resolving the base type:
