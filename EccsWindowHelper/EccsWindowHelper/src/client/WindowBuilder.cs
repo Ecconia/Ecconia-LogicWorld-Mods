@@ -16,6 +16,7 @@ using UnityEngine.UI;
 
 namespace EccsWindowHelper.Client
 {
+	//TODO: Allow creating game-objects in the gameplay scene. Instead of having it loaded all the time.
 	public class WindowBuilder
 	{
 		public int x;
