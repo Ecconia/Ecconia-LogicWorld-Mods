@@ -591,7 +591,10 @@ namespace CustomWirePlacer.Client.CWP
 				}
 				PegAddress first = firstGroup.getFirstAxis().firstPeg;
 				PegAddress second = firstGroup.getFirstAxis().secondPeg;
-				yield return (first, second, WireUtility.WireWouldBeValid(first, second));
+				if(second != null)
+				{
+					yield return (first, second, WireUtility.WireWouldBeValid(first, second));
+				}
 			}
 
 			bool shouldEmit(PegAddress first, PegAddress second)
