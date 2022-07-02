@@ -187,6 +187,11 @@ namespace CustomWirePlacer.Client.CWP
 			return firstAxis.inBetween != null || firstAxis.backwards != null || firstAxis.forwards != null || firstAxis.whitelist.Any();
 		}
 
+		public bool isNotSWP()
+		{
+			return isTwoDimensional() || firstAxis.backwards != null || firstAxis.forwards != null || firstAxis.whitelist.Any() || firstAxis.blacklist.Any() || firstAxis.skipNumber != 0;
+		}
+
 		//Should only be called when the content has changed, since quite expensive.
 		public IEnumerable<PegAddress> getPegs()
 		{

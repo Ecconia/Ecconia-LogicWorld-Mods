@@ -38,6 +38,8 @@ namespace CustomWirePlacer.Client.CWP
 		public static bool waitForPegToApplyPatternTo;
 		public static bool flipping;
 
+		private static bool enteredStallMode;
+
 		public static bool doNotApplyExpandForward;
 		public static bool doNotApplyExpandBackwards;
 
@@ -93,6 +95,7 @@ namespace CustomWirePlacer.Client.CWP
 			doNotApplyExpandForward = doNotApplyExpandBackwards = false;
 			toggleListMode = false;
 			flipping = false;
+			enteredStallMode = false;
 
 			firstGroup.showFirstPeg();
 			currentGroup = firstGroup;
@@ -451,6 +454,11 @@ namespace CustomWirePlacer.Client.CWP
 				// While ofc, I doubt that the server response comes in the same frame.
 			}
 
+			if(!updated && !CWPSettings.connectPegsInOneGroupWithEachOther && (CWPTrigger.Modificator.UpThisFrame() || CWPTrigger.Modificator.DownThisFrame()))
+			{
+				updated = true; //When not connecting pegs in one group, the mod key might cause a visual update. Hence update when it is toggled.
+			}
+
 			if(updated)
 			{
 				updateWireGhosts();
@@ -474,6 +482,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				//We ran an action that stopped drawing mode, before the mouse was released.
 				CWPHelpOverlay.updateText(); //Switching state (going into stall), update help.
+				enteredStallMode = true;
 				return false;
 			}
 			applyOnUp = false; //No longer handling mouse up.
@@ -488,6 +497,7 @@ namespace CustomWirePlacer.Client.CWP
 				//Either we are currently holding MOD, which goes into stall mode.
 				//Or the mouse was released while CWP did not have the focus, then it also switches to stall mode to be safe.
 				CWPHelpOverlay.updateText(); //Switching state (going into stall), update help.
+				enteredStallMode = true;
 				return false;
 			}
 			//Apply the normal actions, nothing prevents it:
@@ -567,6 +577,21 @@ namespace CustomWirePlacer.Client.CWP
 						last = current;
 					}
 				}
+			}
+			else
+			{
+				//Test, if it is still a simple single wire, else don't add the wire and assume MWP:
+				if(
+					enteredStallMode //If in stall mode, then it must be MWP.
+					|| CWPTrigger.Modificator.Held() //If mod is held, stall mode and MWP are about to happen.
+					|| firstGroup.isNotSWP() //Group is either 2D/Expanded/White-/Black-listed/Skipped
+				)
+				{
+					yield break;
+				}
+				PegAddress first = firstGroup.getFirstAxis().firstPeg;
+				PegAddress second = firstGroup.getFirstAxis().secondPeg;
+				yield return (first, second, WireUtility.WireWouldBeValid(first, second));
 			}
 
 			bool shouldEmit(PegAddress first, PegAddress second)

@@ -16,7 +16,7 @@ namespace CustomWirePlacer.Client.CWP
 		public List<PegAddress> forwards;
 		public List<PegAddress> backwards;
 
-		private readonly List<PegAddress> blacklist = new List<PegAddress>();
+		public readonly List<PegAddress> blacklist = new List<PegAddress>();
 		public readonly List<PegAddress> whitelist = new List<PegAddress>();
 
 		public bool binarySkipping;
