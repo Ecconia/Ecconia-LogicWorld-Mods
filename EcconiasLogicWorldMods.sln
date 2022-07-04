@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomDebugCollection", "Ra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcconiaCPUServerComponents", "EcconiaCPUServerComponents\EcconiaCPUServerComponents.csproj", "{CA8A7919-D81B-40DD-B12F-DCF7039BC6E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlyingWithAutoNoclip", "FlyingWithAutoNoclip\FlyingWithAutoNoclip.csproj", "{179A6CBE-5789-4D61-AAC2-CE1CD953A4E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixClientBugs", "FixClientBugs\FixClientBugs.csproj", "{179A6CBE-5789-4D61-AAC2-CE1CD953A4E6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulationControl", "SimulationControl\SimulationControl.csproj", "{122628A4-D53A-4FE3-8EB3-0306E06FAEC8}"
 EndProject

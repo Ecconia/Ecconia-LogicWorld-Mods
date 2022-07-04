@@ -1,30 +1,20 @@
-//Framework imports:
-
-//Needed for 'Exception' and 'Type':
 using System;
-//Needed for several reflection calls 'Assembly' etc.
 using System.Reflection;
-//Needed for 'IEnumeration':
 using System.Collections.Generic;
-//Needed for 'ClientMod':
 using LogicAPI.Client;
-//Needed for 'Harmony':
 using HarmonyLib;
 
-//Custom:
-
-//Needed for 'PlayerControllerManager':
 using LogicWorld.Players;
 
-namespace FlyingWithAutoNoclip.Client
+namespace FixClientBugs.Client
 {
-	public class FlyingWithAutoNoclip : ClientMod
+	public class FixClientBugs : ClientMod
 	{
 		//Entry point of this mod
 		protected override void Initialize()
 		{
 			//Sets up Harmony and applies the patches
-			var harmony = new Harmony("FlyingWithAutoNoclip");
+			var harmony = new Harmony("FixClientBugs");
 			harmony.PatchAll();
 		}
 	}
