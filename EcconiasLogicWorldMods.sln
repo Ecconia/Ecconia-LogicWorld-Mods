@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixCompilerOnClient", "FixC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixCompilerOnServer", "FixCompilerOnServer\FixCompilerOnServer.csproj", "{CE5D11CD-19F1-4BA4-86E2-D922F9B0E8F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerLoadAccelerator", "ServerLoadAccelerator\ServerLoadAccelerator.csproj", "{A4F6F697-9E6F-4661-AB4F-92F589ADBAE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,5 +110,9 @@ Global
 		{CE5D11CD-19F1-4BA4-86E2-D922F9B0E8F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE5D11CD-19F1-4BA4-86E2-D922F9B0E8F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE5D11CD-19F1-4BA4-86E2-D922F9B0E8F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4F6F697-9E6F-4661-AB4F-92F589ADBAE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4F6F697-9E6F-4661-AB4F-92F589ADBAE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4F6F697-9E6F-4661-AB4F-92F589ADBAE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4F6F697-9E6F-4661-AB4F-92F589ADBAE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
