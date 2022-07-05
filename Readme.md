@@ -5,8 +5,8 @@ In this repository you will find all mods created by @Ecconia for the game `Logi
 ## How to install / use them?
 
 This project contains one `project folder` for each mod.\
-In each of these folder you will find descriptions and further instructions like this one.\
-Inside each `project folder` you will find another folder, which is the actual `mod folder`.\
+In each of these folder you will find descriptions (`Readme.md`) and further instructions like this one.\
+Inside each `project folder` you will find another folder, which is the actual `mod folder` (contains the `manifest.succ` file).\
 You can copy/paste or `link` that `mod folder` to your `GameData` folder, where `Logic World` searches for mods.
 
 You can ignore all other files outside of the `mod folder`s.
@@ -32,7 +32,7 @@ This means, you can only compile new mods, as long as no other mod which uses `H
 
 - `DisableCollision` **Must have!**: Allows you to build even when LogicWorld does not want you to. (On floating point issues, or when refactoring buildings).
 - `CustomWirePlacer` **Must have!**: Replaces the vanilla wire placer with a power-user tool (that you won't want to miss later on).
-- `FlyingWithAutoNoclip` **Must have!**: Fixes a bug which prevents you from using LogicWorlds `noclip while flying` super secret setting.
+- `FixClientBugs` **Must have!**: Fixes a bug which prevents you from using LogicWorlds `noclip while flying` super secret setting. And a bug, which causes the undo history to corrupt when editing multiple components.
 - `SimulationControl`: Adds a console command `tps`, which is much less complicated than `server "simulation.rate <number>"`. 
 - `RandomDebugCollection`: Prints stack traces (that happen when going to error screen) to logs and prints compiler errors, which normally require `loglevel trace`.
 - `FixCompilerOnClient`: Fixes the compiler from breaking if Harmony is loaded.
@@ -46,6 +46,7 @@ Libraries:
 
 #### Server:
 
+- `ServerLoadAccelerator`: **Must have!** This mod significantly improves the time, that the server needs to load a world when it has many wires. (25 minutes to 30 seconds become 10 seconds).
 - `CustomChatManager`: Prevents players from abusing `sayraw` and adds chat commands, such as `/list` and `/tps` which allows anyone in multiplayer to control the simulation. 
 - `FixCompilerOnServer`: Fixes the compiler from breaking if Harmony is loaded.
 
@@ -64,7 +65,7 @@ Libraries:
 
 Download this repository or optionally a fork.\
 Create a `link` named `LogicWorld` from within this projects root folder to your `Logic World` installation directory. (Probably in your Steam installations folder `[...]/steamapps/common/Logic World/`).\
-Open the repository with your favorite C# IDE and hope that it works. (This repository is created with JetBrains Rider).
+Open the repository with your favorite C# IDE and hope that it works. (This repository is managed with JetBrains Rider).
 
 ### Contact:
 
