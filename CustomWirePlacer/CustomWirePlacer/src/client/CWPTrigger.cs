@@ -13,6 +13,8 @@ namespace CustomWirePlacer.Client
 		ApplyPattern,
 		SkipModeSwitch,
 		GoTwoDimensional,
+		IncreaseInterval,
+		DecreaseInterval,
 		
 		OpenSettings,
 	}

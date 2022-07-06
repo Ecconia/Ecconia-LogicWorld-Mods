@@ -62,3 +62,15 @@ CustomWirePlacer.OpenSettings:
     DefaultBinding:
         Options:
             - H
+
+CustomWirePlacer.IncreaseInterval:
+    Heading: "CustomWirePlacer"
+    DefaultBinding:
+        Options:
+            - ScrollUp
+
+CustomWirePlacer.DecreaseInterval:
+    Heading: "CustomWirePlacer"
+    DefaultBinding:
+        Options:
+            - ScrollDown

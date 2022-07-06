@@ -84,10 +84,27 @@ FancyInput.Trigger.CustomWirePlacer.GoTwoDimensional.Description: """
     
     If you have 1-group MWP enabled, the wires will be connected along the second axis (each peg of the first axis, is part of its own wire).
     """
-FancyInput.Trigger.CustomWirePlacer.OpenSettings : "CWP Settings"
+FancyInput.Trigger.CustomWirePlacer.OpenSettings: "CWP Settings"
 FancyInput.Trigger.CustomWirePlacer.OpenSettings.Description: """
     Toggles the CWPs settings window.  
     Active while performing a CWP action (placing a wire/selecting pegs for it).
     """
 
-FancyInput.Trigger.CustomWirePlacer.GenericMouseWheel : "Mouse Wheel"
+FancyInput.Trigger.CustomWirePlacer.GenericMouseWheel: "Mouse Wheel"
+
+FancyInput.Trigger.CustomWirePlacer.IncreaseInterval: "Increase amount"
+FancyInput.Trigger.CustomWirePlacer.IncreaseInterval.Description: """
+    Increases the amount of pegs that will be skipped.  
+    Or increases the amount of pegs that have been expanded, while holding the expand key.
+    
+    In normal skip mode it skips N pegs and then selects one.  
+    In group skip mode, it skips N pegs and then selects N pegs.
+    """
+FancyInput.Trigger.CustomWirePlacer.DecreaseInterval: "Decrease amount"
+FancyInput.Trigger.CustomWirePlacer.DecreaseInterval.Description: """
+    Decreases the amount of pegs that will be skipped.  
+    Or decreases the amount of pegs that have been expanded, while holding the expand key.
+    
+    In normal skip mode it skips N pegs and then selects one.  
+    In group skip mode, it skips N pegs and then selects N pegs.
+    """

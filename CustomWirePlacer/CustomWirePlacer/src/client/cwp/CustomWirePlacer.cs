@@ -387,8 +387,8 @@ namespace CustomWirePlacer.Client.CWP
 				CWPHelpOverlay.updateText();
 			}
 			{
-				bool up = Trigger.IncreaseMultiWirePlacingInterval.Held();
-				bool down = Trigger.DecreaseMultiWirePlacingInterval.Held();
+				bool up = CWPTrigger.IncreaseInterval.Held();
+				bool down = CWPTrigger.DecreaseInterval.Held();
 				if(up ^ down)
 				{
 					int offset = up ? 1 : -1;
