@@ -651,7 +651,7 @@ namespace CustomWirePlacer.Client.CWP
 			cleanUpWireGhosts();
 			OutlineData validColor = CWPOutlineData.validWire;
 			OutlineData invalidColor = CWPOutlineData.invalidWire;
-			if(!secondGroup.isSet() && (firstGroup.isTwoDimensional() || firstGroup.hasExtraPegs()))
+			if(!secondGroup.isSet() && CWPSettings.connectPegsInOneGroupWithEachOther && (firstGroup.isTwoDimensional() || firstGroup.hasExtraPegs()))
 			{
 				validColor = CWPOutlineData.validMultiWire;
 				invalidColor = CWPOutlineData.invalidMultiWire;
