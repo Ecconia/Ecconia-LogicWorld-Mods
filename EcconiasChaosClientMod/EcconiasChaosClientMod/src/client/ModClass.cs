@@ -4,7 +4,7 @@ using LogicAPI;
 using LogicAPI.Client;
 using UnityEngine;
 
-namespace CustomSkybox.client
+namespace EcconiasChaosClientMod.Client
 {
 	public class ModClass : ClientMod
 	{

@@ -36,7 +36,7 @@ This means, you can only compile new mods, as long as no other mod which uses `H
 - `SimulationControl`: Adds a console command `tps`, which is much less complicated than `server "simulation.rate <number>"`. 
 - `RandomDebugCollection`: Prints stack traces (that happen when going to error screen) to logs and prints compiler errors, which normally require `loglevel trace`.
 - `FixCompilerOnClient`: Fixes the compiler from breaking if Harmony is loaded.
-- `CustomSkybox`: Experimental tool, that allows you to load custom skyboxes from an image. "Works for me" - Ecconia.
+- `EcconiasChaosClientMod`: Mod made for Ecconia to dump many features like custom skybox in. Nothing consumer friendly, don't use it.
 
 Libraries:
 
@@ -47,6 +47,7 @@ Libraries:
 #### Server:
 
 - `ServerLoadAccelerator`: **Must have!** This mod significantly improves the time, that the server needs to load a world when it has many wires. (25 minutes to 30 seconds become 10 seconds).
+- `RemoveUnusedComponentsOnSave`: Mod, which removes components from the component-id-map of a save, if a component is not placed in the world. **Use with care.**
 - `CustomChatManager`: Prevents players from abusing `sayraw` and adds chat commands, such as `/list` and `/tps` which allows anyone in multiplayer to control the simulation. 
 - `FixCompilerOnServer`: Fixes the compiler from breaking if Harmony is loaded.
 
