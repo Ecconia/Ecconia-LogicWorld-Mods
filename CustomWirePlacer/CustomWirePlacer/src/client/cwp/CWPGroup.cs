@@ -243,7 +243,7 @@ namespace CustomWirePlacer.Client.CWP
 			updated2D();
 		}
 
-		public void applyGroup(CWPGroup firstGroup, PegAddress firstPeg)
+		public bool applyGroup(CWPGroup firstGroup, PegAddress firstPeg)
 		{
 			//Check if the other starting peg can be found:
 			// Else no data should be erased.
@@ -255,7 +255,7 @@ namespace CustomWirePlacer.Client.CWP
 				if(otherPeg == null)
 				{
 					SoundPlayer.PlayFail();
-					return;
+					return false;
 				}
 				if(firstGroup.secondAxis.secondPeg != null)
 				{
@@ -263,7 +263,7 @@ namespace CustomWirePlacer.Client.CWP
 					if(otherAxisSecondPeg == null)
 					{
 						SoundPlayer.PlayFail();
-						return;
+						return false;
 					}
 				}
 			}
@@ -274,7 +274,7 @@ namespace CustomWirePlacer.Client.CWP
 				if(firstGroupSecondPeg == null)
 				{
 					SoundPlayer.PlayFail();
-					return;
+					return false;
 				}
 			}
 
@@ -286,6 +286,7 @@ namespace CustomWirePlacer.Client.CWP
 			}
 
 			updated2D();
+			return true;
 		}
 
 		public void startTwoDimensional(PegAddress startingPeg)

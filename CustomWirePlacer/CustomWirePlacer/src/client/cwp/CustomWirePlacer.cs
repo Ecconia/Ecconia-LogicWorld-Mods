@@ -221,11 +221,13 @@ namespace CustomWirePlacer.Client.CWP
 					if(secondGroup.isSet())
 					{
 						//Currently drawing the second group. Apply the first group to it.
-						secondGroup.applyGroup(firstGroup, secondGroup.getRootPeg());
-						raycastLine.refresh();
-						updated = true;
-						//Drawing must stop now, else the pattern may break.
-						drawing = false;
+						if(secondGroup.applyGroup(firstGroup, secondGroup.getRootPeg()))
+						{
+							raycastLine.refresh();
+							updated = true;
+							//Drawing must stop now, else the pattern may break.
+							drawing = false;
+						}
 					}
 					else
 					{
@@ -279,7 +281,11 @@ namespace CustomWirePlacer.Client.CWP
 							if(waitForPegToApplyPatternTo)
 							{
 								waitForPegToApplyPatternTo = false;
-								secondGroup.applyGroup(firstGroup, lookingAt);
+								if(!secondGroup.applyGroup(firstGroup, lookingAt))
+								{
+									//Fallback to only setting the first peg. It is too late to undo everything.
+									secondGroup.setFirstPeg(lookingAt);
+								}
 							}
 							else
 							{
@@ -304,7 +310,11 @@ namespace CustomWirePlacer.Client.CWP
 							if(waitForPegToApplyPatternTo)
 							{
 								waitForPegToApplyPatternTo = false;
-								secondGroup.applyGroup(firstGroup, lookingAt);
+								if(!secondGroup.applyGroup(firstGroup, lookingAt))
+								{
+									//Fallback to only setting the first peg. It is too late to undo everything.
+									secondGroup.setFirstPeg(lookingAt);
+								}
 							}
 							else
 							{
