@@ -163,6 +163,7 @@ namespace CustomWirePlacer.Client.CWP
 		public void showFirstPeg()
 		{
 			CWPOutliner.OutlineHard(firstAxis.firstPeg, CWPOutlineData.firstPeg);
+			firstAxis.getPegs(); //Fix the peg count.
 		}
 
 		public PegAddress getRootPeg()

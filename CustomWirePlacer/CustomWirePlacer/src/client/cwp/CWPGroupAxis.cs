@@ -113,7 +113,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		public IEnumerable<PegAddress> getPegs()
 		{
-			int pegCount = 0;
+			List<PegAddress> pegs = new List<PegAddress>(); //Cannot use yield, because of the peg counting side-effect.
 			int skipIndex = getSkipStart(); //Start with skipNumber, to always select the first peg.
 			if(backwards != null)
 			{
@@ -122,15 +122,13 @@ namespace CustomWirePlacer.Client.CWP
 					PegAddress peg = backwards[index];
 					if(!blacklist.Contains(peg) && isNotSkipped(ref skipIndex))
 					{
-						pegCount++;
-						yield return peg;
+						pegs.Add(peg);
 					}
 				}
 			}
 			if(!blacklist.Contains(firstPeg) && isNotSkipped(ref skipIndex))
 			{
-				pegCount++;
-				yield return firstPeg;
+				pegs.Add(firstPeg);
 			}
 			if(inBetween != null)
 			{
@@ -138,8 +136,7 @@ namespace CustomWirePlacer.Client.CWP
 				{
 					if(!blacklist.Contains(peg) && isNotSkipped(ref skipIndex))
 					{
-						pegCount++;
-						yield return peg;
+						pegs.Add(peg);
 					}
 				}
 			}
@@ -147,8 +144,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				if(!blacklist.Contains(secondPeg) && isNotSkipped(ref skipIndex))
 				{
-					pegCount++;
-					yield return secondPeg;
+					pegs.Add(secondPeg);
 				}
 			}
 			if(forwards != null)
@@ -157,17 +153,16 @@ namespace CustomWirePlacer.Client.CWP
 				{
 					if(!blacklist.Contains(peg) && isNotSkipped(ref skipIndex))
 					{
-						pegCount++;
-						yield return peg;
+						pegs.Add(peg);
 					}
 				}
 			}
 			foreach(PegAddress peg in whitelist)
 			{
-				pegCount++;
-				yield return peg;
+				pegs.Add(peg);
 			}
-			this.pegCount = pegCount; //Side effect, but that is fine, since there is no caching.
+			pegCount = pegs.Count; //Side effect, sadly preventing 'yield' usage.
+			return pegs;
 		}
 
 		public IEnumerable<PegAddress> getAllPegs()

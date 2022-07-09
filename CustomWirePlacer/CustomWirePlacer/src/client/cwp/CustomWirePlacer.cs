@@ -580,6 +580,8 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			else
 			{
+				firstGroup.getPegs(); //Literally just call this to update the peg count.
+				
 				//Test, if it is still a simple single wire, else don't add the wire and assume MWP:
 				if(
 					enteredStallMode //If in stall mode, then it must be MWP.

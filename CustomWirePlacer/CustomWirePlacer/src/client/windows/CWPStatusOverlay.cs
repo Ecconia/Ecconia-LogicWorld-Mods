@@ -194,14 +194,14 @@ namespace CustomWirePlacer.Client.Windows
 			}
 			if(secondGroup.isSet())
 			{
-				if(firstGroup.isTwoDimensional())
+				if(secondGroup.isTwoDimensional())
 				{
-					sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.Dim2Pegs", 2, firstGroup.getPegCount(),
-					                                        firstGroup.getFirstAxis().getPegCount(), firstGroup.getSecondAxis().getPegCount()));
+					sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.Dim2Pegs", 2, secondGroup.getPegCount(),
+					                                        secondGroup.getFirstAxis().getPegCount(), secondGroup.getSecondAxis().getPegCount()));
 				}
 				else
 				{
-					sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.Dim1Pegs", 2, firstGroup.getPegCount()));
+					sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.Dim1Pegs", 2, secondGroup.getPegCount()));
 				}
 				sb.Append('\n');
 			}
