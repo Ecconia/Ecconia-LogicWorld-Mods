@@ -111,7 +111,7 @@ namespace CustomWirePlacer.Client.CWP
 			show(); //Redraw all visible outlines, respecting the skip number.
 		}
 
-		public IEnumerable<PegAddress> getPegs()
+		public List<PegAddress> getPegs()
 		{
 			List<PegAddress> pegs = new List<PegAddress>(); //Cannot use yield, because of the peg counting side-effect.
 			int skipIndex = getSkipStart(); //Start with skipNumber, to always select the first peg.

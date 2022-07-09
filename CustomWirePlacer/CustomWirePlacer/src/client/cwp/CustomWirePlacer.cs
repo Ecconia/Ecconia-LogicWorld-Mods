@@ -510,8 +510,9 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			if(secondGroup.isSet())
 			{
-				List<PegAddress> smaller = firstGroup.getPegs().ToList();
-				List<PegAddress> bigger = secondGroup.getPegs().ToList();
+				List<PegAddress> smaller = firstGroup.getPegs();
+				List<PegAddress> bigger = secondGroup.getPegs();
+				NoDuplicationHasher<PegAddress> noDuplicationHasher = new NoDuplicationHasher<PegAddress>((uint) (smaller.Count + bigger.Count));
 				if(flipping)
 				{
 					bigger.Reverse(); //Not pretty, but does the job reliably.
@@ -525,7 +526,7 @@ namespace CustomWirePlacer.Client.CWP
 				{
 					PegAddress first = smaller[i];
 					PegAddress second = bigger[i];
-					if(shouldEmit(first, second))
+					if(shouldEmit(first, second) && noDuplicationHasher.probeDuplicate(first, second))
 					{
 						yield return (first, second, isValid(first, second, counts));
 					}
@@ -534,7 +535,7 @@ namespace CustomWirePlacer.Client.CWP
 				for(int i = smaller.Count; i < bigger.Count; i++)
 				{
 					PegAddress other = bigger[i];
-					if(shouldEmit(constant, other))
+					if(shouldEmit(constant, other) && noDuplicationHasher.probeDuplicate(constant, other))
 					{
 						yield return (constant, other, isValid(constant, other, counts));
 					}
@@ -545,7 +546,9 @@ namespace CustomWirePlacer.Client.CWP
 				if(firstGroup.isTwoDimensional())
 				{
 					var offsets = firstGroup.get2DOffsets();
-					foreach(var startingPeg in firstGroup.getFirstAxis().getPegs())
+					var startingPegs = firstGroup.getFirstAxis().getPegs();
+					NoDuplicationHasher<PegAddress> noDuplicationHasher = new NoDuplicationHasher<PegAddress>((uint) (offsets.Count * startingPegs.Count));
+					foreach(var startingPeg in startingPegs)
 					{
 						var pegs = CWPGroup.get2DPegs(startingPeg, offsets).ToList();
 						//TBI: Literally the same code as in the block below, but the inputs are different. Not sure yet how to make this more pretty - while staying efficient enough. Could loop one more time...
@@ -554,7 +557,7 @@ namespace CustomWirePlacer.Client.CWP
 						for(int i = 1; i < pegs.Count; i++)
 						{
 							PegAddress current = pegs[i];
-							if(shouldEmit(last, current))
+							if(shouldEmit(last, current) && noDuplicationHasher.probeDuplicate(last, current))
 							{
 								yield return (last, current, isValid(last, current, counts));
 							}
@@ -564,13 +567,14 @@ namespace CustomWirePlacer.Client.CWP
 				}
 				else
 				{
-					var pegs = firstGroup.getPegs().ToList();
+					var pegs = firstGroup.getPegs();
+					NoDuplicationHasher<PegAddress> noDuplicationHasher = new NoDuplicationHasher<PegAddress>((uint) pegs.Count);
 					var counts = getWireCounts(pegs);
 					PegAddress last = pegs[0];
 					for(int i = 1; i < pegs.Count; i++)
 					{
 						PegAddress current = pegs[i];
-						if(shouldEmit(last, current))
+						if(shouldEmit(last, current) && noDuplicationHasher.probeDuplicate(last, current))
 						{
 							yield return (last, current, isValid(last, current, counts));
 						}

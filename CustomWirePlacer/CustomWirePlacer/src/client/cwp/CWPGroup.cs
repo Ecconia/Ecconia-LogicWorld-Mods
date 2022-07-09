@@ -194,7 +194,7 @@ namespace CustomWirePlacer.Client.CWP
 		}
 
 		//Should only be called when the content has changed, since quite expensive.
-		public IEnumerable<PegAddress> getPegs()
+		public List<PegAddress> getPegs()
 		{
 			return isTwoDimensional() ? pegs2D : currentAxis.getPegs();
 		}
