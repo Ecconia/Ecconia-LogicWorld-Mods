@@ -7,6 +7,8 @@ using LogicUI.HoverTags;
 using LogicUI.MenuParts.Toggles;
 using LogicUI.MenuTypes;
 using LogicUI.MenuTypes.ConfigurableMenus;
+using LogicWorld.Input;
+using LogicWorld.UI.HelpList;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,6 +58,7 @@ namespace CustomWirePlacer.Client.Windows
 			};
 			controller = builder.build();
 			Instance.gameObject.AddComponent<CloseWindowOnKey>();
+			Instance.gameObject.AddComponent<HelpOverlayHelper>();
 			OnMenuShown += WindowHelper.getOverlayShownAction();
 			OnMenuHidden += WindowHelper.getOverlayHidingAction();
 
@@ -199,6 +202,18 @@ namespace CustomWirePlacer.Client.Windows
 			if(CWPTrigger.OpenSettings.DownThisFrame())
 			{
 				CWPSettingsWindow.HideMenu();
+			}
+		}
+	}
+	
+	public class HelpOverlayHelper : MonoBehaviour
+	{
+		private void Update()
+		{
+			//Allows toggling the visibility of LogicWorlds Help-Overlay.
+			if(Trigger.ToggleHelp.DownThisFrame())
+			{
+				ToggleableSingletonMenu<HelpListMenu>.ToggleMenu();
 			}
 		}
 	}
