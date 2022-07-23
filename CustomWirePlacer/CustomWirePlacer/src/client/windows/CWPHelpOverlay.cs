@@ -6,6 +6,7 @@ using EccsWindowHelper.Client;
 using LogicLocalization;
 using LogicUI.MenuTypes;
 using LogicWorld.GameStates;
+using LogicWorld.UI;
 using LogicWorld.UI.HelpList;
 using UnityEngine;
 
@@ -34,6 +35,9 @@ namespace CustomWirePlacer.Client.Windows
 			//Help overlay listener:
 			ToggleableSingletonMenu<HelpListMenu>.OnMenuShown += checkVisibility;
 			ToggleableSingletonMenu<HelpListMenu>.OnMenuHidden += checkVisibility;
+			//BuildingCanvas overlay listener:
+			ToggleableSingletonMenu<BuildingCanvas>.OnMenuShown += checkVisibility;
+			ToggleableSingletonMenu<BuildingCanvas>.OnMenuHidden += checkVisibility;
 			//GameState listener:
 			GameStateManager.OnHelpUpdated += gameState =>
 			{
@@ -103,7 +107,7 @@ namespace CustomWirePlacer.Client.Windows
 					return;
 				}
 				//Set the overlay up for Building GS: (But only if F6 is enabled).
-				if(currentState == State.Building && ToggleableSingletonMenu<HelpListMenu>.MenuIsVisible)
+				if(currentState == State.Building && ToggleableSingletonMenu<HelpListMenu>.MenuIsVisible && ToggleableSingletonMenu<BuildingCanvas>.MenuIsVisible)
 				{
 					rootObject.SetActive(true);
 					dynamicBox.setActive(false);
