@@ -692,5 +692,16 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			return pegCount;
 		}
+
+		public void refreshMiddlePegs()
+		{
+			if(secondPeg != null)
+			{
+				hide();
+				inBetween = CWPHelper.collectPegsInBetween(firstPeg, secondPeg);
+				forwards = backwards = null; //Has to be done, to keep the ray valid.
+				show();
+			}
+		}
 	}
 }

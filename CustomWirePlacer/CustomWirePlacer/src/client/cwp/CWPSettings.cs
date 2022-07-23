@@ -68,6 +68,11 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				_raycastAtBottomOfPegs = value;
 				CustomWirePlacer.raycastLine.refresh();
+				if(CustomWirePlacer.isActive()) //Gets called on initialization.
+				{
+					CustomWirePlacer.getCurrentGroup().getCurrentAxis().refreshMiddlePegs();
+					CustomWirePlacer.updateWireGhosts();
+				}
 				CWPStatusOverlay.setDirtySettings();
 			}
 		}
