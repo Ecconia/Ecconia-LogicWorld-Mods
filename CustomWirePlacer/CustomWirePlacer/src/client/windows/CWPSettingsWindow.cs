@@ -3,6 +3,7 @@ using EccsWindowHelper.Client;
 using EccsWindowHelper.Client.Prefabs;
 using JimmysUnityUtilities;
 using LogicLocalization;
+using LogicUI;
 using LogicUI.HoverTags;
 using LogicUI.MenuParts.Toggles;
 using LogicUI.MenuTypes;
@@ -199,7 +200,7 @@ namespace CustomWirePlacer.Client.Windows
 		private void Update()
 		{
 			//Closes settings window, if the settings window key has been pressed:
-			if(CWPTrigger.OpenSettings.DownThisFrame())
+			if(CWPTrigger.OpenSettings.DownThisFrame() || UITrigger.Back.DownThisFrame())
 			{
 				CWPSettingsWindow.HideMenu();
 			}
