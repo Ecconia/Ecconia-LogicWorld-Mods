@@ -102,7 +102,7 @@ namespace EcconiaCPUServerComponents.Client
 			GameObject keycapGameObject = GetDecorations()[0].DecorationObject;
 			GameObject labelGameObject = GetDecorations()[1].DecorationObject;
 
-			TextMeshPro text = labelGameObject.GetComponent<TextMeshPro>();
+			TextMeshProUGUI text = labelGameObject.GetComponent<TextMeshProUGUI>();
 			if(SizeX != previousSizeX || SizeZ != previousSizeZ)
 			{
 				//Update solid:
@@ -245,7 +245,7 @@ namespace EcconiaCPUServerComponents.Client
 
 			//Text:
 			GameObject labelGameObject = new GameObject();
-			TextMeshPro textRenderer = labelGameObject.AddComponent<TextMeshPro>();
+			TextMeshProUGUI textRenderer = labelGameObject.AddComponent<TextMeshProUGUI>();
 			textRenderer.fontSizeMin = 0.01f;
 			textRenderer.enableAutoSizing = true;
 			textRenderer.horizontalAlignment = HorizontalAlignmentOptions.Center;

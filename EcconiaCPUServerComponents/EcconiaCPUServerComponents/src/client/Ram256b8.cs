@@ -101,7 +101,7 @@ namespace EcconiaCPUServerComponents.Client
 
 		private void setValue(int index, int value)
 		{
-			TextMeshPro label = GetDecorations()[index].DecorationObject.GetComponent<TextMeshPro>();
+			TextMeshProUGUI label = GetDecorations()[index].DecorationObject.GetComponent<TextMeshProUGUI>();
 			string textIndex = index > 99 ? index.ToString() : index > 9 ? " " + index : "  " + index;
 			string textValue = value > 99 ? value.ToString() : value > 9 ? " " + value : "  " + value;
 			char mapped = mapping[value];
@@ -118,7 +118,7 @@ namespace EcconiaCPUServerComponents.Client
 				GameObject go = new GameObject();
 				RectTransform rect = go.AddComponent<RectTransform>();
 				rect.sizeDelta = new Vector2(0, 0.5625f);
-				TextMeshPro label = go.AddComponent<TextMeshPro>();
+				TextMeshProUGUI label = go.AddComponent<TextMeshProUGUI>();
 				label.fontSize = 5.625f;
 				label.autoSizeTextContainer = false;
 				label.horizontalAlignment = HorizontalAlignmentOptions.Left;
