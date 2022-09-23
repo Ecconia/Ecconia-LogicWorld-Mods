@@ -530,7 +530,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		private static bool isSame(float a, float b)
 		{
-			return Mathf.Abs(a - b) < 0.0001f;
+			return Mathf.Abs(a - b) < 0.001f;
 		}
 
 		public void applyAxis(CWPGroupAxis otherAxis, PegAddress firstPeg, PegAddress secondPeg)
