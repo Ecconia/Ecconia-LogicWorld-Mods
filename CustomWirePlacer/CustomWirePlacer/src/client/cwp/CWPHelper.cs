@@ -98,7 +98,8 @@ namespace CustomWirePlacer.Client.CWP
 			var pointEntry = hitEntry.point;
 			if(!collider.Raycast(new Ray(pointEntry + ray * 3, -ray), out RaycastHit hitExit, float.MaxValue))
 			{
-				throw new Exception("Ray does not hit Peg, while it should because it is in the list and just already got hit forwards.");
+				ModClass.logger.Warn("Second ray does not hit Peg, while it should because it is in the list and just already got hit forwards.");
+				return pointEntry + ray * 0.04f; //Using entry point and some small offset, and pray that not too much breaks.
 			}
 			var pointExit = hitExit.point;
 			return pointEntry + (pointExit - pointEntry) / 2;
