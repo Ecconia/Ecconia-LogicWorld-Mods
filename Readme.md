@@ -2,6 +2,10 @@
 
 In this repository you will find all mods created by @Ecconia for the game `Logic World`.
 
+**ALL MODS ARE STILL FOR LOGIC WORLD 0.90.X**\
+And as soon as 0.91.X is fully released, all mods will be updated (or removed if obsolete).\
+Currently 0.91.X is however very unstable and does not even start on many Linux systems (including mine).
+
 ## How to install / use them?
 
 This project contains one `project folder` for each mod.\
