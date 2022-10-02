@@ -70,7 +70,7 @@ namespace CustomWirePlacer.Client.CWP
 			if(Physics.Raycast(start, ray, out RaycastHit hitEnter, 30, Masks.Peg))
 			{
 				var pegCollider = hitEnter.collider;
-				var peg = Instances.MainWorld.Renderer.EntityColliders.GetPegAddress(pegCollider);
+				var peg = pegCollider.GetComponent<ColliderReference>().PegAddress;
 				var entryPoint = hitEnter.point;
 				if(!pegCollider.Raycast(new Ray(entryPoint + ray * 3, -ray), out RaycastHit hitExit, 30))
 				{
@@ -127,7 +127,7 @@ namespace CustomWirePlacer.Client.CWP
 				return null;
 			}
 			Collider collider = colliders[0];
-			PegAddress peg = Instances.MainWorld.Renderer.EntityColliders.GetPegAddress(collider);
+			PegAddress peg = collider.GetComponent<ColliderReference>().PegAddress;
 			if(peg == null)
 			{
 				ModClass.logger.Error("Casted for a peg, but got: " + collider.name + " : " + collider.tag);

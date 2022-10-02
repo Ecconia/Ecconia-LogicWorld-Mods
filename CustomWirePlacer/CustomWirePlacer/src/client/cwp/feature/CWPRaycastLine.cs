@@ -16,7 +16,7 @@ namespace CustomWirePlacer.Client.CWP.feature
 			Object.DontDestroyOnLoad(gameObject); //TODO: Bind this to scene load or on activate.
 			gameObject.SetActive(false);
 			gameObject.AddComponent<MeshFilter>().mesh = Meshes.Cube;
-			gameObject.AddComponent<MeshRenderer>().material = Materials.StandardColor(new Color(1.0f, 0.5f, 0)); //TODO: Other color.
+			gameObject.AddComponent<MeshRenderer>().material = MaterialsCache.WorldObject(new Color(1.0f, 0.5f, 0)); //TODO: Other color.
 		}
 
 		public void setAxis(CWPGroupAxis axis)

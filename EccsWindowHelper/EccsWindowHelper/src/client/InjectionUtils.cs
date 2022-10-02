@@ -421,7 +421,7 @@ namespace EccsWindowHelper.Client
 			}
 			fieldConfigurableMenuSettings.SetValue(configurableMenu, settings);
 			//Also initialize it:
-			var initialize = typeof(ConfigurableMenu).GetMethod("LogicWorld.UnityBullshit.IInitializable.Initialize", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+			var initialize = typeof(ConfigurableMenu).GetMethod("LogicWorld.UnityHacksAndExtensions.IInitializable.Initialize", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 			if(initialize == null)
 			{
 				throw new Exception("Could not invoke 'Initialize' on 'ConfigurableMenu', because this method was not found.");
