@@ -2,7 +2,7 @@
 
 ### Description:
 
-`Logic World` is still in its early days, and as of now (Version: 0.90.3) still suffers from bad frameworks loaded by modders.
+`Logic World` still suffers from bad frameworks loaded by modders.
 
 Of of these bad frameworks is `Harmony`, a mandatory tool for modding C# properly.\
 But as soon as a mod using Harmony is loaded, the compiler breaks and no other mod can be compiled.\

@@ -2,12 +2,11 @@
 
 ### Description:
 
-`Logic World` is still in its early days, and as of now (Version: 0.90.3) still suffers under floating point calculation errors.
-
 Reasons for creation of this mod:
 
-- Sometimes you cannot place buildings, because the game thinks they collide with each other.
+- Sometimes you cannot place buildings, because the game thinks they collide with each other (`0.90.X`).
 - When you want to refactor or take a compact building apart, you will struggle to not delete wires by accident.
+- The game unloads colliders in your reach, so you cannot place something without wires getting deleted (`0.91 Preview`). 
 
 But with this mod, you can do both actions, because `components` and `wires` will no longer have collision, hence they can be placed when normally collision would stop you from doing so.
 

@@ -14,6 +14,10 @@ Currently there are following sub-systems:
     - `/help` : Prints a list of all commands.
     - `/list` : Prints a list of all connected players.
     - `/tps` : Allows anyone to change the simulation speed and state.
+    - `/mods` : Lists all mods that are installed on the server.
+    - `/savesize` : Prints how big the save file is.
+
+You can just uncomment the commands and features that you do not like to use in the mods main class.
 
 It is made for the server and only runs there.
 
@@ -22,4 +26,5 @@ It is made for the server and only runs there.
 Just drop the `CustomChatManager` folder into the servers `GameData` folder.
 
 You will also need the two mods `ServerModdingTools` and `ServerOnlyMods` for this mod to function.\
+These need additional mods `AssemblyLoader` and `HarmonyForServers` to function.\
 You can find them in my mod collection (root folder).

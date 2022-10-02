@@ -2,13 +2,17 @@
 
 ### Description:
 
-`Logic World` is still in its early days, and as of now (Version: 0.90.3) does not have a direct way to change simulation speed. (Will get this feature in 0.91+ though).
+In `Logic World 0.90.X` there was only a set of complex commands to control simulation.\
+In version `0.91+`, there is a GUI to control the TPS though. But if you prefer a better command, this mod might be your choice.
 
 Reasons for creation of this mod:
 
 - To change the ticks per second, one has to type `server "simulation.rate <desired tick speed per second>"`. Instead of just `tps <desired tick speed per second>`.
 
 But with this mod, you can just use an easy `tps` command.
+
+Keep in mind, that you need to be admin on the server if you want to use this command.\
+Looking for a way to change the TPS without admin? Check out my mod `CustomChatManager`!
 
 ## Install / Dependencies:
 

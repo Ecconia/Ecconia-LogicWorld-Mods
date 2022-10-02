@@ -2,9 +2,8 @@
 
 In this repository you will find all mods created by @Ecconia for the game `Logic World`.
 
-**ALL MODS ARE STILL FOR LOGIC WORLD 0.90.X**\
-And as soon as 0.91.X is fully released, all mods will be updated (or removed if obsolete).\
-Currently 0.91.X is however very unstable and does not even start on many Linux systems (including mine).
+**All mods in this repository are for LogicWorld 0.91.X**\
+To find the mods for 0.90.X, check out the GitHub tags of this repository.
 
 ## How to install / use them?
 
@@ -34,13 +33,13 @@ This means, you can only compile new mods, as long as no other mod which uses `H
 
 #### Client:
 
-- `DisableCollision` **Must have!**: Allows you to build even when LogicWorld does not want you to. (On floating point issues, or when refactoring buildings).
+- `DisableCollision` **Must have!**: Allows you to build even when LogicWorld does not want you to. (On floating-point/collider issues, or when refactoring buildings).
 - `CustomWirePlacer` **Must have!**: Replaces the vanilla wire placer with a power-user tool (that you won't want to miss later on).
-- `FixClientBugs` **Must have!**: Fixes a bug which prevents you from using LogicWorlds `noclip while flying` super secret setting. And a bug, which causes the undo history to corrupt when editing multiple components.
 - `SimulationControl`: Adds a console command `tps`, which is much less complicated than `server "simulation.rate <number>"`. 
 - `RandomDebugCollection`: Prints stack traces (that happen when going to error screen) to logs and prints compiler errors, which normally require `loglevel trace`.
 - `FixCompilerOnClient`: Fixes the compiler from breaking if Harmony is loaded.
 - `EcconiasChaosClientMod`: Mod made for Ecconia to dump many features like custom skybox in. Nothing consumer friendly, don't use it.
+- `DisableSuccFileReloading`: Prevents SUCC from reloading a file, if it got changed. Helps running multiple LW instances and fixes a 0.91 preview bug on Linux, preventing the game start.
 
 Libraries:
 

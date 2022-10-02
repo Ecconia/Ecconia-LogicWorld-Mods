@@ -10,4 +10,7 @@ It was written by @FalsePattern, but might contain small edits by @Ecconia.
 
 Just drop the `lwharmony` folder into your `GameData` folder.
 
+You will also need the mod `DllUtil` by @FalsePattern for this mod to function.\
+You can find them in my mod collection (root folder).
+
 However, by itself this mod does not do anything. However other mods might need it. Install it when you are asked to.

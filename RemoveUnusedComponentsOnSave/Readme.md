@@ -2,7 +2,7 @@
 
 ### Description:
 
-Currently as of version `0.90.3`, LogicWorld always includes every installed component into the current save-file.
+Currently as of version `0.90.3+`, LogicWorld always includes every installed component into the current save-file.
  Regardless if such a component is placed in the world or not.\
 This has the downside, that one has to remove mods to join such a world without changing the component-list.\
 If this is not done, the world will have an exclamation mark and you need to force-load it.\
