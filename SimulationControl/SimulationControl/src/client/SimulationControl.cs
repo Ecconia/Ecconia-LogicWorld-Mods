@@ -34,7 +34,7 @@ namespace SimulationControl.Client
 			}
 			else if(argument.Equals("s") || argument.Equals("step"))
 			{
-				command = "step 1";
+				command = "simulation.step 1";
 			}
 			else if(argument.Equals("r") || argument.Equals("resume") || argument.Equals("play") || argument.Equals("c"))
 			{
