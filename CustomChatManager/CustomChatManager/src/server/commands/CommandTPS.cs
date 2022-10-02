@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using JimmysUnityUtilities;
 using LogicAPI.Server.Managers;
 using LogicWorld.Server;
@@ -12,15 +13,16 @@ namespace CustomChatManager.Server.Commands
 
 		private static string usage = "Usage: /tps [ <tps> | stop/halt/pause | resume/play/continue ]";
 		
-		private readonly PeriodicTicker simulationScheduler;
+		private readonly ISimulationManager simulationScheduler;
 		private readonly ILogicManager simulation;
+		private readonly PropertyInfo playerRunningProp;
 		
 		public string name => "TPS";
 		public string shortDescription => "Changes the processed ticks per second.";
 
 		public CommandTPS()
 		{
-			simulationScheduler = (PeriodicTicker) Program.Get<ISimulationService>(); //Just do the dirty casting, we need 'IsPaused'.
+			simulationScheduler = Program.Get<ISimulationManager>(); //Just do the dirty casting, we need 'IsPaused'.
 			if(simulationScheduler == null)
 			{
 				throw new Exception("Could not get simulation scheduling service. /" + name + " will break.");
@@ -30,6 +32,11 @@ namespace CustomChatManager.Server.Commands
 			{
 				throw new Exception("Could not get simulation service. /" + name + " will break. And the server is probably already broken...");
 			}
+			playerRunningProp = simulationScheduler.GetType().GetProperty("RunSimulation_PlayerConfigured", BindingFlags.Public | BindingFlags.Instance);
+			if(playerRunningProp == null)
+			{
+				throw new Exception("Could not find 'RunSimulation_PlayerConfigured' in SimulationManager.");
+			}
 		}
 		
 		public void execute(CommandSender sender, string arguments)
@@ -37,7 +44,7 @@ namespace CustomChatManager.Server.Commands
 			if(arguments.IsNullOrWhiteSpace())
 			{
 				//Print help:
-				if(simulationScheduler.IsPaused)
+				if(!isRunning())
 				{
 					sender.sendMessage("Current tps is " + ChatColors.highlight + simulationScheduler.TicksPerSecond + ChatColors.close + " + paused. " + ChatColors.background + "<i>Try '/tps help' for usage.</i>" + ChatColors.close);
 				}
@@ -107,40 +114,40 @@ namespace CustomChatManager.Server.Commands
 
 		private void stepSimulation(CommandSender sender)
 		{
-			if(!simulationScheduler.IsPaused)
+			if(isRunning())
 			{
 				sender.sendMessage(ChatColors.failure + "To step the simulation, paused it first." + ChatColors.close);
 				return;
 			}
-			simulation.DoLogicUpdate();
+			simulation.DoLogicUpdate(); //Cause the stepping in the Manager is ofc private, just do it like it does.
 			sender.broadcastConsoleMessage(sender.getPlayerName() + " stepped simulation.");
 		}
 
 		private void resumeSimulation(CommandSender sender)
 		{
-			if(!simulationScheduler.IsPaused)
+			if(!isPaused()) //The simulation might be stopped by the server, although then this likely won't be called.
 			{
-				sender.sendMessage("Simulation is already running.");
+				sender.sendMessage("Simulation is not paused.");
 				return;
 			}
-			simulationScheduler.StartTicks();
+			resume(); //Might not resume it though... (If something goes wrong).
 			sender.broadcast(ChatColors.background + "<i>" + sender.getPlayerName() + " resumed simulation.</i>" + ChatColors.close);
 		}
 
 		private void pauseSimulation(CommandSender sender)
 		{
-			if(simulationScheduler.IsPaused)
+			if(isPaused()) //Might be disabled by the server, so query this.
 			{
 				sender.sendMessage("Simulation is already paused.");
 				return;
 			}
-			simulationScheduler.PauseTicks();
+			pause();
 			sender.broadcast(ChatColors.background + "<i>" + sender.getPlayerName() + " paused simulation.</i>" + ChatColors.close);
 		}
 
 		private void setSpeed(CommandSender sender, double tps)
 		{
-			bool paused = simulationScheduler.IsPaused;
+			bool paused = isPaused();
 			if(!paused && Math.Abs(simulationScheduler.TicksPerSecond - tps) < 0.0000001)
 			{
 				sender.sendMessage("This is already the current tick speed.");
@@ -150,6 +157,7 @@ namespace CustomChatManager.Server.Commands
 				simulationScheduler.TicksPerSecond = tps;
 				if(paused)
 				{
+					resume(); //Has to be manually called now.
 					sender.broadcast(ChatColors.background + "<i>" + sender.getPlayerName() + " resumed simulation with " + ChatColors.highlight + tps + ChatColors.close + " tps.</i>" + ChatColors.close);
 				}
 				else
@@ -157,6 +165,26 @@ namespace CustomChatManager.Server.Commands
 					sender.broadcast(ChatColors.background + "<i>" + sender.getPlayerName() + " changed simulation to " + ChatColors.highlight + tps + ChatColors.close + " tps.</i>" + ChatColors.close);
 				}
 			}
+		}
+
+		private bool isRunning()
+		{
+			return simulationScheduler.SimulationIsRunning;
+		}
+
+		private bool isPaused()
+		{
+			return !simulationScheduler.RunSimulation_PlayerConfigured;
+		}
+
+		private void pause()
+		{
+			playerRunningProp?.SetValue(simulationScheduler, false);
+		}
+
+		private void resume()
+		{
+			playerRunningProp?.SetValue(simulationScheduler, true);
 		}
 	}
 }
