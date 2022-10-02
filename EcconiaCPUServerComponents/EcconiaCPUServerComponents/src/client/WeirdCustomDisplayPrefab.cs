@@ -1,12 +1,9 @@
-//Needed for 'Exception':
 using System;
-//Needed for everything else :)
 using LogicWorld.Interfaces;
 using LogicWorld.References;
 using LogicWorld.Rendering.Dynamics;
 using LogicWorld.SharedCode;
 using LogicWorld.SharedCode.Components;
-//Needed for 'Vector3' (and maybe others):
 using UnityEngine;
 
 namespace EcconiaCPUServerComponents.Client

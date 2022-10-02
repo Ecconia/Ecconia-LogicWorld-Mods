@@ -1,14 +1,10 @@
-//Needed for everything else:
 using LogicWorld.SharedCode;
 using LogicWorld.Rendering.Components;
 using LogicWorld.Interfaces.Building;
-//Needed for at least 'Color24':
 using JimmysUnityUtilities;
-//Needed for some basic classes:
 using UnityEngine;
-
-//Needed for my components shared data:
 using EcconiaCPUServerComponents.Shared;
+using LogicAPI.Data;
 
 namespace EcconiaCPUServerComponents.Client
 {
@@ -17,7 +13,8 @@ namespace EcconiaCPUServerComponents.Client
 		private bool dataDirty = true;
 
 		private const int DisplaySideLength = 32;
-		private static readonly Color24 onColor = new Color24(255, 150, 0);
+		private static readonly GpuColor onColor = new Color24(255, 150, 0).ToGpuColor();
+		private static readonly GpuColor offColor = Colors.DisplayOff.ToGpuColor();
 
 		protected override void Initialize()
 		{
@@ -25,13 +22,13 @@ namespace EcconiaCPUServerComponents.Client
 
 		protected override void SetDataDefaultValues()
 		{
-			base.Data.pixelData = new byte[128];
+			Data.pixelData = new byte[128];
 		}
 
 		protected override void DataUpdate()
 		{
 			dataDirty = true;
-			base.QueueFrameUpdate();
+			QueueFrameUpdate();
 		}
 
 		protected override void FrameUpdate()
@@ -46,22 +43,22 @@ namespace EcconiaCPUServerComponents.Client
 		private void applyPixelData()
 		{
 			int index = 0;
-			foreach(byte b in base.Data.pixelData)
+			foreach(byte b in Data.pixelData)
 			{
-				base.SetBlockColor((b & 0b10000000) != 0 ? onColor : Colors.DisplayOff, index++);
-				base.SetBlockColor((b & 0b1000000) != 0 ? onColor : Colors.DisplayOff, index++);
-				base.SetBlockColor((b & 0b100000) != 0 ? onColor : Colors.DisplayOff, index++);
-				base.SetBlockColor((b & 0b10000) != 0 ? onColor : Colors.DisplayOff, index++);
-				base.SetBlockColor((b & 0b1000) != 0 ? onColor : Colors.DisplayOff, index++);
-				base.SetBlockColor((b & 0b100) != 0 ? onColor : Colors.DisplayOff, index++);
-				base.SetBlockColor((b & 0b10) != 0 ? onColor : Colors.DisplayOff, index++);
-				base.SetBlockColor((b & 0b1) != 0 ? onColor : Colors.DisplayOff, index++);
+				SetBlockColor((b & 0b10000000) != 0 ? onColor : offColor, index++);
+				SetBlockColor((b & 0b1000000) != 0 ? onColor : offColor, index++);
+				SetBlockColor((b & 0b100000) != 0 ? onColor : offColor, index++);
+				SetBlockColor((b & 0b10000) != 0 ? onColor : offColor, index++);
+				SetBlockColor((b & 0b1000) != 0 ? onColor : offColor, index++);
+				SetBlockColor((b & 0b100) != 0 ? onColor : offColor, index++);
+				SetBlockColor((b & 0b10) != 0 ? onColor : offColor, index++);
+				SetBlockColor((b & 0b1) != 0 ? onColor : offColor, index++);
 			}
 		}
 
 		private void setPixel(int x, int y, bool state)
 		{
-			base.SetBlockColor(state ? onColor : Colors.DisplayOff, x + y * 32);
+			SetBlockColor(state ? onColor : offColor, x + y * 32);
 		}
 
 		//Allows components to be placed on this component.

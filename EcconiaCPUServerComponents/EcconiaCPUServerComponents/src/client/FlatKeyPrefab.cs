@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using JimmysUnityUtilities;
 using LogicWorld.Interfaces;
 using LogicWorld.References;
 using LogicWorld.Rendering.Dynamics;
@@ -47,8 +45,8 @@ namespace EcconiaCPUServerComponents.Client
 								Type = ColliderType.Box,
 								Transform = new ColliderTransform()
 								{
-									Position = new Vector3(0, 0.8f, 0),
-									Scale = new Vector3(1, 0.4f, 1),
+									LocalPosition = new Vector3(0, 0.8f, 0),
+									LocalScale = new Vector3(1, 0.4f, 1),
 								},
 							},
 						},

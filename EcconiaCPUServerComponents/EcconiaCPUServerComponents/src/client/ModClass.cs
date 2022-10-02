@@ -1,4 +1,3 @@
-//Needed for 'ClientMod':
 using LogicAPI.Client;
 
 namespace EcconiaCPUServerComponents.Client

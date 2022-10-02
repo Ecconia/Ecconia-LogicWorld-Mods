@@ -1,7 +1,4 @@
-//Needed for 'LogicComponent':
 using LogicWorld.Server.Circuitry;
-
-//Needed for my displays data:
 using EcconiaCPUServerComponents.Shared;
 
 namespace EcconiaCPUServerComponents.Server

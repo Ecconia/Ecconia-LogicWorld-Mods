@@ -1,7 +1,6 @@
-using System;
 using EcconiaCPUServerComponents.Shared;
+using JimmysUnityUtilities;
 using LogicWorld.Server.Circuitry;
-using LogicWorld.SharedCode.ComponentCustomData;
 
 namespace EcconiaCPUServerComponents.Server
 {
@@ -24,7 +23,10 @@ namespace EcconiaCPUServerComponents.Server
 		protected override void SetDataDefaultValues()
 		{
 			//Not that this matters...
-			Data.SetDefaultValues();
+			Data.KeyDown = false;
+			Data.BoundInput = 2;
+			Data.KeyColor = new Color24(85, 85, 85);
+			Data.KeyLabelColor = new Color24(229, 229, 229);
 			Data.sizeX = 1;
 			Data.sizeZ = 1;
 		}

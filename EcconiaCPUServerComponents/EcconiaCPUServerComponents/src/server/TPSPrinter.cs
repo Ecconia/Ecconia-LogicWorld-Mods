@@ -7,11 +7,11 @@ namespace EcconiaCPUServerComponents.Server
 {
 	public class TPSPrinter : LogicComponent
 	{
-		private static readonly PeriodicTicker simulation;
+		private static readonly ISimulationManager simulation;
 		
 		static TPSPrinter()
 		{
-			simulation = (PeriodicTicker) Program.Get<ISimulationService>(); //Just do the dirty casting, we need 'IsPaused'.
+			simulation = Program.Get<ISimulationManager>(); //Just do the dirty casting, we need 'IsPaused'.
 			if(simulation == null)
 			{
 				throw new Exception("Could not get simulation service. /tps will break.");

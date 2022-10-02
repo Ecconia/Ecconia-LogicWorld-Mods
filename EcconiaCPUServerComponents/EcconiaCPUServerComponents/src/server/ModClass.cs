@@ -1,4 +1,3 @@
-//Needed for 'ServerMod':
 using LogicAPI.Server;
 
 namespace EcconiaCPUServerComponents.Server

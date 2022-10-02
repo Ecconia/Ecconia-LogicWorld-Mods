@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using EcconiaCPUServerComponents.Shared;
 using FancyInput;
@@ -17,7 +16,6 @@ using LogicWorld.Players;
 using LogicWorld.References;
 using LogicWorld.Rendering.Chunks;
 using LogicWorld.Rendering.Components;
-using LogicWorld.SharedCode.ComponentCustomData;
 using TMPro;
 using UnityEngine;
 
@@ -204,7 +202,7 @@ namespace EcconiaCPUServerComponents.Client
 		private void keyStateUpdate()
 		{
 			//Always do visual update:
-			GetDecorations()[0].DecorationObject.GetComponent<MeshRenderer>().material = Materials.StandardColor(Data.KeyDown ? Data.KeyColor.lighten() : Data.KeyColor);
+			GetDecorations()[0].DecorationObject.GetComponent<MeshRenderer>().material = MaterialsCache.WorldObject(Data.KeyDown ? Data.KeyColor.lighten() : Data.KeyColor);
 
 			//TODO: If key is globally not pressed, but this client still presses it, force press the button again.
 			if(!PlacedInMainWorld || keyWasPressed == Data.KeyDown)
@@ -237,11 +235,15 @@ namespace EcconiaCPUServerComponents.Client
 		{
 			//Keycap:
 			GameObject keycapGameObject = new GameObject();
-			keycapGameObject.AddComponent<MeshFilter>();
+			MeshFilter meshFilter = keycapGameObject.AddComponent<MeshFilter>();
 			keycapGameObject.AddComponent<MeshRenderer>();
 			keycapGameObject.AddComponent<BoxCollider>();
 			keycapGameObject.AddComponent<ButtonInteractable>().Button = this;
 			visibilityDetector = keycapGameObject.AddComponent<VisibilityDetector>();
+			OutlineWhenInteractableLookedAt = new MeshFilter[]
+			{
+				meshFilter,
+			};
 
 			//Text:
 			GameObject labelGameObject = new GameObject();
@@ -304,10 +306,13 @@ namespace EcconiaCPUServerComponents.Client
 
 		protected override void SetDataDefaultValues()
 		{
+			Data.KeyDown = false;
+			Data.BoundInput = 2;
+			Data.KeyColor = new Color24(85, 85, 85);
+			Data.KeyLabelColor = new Color24(229, 229, 229);
 			Data.sizeX = 1;
 			Data.sizeZ = 1;
 			Data.label = null; //Yes 'null' is the default - means no overwrite.
-			Data.SetDefaultValues();
 		}
 
 		//Pressable button interface:
@@ -323,6 +328,8 @@ namespace EcconiaCPUServerComponents.Client
 			manuallyPressed = false;
 			QueueFrameUpdate();
 		}
+
+		public IReadOnlyList<MeshFilter> OutlineWhenInteractableLookedAt { get; private set; }
 
 		//Weird stuff for color:
 
