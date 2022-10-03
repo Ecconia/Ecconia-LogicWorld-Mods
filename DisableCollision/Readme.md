@@ -14,7 +14,7 @@ But with this mod, you can do both actions, because `components` and `wires` wil
 
 Just drop the `DisableCollision` folder into your `GameData` folder.
 
-You will also need the two mods `LWHarmony` and `DllUtil` by @FalsePattern for this mod to function.\
+You will also need the two mods `HarmonyForLogicWorld` and `AssemblyLoader` for this mod to function.\
 You can find them in my mod collection (root folder).
 
 ## Usage:

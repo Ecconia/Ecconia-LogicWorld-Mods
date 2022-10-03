@@ -18,7 +18,7 @@ This mod adds a bunch of commands, see `Usages` below.
 
 Just drop the `RandomDebugCollection` folder into your `GameData` folder.
 
-You will also need the two mods `LWHarmony` and `DllUtil` by @FalsePattern for this mod to function.\
+You will also need the two mods `HarmonyForLogicWorld` and `AssemblyLoader` for this mod to function.\
 You can find them in my mod collection (root folder).
 
 ## Usage:

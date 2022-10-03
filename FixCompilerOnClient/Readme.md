@@ -21,5 +21,5 @@ This causes it to crash when compiling a mod, while a Harmony mod has already be
 
 Just drop the `FixCompilerOnClient` folder into your `GameData` folder.
 
-You will also need the two mods `lwharmony` and `dllutil` for this mod to function.\
+You will also need the two mods `HarmonyForLogicWorld` and `AssemblyLoader` for this mod to function.\
 You can find them in my mod collection (root folder).

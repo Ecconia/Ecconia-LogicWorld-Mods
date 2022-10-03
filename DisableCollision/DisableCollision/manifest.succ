@@ -5,4 +5,4 @@ Version: 2.0.1
 Priority: 0
 ClientOnly: true
 Dependencies:
-    - lwharmony
+    - HarmonyForLogicWorld

@@ -8,7 +8,7 @@
 
     <ItemGroup>
       <Reference Include="0Harmony">
-        <HintPath>..\LWHarmony\lwharmony\0Harmony.dll</HintPath>
+        <HintPath>..\HarmonyForLogicWorld\HarmonyForLogicWorld\dll\server\0Harmony.dll</HintPath>
       </Reference>
       <Reference Include="LogicAPI">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.dll</HintPath>

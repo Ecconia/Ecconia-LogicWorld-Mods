@@ -1,8 +1,0 @@
-ID: lwharmony
-Name: LWHarmony
-Author: FalsePattern
-Version: 2.1.1.1
-Priority: 99
-ClientOnly: true
-Dependencies:
-    - dllutil

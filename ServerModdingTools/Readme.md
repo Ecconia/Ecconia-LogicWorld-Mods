@@ -15,6 +15,6 @@ It is made for the server and only runs there.
 
 Just drop the `ServerModdingSuite` folder into the `GameData` folder.
 
-You will also need the mods `HarmonyForServers` and `AssemblyLoader` for this mod to function.\
+You will also need the mods `HarmonyForLogicWorld` and `AssemblyLoader` for this mod to function.\
 If you are running this mod on a server, you should also install `ServerOnlyMods`, to allow players to join without this mod.\
 You can find them in my mod collection (root folder).

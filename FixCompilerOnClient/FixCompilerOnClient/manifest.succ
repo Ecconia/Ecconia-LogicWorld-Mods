@@ -2,7 +2,7 @@ ID: FixCompilerOnClient
 Name: FixCompilerOnClient
 Author: Ecconia
 Version: 1.0.0
-Priority: 97
+Priority: 84
 ClientOnly: true
 Dependencies:
-    - lwharmony
+    - HarmonyForLogicWorld

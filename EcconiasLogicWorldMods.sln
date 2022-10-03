@@ -2,10 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisableCollision", "DisableCollision\DisableCollision.csproj", "{463E846C-1B2F-4EFB-A226-65EDEC844122}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DllUtil", "DllUtil\DllUtil.csproj", "{BCD50A23-DF13-4281-B03D-61200432DA4B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LWHarmony", "LWHarmony\LWHarmony.csproj", "{66A9ACDE-5D8F-4A5D-B0F6-717BD0C6E9F2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomDebugCollection", "RandomDebugCollection\RandomDebugCollection.csproj", "{C376ACB0-69A5-4704-8FDA-D01665BD400F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcconiaCPUServerComponents", "EcconiaCPUServerComponents\EcconiaCPUServerComponents.csproj", "{CA8A7919-D81B-40DD-B12F-DCF7039BC6E1}"
@@ -16,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomChatManager", "Custom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerModdingTools", "ServerModdingTools\ServerModdingTools.csproj", "{17E359F8-646C-4743-A758-49C617A16ECF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarmonyForServers", "HarmonyForServers\HarmonyForServers.csproj", "{01398431-F086-48D0-BD42-8228440F1751}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarmonyForLogicWorld", "HarmonyForLogicWorld\HarmonyForLogicWorld.csproj", "{01398431-F086-48D0-BD42-8228440F1751}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerOnlyMods", "ServerOnlyMods\ServerOnlyMods.csproj", "{1A06FDD9-1B47-4576-8EE3-DFEB7C2AFFF5}"
 EndProject
@@ -48,14 +44,6 @@ Global
 		{463E846C-1B2F-4EFB-A226-65EDEC844122}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{463E846C-1B2F-4EFB-A226-65EDEC844122}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{463E846C-1B2F-4EFB-A226-65EDEC844122}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BCD50A23-DF13-4281-B03D-61200432DA4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BCD50A23-DF13-4281-B03D-61200432DA4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BCD50A23-DF13-4281-B03D-61200432DA4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BCD50A23-DF13-4281-B03D-61200432DA4B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66A9ACDE-5D8F-4A5D-B0F6-717BD0C6E9F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66A9ACDE-5D8F-4A5D-B0F6-717BD0C6E9F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66A9ACDE-5D8F-4A5D-B0F6-717BD0C6E9F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66A9ACDE-5D8F-4A5D-B0F6-717BD0C6E9F2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C376ACB0-69A5-4704-8FDA-D01665BD400F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C376ACB0-69A5-4704-8FDA-D01665BD400F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C376ACB0-69A5-4704-8FDA-D01665BD400F}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,7 +1,0 @@
-ID: HarmonyForServers
-Name: HarmonyForServers
-Author: Ecconia
-Version: 2.0.0
-Priority: 85
-Dependencies:
-    - AssemblyLoader

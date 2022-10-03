@@ -1,4 +1,4 @@
-# HarmonyForServers by @Ecconia
+# HarmonyForLogicWorld by @Ecconia
 
 ### Description:
 
