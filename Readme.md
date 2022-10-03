@@ -18,8 +18,8 @@ You can ignore all other files outside of the `mod folder`s.
 
 You got a black screen when installing new mods and your logs say something with "path is empty/null"?
 
-**Install `FixCompilerOnClient` and/or `FixCompilerOnServer`** depend on where the issue occurs.\
-You can also install them if the issue does not happen, then you are prepared for the future.
+**Install my mod `FixCompiler`**!\
+You can also install it if the issue does not happen, then you are prepared for the future.
 
 #### What is the bug?
 
@@ -37,14 +37,11 @@ This means, you can only compile new mods, as long as no other mod which uses `H
 - `CustomWirePlacer` **Must have!**: Replaces the vanilla wire placer with a power-user tool (that you won't want to miss later on).
 - `SimulationControl`: Adds a console command `tps`, which is much less complicated than `server "simulation.rate <number>"`. 
 - `RandomDebugCollection`: Prints stack traces (that happen when going to error screen) to logs and prints compiler errors, which normally require `loglevel trace`.
-- `FixCompilerOnClient`: Fixes the compiler from breaking if Harmony is loaded.
 - `EcconiasChaosClientMod`: Mod made for Ecconia to dump many features like custom skybox in. Nothing consumer friendly, don't use it.
 - `DisableSuccFileReloading`: Prevents SUCC from reloading a file, if it got changed. Helps running multiple LW instances and fixes a 0.91 preview bug on Linux, preventing the game start.
 
 Libraries:
 
-- `DllUtil`: Loads DLL files (like for example Harmony) into runtime.
-- `LWHarmony`: Loads Harmony into the runtime.
 - `EccsWindowHelper`: Allows mods to more easily create LogicWorld-Styled windows (menus).
 
 #### Server:
@@ -52,16 +49,22 @@ Libraries:
 - `ServerLoadAccelerator`: **Must have!** This mod significantly improves the time, that the server needs to load a world when it has many wires. (25 minutes to 30 seconds become 10 seconds).
 - `RemoveUnusedComponentsOnSave`: Mod, which removes components from the component-id-map of a save, if a component is not placed in the world. **Use with care.**
 - `CustomChatManager`: Prevents players from abusing `sayraw` and adds chat commands, such as `/list` and `/tps` which allows anyone in multiplayer to control the simulation. 
-- `FixCompilerOnServer`: Fixes the compiler from breaking if Harmony is loaded.
 
 Libraries:
 
 - `ServerOnlyMods`: Allows you to develop mods for the server, that the client does not need to install.
-- `AssemblyLoader`: Loads DLL files (like for example Harmony) into runtime.
-- `HarmonyForServers`: Loads Harmony into the runtime.
 - `ServerModdingTools`: Very small collection of convenience features.
 
-#### Client & Server:
+#### Client | Server: (Installed on either or both sides)
+
+- `FixCompiler`: Fixes the compiler from breaking if Harmony is loaded.
+
+Libraries:
+
+- `AssemblyLoader`: Loads DLL files (like for example Harmony) into runtime.
+- `HarmonyForLogicWorld`: Loads Harmony into the runtime.
+
+#### Client & Server: (Installed on both sides)
 
 - `EcconiaCPUServerComponents`: Components that I use in my text-editor project. My favorite is the custom key. Ask for it as a standalone mod :)
 

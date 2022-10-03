@@ -2,9 +2,12 @@
 
 ### Description:
 
-This mod allows to hijack `Logic World Server` using `Harmony`, it is a library mod, which other mods can use.
+This mod allows to hijack `Logic World` client and server using `Harmony`, it is a library mod, which other mods can use.
 
-It is made for the server and only runs there.
+If the mod `lwharmony` is installed, this mod will do nothing (it is nevertheless required as dependency).\
+^The behavior might change in future, when updating to a newer Harmony version.
+
+You should replace `lwharmony` with this mod, if possible. Since this mod loads on client and server.
 
 ### What does it do?
 
