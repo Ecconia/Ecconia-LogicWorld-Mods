@@ -16,6 +16,12 @@
       <Reference Include="LogicAPI.Client">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.Client.dll</HintPath>
       </Reference>
+      <Reference Include="LogicAPI.Server">
+        <HintPath>..\LogicWorld\Server\LogicAPI.Server.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicLog">
+        <HintPath>..\LogicWorld\Server\LogicLog.dll</HintPath>
+      </Reference>
       <Reference Include="LogicWorld.Modding.Compilation">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Modding.Compilation.dll</HintPath>
       </Reference>

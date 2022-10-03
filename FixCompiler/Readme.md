@@ -1,4 +1,4 @@
-# FixCompilerOnClient by @Ecconia
+# FixCompiler by @Ecconia
 
 ### Description:
 
@@ -10,6 +10,11 @@ This makes running many mods tedious.
 
 With this mod, you can however use all the mods at the same time without running into this issue.
 
+### Only on the server:
+
+**WARNING: Even with this mod the LW server WILL CRASH, the first time this mod gets compiled.**\
+Only if you are compiling other mods at the same time. But after that one last crash this mod will be functional.
+
 ### Technical:
 
 Harmony creates and injects an assembly called `HarmonySolidState`, to manage itself.\
@@ -19,7 +24,8 @@ This causes it to crash when compiling a mod, while a Harmony mod has already be
 
 ## Install / Dependencies:
 
-Just drop the `FixCompilerOnClient` folder into your `GameData` folder.
+Just drop the `FixCompiler` folder into your `GameData` folder.
 
 You will also need the two mods `HarmonyForLogicWorld` and `AssemblyLoader` for this mod to function.\
+If you are running this mod on a server, you should also install `ServerOnlyMods`, to allow players to join without this mod.\>
 You can find them in my mod collection (root folder).

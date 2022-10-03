@@ -1,8 +1,0 @@
-ID: FixCompilerOnClient
-Name: FixCompilerOnClient
-Author: Ecconia
-Version: 1.0.0
-Priority: 84
-ClientOnly: true
-Dependencies:
-    - HarmonyForLogicWorld

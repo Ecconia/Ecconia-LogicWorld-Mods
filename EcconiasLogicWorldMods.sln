@@ -24,9 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomWirePlacer", "CustomW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EccsWindowHelper", "EccsWindowHelper\EccsWindowHelper.csproj", "{EA037FA0-10BA-4D63-8560-9EFCAEF128DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixCompilerOnClient", "FixCompilerOnClient\FixCompilerOnClient.csproj", "{FE6102EC-C294-4F51-88A7-917F3D8767B0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixCompilerOnServer", "FixCompilerOnServer\FixCompilerOnServer.csproj", "{CE5D11CD-19F1-4BA4-86E2-D922F9B0E8F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixCompiler", "FixCompiler\FixCompiler.csproj", "{FE6102EC-C294-4F51-88A7-917F3D8767B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerLoadAccelerator", "ServerLoadAccelerator\ServerLoadAccelerator.csproj", "{A4F6F697-9E6F-4661-AB4F-92F589ADBAE2}"
 EndProject
@@ -92,10 +90,6 @@ Global
 		{FE6102EC-C294-4F51-88A7-917F3D8767B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE6102EC-C294-4F51-88A7-917F3D8767B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE6102EC-C294-4F51-88A7-917F3D8767B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE5D11CD-19F1-4BA4-86E2-D922F9B0E8F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE5D11CD-19F1-4BA4-86E2-D922F9B0E8F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE5D11CD-19F1-4BA4-86E2-D922F9B0E8F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE5D11CD-19F1-4BA4-86E2-D922F9B0E8F7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4F6F697-9E6F-4661-AB4F-92F589ADBAE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A4F6F697-9E6F-4661-AB4F-92F589ADBAE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4F6F697-9E6F-4661-AB4F-92F589ADBAE2}.Release|Any CPU.ActiveCfg = Release|Any CPU

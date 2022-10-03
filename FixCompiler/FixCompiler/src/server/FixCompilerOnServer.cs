@@ -7,7 +7,7 @@ using LogicAPI.Server;
 using LogicLog;
 using LogicWorld.SharedCode.Modding.Compilation;
 
-namespace FixCompilerOnServer.server
+namespace FixCompiler.Server
 {
 	public class FixCompilerOnServer : ServerMod
 	{

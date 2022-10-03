@@ -5,7 +5,7 @@ using HarmonyLib;
 using LogicAPI.Client;
 using LogicWorld.SharedCode.Modding.Compilation;
 
-namespace FixCompilerOnClient.client
+namespace FixCompiler.Client
 {
 	public class FixCompilerOnClient : ClientMod
 	{
