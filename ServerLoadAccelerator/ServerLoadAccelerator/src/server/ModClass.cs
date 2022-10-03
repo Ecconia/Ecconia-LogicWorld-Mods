@@ -1,10 +1,9 @@
 using LogicAPI.Server;
 using LogicLog;
-using ServerOnlyMods.Server;
 
 namespace ServerLoadAccelerator.server
 {
-	public class ModClass : ServerMod, IServerSideOnlyMod
+	public class ModClass : ServerMod
 	{
 		public static ILogicLogger logger;
 

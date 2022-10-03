@@ -1,11 +1,10 @@
 using AssemblyLoader.Shared;
 using LogicAPI;
 using LogicAPI.Server;
-using ServerOnlyMods.Server;
 
 namespace HarmonyForServers.Server
 {
-	public class ModClass : ServerMod, IServerSideOnlyMod
+	public class ModClass : ServerMod
 	{
 		protected override void Initialize()
 		{

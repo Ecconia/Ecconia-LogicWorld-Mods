@@ -3,5 +3,3 @@ Name: AssemblyLoader
 Author: Ecconia
 Version: 1.0.0
 Priority: 88
-Dependencies:
-    - ServerOnlyMods

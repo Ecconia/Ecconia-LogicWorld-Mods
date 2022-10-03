@@ -4,5 +4,4 @@ Author: Ecconia
 Version: 2.0.0
 Priority: 85
 Dependencies:
-    - ServerOnlyMods
     - AssemblyLoader

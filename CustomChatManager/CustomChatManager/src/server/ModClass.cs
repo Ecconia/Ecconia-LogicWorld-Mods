@@ -1,11 +1,10 @@
 using CustomChatManager.Server.ChatServices;
 using CustomChatManager.Server.Commands;
 using LogicAPI.Server;
-using ServerOnlyMods.Server;
 
 namespace CustomChatManager.Server
 {
-	public class ModClass : ServerMod, IServerSideOnlyMod
+	public class ModClass : ServerMod
 	{
 		protected override void Initialize()
 		{

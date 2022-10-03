@@ -1,9 +1,8 @@
 using LogicAPI.Server;
-using ServerOnlyMods.Server;
 
 namespace ServerModdingTools.Server
 {
-	public class ModClass : ServerMod, IServerSideOnlyMod
+	public class ModClass : ServerMod
 	{
 		protected override void Initialize()
 		{

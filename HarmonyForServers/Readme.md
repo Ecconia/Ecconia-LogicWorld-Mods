@@ -14,5 +14,6 @@ It only loads the `Harmony` DLL, using the `AssemblyLoader` mod. This way Harmon
 
 Just drop the `HarmonyForServers` folder into the `GameData` folder.
 
-You will also need the two mods `ServerOnlyMods` and `AssemblyLoader` for this mod to function.\
+You will also need the mod `AssemblyLoader` for this mod to function.\
+If you are running this mod on a server, you should also install `ServerOnlyMods`, to allow players to join without this mod.\
 You can find them in my mod collection (root folder).

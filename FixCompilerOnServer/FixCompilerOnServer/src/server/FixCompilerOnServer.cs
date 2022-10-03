@@ -6,11 +6,10 @@ using HarmonyLib;
 using LogicAPI.Server;
 using LogicLog;
 using LogicWorld.SharedCode.Modding.Compilation;
-using ServerOnlyMods.Server;
 
 namespace FixCompilerOnServer.server
 {
-	public class FixCompilerOnServer : ServerMod, IServerSideOnlyMod
+	public class FixCompilerOnServer : ServerMod
 	{
 		public static ILogicLogger logger;
 

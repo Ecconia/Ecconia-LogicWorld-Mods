@@ -5,4 +5,3 @@ Version: 1.0.0
 Priority: 50
 Dependencies:
     - HarmonyForServers
-    - ServerOnlyMods

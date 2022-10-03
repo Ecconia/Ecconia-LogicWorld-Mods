@@ -7,11 +7,10 @@ using LogicAPI.Server;
 using LogicAPI.Services;
 using LogicWorld.Server;
 using LogicWorld.SharedCode.Saving;
-using ServerOnlyMods.Server;
 
 namespace RemoveUnusedComponentsOnSave.Server
 {
-	public class RemoveUnusedComponentsWhenSaving : ServerMod, IServerSideOnlyMod
+	public class RemoveUnusedComponentsWhenSaving : ServerMod
 	{
 		private static IWorldData worldData;
 		

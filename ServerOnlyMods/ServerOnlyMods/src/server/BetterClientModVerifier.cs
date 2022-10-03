@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -7,7 +8,6 @@ using LogicAPI.Server.Networking.ClientVerification;
 using LogicLog;
 using LogicWorld.Server;
 using LogicWorld.Server.Networking.ClientVerification;
-using LogicWorld.SharedCode.Modding;
 
 namespace ServerOnlyMods.Server
 {
@@ -17,21 +17,15 @@ namespace ServerOnlyMods.Server
 		{
 			List<MetaMod> missingMods = new List<MetaMod>();
 			string[] clientMods = ctx.ApprovalPacket.ClientMods;
-			foreach(var entry in ModLoader.LoadedMods)
+			foreach(var metaMod in ServerOnlyMods.getRequiredMods())
 			{
-				MetaMod modMeta = entry.Value;
-				if(modMeta.ModInstance is IServerSideOnlyMod)
-				{
-					//Skip all mods which are server sided only. (They may be on the client anyway).
-					continue;
-				}
-				string modName = entry.Key;
+				string modName = metaMod.Manifest.ID;
 				if(!clientMods.Contains(modName))
 				{
-					missingMods.Add(modMeta);
+					missingMods.Add(metaMod);
 				}
 			}
-			if(missingMods.Any())
+			if(missingMods.Count != 0)
 			{
 				StringBuilder builder = new StringBuilder();
 				builder.Append("You are missing the following mods:\n");
@@ -45,7 +39,7 @@ namespace ServerOnlyMods.Server
 			}
 		}
 
-		private string modToString(MetaMod mod)
+		private static string modToString(MetaMod mod)
 		{
 			return mod.Manifest.ID + ":" + mod.Manifest.Version;
 		}
