@@ -21,5 +21,5 @@ The other important thing, which this mod was actually written for, is that the 
 
 Just drop the `DisableSuccFileReloading` folder into your `GameData` folder.
 
-You will also need the two mods `HarmonyForLogicWorld` and `AssemblyLoader` by @FalsePattern for this mod to function.\
+You will also need the two mods `HarmonyForLogicWorld` and `AssemblyLoader` for this mod to function.\
 You can find them in my mod collection (root folder).
