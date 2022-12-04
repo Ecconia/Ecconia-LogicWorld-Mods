@@ -1,7 +1,0 @@
-ID: FixCompiler
-Name: FixCompiler
-Author: Ecconia
-Version: 2.0.0
-Priority: 84
-Dependencies:
-    - HarmonyForLogicWorld

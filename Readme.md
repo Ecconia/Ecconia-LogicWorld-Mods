@@ -14,20 +14,14 @@ You can copy/paste or `link` that `mod folder` to your `GameData` folder, where 
 
 You can ignore all other files outside of the `mod folder`s.
 
-## Logic World black screen: "Path is empty" => Install the fix mod!
+## No Harmony on the latest preview server!
 
-You got a black screen when installing new mods and your logs say something with "path is empty/null"?
+Since LogicWorld has switched to .Net 7 on the server, `Harmony` is no longer functional.\
+It loads perfectly fine and won't throw any error, but no patch will be applied.\
+Time will solve this issue, as one day it will support .Net 7, but that time is not now.
 
-**Install my mod `FixCompiler`**!\
-You can also install it if the issue does not happen, then you are prepared for the future.
-
-#### What is the bug?
-
-There is currently an issue with the `Logic World` compiler and `Harmony`.\
-Quite a few `Logic World` mods are using the framework `Harmony`.\
-But as soon as one of the mods which use `Harmony` is loaded, the `Logic World` compiler breaks.\
-Because `Harmony` injects an assembly that is not dynamic, yet has no location on disk.\
-This means, you can only compile new mods, as long as no other mod which uses `Harmony` is loaded.
+However this means, that most of my server mods using Harmony won't do what they should, and are useless.\
+The only exception is `CustomChatManager`, which just does not have a on-join message but everything else works.
 
 ## List of mods:
 
@@ -38,7 +32,6 @@ This means, you can only compile new mods, as long as no other mod which uses `H
 - `SimulationControl`: Adds a console command `tps`, which is much less complicated than `server "simulation.rate <number>"`. 
 - `RandomDebugCollection`: Prints stack traces (that happen when going to error screen) to logs and prints compiler errors, which normally require `loglevel trace`.
 - `EcconiasChaosClientMod`: Mod made for Ecconia to dump many features like custom skybox in. Nothing consumer friendly, don't use it.
-- `DisableSuccFileReloading`: Prevents SUCC from reloading a file, if it got changed. Helps running multiple LW instances and fixes a 0.91 preview bug on Linux, preventing the game start.
 
 Libraries:
 
@@ -56,8 +49,6 @@ Libraries:
 - `ServerModdingTools`: Very small collection of convenience features.
 
 #### Client | Server: (Installed on either or both sides)
-
-- `FixCompiler`: Fixes the compiler from breaking if Harmony is loaded.
 
 Libraries:
 

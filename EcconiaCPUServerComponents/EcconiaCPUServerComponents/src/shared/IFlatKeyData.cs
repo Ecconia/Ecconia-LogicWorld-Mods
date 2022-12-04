@@ -2,6 +2,7 @@ using JimmysUnityUtilities;
 
 namespace EcconiaCPUServerComponents.Shared
 {
+	//TODO: Find another way, to make LogicWorld aware of that this key is "just like a normal key" (or copy its UI completely).
 	public interface IFlatKeyData
 	{
 		bool KeyDown { get; set; }

@@ -1,5 +1,10 @@
 # EcconiaCPUServerComponents by @Ecconia
 
+### CURRENTLY HAS ISSUES:
+
+- It breaks the LogicWorld UI font on some GPUs. \[Will have to fix the text-mesh-pro material (somehow)]
+- The key cannot be edited properly. \[Will have to serialize the custom data myself, while disabling the System LW provides]
+
 ### Description:
 
 Reasons for creation of this mod:

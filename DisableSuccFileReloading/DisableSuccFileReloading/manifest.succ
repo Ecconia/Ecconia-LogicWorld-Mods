@@ -1,8 +1,0 @@
-ID: DisableSuccFileReloading
-Name: DisableSuccFileReloading
-Author: Ecconia
-Version: 1.0.0
-Priority: 0
-ClientOnly: true
-Dependencies:
-    - HarmonyForLogicWorld
