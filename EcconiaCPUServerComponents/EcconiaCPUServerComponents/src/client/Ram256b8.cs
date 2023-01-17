@@ -106,7 +106,7 @@ namespace EcconiaCPUServerComponents.Client
 			string textValue = value > 99 ? value.ToString() : value > 9 ? " " + value : "  " + value;
 			char mapped = mapping[value];
 			string textMapped = value == 0 ? "" : mapped == 0 ? " …" : " " + mapped; 
-			label.text = "<mspace=0.5em>" + textIndex + ": " + textValue + textMapped + "</mspace>";
+			label.text = textIndex + ": " + textValue + textMapped;
 		}
 
 		protected override IList<IDecoration> GenerateDecorations()
@@ -115,16 +115,16 @@ namespace EcconiaCPUServerComponents.Client
 			Quaternion alignment = Quaternion.AngleAxis(-90, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.forward);
 			for(int i = 0; i < 256; i++)
 			{
-				GameObject go = new GameObject();
-				RectTransform rect = go.AddComponent<RectTransform>();
+				(GameObject go, TextMeshPro label) = Helper.textObjectMono("Ram256b8: TextDecoration");
+				RectTransform rect = go.GetComponent<RectTransform>();
 				rect.sizeDelta = new Vector2(0, 0.5625f);
-				TextMeshPro label = go.AddComponent<TextMeshPro>();
 				label.fontSize = 5.625f;
 				label.autoSizeTextContainer = false;
 				label.horizontalAlignment = HorizontalAlignmentOptions.Left;
 				label.verticalAlignment = VerticalAlignmentOptions.Middle;
 				label.enableWordWrapping = false;
-				label.text = "<mspace=0.5em>" + i + ": ???</mspace>";
+				string textIndex = i > 99 ? i.ToString() : i > 9 ? " " + i : "  " + i;
+				label.text = textIndex + ": ???";
 				label.color = new Color(0f, 0.8f, 0.6f);
 				decorations.Add(new Decoration()
 				{

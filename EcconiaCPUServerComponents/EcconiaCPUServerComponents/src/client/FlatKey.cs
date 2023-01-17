@@ -246,8 +246,7 @@ namespace EcconiaCPUServerComponents.Client
 			};
 
 			//Text:
-			GameObject labelGameObject = new GameObject();
-			TextMeshPro textRenderer = labelGameObject.AddComponent<TextMeshPro>();
+			(GameObject labelGameObject, TextMeshPro textRenderer) = Helper.textObjectMono("FlatKey: TextDecoration");
 			textRenderer.fontSizeMin = 0.01f;
 			textRenderer.enableAutoSizing = true;
 			textRenderer.horizontalAlignment = HorizontalAlignmentOptions.Center;
