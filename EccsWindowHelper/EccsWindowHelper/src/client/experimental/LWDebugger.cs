@@ -62,7 +62,7 @@ namespace EccsWindowHelper.Client.Experimental
 			LConsole.WriteLine("Done!");
 		}
 
-		public static void debugGameObject(GameObject obj)
+		public static void debugGameObject(GameObject obj, bool shouldInspectFromRoot = false)
 		{
 			StreamWriter writer = new StreamWriter("eccGODebug.txt");
 			try
@@ -70,7 +70,10 @@ namespace EccsWindowHelper.Client.Experimental
 				writer.WriteLine("Processing: " + obj.name);
 				writer.WriteLine();
 				GameObject c = obj;
-				c = getParent(c);
+				if(shouldInspectFromRoot)
+				{
+					c = getParent(c);
+				}
 				storeReferences(c, "@->");
 				inspectObject(writer, "", c);
 				writer.WriteLine();
@@ -508,6 +511,8 @@ namespace EccsWindowHelper.Client.Experimental
 			//Whitelist:
 			if(false
 				//Unity:
+				|| t == typeof(MeshRenderer)
+				|| t == typeof(Renderer)
 				|| t == typeof(LayoutGroup)
 				|| t == typeof(HorizontalOrVerticalLayoutGroup)
 				|| t == typeof(HorizontalLayoutGroup)
