@@ -44,7 +44,7 @@ namespace CustomChatManager.Server.ChatServices
 		{
 			commands.Add(command.name.ToLower(), command);
 		}
-		
+
 		public CommandManager()
 		{
 			instance = this;
@@ -117,13 +117,13 @@ namespace CustomChatManager.Server.ChatServices
 			content = content.Substring(1); //Dispose '/'
 			e.result = MessageEventResult.Drop; //Yep, this is a command, no forwarding!
 			CommandSender sender = new CommandSender(server, e.sender);
-			
+
 			(string command, string argument) split = splitArguments(content);
 
 			commands.TryGetValue(split.command.ToLower(), out ICommand suitableCommand);
 			if(suitableCommand == null)
 			{
-				sender.sendMessage(ChatColors.failure + "Unknown command '" + ChatColors.highlight+ "/" + split.command + ChatColors.close + "'!" + ChatColors.close);
+				sender.sendMessage(ChatColors.failure + "Unknown command '" + ChatColors.highlight + "/" + split.command + ChatColors.close + "'!" + ChatColors.close);
 				return;
 			}
 			suitableCommand.execute(sender, split.argument);

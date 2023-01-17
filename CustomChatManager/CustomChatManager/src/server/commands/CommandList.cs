@@ -9,7 +9,7 @@ namespace CustomChatManager.Server.Commands
 	{
 		public string name => "List";
 		public string shortDescription => "Lists all connected players.";
-		
+
 		private readonly IPlayerManager playerManager;
 
 		public CommandList()
@@ -20,7 +20,7 @@ namespace CustomChatManager.Server.Commands
 				throw new Exception("Could not get IPlayerManager. /list will break");
 			}
 		}
-		
+
 		public void execute(CommandSender sender, string arguments)
 		{
 			List<string> names = new List<string>();

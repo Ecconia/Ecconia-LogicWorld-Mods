@@ -55,7 +55,7 @@ namespace EcconiaCPUServerComponents.Client
 					{
 						new ComponentOutput()
 						{
-							Position = new Vector3(0, -5f/6f,0 ),
+							Position = new Vector3(0, -5f / 6f, 0),
 							Rotation = new Vector3(180, 0, 0),
 						},
 					},

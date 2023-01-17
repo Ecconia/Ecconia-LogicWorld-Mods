@@ -13,7 +13,7 @@ namespace RemoveUnusedComponentsOnSave.Server
 	public class RemoveUnusedComponentsWhenSaving : ServerMod
 	{
 		private static IWorldData worldData;
-		
+
 		protected override void Initialize()
 		{
 			worldData = Program.Get<IWorldData>();
@@ -21,7 +21,7 @@ namespace RemoveUnusedComponentsOnSave.Server
 			{
 				throw new Exception("Could not get 'IWorldData' from server.");
 			}
-			
+
 			MethodInfo methSaver = typeof(SaveWriter).GetMethod("WriteHeaderAndSaveInfo", BindingFlags.NonPublic | BindingFlags.Static);
 			if(methSaver == null)
 			{
@@ -39,7 +39,7 @@ namespace RemoveUnusedComponentsOnSave.Server
 			{
 				return; //Don't dance with this yet.
 			}
-			
+
 			//Collect component IDs:
 			HashSet<ushort> usedIDs = new HashSet<ushort>();
 			foreach(ComponentAddress topLevelComponent in worldData.TopLevelComponents)

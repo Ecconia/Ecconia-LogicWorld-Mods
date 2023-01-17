@@ -15,7 +15,7 @@ namespace CustomWirePlacer.Client
 		GoTwoDimensional,
 		IncreaseInterval,
 		DecreaseInterval,
-		
+
 		OpenSettings,
 	}
 }

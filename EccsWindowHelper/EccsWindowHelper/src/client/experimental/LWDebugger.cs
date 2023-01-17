@@ -544,7 +544,7 @@ namespace EccsWindowHelper.Client.Experimental
 				|| t == typeof(TMP_Text)
 				|| t == typeof(TMP_Style)
 				//System:
-				
+
 				//LW:
 				// || t == typeof(BindingOptionRenderer)
 				// || t == typeof(BindingRenderer)
@@ -574,7 +574,7 @@ namespace EccsWindowHelper.Client.Experimental
 				// || t == typeof(PaletteElement)
 				// || t == typeof(PopupsManager)
 				// // || t == typeof(PopupBlocker) //Internal, but not interesting anyway.
-				
+
 				//ShapesUI:
 				|| t == typeof(GeoUtils.ShadowProperties)
 				|| t == typeof(GeoUtils.OutlineShapeProperties)

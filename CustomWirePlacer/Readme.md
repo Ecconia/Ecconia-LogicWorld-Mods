@@ -2,11 +2,11 @@
 
 ### Description:
 
-`Logic World` introduced an amazing feature called Multi-Wire-Placer. But could there be something even more powerful? 
+`Logic World` introduced an amazing feature called Multi-Wire-Placer. But could there be something even more powerful?
 
 Reasons for creation of this mod:
 
-- Often one wants to connect pegs in a row. Connecting `1 to N` with `0 to N-1` takes a bit of flying and is easy to mess up. 
+- Often one wants to connect pegs in a row. Connecting `1 to N` with `0 to N-1` takes a bit of flying and is easy to mess up.
 - The beta-testers already struggled with connecting a 2D field of pegs with another 2D field.
 - Sometimes you just want to create a wire to a new peg over a longer distance.
 

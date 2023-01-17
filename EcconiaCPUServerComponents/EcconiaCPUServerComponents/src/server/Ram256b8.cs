@@ -9,10 +9,10 @@ namespace EcconiaCPUServerComponents.Server
 	public class Ram256b8 : LogicComponent
 	{
 		private static readonly IWorldUpdates worldUpdater;
-		
+
 		//Contains the in memory stored bytes:
 		private readonly byte[] data = new byte[256];
-		
+
 		//Keeps track of how many of the next ticks it should run (to shift data where it belongs):
 		private byte ticksToContinue;
 		//Shifting data:
@@ -33,7 +33,7 @@ namespace EcconiaCPUServerComponents.Server
 			//World updater only exists once while runtime anyway. So lets keep it cached statically.
 			worldUpdater = Program.Get<IWorldUpdates>();
 		}
-		
+
 		//Set this to true, so that LogicWorld knows, that it has to serialize this component before saving.
 		public override bool HasPersistentValues => true;
 		//No need to override the SavePersistentValuesToCustomData method, since there is no CustomData object.

@@ -14,10 +14,10 @@ namespace CustomWirePlacer.Client.Windows
 		{
 			windowObject = WindowHelper.makeGameObject(title);
 			{
-				rect = windowObject.AddComponent<RectTransform>();;
+				rect = windowObject.AddComponent<RectTransform>();
 				windowObject.AddComponent<CanvasRenderer>();
 			}
-			
+
 			CWPUIHelper.addBackground(windowObject);
 			{
 				GameObject textObject = WindowHelper.makeGameObject("CWP: WindowTextBox: Text");
@@ -34,18 +34,17 @@ namespace CustomWirePlacer.Client.Windows
 				textMesh.horizontalAlignment = HorizontalAlignmentOptions.Left;
 				textMesh.autoSizeTextContainer = true;
 				textMesh.enableWordWrapping = false;
-				
+
 				textObject.SetActive(true);
 				textObject.setParent(windowObject);
 			}
-			
+
 			windowObject.SetActive(true);
 			windowObject.setParent(parentCanvas);
 		}
 
 		public void setText(string text)
 		{
-
 			this.text.text = text;
 			rect.sizeDelta = new Vector2(this.text.preferredWidth, this.text.preferredHeight);
 		}

@@ -28,9 +28,9 @@ namespace CustomWirePlacer.Client.CWP
 
 		public static readonly OutlineData secondDiscoveredPegs = new OutlineData(
 			new Color24(255, 127, 255));
-		
+
 		// First group backed axis:
-		
+
 		public static readonly OutlineData backedGroupOneFirst = new OutlineData(
 			new Color24(212, 188, 0));
 

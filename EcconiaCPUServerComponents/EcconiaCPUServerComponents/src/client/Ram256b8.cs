@@ -37,9 +37,9 @@ namespace EcconiaCPUServerComponents.Client
 				mapping[index++] = otherCharacters[i];
 			}
 		}
-		
+
 		private bool isInitialized;
-		
+
 		protected override ChildPlacementInfo GenerateChildPlacementInfo()
 		{
 			return new ChildPlacementInfo()
@@ -105,7 +105,7 @@ namespace EcconiaCPUServerComponents.Client
 			string textIndex = index > 99 ? index.ToString() : index > 9 ? " " + index : "  " + index;
 			string textValue = value > 99 ? value.ToString() : value > 9 ? " " + value : "  " + value;
 			char mapped = mapping[value];
-			string textMapped = value == 0 ? "" : mapped == 0 ? " …" : " " + mapped; 
+			string textMapped = value == 0 ? "" : mapped == 0 ? " …" : " " + mapped;
 			label.text = textIndex + ": " + textValue + textMapped;
 		}
 

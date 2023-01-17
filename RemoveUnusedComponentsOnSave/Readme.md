@@ -17,7 +17,7 @@ It is made for the server and only runs there.
 This mod changes the default behavior of how `LogicWorld` saves files.\
 This is currently supported, but it might not always be the case.\
 Further there might be unforeseen side-effects which might break your save.\
-**It "should" work, but I do not guarantee that it won't break your save!** 
+**It "should" work, but I do not guarantee that it won't break your save!**
 
 Although I assume that in future, this behavior gonna be a part of the base-game. It better be!
 

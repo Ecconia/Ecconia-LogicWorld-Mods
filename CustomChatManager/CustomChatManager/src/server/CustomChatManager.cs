@@ -38,7 +38,7 @@ namespace CustomChatManager.Server
 			{
 				chatService.processChatEvent(e);
 			}
-			
+
 			//Forward, if not rejected:
 			if(e.result == MessageEventResult.Send)
 			{
@@ -53,15 +53,15 @@ namespace CustomChatManager.Server
 		{
 			chatServices.Add(service);
 		}
-		
+
 		// ### Static injection code: ###
-		
+
 		public static void inject(ILogicLogger logger, ICustomChatManager customChatManager)
 		{
 			//Ignore success.
 			PacketHandlerInjector.injectPacketHandler(logger, new CustomChatPacketHandler(customChatManager));
 		}
-		
+
 		private class CustomChatPacketHandler : PacketHandler<ChatMessageSentPacket>
 		{
 			private readonly ICustomChatManager customChatManager;

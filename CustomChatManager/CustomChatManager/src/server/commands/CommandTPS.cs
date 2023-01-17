@@ -12,11 +12,11 @@ namespace CustomChatManager.Server.Commands
 		private static double minTPS = 0.1f;
 
 		private static string usage = "Usage: /tps [ <tps> | stop/halt/pause | resume/play/continue ]";
-		
+
 		private readonly ISimulationManager simulationScheduler;
 		private readonly ILogicManager simulation;
 		private readonly PropertyInfo playerRunningProp;
-		
+
 		public string name => "TPS";
 		public string shortDescription => "Changes the processed ticks per second.";
 
@@ -38,7 +38,7 @@ namespace CustomChatManager.Server.Commands
 				throw new Exception("Could not find 'RunSimulation_PlayerConfigured' in SimulationManager.");
 			}
 		}
-		
+
 		public void execute(CommandSender sender, string arguments)
 		{
 			if(arguments.IsNullOrWhiteSpace())
@@ -54,7 +54,7 @@ namespace CustomChatManager.Server.Commands
 				}
 				return;
 			}
-			
+
 			//We got some argument:
 			arguments = arguments.TrimStart();
 			if(arguments.IndexOf(' ') >= 0)
@@ -62,7 +62,7 @@ namespace CustomChatManager.Server.Commands
 				sender.sendMessage(ChatColors.failure + "Too many arguments." + ChatColors.close + "\n" + ChatColors.background + usage + ChatColors.close);
 				return;
 			}
-			
+
 			//Only one argument remaining:
 			string argument = arguments.ToLower();
 

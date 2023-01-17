@@ -76,7 +76,7 @@ namespace EccsWindowHelper.Client.Prefabs
 				rectTransform.anchoredPosition = new Vector2(0, 0);
 			}
 			gameObject.AddComponent<CanvasRenderer>();
-			
+
 			Rectangle rectangle = gameObject.AddComponent<Rectangle>();
 			{
 				rectangle.ShapeProperties = new GeoUtils.OutlineShapeProperties()
@@ -197,7 +197,7 @@ namespace EccsWindowHelper.Client.Prefabs
 				rectTransform.anchoredPosition = new Vector2(0, 0);
 			}
 			gameObject.AddComponent<CanvasRenderer>();
-			
+
 			TextMeshProUGUI text = gameObject.AddComponent<TextMeshProUGUI>();
 			text.verticalAlignment = VerticalAlignmentOptions.Middle;
 			text.horizontalAlignment = HorizontalAlignmentOptions.Center;
@@ -337,7 +337,7 @@ namespace EccsWindowHelper.Client.Prefabs
 				rectTransform.anchoredPosition = new Vector2(0, 0);
 			}
 			gameObject.AddComponent<CanvasRenderer>();
-			
+
 			TextMeshProUGUI text = gameObject.AddComponent<TextMeshProUGUI>();
 			text.verticalAlignment = VerticalAlignmentOptions.Middle;
 			text.horizontalAlignment = HorizontalAlignmentOptions.Center;
@@ -348,7 +348,7 @@ namespace EccsWindowHelper.Client.Prefabs
 			text.overflowMode = TextOverflowModes.Overflow;
 			text.enableKerning = true;
 			text.isOrthographic = true;
-			
+
 			gameObject.addFontIcon(icon).SetPaletteColor(PaletteColor.Graphic_Primary);
 
 			gameObject.SetActive(true);

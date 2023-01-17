@@ -27,11 +27,11 @@ namespace CustomWirePlacer.Client.CWP
 			(InputTrigger) (Enum) CWPTrigger.Flip,
 			(InputTrigger) (Enum) CWPTrigger.ApplyPattern,
 			(InputTrigger) (Enum) CWPTrigger.ApplyNormalAction,
-			
+
 			(InputTrigger) (Enum) CWPTrigger.SkipModeSwitch,
 			(InputTrigger) (Enum) CWPTrigger.ExpandFurther,
 			(InputTrigger) (Enum) CWPTrigger.ExpandBackwards,
-			
+
 			(InputTrigger) (Enum) CWPTrigger.Modificator,
 			(InputTrigger) (Enum) CWPTrigger.ModificatorAlternative,
 			(InputTrigger) (Enum) Trigger.DrawWire, //Obvious... hence at the bottom to be cropped.

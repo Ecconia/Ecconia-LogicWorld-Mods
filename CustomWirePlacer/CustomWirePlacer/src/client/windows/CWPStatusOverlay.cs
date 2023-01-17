@@ -44,7 +44,7 @@ namespace CustomWirePlacer.Client.Windows
 				windowObject.SetActive(true);
 				windowObject.setParent(rootObject);
 			}
-			
+
 			CWPUIHelper.addBackground(windowObject);
 
 			//Add foreground:

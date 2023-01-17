@@ -15,7 +15,7 @@ namespace CustomChatManager.Server
 		//Lazy load:
 		private IPlayerManager playerManager;
 		private string playerName;
-		
+
 		public CommandSender(NetworkServer server, Connection connection)
 		{
 			this.server = server;
@@ -39,7 +39,7 @@ namespace CustomChatManager.Server
 				}
 			});
 		}
-		
+
 		public void broadcast(string content)
 		{
 			broadcast(content, Color24.White);
@@ -70,7 +70,7 @@ namespace CustomChatManager.Server
 			}
 			return playerName;
 		}
-		
+
 		public void sendConsoleMessage(string content)
 		{
 			server.Send(connection, new DebugMessagePacket()

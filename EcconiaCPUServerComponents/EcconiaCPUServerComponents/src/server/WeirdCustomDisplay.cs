@@ -6,7 +6,7 @@ namespace EcconiaCPUServerComponents.Server
 	public class WeirdCustomDisplay : LogicComponent<IWeirdCustomDisplayData>
 	{
 		//State values:
-		
+
 		uint updateCounter; //How many more cycles should this component do logic, after a value change?
 
 		// 0 - State at display
@@ -82,7 +82,6 @@ namespace EcconiaCPUServerComponents.Server
 				//Map the boolean to be a whole mask of bits, so that it can be used in the bitwise logic later:
 				uint newValueMask = data1 ? 0xFFFFFFFF : 0;
 
-				
 				int pixelByteIndex = 0;
 				uint bitMaskY = 1;
 				for(int y = 0; y < 32; y++)

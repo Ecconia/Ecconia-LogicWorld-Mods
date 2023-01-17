@@ -32,7 +32,7 @@ namespace CustomWirePlacer.Client.CWP
 				CWPHelpOverlay.checkVisibility();
 			}
 		}
-		
+
 		private static bool _showStatusOverlayModifiers = true;
 
 		public static bool showStatusOverlayModifiers
@@ -44,7 +44,7 @@ namespace CustomWirePlacer.Client.CWP
 				CWPStatusOverlay.setDirtySettingsConfig();
 			}
 		}
-		
+
 		private static bool _showStatusOverlaySettings;
 
 		public static bool showStatusOverlaySettings
@@ -260,7 +260,7 @@ namespace CustomWirePlacer.Client.CWP
 	{
 		public string title;
 	}
-	
+
 	public class SettingsWindowSetting : SettingsWindowEntry
 	{
 		public string key;

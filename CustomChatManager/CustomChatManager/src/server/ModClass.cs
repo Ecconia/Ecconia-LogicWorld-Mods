@@ -23,7 +23,7 @@ namespace CustomChatManager.Server
 					CommandManager.instance.register(new CommandMods());
 				}
 			}
-			
+
 			CustomChatManager.inject(Logger, chatManager);
 		}
 	}

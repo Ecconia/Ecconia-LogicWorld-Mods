@@ -64,7 +64,7 @@ namespace CustomWirePlacer.Client.Windows
 					checkVisibility();
 				}
 			};
-			
+
 			TextLocalizer.Initialize(new LocalizationHelpUpdater());
 		}
 
@@ -75,7 +75,7 @@ namespace CustomWirePlacer.Client.Windows
 				checkVisibility();
 			}
 		}
-		
+
 		//Manage the visibility:
 
 		private enum State
@@ -170,32 +170,32 @@ namespace CustomWirePlacer.Client.Windows
 		private static void setCWPText()
 		{
 			//TODO: It is majorly inefficient to lookup and format the keys every refresh. Improve! (Eventually).
-			
+
 			StringBuilder sb = new StringBuilder();
-			append(sb,"CWP.HelpOverlay.CWP.Abort", "LogicUI.Back", "MHG.CancelPlacing");
-			append(sb,"CWP.HelpOverlay.CWP.Settings", "CustomWirePlacer.OpenSettings");
-			append(sb,"CWP.HelpOverlay.CWP.Flip", "CustomWirePlacer.Flip");
-			append(sb,"CWP.HelpOverlay.CWP.SkipModeSwitch", "CustomWirePlacer.SkipModeSwitch");
+			append(sb, "CWP.HelpOverlay.CWP.Abort", "LogicUI.Back", "MHG.CancelPlacing");
+			append(sb, "CWP.HelpOverlay.CWP.Settings", "CustomWirePlacer.OpenSettings");
+			append(sb, "CWP.HelpOverlay.CWP.Flip", "CustomWirePlacer.Flip");
+			append(sb, "CWP.HelpOverlay.CWP.SkipModeSwitch", "CustomWirePlacer.SkipModeSwitch");
 			if(CWP.CustomWirePlacer.getSecondGroup().isSet())
 			{
 				//If there are two groups:
-				append(sb,"CWP.HelpOverlay.CWP.RemoveMulti", "CustomWirePlacer.RemoveWires");
+				append(sb, "CWP.HelpOverlay.CWP.RemoveMulti", "CustomWirePlacer.RemoveWires");
 			}
 			else
 			{
 				//If there is only one group:
-				append(sb,"CWP.HelpOverlay.CWP.RemoveSingle", "CustomWirePlacer.RemoveWires");
+				append(sb, "CWP.HelpOverlay.CWP.RemoveSingle", "CustomWirePlacer.RemoveWires");
 			}
 			if(CWP.CustomWirePlacer.getCurrentGroup().getCurrentAxis().secondPeg != null)
 			{
 				//If second peg present:
-				append(sb,"CWP.HelpOverlay.CWP.ForwardsStart", "CustomWirePlacer.ExpandFurther");
-				append(sb,"CWP.HelpOverlay.CWP.BackwardsStart", "CustomWirePlacer.ExpandBackwards");
+				append(sb, "CWP.HelpOverlay.CWP.ForwardsStart", "CustomWirePlacer.ExpandFurther");
+				append(sb, "CWP.HelpOverlay.CWP.BackwardsStart", "CustomWirePlacer.ExpandBackwards");
 			}
 			if(!CWP.CustomWirePlacer.getCurrentGroup().isTwoDimensional())
 			{
 				//If the current group is not two dimensional:
-				append(sb,"CWP.HelpOverlay.CWP.GoTwoDimensional", "CustomWirePlacer.GoTwoDimensional");
+				append(sb, "CWP.HelpOverlay.CWP.GoTwoDimensional", "CustomWirePlacer.GoTwoDimensional");
 			}
 			if(CWP.CustomWirePlacer.getSecondGroup().isSet() || !CWP.CustomWirePlacer.isCurrentlyEditingAxis())
 			{
@@ -203,12 +203,12 @@ namespace CustomWirePlacer.Client.Windows
 				if(CWP.CustomWirePlacer.isCurrentlyEditingAxis())
 				{
 					//If editing (second group):
-					append(sb,"CWP.HelpOverlay.CWP.PatternNow", "CustomWirePlacer.ApplyPattern");
+					append(sb, "CWP.HelpOverlay.CWP.PatternNow", "CustomWirePlacer.ApplyPattern");
 				}
 				else
 				{
 					//If in stall mode:
-					append(sb,"CWP.HelpOverlay.CWP.PatternNext", "CustomWirePlacer.ApplyPattern");
+					append(sb, "CWP.HelpOverlay.CWP.PatternNext", "CustomWirePlacer.ApplyPattern");
 				}
 			}
 			staticBox.setText(sb.ToString());
@@ -218,32 +218,32 @@ namespace CustomWirePlacer.Client.Windows
 			sb.Clear();
 			if(CWP.CustomWirePlacer.isCurrentlyInToggleListMode())
 			{
-				append(sb,"CWP.HelpOverlay.CWP.BackToStall", "MHG.DrawWire");
+				append(sb, "CWP.HelpOverlay.CWP.BackToStall", "MHG.DrawWire");
 			}
 			else if(CWP.CustomWirePlacer.isCurrentlyEditingAxis())
 			{
-				append(sb,"CWP.HelpOverlay.CWP.FinishCWPNormally", "MHG.DrawWire");
+				append(sb, "CWP.HelpOverlay.CWP.FinishCWPNormally", "MHG.DrawWire");
 				if(CWP.CustomWirePlacer.getSecondGroup().isSet() || CWPSettings.allowStartingWithOnePegGroup || CWP.CustomWirePlacer.getFirstGroup().hasMultiplePegs())
 				{
-					append(sb,"CWP.HelpOverlay.CWP.GoStallMode", "MHG.DrawWire", "CustomWirePlacer.Modificator");
+					append(sb, "CWP.HelpOverlay.CWP.GoStallMode", "MHG.DrawWire", "CustomWirePlacer.Modificator");
 				}
 			}
 			else
 			{
 				if(CWP.CustomWirePlacer.pendingTwoDimensional)
 				{
-					append(sb,"CWP.HelpOverlay.CWP.StartSecondAxis", "MHG.DrawWire");
+					append(sb, "CWP.HelpOverlay.CWP.StartSecondAxis", "MHG.DrawWire");
 				}
 				else if(CWP.CustomWirePlacer.getSecondGroup().isSet())
 				{
-					append(sb,"CWP.HelpOverlay.CWP.ExBUSMode", "MHG.DrawWire");
+					append(sb, "CWP.HelpOverlay.CWP.ExBUSMode", "MHG.DrawWire");
 				}
 				else
 				{
-					append(sb,"CWP.HelpOverlay.CWP.ExNextGroup", "MHG.DrawWire");
+					append(sb, "CWP.HelpOverlay.CWP.ExNextGroup", "MHG.DrawWire");
 				}
-				append(sb,"CWP.HelpOverlay.CWP.ExToggleList", "MHG.DrawWire", "CustomWirePlacer.ModificatorAlternative");
-				append(sb,"CWP.HelpOverlay.CWP.FinishCWPWithKey", "CustomWirePlacer.ApplyNormalAction");
+				append(sb, "CWP.HelpOverlay.CWP.ExToggleList", "MHG.DrawWire", "CustomWirePlacer.ModificatorAlternative");
+				append(sb, "CWP.HelpOverlay.CWP.FinishCWPWithKey", "CustomWirePlacer.ApplyNormalAction");
 			}
 			bool allowSkipping = true;
 			if(CWP.CustomWirePlacer.getCurrentGroup().getCurrentAxis().secondPeg != null)
@@ -253,18 +253,18 @@ namespace CustomWirePlacer.Client.Windows
 					allowSkipping = false;
 					if(!CWP.CustomWirePlacer.doNotApplyExpandForward)
 					{
-						append(sb,"CWP.HelpOverlay.CWP.ForwardStop", "CustomWirePlacer.ExpandFurther");
+						append(sb, "CWP.HelpOverlay.CWP.ForwardStop", "CustomWirePlacer.ExpandFurther");
 					}
-					append(sb,"CWP.HelpOverlay.CWP.NStepForward", "CustomWirePlacer.GenericMouseWheel");
+					append(sb, "CWP.HelpOverlay.CWP.NStepForward", "CustomWirePlacer.GenericMouseWheel");
 				}
 				if(CWPTrigger.ExpandBackwards.Held())
 				{
 					allowSkipping = false;
 					if(!CWP.CustomWirePlacer.doNotApplyExpandBackwards)
 					{
-						append(sb,"CWP.HelpOverlay.CWP.BackwardStop", "CustomWirePlacer.ExpandBackwards");
+						append(sb, "CWP.HelpOverlay.CWP.BackwardStop", "CustomWirePlacer.ExpandBackwards");
 					}
-					append(sb,"CWP.HelpOverlay.CWP.NStepBackward", "CustomWirePlacer.GenericMouseWheel");
+					append(sb, "CWP.HelpOverlay.CWP.NStepBackward", "CustomWirePlacer.GenericMouseWheel");
 				}
 			}
 			if(allowSkipping)
@@ -279,7 +279,7 @@ namespace CustomWirePlacer.Client.Windows
 		{
 			sb.Append(TextLocalizer.LocalizedFormat(key, constructKeybinding(arg0)).Replace("\\n", "\n")).Append('\n');
 		}
-		
+
 		private static void append(StringBuilder sb, string key, string arg0, string arg1)
 		{
 			sb.Append(TextLocalizer.LocalizedFormat(key, constructKeybinding(arg0), constructKeybinding(arg1)).Replace("\\n", "\n")).Append('\n');

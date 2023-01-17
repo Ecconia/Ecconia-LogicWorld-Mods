@@ -20,7 +20,7 @@ namespace CustomChatManager.Server.Commands
 				throw new Exception("Could not get ISaveManager. /" + name + " will break");
 			}
 		}
-		
+
 		public void execute(CommandSender sender, string arguments)
 		{
 			sender.sendMessage("Current file size is: " + ChatColors.highlight + FileUtilities.PrettyDirectorySize(saveManager.ActiveSaveDirectory) + ChatColors.close);

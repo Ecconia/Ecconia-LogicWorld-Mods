@@ -12,7 +12,7 @@ Reasons for creation of this mod:
 - With high component count, comes high memory usage and slow world editing.
 - The stock key component of LogicWorld has no way to use a custom label.
 
-But with this mod, some of my big buildings are partially replaced by a single modded component. This saves memory. 
+But with this mod, some of my big buildings are partially replaced by a single modded component. This saves memory.
 
 ## Install / Dependencies:
 

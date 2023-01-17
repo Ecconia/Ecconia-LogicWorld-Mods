@@ -43,7 +43,7 @@ namespace EccsWindowHelper.Client.Prefabs
 			gameObject.SetActive(true);
 			return gameObject;
 		}
-		
+
 		private static void constructInputSliderBackground(GameObject parent)
 		{
 			GameObject gameObject = WindowHelper.makeGameObject("Eccs: Slider Background");
@@ -95,7 +95,7 @@ namespace EccsWindowHelper.Client.Prefabs
 			Rectangle rectangle = gameObject.AddComponent<Rectangle>();
 			rectangle.ShapeProperties = new GeoUtils.OutlineShapeProperties()
 			{
-				DrawFillShadow = false, 
+				DrawFillShadow = false,
 			};
 			rectangle.RoundedProperties = new RoundedRects.RoundedProperties()
 			{
@@ -111,7 +111,7 @@ namespace EccsWindowHelper.Client.Prefabs
 
 			gameObject.SetActive(true);
 			gameObject.setParent(parent);
-			
+
 			return fillTransform;
 		}
 

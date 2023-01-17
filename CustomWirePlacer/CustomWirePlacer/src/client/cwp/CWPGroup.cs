@@ -311,7 +311,7 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			return firstAxis;
 		}
-		
+
 		public CWPGroupAxis getSecondAxis()
 		{
 			return secondAxis;

@@ -206,7 +206,7 @@ namespace CustomWirePlacer.Client.Windows
 			}
 		}
 	}
-	
+
 	public class HelpOverlayHelper : MonoBehaviour
 	{
 		private void Update()
