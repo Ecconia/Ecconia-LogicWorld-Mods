@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 using LogicAPI.Data.BuildingRequests;
 using LogicWorld.BuildingManagement;
 using LogicWorld.Interfaces;
@@ -80,7 +81,7 @@ namespace EcconiaCPUServerComponents.Client
 			{
 				//Full data update:
 				// LConsole.WriteLine("Got full update.");
-				for(int i = 0; i < GetDecorations().Count; i++)
+				for(int i = 0; i < 256; i++)
 				{
 					setValue(i, data[i]);
 				}
@@ -101,41 +102,63 @@ namespace EcconiaCPUServerComponents.Client
 
 		private void setValue(int index, int value)
 		{
-			TextMeshPro label = GetDecorations()[index].DecorationObject.GetComponent<TextMeshPro>();
-			string textIndex = index > 99 ? index.ToString() : index > 9 ? " " + index : "  " + index;
-			string textValue = value > 99 ? value.ToString() : value > 9 ? " " + value : "  " + value;
+			TextMeshPro label = GetDecorations()[0].DecorationObject.GetComponent<TextMeshPro>();
+			var text = label.text.ToCharArray();
+			int offset = index * 11 + 5;
+			//0123456789
+			//123: vvv M
+			string v = value.ToString();
+			int iv = 0;
+			text[offset++] = v.Length < 3 ? ' ' : v[iv++];
+			text[offset++] = v.Length < 2 ? ' ' : v[iv++];
+			text[offset] = v[iv];
+			offset += 2;
 			char mapped = mapping[value];
-			string textMapped = value == 0 ? "" : mapped == 0 ? " …" : " " + mapped;
-			label.text = textIndex + ": " + textValue + textMapped;
+			text[offset] = value == 0 ? ' ' : mapped == 0 ? '…' : mapped;
+			label.text = new string(text);
 		}
 
 		protected override IList<IDecoration> GenerateDecorations()
 		{
-			IList<IDecoration> decorations = new List<IDecoration>(256);
 			Quaternion alignment = Quaternion.AngleAxis(-90, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.forward);
-			for(int i = 0; i < 256; i++)
+
+			(GameObject go, TextMeshPro label) = Helper.textObjectMono("Ram256b8: TextDecoration");
+			RectTransform rect = go.GetComponent<RectTransform>();
+			rect.sizeDelta = new Vector2(0, 0.5625f);
+			rect.pivot = new Vector2(0, -1);
+			label.fontSize = 5.625f;
+			label.lineSpacing = -36.2f;
+			label.autoSizeTextContainer = false;
+			label.horizontalAlignment = HorizontalAlignmentOptions.Left;
+			label.verticalAlignment = VerticalAlignmentOptions.Top;
+			label.enableWordWrapping = false;
+			StringBuilder sb = new StringBuilder(256 * 11);
+			for(int i = 255; i >= 0; i--)
 			{
-				(GameObject go, TextMeshPro label) = Helper.textObjectMono("Ram256b8: TextDecoration");
-				RectTransform rect = go.GetComponent<RectTransform>();
-				rect.sizeDelta = new Vector2(0, 0.5625f);
-				label.fontSize = 5.625f;
-				label.autoSizeTextContainer = false;
-				label.horizontalAlignment = HorizontalAlignmentOptions.Left;
-				label.verticalAlignment = VerticalAlignmentOptions.Middle;
-				label.enableWordWrapping = false;
-				string textIndex = i > 99 ? i.ToString() : i > 9 ? " " + i : "  " + i;
-				label.text = textIndex + ": ???";
-				label.color = new Color(0f, 0.8f, 0.6f);
-				decorations.Add(new Decoration()
+				if(i < 10)
 				{
-					LocalPosition = new Vector3(0.155f, (Ram256b8Prefab.height) * 0.3f - 0.15f, (i + 0.5f) * 0.5625f),
+					sb.Append(' ');
+				}
+				if(i < 100)
+				{
+					sb.Append(' ');
+				}
+				sb.Append(i).Append(": ???  \n");
+			}
+			label.text = sb.ToString();
+			label.color = new Color(0f, 0.8f, 0.6f);
+
+			return new List<IDecoration>()
+			{
+				new Decoration()
+				{
+					LocalPosition = new Vector3(0.155f, (Ram256b8Prefab.height) * 0.3f - 0.15f, 254.5f * 0.5625f),
 					LocalRotation = alignment,
 					DecorationObject = go,
 					AutoSetupColliders = false,
 					IncludeInModels = false,
-				});
-			}
-			return decorations;
+				}
+			};
 		}
 	}
 }
