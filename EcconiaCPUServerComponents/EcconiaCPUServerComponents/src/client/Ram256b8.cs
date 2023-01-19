@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
+using JimmysUnityUtilities;
 using LogicAPI.Data.BuildingRequests;
 using LogicWorld.BuildingManagement;
 using LogicWorld.Interfaces;
@@ -13,6 +15,7 @@ namespace EcconiaCPUServerComponents.Client
 {
 	public class Ram256b8 : ComponentClientCode
 	{
+		private const int fileCustomDataLength = 256 + 8;
 		private static readonly char[] mapping = new char[256];
 
 		//TODO: Add control characters, such as space and newline.
@@ -63,12 +66,35 @@ namespace EcconiaCPUServerComponents.Client
 			// No need to update 
 			if(!isInitialized)
 			{
-				// LConsole.WriteLine("Requesting broadcast.");
-				BuildRequestManager.SendBuildRequestWithoutAddingToUndoStack(new BuildRequest_UpdateComponentCustomData(base.Address, new byte[]
-				{
-					0, //A single 0 from now on means "broadcast state".
-				}), null);
+				setup(DateTime.Now);
 			}
+		}
+
+		private void setup(DateTime started)
+		{
+			var playerName = Helper.getPlayerName();
+			if(playerName == null)
+			{
+				if((DateTime.Now - started).Seconds > 4)
+				{
+					ModClass.logger.Error("Not able to request memory data from the server, as it never sent the player name.");
+					return; //Just stop now.
+				}
+				//Try again next frame (keep on until data is sent by the server, but no longer than 4 seconds):
+				CoroutineUtility.RunAfterOneFrame(() => setup(started));
+				return;
+			}
+			//Send the name encoded as UTF8 to the server:
+			byte[] bytes = Encoding.UTF8.GetBytes(playerName);
+			bool isCritical = (bytes.Length + 1) == fileCustomDataLength;
+			int prefix = isCritical ? 2 : 1;
+			byte[] newBytes = new byte[bytes.Length + prefix];
+			Buffer.BlockCopy(bytes, 0, newBytes, prefix, bytes.Length);
+			if(isCritical)
+			{
+				newBytes[0] = 1;
+			}
+			BuildRequestManager.SendBuildRequestWithoutAddingToUndoStack(new BuildRequest_UpdateComponentCustomData(Address, newBytes));
 		}
 
 		protected override void DeserializeData(byte[] data)
@@ -89,14 +115,10 @@ namespace EcconiaCPUServerComponents.Client
 			}
 			else if(data.Length == 2)
 			{
-				if(!isInitialized)
-				{
-					// LConsole.WriteLine("Ignoring data update.");
-					return;
-				}
-				//Update packet!
-				// LConsole.WriteLine("Got update: [" + data[0] + "] = " + data[1]);
-				setValue(data[0], data[1]);
+				//In the case that the memory component failed to initialize,
+				// at least update the slots that are received here, these might be overwritten later.
+				// This should never be an issue (since single-threading).
+				setValue(data[0], data[1]); //Update data.
 			}
 		}
 

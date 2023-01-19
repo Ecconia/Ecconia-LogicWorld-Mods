@@ -1,12 +1,23 @@
+using System;
+using System.Reflection;
 using LogicUI;
+using LogicWorld.Players;
 using LogicWorld.References;
 using TMPro;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace EcconiaCPUServerComponents.Client
 {
 	public static class Helper
 	{
+		static Helper()
+		{
+			nametagField = initializeNametagReflection();
+		}
+		
+		//### Decoration GameObject helper: ##############
+		
 		public static (GameObject, TextMeshPro) textObjectMono(string name)
 		{
 			GameObject gameObject = new GameObject(name);
@@ -16,6 +27,36 @@ namespace EcconiaCPUServerComponents.Client
 			textRenderer.font = Object.Instantiate(Fonts.NotoMono); //Also set the font to a copy of what LW uses
 			gameObject.SetActive(true); //Set to active, as the critical part is over
 			return (gameObject, textRenderer);
+		}
+		
+		//### Reflection access helper: ############
+		
+		private static readonly FieldInfo nametagField;
+
+		private static FieldInfo initializeNametagReflection()
+		{
+			//Reflection:
+			var nametagFieldInner = typeof(PlayerModelNametag).GetField("Nametag", BindingFlags.NonPublic | BindingFlags.Instance);
+			if(nametagFieldInner == null)
+			{
+				throw new Exception("Did not find field 'Nametag' in 'PlayerModelNametag'");
+			}
+			return nametagFieldInner;
+		}
+
+		public static string getPlayerName()
+		{
+			var playerModel = PlayerModelsManager.PlayerModelSelf;
+			if(playerModel == null)
+			{
+				return null;
+			}
+			var tmp = (TextMeshPro) nametagField.GetValue(playerModel.Appearance.Nametag);
+			if(tmp == null)
+			{
+				throw new Exception("TextMeshPro field in the NameTag thing not set yet :/");
+			}
+			return tmp.text;
 		}
 	}
 }
