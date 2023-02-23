@@ -5,7 +5,8 @@
 Will fix some bugs, that MHG was not able to fix because they are too busy improving the game elsewhere.
 
 Currently fixes the following:
-- Exception when undoing a Component after it was placed and its custom data edited.
+- Exception/crash when undoing a Component after it was placed and its custom data edited.
+- Exception/crash after copying multi-selected components with wires.
 
 ## Install / Dependencies:
 
