@@ -66,22 +66,32 @@ namespace EcconiaCPUServerComponents.Client
 			// No need to update 
 			if(!isInitialized)
 			{
-				setup(DateTime.Now);
+				setup(DateTime.Now, 2);
 			}
 		}
 
-		private void setup(DateTime started)
+		private void setup(DateTime started, byte isFirstFrame)
 		{
 			var playerName = Helper.getPlayerName();
 			if(playerName == null)
 			{
-				if((DateTime.Now - started).Seconds > 4)
+				//TODO: Instead of hooking to world initialization, hook to something that triggers once world join is finished - or better loop until world has finished loading.
+				if(isFirstFrame == 1)
+				{
+					//Likely, that the first frame happened while joining. So lets wait for the next frame, where the game is closer to the actual joining (when the player name gets sent by the server).
+					started = DateTime.Now;
+				}
+				if(isFirstFrame != 0)
+				{
+					isFirstFrame--;
+				}
+				if((DateTime.Now - started).Seconds > 10)
 				{
 					ModClass.logger.Error("Not able to request memory data from the server, as it never sent the player name.");
 					return; //Just stop now.
 				}
 				//Try again next frame (keep on until data is sent by the server, but no longer than 4 seconds):
-				CoroutineUtility.RunAfterOneFrame(() => setup(started));
+				CoroutineUtility.RunAfterOneFrame(() => setup(started, isFirstFrame));
 				return;
 			}
 			//Send the name encoded as UTF8 to the server:
