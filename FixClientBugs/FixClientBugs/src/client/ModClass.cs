@@ -10,6 +10,7 @@ namespace FixClientBugs.Client
 		{
 			Harmony harmony = new Harmony("FixClientBugs");
 			FixUndoNRE.init(Logger, harmony);
+			FixGhostUpdating.init(Logger, harmony);
 		}
 	}
 }

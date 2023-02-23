@@ -11,6 +11,9 @@
       <Reference Include="0Harmony">
         <HintPath>..\HarmonyForLogicWorld\HarmonyForLogicWorld\dll\client\0Harmony.dll</HintPath>
       </Reference>
+      <Reference Include="LICC">
+        <HintPath>..\LogicWorld\Server\LICC.dll</HintPath>
+      </Reference>
       <Reference Include="LogicAPI">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.dll</HintPath>
       </Reference>
@@ -20,6 +23,9 @@
       <Reference Include="LogicLog">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLog.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.Building">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Building.dll</HintPath>
+      </Reference>
       <Reference Include="LogicWorld.ClientCode">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.ClientCode.dll</HintPath>
       </Reference>
@@ -28,6 +34,15 @@
       </Reference>
       <Reference Include="LogicWorld.Rendering">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Rendering.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.SharedCode">
+        <HintPath>..\..\..\..\..\.local\share\Steam\steamapps\common\Logic World\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
+      </Reference>
+      <Reference Include="SUCC">
+        <HintPath>..\..\..\..\..\.local\share\Steam\steamapps\common\Logic World\Server\SUCC.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.CoreModule">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       </Reference>
     </ItemGroup>
 
