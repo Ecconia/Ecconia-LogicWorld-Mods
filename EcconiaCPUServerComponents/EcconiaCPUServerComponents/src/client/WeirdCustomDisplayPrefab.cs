@@ -67,13 +67,14 @@ namespace EcconiaCPUServerComponents.Client
 						};
 					}
 				}
+				const float offset = 0.3f;
 				//Currently debugging main block:
 				blocks[index] = new Block()
 				{
-					Scale = new Vector3(DisplaySideLength * 2f, 1f, DisplaySideLength * 2f),
+					Scale = new Vector3(DisplaySideLength * 2f, 1f - offset, DisplaySideLength * 2f),
 					Rotation = new Vector3(-90f, 0f, 0f),
-					Position = new Vector3(.5f - DisplaySideLength, DisplaySideLength, BlockZOffset),
-					Mesh = Meshes.BetterCube_OpenBottom,
+					Position = new Vector3(.5f - DisplaySideLength, DisplaySideLength, BlockZOffset - 1f / 2f - offset / 2f),
+					Mesh = Meshes.Cube, //Meshes.BetterCube_OpenBottom, //Try a hovering display...
 				};
 			}
 
