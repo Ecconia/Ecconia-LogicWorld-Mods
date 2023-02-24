@@ -2,8 +2,8 @@
 
 ### CURRENTLY HAS ISSUES:
 
-- It breaks the LogicWorld UI font on some GPUs. \[Will have to fix the text-mesh-pro material (somehow)]
 - The key cannot be edited properly. \[Will have to serialize the custom data myself, while disabling the System LW provides]
+- The RealTimePulser also has to be edited via command...
 
 ### Description:
 
@@ -11,6 +11,7 @@ Reasons for creation of this mod:
 
 - With high component count, comes high memory usage and slow world editing.
 - The stock key component of LogicWorld has no way to use a custom label.
+- Other funny features useful for worlds with variable TPS - but RealTime depending aspects.
 
 But with this mod, some of my big buildings are partially replaced by a single modded component. This saves memory.
 
@@ -65,3 +66,11 @@ Since currently there is no way to properly listen to this, this component will 
 
 The tps printer is not like your common real-time clock system, which outputs a pulse every second or every half a second.\
 That would be boring, with this component you have to do the pulse generation yourself! Good luck.
+
+### Real Time Pulser
+
+The Real Time Pulser will emit a pulse on a rising edge input. Once the pulse is done emitting, it will output a 1 tick pulse on the top output.\
+The pulse length is 1 second (not ticks), by default. But can be modified with the `editrtpulser <milliseconds>` command while looking at a Real Time Pulser.
+
+Useful to drive Singers, on a world with variable tick speed.\
+Due to the pulse-output, these components can be easily chained.
