@@ -30,12 +30,13 @@ namespace EcconiaCPUServerComponents.Client
 		public override PrefabVariantIdentifier GetDefaultComponentVariant()
 		{
 			// (32 'Selector' + 32 'Invert Selector') * 2 'X/Y' + 1 'Data'
-			return new PrefabVariantIdentifier(PegAmount, 0);
+			return new PrefabVariantIdentifier(PegAmount + 1, 0);
 		}
 
 		public override ComponentVariant GenerateVariant(PrefabVariantIdentifier identifier)
 		{
-			if(identifier.InputCount != PegAmount || identifier.OutputCount != 0)
+			bool hasExtraPeg = identifier.InputCount == PegAmount + 1;
+			if((identifier.InputCount != PegAmount && !hasExtraPeg) || identifier.OutputCount != 0)
 			{
 				throw new Exception("Attempted to create Ecconias WeirdCustomDisplay with unexpected peg configuration. Loading old save? Wrong mod version?");
 			}
@@ -79,7 +80,7 @@ namespace EcconiaCPUServerComponents.Client
 			}
 
 			//Inputs:
-			ComponentInput[] inputs = new ComponentInput[PegAmount];
+			ComponentInput[] inputs = new ComponentInput[hasExtraPeg ? PegAmount + 1 : PegAmount];
 			{
 				float startX = -0.5f; //Going in the negative X axis, starting is at 0.5.
 				float startY = +1.0f; //Going into positive Y axis, starting at 0.0.
@@ -139,7 +140,8 @@ namespace EcconiaCPUServerComponents.Client
 				}
 
 				//Data:
-				inputs[inputs.Length - 1] = new ComponentInput
+				int index = inputs.Length - (hasExtraPeg ? 2 : 1);
+				inputs[index++] = new ComponentInput
 				{
 					Length = 1.1f, //Default is: 0.8
 					Rotation = new Vector3(-90f, 0, 0),
@@ -148,6 +150,18 @@ namespace EcconiaCPUServerComponents.Client
 					//Bottomless = true, //Default
 					//StartOn = false, //Default
 				};
+				if(hasExtraPeg)
+				{
+					inputs[index] = new ComponentInput()
+					{
+						Length = 1.1f, //Default is: 0.8
+						Rotation = new Vector3(-90f, 0, 0),
+						Position = new Vector3(middleX - 5, middleY - 5, PegZOffset),
+						//WirePointHeight = 0.9f, //Default
+						//Bottomless = true, //Default
+						//StartOn = false, //Default
+					};
+				}
 			}
 			return new ComponentVariant
 			{
