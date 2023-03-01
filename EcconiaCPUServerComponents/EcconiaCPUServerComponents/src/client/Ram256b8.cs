@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using LogicAPI.Data.BuildingRequests;
+using LogicLog;
 using LogicWorld.BuildingManagement;
 using LogicWorld.Interfaces;
 using LogicWorld.Interfaces.Building;
@@ -148,7 +150,24 @@ namespace EcconiaCPUServerComponents.Client
 			label.text = sb.ToString();
 			label.color = new Color(0f, 0.8f, 0.6f);
 
-			return new List<IDecoration>()
+			Logger.Log(ModClass.modAssets.ToString(),LogLevel.Warning);
+            var pref = ModClass.modAssets.LoadAsset<GameObject>("RAM Display");
+            Logger.Log(pref.ToString(),LogLevel.Information);
+            var inst = Object.Instantiate(pref);
+
+            //var display = inst.GetComponent<RAMDisplay>();
+
+            //display.Values = Enumerable.Repeat(0, 256).Select((e, i) => UnityEngine.Random.Range(i % 256 / 5, ((int)Mathf.Pow(2, 256) - 1 - i % 5) * 5) % int.MaxValue).ToArray();
+
+
+            //Logger.Info(disp.name);
+
+            //         var displayComponent = disp.GetComponent<RAMDisplay>();
+
+            //Logger.Info(displayComponent.name);
+
+
+            return new List<IDecoration>()
 			{
 				new Decoration()
 				{
@@ -157,7 +176,14 @@ namespace EcconiaCPUServerComponents.Client
 					DecorationObject = go,
 					AutoSetupColliders = false,
 					IncludeInModels = false,
-				}
+				},
+				new Decoration()
+                {
+					DecorationObject = inst,
+					AutoSetupColliders = false,
+					LocalPosition = new Vector3(10,10,-0.501f) * (1/3.2f),
+					LocalRotation = Quaternion.Euler(180,0,90),
+                }
 			};
 		}
 	}

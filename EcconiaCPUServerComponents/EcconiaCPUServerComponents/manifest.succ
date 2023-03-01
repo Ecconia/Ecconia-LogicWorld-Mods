@@ -3,3 +3,6 @@ Name: Components for Ecconias CPU Server
 Author: Ecconia
 Version: 3.2.2
 Priority: 0
+Dependencies:
+    - AssemblyPreloader
+ClientOnly: false

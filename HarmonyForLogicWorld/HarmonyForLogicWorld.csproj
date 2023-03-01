@@ -10,23 +10,20 @@
       <Reference Include="0Harmony, Version=2.1.1.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>HarmonyForServers\0Harmony.dll</HintPath>
       </Reference>
-      <Reference Include="LogicAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <Reference Include="LogicAPI">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.dll</HintPath>
       </Reference>
       <Reference Include="LogicAPI.Client">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.Client.dll</HintPath>
       </Reference>
-      <Reference Include="LogicAPI.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <Reference Include="LogicAPI.Server">
         <HintPath>..\LogicWorld\Server\LogicAPI.Server.dll</HintPath>
       </Reference>
-      <Reference Include="LogicLog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <Reference Include="LogicLog">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLog.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.SharedCode">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
-      </Reference>
-      <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       </Reference>
     </ItemGroup>
 

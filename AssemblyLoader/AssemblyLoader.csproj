@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -15,6 +15,9 @@
       </Reference>
       <Reference Include="LogicAPI.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Server\LogicAPI.Server.dll</HintPath>
+      </Reference> 
+	    <Reference Include="LogicWorld.SharedCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\LogicWorld\Server\LogicWorld.SharedCode.dll</HintPath>
       </Reference>
       <Reference Include="LogicLog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLog.dll</HintPath>
@@ -22,6 +25,9 @@
       <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       </Reference>
+		<Reference Include="SUCC">
+			<HintPath>..\LogicWorld\Logic_World_Data\Managed\SUCC.dll</HintPath>
+		</Reference>
     </ItemGroup>
 
     <ItemGroup>

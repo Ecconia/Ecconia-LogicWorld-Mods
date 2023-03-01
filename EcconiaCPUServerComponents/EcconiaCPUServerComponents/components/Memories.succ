@@ -5,3 +5,350 @@ Ram256b8:
 
     clientCode: EcconiaCPUServerComponents.Client.Ram256b8
     logicCode: EcconiaCPUServerComponents.Server.Ram256b8
+
+Ram256b8D:
+    column:"Memory" 
+    prefab:
+        blocks:
+            -
+                mesh: "BetterCube"
+                position:
+                    x: 7.5
+                    y: 0
+                    z: 1.5
+                rotation:
+                    x: 0
+                    y: 0
+                    z: 0
+                scale:
+                    x: 16
+                    y: 2
+                    z: 4
+                color: 161616
+                material: SolidColor
+        inputs:
+            -
+                startOn: false
+                length: 0.34375
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 0
+                    y: 0.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 0.4375
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 1
+                    y: 0.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 0.53125
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 2
+                    y: 0.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 0.625
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 3
+                    y: 0.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 0.71875
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 4
+                    y: 0.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 0.8125
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 5
+                    y: 0.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 0.90625
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 6
+                    y: 0.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 1
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 7
+                    y: 0.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 0.84375
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 0
+                    y: 1.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 0.9375
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 1
+                    y: 1.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 1.03125
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 2
+                    y: 1.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 1.125
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 3
+                    y: 1.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 1.21875
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 4
+                    y: 1.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 1.3125
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 5
+                    y: 1.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 1.40625
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 6
+                    y: 1.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 1.5
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 7
+                    y: 1.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 1
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 15
+                    y: 0.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                length: 1
+                wirePointHeight: 0.9
+                bottomless: false
+                position:
+                    x: 15
+                    y: 1.5
+                    z: -0.5
+                rotation:
+                    x: 270
+                    y: 0
+                    z: 0
+        outputs:
+            -
+                startOn: false
+                bottomless: false
+                position:
+                    x: 0
+                    y: 0.5
+                    z: 3.5
+                rotation:
+                    x: 90
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                bottomless: false
+                position:
+                    x: 1
+                    y: 0.5
+                    z: 3.5
+                rotation:
+                    x: 90
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                bottomless: false
+                position:
+                    x: 2
+                    y: 0.5
+                    z: 3.5
+                rotation:
+                    x: 90
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                bottomless: false
+                position:
+                    x: 3
+                    y: 0.5
+                    z: 3.5
+                rotation:
+                    x: 90
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                bottomless: false
+                position:
+                    x: 4
+                    y: 0.5
+                    z: 3.5
+                rotation:
+                    x: 90
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                bottomless: false
+                position:
+                    x: 5
+                    y: 0.5
+                    z: 3.5
+                rotation:
+                    x: 90
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                bottomless: false
+                position:
+                    x: 6
+                    y: 0.5
+                    z: 3.5
+                rotation:
+                    x: 90
+                    y: 0
+                    z: 0
+            -
+                startOn: false
+                bottomless: false
+                position:
+                    x: 7
+                    y: 0.5
+                    z: 3.5
+                rotation:
+                    x: 90
+                    y: 0
+                    z: 0
+    clientCode: EcconiaCPUServerComponents.Client.Ram256b8D
+    logicCode: EcconiaCPUServerComponents.Server.Ram256b8D

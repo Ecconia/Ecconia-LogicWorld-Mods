@@ -4,12 +4,15 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using LogicAPI;
+using LogicLog;
 
 namespace AssemblyLoader.Shared
 {
 	public static class DLLLoader
 	{
 		private static string cacheFolder;
+
+        private static ILogicLogger logger = LogicLogger.For("DllLoader");
 
 		public static void setup()
 		{
@@ -30,22 +33,51 @@ namespace AssemblyLoader.Shared
 				setup();
 			}
 
-			//Create the cached-file-path:
-			var fileHash = createHash(modFile);
-			var cachedFilePath = string.Concat(cacheFolder, modFile.FileName, "-", fileHash, modFile.Extension);
+            PrintFileInfo(modFile);
 
-			//Always overwrite the file:
-			using(Stream outputStream = File.Create(cachedFilePath))
+			//Copy Assembly to Cache folder
+            CreateCachedCopy(modFile);
+
+
+			var symName = modFile.Path.Replace(".dll", ".pdb");
+
+            if (modFile.FileSystem.Exists(symName))
 			{
-				using(Stream inputStream = modFile.OpenRead())
-				{
-					inputStream.CopyTo(outputStream);
-				}
+				ModFile symFile = modFile.FileSystem.GetFile(symName);
+				PrintFileInfo(symFile);
+				CreateCachedCopy(symFile);
+				//Read Bytes for Assembly and its Symbols    
+				var cachedAssemblyBytes = File.ReadAllBytes(GetCachedFilePath(modFile));
+				var cachedSymbolsBytes = File.ReadAllBytes(GetCachedFilePath(symFile));
+				var aName = AssemblyName.GetAssemblyName(GetCachedFilePath(modFile));
+				Assembly.Load(aName);
+				//var ass = Assembly.Load(cachedAssemblyBytes, cachedSymbolsBytes);
+				return;
 			}
 
 			//Load the assembly:
-			Assembly.LoadFrom(cachedFilePath);
-		}
+			Assembly.LoadFrom(GetCachedFilePath(modFile));
+
+			void CreateCachedCopy(ModFile file)
+            {
+                var cachepath = GetCachedFilePath(file);
+                if (File.Exists(cachepath)) return;
+                File.Copy(GetFileFullPath(file), GetCachedFilePath(file));
+            }
+
+            string GetCachedFilePath(ModFile file) => string.Concat(cacheFolder, file.FileName.Replace(file.Extension,""), "-", createHash(file), file.Extension);
+
+            void PrintFileInfo(ModFile file)
+            {
+				logger.Info("Folder: " + file.FileSystem.Path);
+                logger.Info("Name: " + file.FileName);
+                logger.Info("Ext: " + file.Extension);
+                logger.Info("Path: " + file.Path);
+            }
+
+            string GetFileFullPath(ModFile file) => Path.Combine(file.FileSystem.Path, file.Path.Replace('/',Path.DirectorySeparatorChar));
+
+        }
 
 		private static string createHash(ModFile modFile)
 		{

@@ -1,5 +1,8 @@
 //Needed for 'Exception':
 using System;
+using System.Diagnostics;
+using System.Linq.Expressions;
+using System.Text;
 //Needed for Harmony:
 using HarmonyLib;
 //Needed for 'ILogicLogger':
@@ -24,8 +27,8 @@ namespace RandomDebugCollection.Client
 		public static ILogicLogger logger;
 
 		public static void Prefix(Exception exception)
-		{
-			logger.Error("Captured exception:\n" + exception);
+        {
+            logger.Error("Captured exception:\n"+ exception.AsLogMessage());
 		}
 	}
 }

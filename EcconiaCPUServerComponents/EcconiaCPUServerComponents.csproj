@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -7,6 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\AssemblyLoader\AssemblyLoader.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Akasus.Display">
+        <HintPath>EcconiaCPUServerComponents\assemblies\Akasus.Display.dll</HintPath>
+      </Reference>
       <Reference Include="FancyInput, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\FancyInput.dll</HintPath>
       </Reference>
@@ -28,8 +35,14 @@
       <Reference Include="LogicAPI.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Server\LogicAPI.Server.dll</HintPath>
       </Reference>
+      <Reference Include="LogicLog">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLog.dll</HintPath>
+      </Reference>
       <Reference Include="LogicUI, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicUI.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.Audio, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Audio.dll</HintPath>
@@ -61,11 +74,20 @@
       <Reference Include="LogicWorld.SharedCode, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.UI">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.UI.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.UnityHacksAndExtensions">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.UnityHacksAndExtensions.dll</HintPath>
+      </Reference>
       <Reference Include="Server, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Server\Server.dll</HintPath>
       </Reference>
       <Reference Include="Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.AssetBundleModule">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
