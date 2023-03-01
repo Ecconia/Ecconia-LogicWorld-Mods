@@ -24,6 +24,9 @@ namespace EcconiaCPUServerComponents.Server
 		// 2 - State before D-Latch and invert-AND
 		uint dataX2;
 		uint dataY2;
+		
+		//Was preventing update in last tick?
+		bool dirty;
 
 		protected override void SetDataDefaultValues()
 		{
@@ -140,10 +143,17 @@ namespace EcconiaCPUServerComponents.Server
 				}
 
 				//If any of the line changed (bit is set), then cause an update on the client side:
-				if(dirtyLines != 0)
-				{
-					Data.pixelData = Data.pixelData;
-				}
+				dirty |= dirtyLines != 0;
+			}
+
+			//Send data, if the display is marked as dirty, respect the update-disable peg.
+			//Once the prevent-updating peg is turned off, this function will be called.
+			// If there was dirty data, then it will be sent now.
+			bool preventUpdating = Inputs.Count == (32 * 4 + 2) ? Inputs[129].On : false;
+			if(dirty && !preventUpdating)
+			{
+				Data.pixelData = Data.pixelData;
+				dirty = false;
 			}
 
 			//Shift all the data down by one, for the next cycle:

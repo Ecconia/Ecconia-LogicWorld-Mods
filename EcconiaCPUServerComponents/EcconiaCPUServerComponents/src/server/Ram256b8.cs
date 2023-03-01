@@ -1,5 +1,11 @@
 using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
+using LogicAPI.Networking;
+using LogicAPI.Networking.Packets.Server;
 using LogicAPI.Server.Components;
+using LogicAPI.Server.Networking;
 using LogicAPI.WorldDataMutations;
 using LogicWorld.Server;
 using LogicWorld.Server.Managers;
@@ -9,6 +15,8 @@ namespace EcconiaCPUServerComponents.Server
 	public class Ram256b8 : LogicComponent
 	{
 		private static readonly IWorldUpdates worldUpdater;
+		private static readonly Dictionary<Connection, ConnectionData> connections;
+		private static readonly NetworkServer server;
 
 		//Contains the in memory stored bytes:
 		private readonly byte[] data = new byte[256];
@@ -32,6 +40,29 @@ namespace EcconiaCPUServerComponents.Server
 		{
 			//World updater only exists once while runtime anyway. So lets keep it cached statically.
 			worldUpdater = Program.Get<IWorldUpdates>();
+			server = Program.Get<NetworkServer>();
+			//Wohoo reflection again, because the API does not allow returning connections for username without exception...
+			var playerManager = Program.Get<IPlayerManager>();
+			var field = playerManager
+			            .GetType()
+			            .GetField("Connections", BindingFlags.NonPublic | BindingFlags.Instance);
+			if(field == null)
+			{
+				throw new Exception("Field 'Connections' could not be found in " + playerManager.GetType().Name);
+			}
+			connections = (Dictionary<Connection, ConnectionData>) field.GetValue(playerManager);
+		}
+
+		private static Connection getConnectionByName(string name)
+		{
+			foreach(var entry in connections)
+			{
+				if(entry.Value.PlayerID.Name.Equals(name))
+				{
+					return entry.Key;
+				}
+			}
+			return null;
 		}
 
 		//Set this to true, so that LogicWorld knows, that it has to serialize this component before saving.
@@ -45,35 +76,52 @@ namespace EcconiaCPUServerComponents.Server
 				//No need to initialize any of this mod. Is it null because its a new component?
 				return;
 			}
-			if(customDataArray.Length == 1)
+			if(customDataArray.Length == (256 + 7 + 1))
 			{
-				//This is a message from a dear client, probably requesting a broadcast.
-				if(customDataArray[0] == 0)
+				Buffer.BlockCopy(customDataArray, 0, data, 0, 256);
+				ticksToContinue = customDataArray[256];
+				writeAddress3 = customDataArray[256 + 1];
+				readAddress3 = customDataArray[256 + 2];
+				writeAddress2 = customDataArray[256 + 3];
+				readAddress2 = customDataArray[256 + 4];
+				writeAddress1 = customDataArray[256 + 5];
+				readAddress1 = customDataArray[256 + 6];
+				byte booleans = customDataArray[256 + 7];
+				writeEnable3 = (booleans & (1 << 0)) != 0;
+				readEnable3 = (booleans & (1 << 1)) != 0;
+				return;
+			}
+
+			//There should be a name encoded in bytes:
+			int padding = customDataArray[0] == 0 ? 1 : 2;
+			string name;
+			try
+			{
+				name = Encoding.UTF8.GetString(customDataArray, padding, customDataArray.Length - padding);
+			}
+			catch(Exception e)
+			{
+				//Client send junk.
+				ModClass.logger.Warn("Client send invalid username: '" + e.Message + "' for bytes: " + BitConverter.ToString(customDataArray) + " with padding " + padding);
+				return;
+			}
+			var connection = getConnectionByName(name);
+			if(connection == null)
+			{
+				ModClass.logger.Warn("Client send invalid username: '" + name + "'.");
+				return;
+			}
+			server.Send(connection, new WorldUpdatePacket()
+			{
+				MutationsSinceLastUpdate = new List<WorldDataMutation>()
 				{
-					//Indeed a broadcast request:
-					worldUpdater.QueueMutationToBeSentToClient(new WorldMutation_UpdateComponentCustomData()
+					new WorldMutation_UpdateComponentCustomData()
 					{
 						AddressOfTargetComponent = Address,
 						NewCustomData = data,
-					});
-					return; //Done here.
-				}
-				else
-				{
-					throw new Exception("Invalid custom data message sent by client, content: " + customDataArray[0]);
-				}
-			}
-			Array.Copy(customDataArray, data, 256);
-			ticksToContinue = customDataArray[256];
-			writeAddress3 = customDataArray[256 + 1];
-			readAddress3 = customDataArray[256 + 2];
-			writeAddress2 = customDataArray[256 + 3];
-			readAddress2 = customDataArray[256 + 4];
-			writeAddress1 = customDataArray[256 + 5];
-			readAddress1 = customDataArray[256 + 6];
-			byte booleans = customDataArray[256 + 7];
-			writeEnable3 = (booleans & (1 << 0)) != 0;
-			readEnable3 = (booleans & (1 << 1)) != 0;
+					},
+				},
+			});
 		}
 
 		protected override byte[] SerializeCustomData()

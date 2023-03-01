@@ -1,42 +1,58 @@
 using System;
 using System.Reflection;
+using HarmonyLib;
 using JimmysUnityUtilities;
 using LogicAPI.Server.Managers;
 using LogicWorld.Server;
 using LogicWorld.Server.HostServices;
+using LogicWorld.SharedCode.ExtraData;
 
 namespace CustomChatManager.Server.Commands
 {
 	public class CommandTPS : ICommand
 	{
-		private static double minTPS = 0.1f;
+		private const double minTPS = 0.1f;
 
-		private static string usage = "Usage: /tps [ <tps> | stop/halt/pause | resume/play/continue ]";
+		private const string usage = "Usage: /tps [ <tps> | stop/halt/pause | resume/play/continue ]";
 
-		private readonly ISimulationManager simulationScheduler;
-		private readonly ILogicManager simulation;
-		private readonly PropertyInfo playerRunningProp;
+		private readonly ISimulationManager simulationScheduler; //To get if it is actually running
+		private readonly ILogicManager simulation; //To step the simulation
+		private static ExtraDataAccessor<bool> accessor_tps_paused; //To get and set paused (by player) state
+		private static ExtraDataAccessor<double> accessor_tps_speed; //To get and set TPS (by player)
 
 		public string name => "TPS";
 		public string shortDescription => "Changes the processed ticks per second.";
 
 		public CommandTPS()
 		{
-			simulationScheduler = Program.Get<ISimulationManager>(); //Just do the dirty casting, we need 'IsPaused'.
+			//Used to check if simulation is running:
+			simulationScheduler = Program.Get<ISimulationManager>();
 			if(simulationScheduler == null)
 			{
 				throw new Exception("Could not get simulation scheduling service. /" + name + " will break.");
 			}
+			//Used for stepping the simulation:
 			simulation = Program.Get<ILogicManager>();
 			if(simulation == null)
 			{
 				throw new Exception("Could not get simulation service. /" + name + " will break. And the server is probably already broken...");
 			}
-			playerRunningProp = simulationScheduler.GetType().GetProperty("RunSimulation_PlayerConfigured", BindingFlags.Public | BindingFlags.Instance);
-			if(playerRunningProp == null)
-			{
-				throw new Exception("Could not find 'RunSimulation_PlayerConfigured' in SimulationManager.");
-			}
+			
+			//Hook into the initialize of the simulation manager, as that grants us access to the accessors:
+			// Point is, any point after the save has been initialized would do.
+			var initializeMethod = simulationScheduler.GetType().GetMethod("Initialize", BindingFlags.Public | BindingFlags.Instance);
+			var hookMethod = GetType().GetMethod(nameof(afterInitialization), BindingFlags.NonPublic | BindingFlags.Static);
+			Harmony harmony = new Harmony("Commands: SlashTPS");
+			harmony.Patch(initializeMethod, postfix: new HarmonyMethod(hookMethod));
+		}
+
+		private static void afterInitialization(ExtraDataAccessor<double> ___Accessor_SimulationSpeedTPS, ExtraDataAccessor<bool> ___Accessor_SimulationPaused)
+		{
+			//Used for controlling pause and tps:
+			// As the official API for getting ExtraData accessors is not working, just extract it from the SimulationManager.
+			accessor_tps_speed = ___Accessor_SimulationSpeedTPS;
+			accessor_tps_paused = ___Accessor_SimulationPaused;
+			//Should never be null at this point. Else Simulation won't work. Probably Harmony will complain if the game changes something.
 		}
 
 		public void execute(CommandSender sender, string arguments)
@@ -46,11 +62,11 @@ namespace CustomChatManager.Server.Commands
 				//Print help:
 				if(!isRunning())
 				{
-					sender.sendMessage("Current tps is " + ChatColors.highlight + simulationScheduler.TicksPerSecond + ChatColors.close + " + paused. " + ChatColors.background + "<i>Try '/tps help' for usage.</i>" + ChatColors.close);
+					sender.sendMessage("Current tps is " + ChatColors.highlight + getSpeed() + ChatColors.close + " + paused. " + ChatColors.background + "<i>Try '/tps help' for usage.</i>" + ChatColors.close);
 				}
 				else
 				{
-					sender.sendMessage("Current tps is " + ChatColors.highlight + simulationScheduler.TicksPerSecond + ChatColors.close + ". " + ChatColors.background + "<i>Try '/tps help' for usage.</i>" + ChatColors.close);
+					sender.sendMessage("Current tps is " + ChatColors.highlight + getSpeed() + ChatColors.close + ". " + ChatColors.background + "<i>Try '/tps help' for usage.</i>" + ChatColors.close);
 				}
 				return;
 			}
@@ -148,13 +164,13 @@ namespace CustomChatManager.Server.Commands
 		private void setSpeed(CommandSender sender, double tps)
 		{
 			bool paused = isPaused();
-			if(!paused && Math.Abs(simulationScheduler.TicksPerSecond - tps) < 0.0000001)
+			if(!paused && Math.Abs(accessor_tps_speed.Data - tps) < 0.0000001)
 			{
 				sender.sendMessage("This is already the current tick speed.");
 			}
 			else
 			{
-				simulationScheduler.TicksPerSecond = tps;
+				accessor_tps_speed.SetData(tps);
 				if(paused)
 				{
 					resume(); //Has to be manually called now.
@@ -167,6 +183,11 @@ namespace CustomChatManager.Server.Commands
 			}
 		}
 
+		private double getSpeed()
+		{
+			return accessor_tps_speed.Data;
+		}
+		
 		private bool isRunning()
 		{
 			return simulationScheduler.SimulationIsRunning;
@@ -174,17 +195,17 @@ namespace CustomChatManager.Server.Commands
 
 		private bool isPaused()
 		{
-			return !simulationScheduler.RunSimulation_PlayerConfigured;
+			return accessor_tps_paused.Data;
 		}
 
 		private void pause()
 		{
-			playerRunningProp?.SetValue(simulationScheduler, false);
+			accessor_tps_paused.SetData(true);
 		}
 
 		private void resume()
 		{
-			playerRunningProp?.SetValue(simulationScheduler, true);
+			accessor_tps_paused.SetData(false);
 		}
 	}
 }

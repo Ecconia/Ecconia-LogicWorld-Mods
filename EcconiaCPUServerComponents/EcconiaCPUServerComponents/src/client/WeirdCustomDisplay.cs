@@ -75,7 +75,7 @@ namespace EcconiaCPUServerComponents.Client
 					{
 						Position = new Vector3(0f, (float) DisplaySideLength * 2f, 0f),
 						//UpDirection = new Vector3(0f, 1f, 0f),
-						Range = 100f //Pretty much any radius is allowed, there is only one position.
+						Range = 100f, //Pretty much any radius is allowed, there is only one position.
 					},
 				}
 			};

@@ -21,7 +21,9 @@ It loads perfectly fine and won't throw any error, but no patch will be applied.
 Time will solve this issue, as one day it will support .Net 7, but that time is not now.
 
 However this means, that most of my server mods using Harmony won't do what they should, and are useless.\
-The only exception is `CustomChatManager`, which just does not have a on-join message but everything else works.
+The only exception is `CustomChatManager`, which just does not have a on-join message but everything else works (/tps command won't work too).
+
+You can however download the dedicated server and use the `net 6` as your SP server folder. That way Harmony works again and you can use these mods.
 
 ## List of mods:
 
@@ -29,6 +31,7 @@ The only exception is `CustomChatManager`, which just does not have a on-join me
 
 - `DisableCollision` **Must have!**: Allows you to build even when LogicWorld does not want you to. (On floating-point/collider issues, or when refactoring buildings).
 - `CustomWirePlacer` **Must have!**: Replaces the vanilla wire placer with a power-user tool (that you won't want to miss later on).
+- `FixClientBugs` **Must have!**: Fixes whatever client mod, that is fixable by modders, such as crash when undoing first mount resize, or crash while grabbing/copying.
 - `SimulationControl`: Adds a console command `tps`, which is much less complicated than `server "simulation.rate <number>"`. 
 - `RandomDebugCollection`: Prints stack traces (that happen when going to error screen) to logs and prints compiler errors, which normally require `loglevel trace`.
 - `EcconiasChaosClientMod`: Mod made for Ecconia to dump many features like custom skybox in. Nothing consumer friendly, don't use it.
@@ -39,7 +42,6 @@ Libraries:
 
 #### Server:
 
-- `ServerLoadAccelerator`: **Must have!** This mod significantly improves the time, that the server needs to load a world when it has many wires. (25 minutes to 30 seconds become 10 seconds).
 - `RemoveUnusedComponentsOnSave`: Mod, which removes components from the component-id-map of a save, if a component is not placed in the world. **Use with care.**
 - `CustomChatManager`: Prevents players from abusing `sayraw` and adds chat commands, such as `/list` and `/tps` which allows anyone in multiplayer to control the simulation. 
 
