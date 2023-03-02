@@ -12,7 +12,7 @@ namespace AssemblyLoader.Shared
 	public static class AssemblyLoader
 	{
 		public static ILogicLogger logger;
-		
+
 		private static string cacheFolder;
 
 		public static void loadAssemblyFromModFile(ModFile modFile)
