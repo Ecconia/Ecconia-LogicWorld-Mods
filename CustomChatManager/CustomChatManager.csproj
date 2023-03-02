@@ -8,7 +8,7 @@
 
     <ItemGroup>
       <Reference Include="0Harmony">
-        <HintPath>..\HarmonyForLogicWorld\HarmonyForLogicWorld\dll\server\0Harmony.dll</HintPath>
+        <HintPath>..\HarmonyForLogicWorld\HarmonyForLogicWorld\assemblies\server\0Harmony.dll</HintPath>
       </Reference>
       <Reference Include="JimmysUnityUtilities, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\JimmysUnityUtilities.dll</HintPath>
