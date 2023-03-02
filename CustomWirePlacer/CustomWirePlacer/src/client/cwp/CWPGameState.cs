@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using FancyInput;
 using LogicWorld.GameStates;
@@ -19,22 +18,22 @@ namespace CustomWirePlacer.Client.CWP
 		public override IEnumerable<InputTrigger> HelpScreenTriggers => new InputTrigger[]
 		{
 			//Commented out, since LW does not show it by default and its intuitive.
-			// (InputTrigger) (Enum) UITrigger.Back,
-			(InputTrigger) (Enum) Trigger.CancelPlacing, //Not shown by default, but not intuitive, hence added.
-			(InputTrigger) (Enum) CWPTrigger.OpenSettings,
-			(InputTrigger) (Enum) CWPTrigger.GoTwoDimensional,
-			(InputTrigger) (Enum) CWPTrigger.RemoveWires,
-			(InputTrigger) (Enum) CWPTrigger.Flip,
-			(InputTrigger) (Enum) CWPTrigger.ApplyPattern,
-			(InputTrigger) (Enum) CWPTrigger.ApplyNormalAction,
+			// UITrigger.Back,
+			Trigger.CancelPlacing, //Not shown by default, but not intuitive, hence added.
+			CWPTrigger.OpenSettings,
+			CWPTrigger.GoTwoDimensional,
+			CWPTrigger.RemoveWires,
+			CWPTrigger.Flip,
+			CWPTrigger.ApplyPattern,
+			CWPTrigger.ApplyNormalAction,
 
-			(InputTrigger) (Enum) CWPTrigger.SkipModeSwitch,
-			(InputTrigger) (Enum) CWPTrigger.ExpandFurther,
-			(InputTrigger) (Enum) CWPTrigger.ExpandBackwards,
+			CWPTrigger.SkipModeSwitch,
+			CWPTrigger.ExpandFurther,
+			CWPTrigger.ExpandBackwards,
 
-			(InputTrigger) (Enum) CWPTrigger.Modificator,
-			(InputTrigger) (Enum) CWPTrigger.ModificatorAlternative,
-			(InputTrigger) (Enum) Trigger.DrawWire, //Obvious... hence at the bottom to be cropped.
+			CWPTrigger.Modificator,
+			CWPTrigger.ModificatorAlternative,
+			Trigger.DrawWire, //Obvious... hence at the bottom to be cropped.
 		};
 
 		//Routines:
