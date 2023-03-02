@@ -1,4 +1,3 @@
-using HarmonyForLogicWorld.Shared;
 using LogicAPI.Client;
 using LogicWorld.SharedCode.Modding;
 
@@ -10,10 +9,8 @@ namespace HarmonyForLogicWorld.Client
 		{
 			if(ModLoader.LoadedMods.ContainsKey("lwharmony"))
 			{
-				Logger.Warn("Could not run 'HarmonyForLogicWorld', because 'lwharmony' is installed. Pray that it installs the right version of Harmony.");
-				return;
+				Logger.Warn("The mod 'lwharmony' is installed alongside with 'HarmonyForLogicWorld'. Which means that it is undefined which version of Harmony is installed and being used. Pray that things run properly.");
 			}
-			HarmonyLoader.loadHarmony(Logger, Files, true);
 		}
 	}
 }

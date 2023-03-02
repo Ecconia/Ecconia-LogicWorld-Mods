@@ -1,4 +1,3 @@
-using HarmonyForLogicWorld.Shared;
 using LogicAPI.Server;
 
 namespace HarmonyForLogicWorld.Server
@@ -7,7 +6,6 @@ namespace HarmonyForLogicWorld.Server
 	{
 		protected override void Initialize()
 		{
-			HarmonyLoader.loadHarmony(Logger, Files, false);
 		}
 	}
 }
