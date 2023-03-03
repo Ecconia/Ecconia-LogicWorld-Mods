@@ -1,0 +1,5 @@
+WireTracer.HighlightCluster:
+    Heading: "WireTracer"
+    DefaultBinding:
+        Options:
+            - I

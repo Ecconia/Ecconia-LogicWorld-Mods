@@ -1,0 +1,12 @@
+MHG.SettingsMenu.Pages.Controls.Headings.WireTracer: "Mod: Wire Tracer"
+
+FancyInput.Trigger.WireTracer.HighlightCluster : "Trace wire"
+FancyInput.Trigger.WireTracer.HighlightCluster.Description : """
+    When used on a wire or a peg, it will outline all wires and pegs connected to it.
+    
+    Connected clusters using the link-layer (active relays & fast buffers) will also be outlined with a different color.
+    
+    You can configure the colors in the global settings.
+    
+    To exit the wire tracer mode, use this keybinding again or "cancel placement" or "back".
+    """
