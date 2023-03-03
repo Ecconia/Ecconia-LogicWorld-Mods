@@ -1,4 +1,4 @@
-MHG.SettingsMenu.Pages.Controls.Headings.CustomWirePlacer: "Custom Wire Placer"
+MHG.SettingsMenu.Pages.Controls.Headings.CustomWirePlacer: "Mod: Custom Wire Placer"
 
 FancyInput.Trigger.CustomWirePlacer.Modificator : "Mod"
 FancyInput.Trigger.CustomWirePlacer.Modificator.Description : """
@@ -23,8 +23,6 @@ FancyInput.Trigger.CustomWirePlacer.ModificatorAlternative.Description: """
     - When holding `Alt`, while clicking the very first peg of CWP, you can draw a peg with a wire connected to the starting peg. Good for free-form placement.
     - When holding `Alt` and one of the two `Expand` keys, the mouse wheel allows expanding by 1 peg, or even removing one expanded peg.
     - When holding `Alt`, when using `DrawWire` in stall mode, it will not start a new group, but white or blacklist pegs.<br>Blacklist pegs will be ignored, regardless of where in the group they are. While whitelisted pegs will be appended to the list of pegs (wires connect to it last).<br>If a peg was selected it becomes blacklisted, else whitelisted.
-    
-    If you can read this paragraph, then LogicWorld fixed a bug, where you could not scroll all the way down. Or you are lucky.
     """
 FancyInput.Trigger.CustomWirePlacer.ApplyNormalAction : "Apply default action"
 FancyInput.Trigger.CustomWirePlacer.ApplyNormalAction.Description: """
