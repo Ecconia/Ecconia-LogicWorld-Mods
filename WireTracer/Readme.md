@@ -26,7 +26,7 @@ You can find them in my mod collection (root folder).
 ### Dedicated Server:
 
 This mod requires either `AssemblyLoader` or @Cheese3660's [CheeseLoader](https://github.com/cheese3660/CheeseUtilMod/tree/preview/cheeseloader).\
-You should also install `ServerOnlyMods`, to allow players to join without this mod.
+You should also install `ServerOnlyMods`, to allow players to join without this mod.\
 You can find these mods in my mod collection (root folder).
 
 However, since the client requires `HarmonyForLogicWorld`, the server expects that mod too (a LogicWorld limitation).\
@@ -42,7 +42,7 @@ For clients this can cause minor FPS drops when activating this tool.\
 But one can keep the FPS stable, by distributing the work on multiple frames.
 
 On the server however tracing a big cluster can lower the max TPS for a short moment. As it is trying to collect all data for clusters.\
-If this becomes an issue here, one can significantly increase the performance, by removing the highlighting of Sockets/ThroughPegs/Relays/FastBuffers.\
+If this becomes an issue here, one can significantly increase the performance, by removing the highlighting of Sockets/ThroughPegs/Relays/FastBuffers.
 
 Let the mod author @Ecconia know, if either side becomes an issue, and the performance optimizations will be implemented.
 
