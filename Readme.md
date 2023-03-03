@@ -52,6 +52,8 @@ Libraries:
 
 #### Client | Server: (Installed on either or both sides)
 
+- `WireTracer` **Must have!**: Allows you to easily see what powers wires and what they power in your spaghetti. If installed on the server, connected clusters are highlighted too.
+
 Libraries:
 
 - `AssemblyLoader`: Loads DLL files (like for example Harmony) into runtime.
