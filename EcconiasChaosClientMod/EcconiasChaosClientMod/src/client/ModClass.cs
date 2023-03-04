@@ -1,3 +1,4 @@
+using EcconiasChaosClientMod.Client.Lighting;
 using LogicAPI.Client;
 
 namespace EcconiasChaosClientMod.Client

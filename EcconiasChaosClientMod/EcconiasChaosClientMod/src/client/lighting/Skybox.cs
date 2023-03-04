@@ -3,7 +3,7 @@ using LogicAPI;
 using LogicLog;
 using UnityEngine;
 
-namespace EcconiasChaosClientMod.Client
+namespace EcconiasChaosClientMod.Client.Lighting
 {
 	public static class Skybox
 	{
@@ -54,12 +54,21 @@ namespace EcconiasChaosClientMod.Client
 			return null;
 		}
 
-		[Command(name: "Skybox")]
+		[Command(name: "Skybox", Description = "Activates a custom skybox from the skybox folder (if any). Read the readme (inside that folder) to learn more.")]
 		public static void skybox()
 		{
 			if(texture == null)
 			{
 				LConsole.WriteLine("You must place at least one PNG file into the 'skyboxes' folder of this mod. Read its readme file.");
+				return;
+			}
+			skyboxSilent();
+		}
+
+		public static void skyboxSilent()
+		{
+			if(texture == null)
+			{
 				return;
 			}
 			Material skybox = RenderSettings.skybox;
