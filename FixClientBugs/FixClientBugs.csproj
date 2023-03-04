@@ -36,10 +36,10 @@
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Rendering.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.SharedCode">
-        <HintPath>..\..\..\..\..\.local\share\Steam\steamapps\common\Logic World\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
       </Reference>
       <Reference Include="SUCC">
-        <HintPath>..\..\..\..\..\.local\share\Steam\steamapps\common\Logic World\Server\SUCC.dll</HintPath>
+        <HintPath>..\LogicWorld\Server\SUCC.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.CoreModule">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.CoreModule.dll</HintPath>

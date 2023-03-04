@@ -26,7 +26,7 @@
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Interfaces.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.Networking">
-        <HintPath>..\..\..\..\..\.local\share\Steam\steamapps\common\Logic World\Logic_World_Data\Managed\LogicWorld.Networking.dll</HintPath>
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Networking.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.Players">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Players.dll</HintPath>
