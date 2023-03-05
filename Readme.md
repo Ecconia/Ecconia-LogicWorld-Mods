@@ -34,7 +34,7 @@ You can however download the dedicated server and use the `net 6` as your SP ser
 - `FixClientBugs` **Must have!**: Fixes whatever client mod, that is fixable by modders, such as crash when undoing first mount resize, or crash while grabbing/copying.
 - `SimulationControl`: Adds a console command `tps`, which is much less complicated than `server "simulation.rate <number>"`. 
 - `RandomDebugCollection`: Prints stack traces (that happen when going to error screen) to logs and prints compiler errors, which normally require `loglevel trace`.
-- `EcconiasChaosClientMod`: Mod made for Ecconia to dump many features like custom skybox in. Nothing consumer friendly, don't use it.
+- `EcconiasChaosClientMod`: Mod made for Ecconia to dump tiny feature inside. Noteworthy: Custom skybox, command to list connected players.
 
 Libraries:
 
