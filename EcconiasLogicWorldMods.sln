@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixClientBugs", "FixClientB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WireTracer", "WireTracer\WireTracer.csproj", "{5256253B-7482-4FD7-86A9-DBEF9A05AE30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexibleComponentModUsage", "FlexibleComponentModUsage\FlexibleComponentModUsage.csproj", "{2F5D607C-2087-4B27-AF91-776189BBE2DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,5 +98,9 @@ Global
 		{5256253B-7482-4FD7-86A9-DBEF9A05AE30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5256253B-7482-4FD7-86A9-DBEF9A05AE30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5256253B-7482-4FD7-86A9-DBEF9A05AE30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F5D607C-2087-4B27-AF91-776189BBE2DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F5D607C-2087-4B27-AF91-776189BBE2DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F5D607C-2087-4B27-AF91-776189BBE2DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F5D607C-2087-4B27-AF91-776189BBE2DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

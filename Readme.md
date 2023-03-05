@@ -35,6 +35,7 @@ You can however download the dedicated server and use the `net 6` as your SP ser
 - `SimulationControl`: Adds a console command `tps`, which is much less complicated than `server "simulation.rate <number>"`. 
 - `RandomDebugCollection`: Prints stack traces (that happen when going to error screen) to logs and prints compiler errors, which normally require `loglevel trace`.
 - `EcconiasChaosClientMod`: Mod made for Ecconia to dump tiny feature inside. Noteworthy: Custom skybox, command to list connected players.
+- `FlexibleComponentModUsage`: **Useful** Mod that will allow you to join servers with less components than you - without crashing.
 
 Libraries:
 
