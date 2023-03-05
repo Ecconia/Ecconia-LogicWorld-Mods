@@ -16,7 +16,7 @@ namespace FixClientBugs.Client.Fixes
 		public static void init(ILogicLogger logger, Harmony harmony)
 		{
 			var componentDataTypes = collectComponentDataTypes();
-			logger.Info("Found " + componentDataTypes.Count + " components to fix.");
+			logger.Debug("Found " + componentDataTypes.Count + " components to fix.");
 			// foreach(var type in componentDataTypes)
 			// {
 			// 	logger.Info("- " + type);
