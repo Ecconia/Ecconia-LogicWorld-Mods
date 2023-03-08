@@ -22,14 +22,35 @@
       <Reference Include="LogicLog">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLog.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.Building">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Building.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.BuildingManagement">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.BuildingManagement.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.ClientCode">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.ClientCode.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.GameStates">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.GameStates.dll</HintPath>
+      </Reference>
       <Reference Include="LogicWorld.Interfaces">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Interfaces.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.Networking">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Networking.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.Physics">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Physics.dll</HintPath>
+      </Reference>
       <Reference Include="LogicWorld.Players">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Players.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.SharedCode">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.UI">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.UI.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.CoreModule">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
