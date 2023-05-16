@@ -2,8 +2,8 @@
 
 In this repository you will find all mods created by @Ecconia for the game `Logic World`.
 
-**All mods in this repository are for LogicWorld 0.91.X**\
-To find the mods for 0.90.X, check out the GitHub tags of this repository.
+**All mods in this repository are for LogicWorld 0.91.1**\
+To find mods for older LogicWorld versions, check out the GitHub tags of this repository.
 
 ## How to install / use them?
 
