@@ -1,6 +1,4 @@
 using LICC;
-using LogicUI.MenuTypes;
-using LogicWorld.UI.MainMenu;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

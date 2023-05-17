@@ -7,9 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Reference Include="0Harmony, Version=2.1.1.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>HarmonyForServers\0Harmony.dll</HintPath>
-      </Reference>
       <Reference Include="LogicAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.dll</HintPath>
       </Reference>
