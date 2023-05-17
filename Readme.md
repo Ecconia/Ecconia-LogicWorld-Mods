@@ -5,6 +5,9 @@ In this repository you will find all mods created by @Ecconia for the game `Logi
 **All mods in this repository are for LogicWorld 0.91.1**\
 To find mods for older LogicWorld versions, check out the GitHub tags of this repository.
 
+If you still use 0.91.0 (you should not). Get `FixClientBugs`, if you do not want bad crashes while building.\
+Besides `EcconiasChaosClientMod` (player list command broken), all mods are still compatible.
+
 ## How to install / use them?
 
 This project contains one `project folder` for each mod.\
