@@ -13,7 +13,7 @@ namespace CustomChatManager.Server.Commands
 	{
 		private const double minTPS = 0.1f;
 
-		private const string usage = "Usage: /tps [ <tps> | stop/halt/pause | resume/play/continue ]";
+		private const string usage = "Usage: /tps [ <tps> | stop/halt/pause | step | resume/play/continue ]";
 
 		private readonly ISimulationManager simulationScheduler; //To get if it is actually running
 		private readonly ILogicManager simulation; //To step the simulation
