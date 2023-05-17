@@ -6,7 +6,8 @@ namespace EccsWindowHelper.Client.Experimental
 {
 	public class SceneDebugger
 	{
-		[Command]
+		//Disable this command for production...
+		//[Command]
 		public static void yili()
 		{
 			int count = SceneManager.sceneCountInBuildSettings;
