@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using LICC;
+using LogicAPI.Data;
 using LogicWorld.Players;
 
 namespace EcconiasChaosClientMod.Client
 {
 	public static class PlayerList
 	{
-		private static readonly List<PlayerModel> players;
+		private static readonly Dictionary<ShortPlayerID, PlayerModel> players;
 
 		static PlayerList()
 		{
@@ -24,7 +25,7 @@ namespace EcconiasChaosClientMod.Client
 				ModClass.logger.Error("Value of field 'WorldPlayerModels' from class 'PlayerModelsManager' was 'null' this is unexpected, the 'listplayer' commands will not be functional.");
 				return;
 			}
-			if(!(value is List<PlayerModel> playerModels))
+			if(!(value is Dictionary<ShortPlayerID, PlayerModel> playerModels))
 			{
 				ModClass.logger.Error("Value of field 'WorldPlayerModels' from class 'PlayerModelsManager' was of type '" + value.GetType() + "' this is unexpected, the 'listplayer' commands will not be functional.");
 				return;
@@ -42,11 +43,12 @@ namespace EcconiasChaosClientMod.Client
 			}
 			StringBuilder builder = new StringBuilder();
 			builder.Append("All player models:");
-			int amountOfPlayers = players.Count;
+			var playerList = new List<PlayerModel>(players.Values);
+			int amountOfPlayers = playerList.Count;
 			int prefixWidth = amountOfPlayers.ToString().Length;
 			for(int i = 0; i < amountOfPlayers; i++)
 			{
-				PlayerModel player = players[i];
+				PlayerModel player = playerList[i];
 				bool isYou = player == PlayerModelsManager.PlayerModelSelf;
 				builder.Append('\n')
 				       .Append(isYou ? '>' : '-')
@@ -85,7 +87,7 @@ namespace EcconiasChaosClientMod.Client
 			}
 			StringBuilder builder = new StringBuilder();
 			builder.Append("Visible players:");
-			foreach(var player in players)
+			foreach(var player in players.Values)
 			{
 				if(player == null)
 				{
