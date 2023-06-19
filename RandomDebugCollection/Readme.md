@@ -1,18 +1,21 @@
 # RandomDebugCollection by @Ecconia
 
-### Description:
+This mod provides a set of tools and features, to ramp up your modding experience with LogicWorld.
 
-Reasons for creation of this mod:
+Features:
+- Mod compilation errors will be printed in Console/Logs
+  - Compilation errors are filtered, to remove some pointless errors (in big mods you can get hundreds of lines of pointless errors).
+- Provides executable launch argument `-loadworld <WorldFolderName>` to directly load into a world, skipping main menu.
+- Will show full stacktrace on error-screen and print all stacktraces to console and log files.
+- Adds some random debugging commands (details below)...
 
-- Stacktraces are not printed to logs.
-- Commands which might be needed for random debugging actions, can be dumped in here.
-- Not being able to directly load a world by argument when starting the game.
-- Compilation errors are not printed into logs with loglevel information.
+### Small Warning:
 
-This mod captures all exceptions which would cause the error-screen and prints them to the logs (using the Logger).\
-This mod prints C# script compilation errors to console.\
-This mod provides an application argument to directly load a world.\
-This mod adds a bunch of commands, see `Usages` below.
+If you are using the Unity log files, or even use this mod in Unity.  
+This mod will wrap all exceptions that are meant for the error-screen into a custom Exception class.
+
+This is done, so that the exceptions won't be printed again later on, as the wrapping can be detected.  
+In Unity console and logs, this only slightly changes the Exceptions, but they are still super obvious to understand.
 
 ## Install / Dependencies:
 
@@ -22,6 +25,20 @@ You will also need the two mods `HarmonyForLogicWorld` and `AssemblyLoader` for 
 You can find them in my mod collection (root folder).
 
 ## Usage:
+
+To directly join a world, skipping the main menu, execute the game with following argument:  
+`-loadworld "<WorldSaveFolderName>"` Ensure, that you are providing the folder name! If the name contains spaces, wrap it with quotes.
+
+This feature is compatible with Steam:  
+`%command% -loadworld "<WorldSaveFolderName>"`
+
+I have the following run commands (Linux) in my IDE, to start the game:  
+`killall Logic_World; steam -applaunch 1054340 -loadworld "TestWorld" && exit`  
+`killall Logic_World; steam steam://rungameid/1054340 && exit`  
+It stops all running instances of the game.
+Instructs Steam to start the game, optionally supplies a world to open.
+Finally it closes the IDE terminal, as Steam launches a decoupled process.
+For whatever reason I am using two different ways to start the game :P
 
 This mod has a few commands:
 

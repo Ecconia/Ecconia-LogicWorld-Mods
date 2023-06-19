@@ -1,3 +1,4 @@
+using System.Reflection;
 using HarmonyLib;
 using LogicLog;
 using LogicWorld.SharedCode.Modding.Compilation;
@@ -6,24 +7,24 @@ namespace RandomDebugCollection.Client
 {
 	public class PrintCompilationErrors
 	{
+		private static ILogicLogger logger;
+		private static string lastModName;
+		
 		public static void Initialize(ILogicLogger logger)
 		{
-			ErrorPatch.logger = logger;
-			new Harmony("RandomDebugCollection.PrintCompileErrors").PatchAll();
+			PrintCompilationErrors.logger = logger;
+			var harmony = new Harmony("RandomDebugCollection.PrintCompileErrors");
+			var meth = typeof(ModCompiler).GetMethod("Compile", BindingFlags.Public | BindingFlags.Static);
+			var pre = typeof(PrintCompilationErrors).GetMethod("Prefix", BindingFlags.Public | BindingFlags.Static);
+			var post = typeof(PrintCompilationErrors).GetMethod("Postfix", BindingFlags.Public | BindingFlags.Static);
+			harmony.Patch(meth, new HarmonyMethod(pre), new HarmonyMethod(post));
 		}
-	}
-
-	[HarmonyPatch(typeof(ModCompiler), nameof(ModCompiler.Compile))]
-	public static class ErrorPatch
-	{
-		public static ILogicLogger logger;
-		private static string lastModName;
-
+		
 		public static void Prefix(string name)
 		{
 			lastModName = name;
 		}
-
+		 
 		public static void Postfix(ref ModCompiler.CompileResult __result)
 		{
 			if(!__result.Success)

@@ -10,6 +10,9 @@
       <Reference Include="0Harmony">
         <HintPath>..\HarmonyForLogicWorld\HarmonyForLogicWorld\assemblies\client\0Harmony.dll</HintPath>
       </Reference>
+      <Reference Include="JimmysUnityUtilities">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\JimmysUnityUtilities.dll</HintPath>
+      </Reference>
       <Reference Include="LICC, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LICC.dll</HintPath>
       </Reference>
@@ -40,8 +43,14 @@
       <Reference Include="LogicWorld.Subassemblies">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Subassemblies.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.UI">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.UI.dll</HintPath>
+      </Reference>
       <Reference Include="Server, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Server\Server.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.CoreModule">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       </Reference>
       <Reference Include="ΩLogicWorld.Subassemblies, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\ΩLogicWorld.Subassemblies.dll</HintPath>
