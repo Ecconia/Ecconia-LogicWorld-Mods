@@ -2,15 +2,19 @@ using System;
 using System.Text.RegularExpressions;
 using HarmonyLib;
 using JimmysUnityUtilities;
+using LICC;
 using LogicLog;
 using LogicWorld;
 using LogicWorld.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace RandomDebugCollection.Client
 {
 	public static class StacktraceToLog
 	{
+		public static bool didManuallyTriggerErrorScreenThisScene;
+		
 		public static void Initialize(ILogicLogger logger)
 		{
 			new Harmony("RandomDebugCollection.StacktraceToLog").PatchAll();
@@ -28,6 +32,12 @@ namespace RandomDebugCollection.Client
 				trace = Regex.Replace(trace, " \\(at <[0-9a-f]+>:0\\)", "");
 				logger.Error("Captured Unity forwarded exception:\n" + condition + "\n" + trace);
 			};
+			SceneManager.sceneUnloaded += scene => {
+				if("EmptyScene".Equals(scene.name))
+				{
+					didManuallyTriggerErrorScreenThisScene = false; //Probably just left the error screen.
+				}
+			};
 		}
 	}
 	
@@ -42,6 +52,13 @@ namespace RandomDebugCollection.Client
 			//Wrap the exception, so that it can be filtered later on again, and not double catch it in console:
 			Dispatcher.InvokeAsync(() => Debug.LogException(new ExWrapper(exception))); //Do not send the stacktrace to unity logs anymore! Not needed - honestly - its in the logs with showing on the error screen.
 			SceneAndNetworkManager.TriggerErrorScreen(stacktrace);
+			if(StacktraceToLog.didManuallyTriggerErrorScreenThisScene)
+			{
+				//The error screen will always be triggered, but continuing from here might overwrite the error message on it.
+				// Hence it stops here. There is no negative side effect, except, that the console gets a bit more spam by LW, and in the worst case some other exception overwrites the error message.
+				return false;
+			}
+			StacktraceToLog.didManuallyTriggerErrorScreenThisScene = true; //As LW is not setting this flag properly (too late async)..
 			//Update the error message to some styled version:
 			var lines = stacktrace.Split(new char[] {'\n'}, 2, StringSplitOptions.None);
 			var formattedStacktrace = "<size=50%>" + lines[0] + "</size>\n<size=30%>" + lines[1].Split('\n').Join(null, "</size>\n<size=30%>") + "</size>";
