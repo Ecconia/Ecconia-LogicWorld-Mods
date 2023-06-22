@@ -25,6 +25,9 @@
       <Reference Include="LogicLog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLog.dll</HintPath>
       </Reference>
+      <Reference Include="LogicUI">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicUI.dll</HintPath>
+      </Reference>
       <Reference Include="LogicWorld, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.dll</HintPath>
       </Reference>
