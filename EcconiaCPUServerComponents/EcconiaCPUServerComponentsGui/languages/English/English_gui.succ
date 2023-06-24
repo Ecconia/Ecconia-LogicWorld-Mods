@@ -1,0 +1,6 @@
+EcconiaCPUServerComponents.Gui.RTPulser.Label : "Delay seconds:"
+EcconiaCPUServerComponents.Gui.FlatKey.BackgroundLabel : "BG:"
+EcconiaCPUServerComponents.Gui.FlatKey.ForegroundLabel : "FG:"
+EcconiaCPUServerComponents.Gui.FlatKey.EditKeybinding : "Edit keybinding"
+EcconiaCPUServerComponents.Gui.FlatKey.CustomLabel : "Custom label:"
+EcconiaCPUServerComponents.Gui.FlatKey.CustomTextHint : "Enter a custom label to display instead of the keybinding"

@@ -1,23 +1,32 @@
 # EcconiaCPUServerComponents by @Ecconia
 
-### CURRENTLY HAS ISSUES:
+## Current issue:
 
-- The key cannot be edited properly. \[Will have to serialize the custom data myself, while disabling the System LW provides]
-- The RealTimePulser also has to be edited via command...
+You get some great and some junk components with this mod. They should be split into two mods eventually.\
+Be careful, splitting mods might cause some inconvenience to your world. Please tell @Ecconia if you honestly plan on using this mod.\
+I will do the splitting for you sooner then!
 
 ### Description:
 
-Reasons for creation of this mod:
+This mod provides generic and special purpose components that are used on one of @Ecconias servers.
 
-- With high component count, comes high memory usage and slow world editing.
-- The stock key component of LogicWorld has no way to use a custom label.
-- Other funny features useful for worlds with variable TPS - but RealTime depending aspects.
+Some of the components (memory & display) are only used to decrease the component count. Their timing is exactly the same as the real memory/display. Highly useless for everyone except @Ecconia.
 
-But with this mod, some of my big buildings are partially replaced by a single modded component. This saves memory.
+But it also provides amazing components like the `FlatKey` and the `RealTimePulser`. Read more about them below.
+
+### GUI:
+
+You can edit the RealTimePulser and the FlatKey components via `X`, but due to the modding API not being able to separate dependencies,
+this feature has to be moved into its own mod `EcconiaCPUServerComponentsGui`, I recommend to install both on the client.
+
+This mod con
 
 ## Install / Dependencies:
 
-Just drop the `EcconiaCPUServerComponents` folder into your `GameData` folder.
+Just drop the `EcconiaCPUServerComponents` & `EcconiaCPUServerComponentsGui` folders into your `GameData` folder.
+
+For `EcconiaCPUServerComponentsGui` to function, you will need two additional mods: `EccsGuiBuilder` & `EccsLogicWorldAPI`\
+You can find both in my mod collection (root folder).
 
 ## Usage:
 
@@ -42,8 +51,8 @@ This means you have to change the two pixel colors manually in code (its RGB). T
 The flat key pretty much acts like any normal `Panel Key`.\
 Besides that it has no moving part, but instead lights up when pressed.
 
-The new thing about it, is that one can customize the text printed on it.\
-Currently this has to be done using the `EditKeyLabel` command.
+The new thing about it, is that one can customize the text printed on it. (Oh and you can resize it).\
+Just press `V` to resize or `X` to edit like any other LW component.
 
 ### RAM256b8:
 
@@ -70,7 +79,7 @@ That would be boring, with this component you have to do the pulse generation yo
 ### Real Time Pulser
 
 The Real Time Pulser will emit a pulse on a rising edge input. Once the pulse is done emitting, it will output a 1 tick pulse on the top output.\
-The pulse length is 1 second (not ticks), by default. But can be modified with the `editrtpulser <milliseconds>` command while looking at a Real Time Pulser.
+The pulse length is 1 second (not ticks), by default. You can edit the Real Time Pulser with `X` like any other LW component.
 
 Useful to drive Singers, on a world with variable tick speed.\
 Due to the pulse-output, these components can be easily chained.

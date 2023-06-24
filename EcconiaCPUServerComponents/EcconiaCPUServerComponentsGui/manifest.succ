@@ -1,0 +1,10 @@
+ID: EcconiaCPUServerComponentsGui
+Name: Components for Ecconias CPU Server Gui
+Author: Ecconia
+Version: 1.0.0
+ClientOnly: true
+Priority: -1
+Dependencies:
+    - EccsGuiBuilder
+    - EccsLogicWorldAPI
+    - EcconiaCPUServerComponents

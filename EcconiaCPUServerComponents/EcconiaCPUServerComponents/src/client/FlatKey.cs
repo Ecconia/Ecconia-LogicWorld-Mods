@@ -2,16 +2,13 @@ using System.Collections.Generic;
 using EcconiaCPUServerComponents.Shared;
 using FancyInput;
 using JimmysUnityUtilities;
-using LICC;
 using LogicUI.MenuTypes;
-using LogicAPI.Data;
 using LogicWorld.Audio;
 using LogicWorld.ClientCode;
 using LogicWorld.ClientCode.Decorations;
 using LogicWorld.ClientCode.Resizing;
 using LogicWorld.GameStates;
 using LogicWorld.Interfaces;
-using LogicWorld.Physics;
 using LogicWorld.Players;
 using LogicWorld.References;
 using LogicWorld.Rendering.Chunks;
@@ -40,35 +37,6 @@ namespace EcconiaCPUServerComponents.Client
 	                       IPressableButton,
 	                       IColorableClientCode
 	{
-		//Command:
-
-		[Command("EditKeyLabel")]
-		public static void editKeyLabel(string text)
-		{
-			//Yeah no clue what these layers are, but I take them all.
-			HitInfo info = PlayerCaster.CameraCast(Masks.Default | Masks.Environment | Masks.Structure | Masks.Peg | Masks.PlayerModel);
-			ComponentAddress componentAddress = info.cAddress;
-			if(componentAddress == null)
-			{
-				LConsole.WriteLine("Look at a CustomPanelKey to edit it.");
-				return;
-			}
-
-			IComponentClientCode clientCode = Instances.MainWorld.Renderer.Entities.GetClientCode(componentAddress);
-			if(clientCode == null || clientCode.GetType() != typeof(FlatKey))
-			{
-				IComponentInWorld componentInWorld = Instances.MainWorld.Data.Lookup(componentAddress);
-				string type = Instances.MainWorld.ComponentTypes.GetTextID(componentInWorld.Data.Type);
-				LConsole.WriteLine("Look at a CustomPanelKey to edit it. Not at: " + type);
-				return;
-			}
-
-			FlatKey key = (FlatKey) clientCode;
-			key.Data.label = text.Replace("\\n", "\n");
-
-			LConsole.WriteLine("Set label text!");
-		}
-
 		//Constants:
 		private static readonly SoundEffect effect = SoundEffectDatabase.GetSoundEffectByTextID("EcconiaCPUServerComponents.FlatKeySound");
 
@@ -169,7 +137,7 @@ namespace EcconiaCPUServerComponents.Client
 			//Keep updating as long as it is visible.
 			if(visibilityDetector.IsVisible)
 			{
-				base.ContinueUpdatingForAnotherFrame();
+				ContinueUpdatingForAnotherFrame();
 			}
 		}
 

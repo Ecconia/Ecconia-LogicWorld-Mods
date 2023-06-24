@@ -4,6 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>disable</Nullable>
+        <RootNamespace />
     </PropertyGroup>
 
     <ItemGroup>
@@ -28,11 +29,17 @@
       <Reference Include="LogicAPI.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Server\LogicAPI.Server.dll</HintPath>
       </Reference>
+      <Reference Include="LogicLocalization">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLocalization.dll</HintPath>
+      </Reference>
       <Reference Include="LogicLog">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLog.dll</HintPath>
       </Reference>
       <Reference Include="LogicUI, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicUI.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.Audio, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Audio.dll</HintPath>
@@ -64,8 +71,14 @@
       <Reference Include="LogicWorld.SharedCode, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.UI">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.UI.dll</HintPath>
+      </Reference>
       <Reference Include="Server, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Server\Server.dll</HintPath>
+      </Reference>
+      <Reference Include="UIShapes">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\UIShapes.dll</HintPath>
       </Reference>
       <Reference Include="Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\Unity.TextMeshPro.dll</HintPath>
@@ -76,9 +89,17 @@
       <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
       </Reference>
+      <Reference Include="UnityEngine.TextRenderingModule">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      </Reference>
       <Reference Include="UnityEngine.UI">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.UI.dll</HintPath>
       </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\EccsGuiBuilder\EccsGuiBuilder.csproj" />
+      <ProjectReference Include="..\EccsLogicWorldAPI\EccsLogicWorldAPI.csproj" />
     </ItemGroup>
 
 </Project>
