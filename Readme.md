@@ -41,7 +41,7 @@ You can however download the dedicated server and use the `net 6` as your SP ser
 
 Libraries:
 
-- `EccsWindowHelper`: Allows mods to more easily create LogicWorld-Styled windows (menus).
+- `GuiBuilder`: Allows mods to more easily create LogicWorld-Styled windows/GUI (menus).
 
 #### Server:
 
@@ -61,6 +61,7 @@ Libraries:
 
 - `AssemblyLoader`: Loads DLL files (like for example Harmony) into runtime.
 - `HarmonyForLogicWorld`: Loads Harmony into the runtime.
+- `EccsLogicWorldAPI`: A collection of useful tools for modders to make use of.
 
 #### Client & Server: (Installed on both sides)
 
