@@ -2,22 +2,25 @@ using System;
 using System.Text;
 using CustomWirePlacer.Client.CWP;
 using CustomWirePlacer.Client.CWP.PegDrawing;
-using EccsWindowHelper.Client;
+using EccsGuiBuilder.Client.Wrappers;
 using LogicLocalization;
 using LogicUI.MenuTypes;
 using LogicWorld.GameStates;
 using LogicWorld.UI;
 using LogicWorld.UI.HelpList;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CustomWirePlacer.Client.Windows
 {
 	public static class CWPHelpOverlay
 	{
+		private static LocalizationHelpUpdater localizationHelpUpdater;
 		private static GameObject rootObject;
-
-		private static TextOverlayBox staticBox;
-		private static TextOverlayBox dynamicBox;
+		private static GameObject dynamicBox;
+		private static TextMeshProUGUI staticText;
+		private static TextMeshProUGUI dynamicText;
 
 		public static void Init()
 		{
@@ -26,10 +29,18 @@ namespace CustomWirePlacer.Client.Windows
 			{
 				throw new Exception("Already initialized CWP-HelpOverlay");
 			}
-			rootObject = WindowHelper.makeOverlayCanvas("CWP: HelpOverlay root");
-
-			initConstantActionBox();
-			initDynamicActionBox();
+			WS.canvas("CWP: HelpOverlay root")
+				.assignTo(out rootObject)
+				.addContainer("CWP: Static Help Overlay", box => box
+					.setAlignment(Alignment.TopRight)
+					.makeTextOverlay(out staticText)
+				)
+				.addContainer("CWP: Dynamic Help Overlay", box => box
+					.assignTo(out dynamicBox)
+					.setAlignment(Alignment.Top)
+					.makeTextOverlay(out dynamicText)
+				)
+				.build();
 
 			//Listeners to manage visibility:
 			//Help overlay listener:
@@ -39,33 +50,75 @@ namespace CustomWirePlacer.Client.Windows
 			ToggleableSingletonMenu<BuildingCanvas>.OnMenuShown += checkVisibility;
 			ToggleableSingletonMenu<BuildingCanvas>.OnMenuHidden += checkVisibility;
 			//GameState listener:
-			GameStateManager.OnHelpUpdated += gameState =>
-			{
-				State newState = State.Disabled;
-				if(gameState != null)
-				{
-					string id = gameState.TextID;
-					if("MHG.Building".Equals(id))
-					{
-						newState = State.Building;
-					}
-					else if(CWPGameState.id.Equals(id))
-					{
-						newState = State.CustomWirePlacer;
-					}
-					else if(GameStatePegDrawing.id.Equals(id))
-					{
-						newState = State.PegDrawing;
-					}
-				}
-				if(newState != currentState)
-				{
-					currentState = newState;
-					checkVisibility();
-				}
-			};
+			GameStateManager.OnHelpUpdated += onHelpUpdated;
 
-			TextLocalizer.Initialize(new LocalizationHelpUpdater());
+			localizationHelpUpdater = new LocalizationHelpUpdater();
+			TextLocalizer.Initialize(localizationHelpUpdater);
+		}
+
+		private static void onHelpUpdated(GameState gameState)
+		{
+			State newState = State.Disabled;
+			if(gameState != null)
+			{
+				string id = gameState.TextID;
+				if("MHG.Building".Equals(id))
+				{
+					newState = State.Building;
+				}
+				else if(CWPGameState.id.Equals(id))
+				{
+					newState = State.CustomWirePlacer;
+				}
+				else if(GameStatePegDrawing.id.Equals(id))
+				{
+					newState = State.PegDrawing;
+				}
+			}
+			if(newState != currentState)
+			{
+				currentState = newState;
+				checkVisibility();
+			}
+		}
+
+		public static void destroy()
+		{
+			//Localization:
+			TextLocalizer.Finish(localizationHelpUpdater);
+			localizationHelpUpdater = null;
+			//Other events:
+			ToggleableSingletonMenu<HelpListMenu>.OnMenuShown -= checkVisibility;
+			ToggleableSingletonMenu<HelpListMenu>.OnMenuHidden -= checkVisibility;
+			ToggleableSingletonMenu<BuildingCanvas>.OnMenuShown -= checkVisibility;
+			ToggleableSingletonMenu<BuildingCanvas>.OnMenuHidden -= checkVisibility;
+			GameStateManager.OnHelpUpdated -= onHelpUpdated;
+
+			//All these objects are taken care of by Unity.
+			//However static references should be cleaned up, better safe than sorry.
+			rootObject = dynamicBox = null;
+			dynamicText = staticText = null;
+		}
+
+		private static void makeTextOverlay(this SimpleWrapper zis, out TextMeshProUGUI textMesh)
+		{
+			zis.vertical(padding: new RectOffset(5, 5, 0, 5))
+				.addAndConfigure<ContentSizeFitter>(configure => {
+					configure.horizontalFit = ContentSizeFitter.FitMode.MinSize;
+					configure.verticalFit = ContentSizeFitter.FitMode.MinSize;
+				})
+				.addDebugBackground(new Color32(0, 0, 0, 128))
+				.add(WS.textLine
+					.removeLocalization()
+					.assignTo(out TextMeshProUGUI uff)
+					.configureTMP(tmp => {
+						tmp.fontSize = 40;
+						tmp.verticalAlignment = VerticalAlignmentOptions.Top;
+						tmp.horizontalAlignment = HorizontalAlignmentOptions.Left;
+						tmp.enableWordWrapping = false;
+					})
+				);
+			textMesh = uff;
 		}
 
 		private class LocalizationHelpUpdater : ILocalizedObject
@@ -97,7 +150,7 @@ namespace CustomWirePlacer.Client.Windows
 				if(currentState == State.CustomWirePlacer)
 				{
 					rootObject.SetActive(true);
-					dynamicBox.setActive(true);
+					dynamicBox.SetActive(true);
 					if(CWP.CustomWirePlacer.isActive())
 					{
 						//By the time this is called by the listener, CWP is not yet active and hence not initialized.
@@ -110,7 +163,7 @@ namespace CustomWirePlacer.Client.Windows
 				if(currentState == State.Building && ToggleableSingletonMenu<HelpListMenu>.MenuIsVisible && ToggleableSingletonMenu<BuildingCanvas>.MenuIsVisible)
 				{
 					rootObject.SetActive(true);
-					dynamicBox.setActive(false);
+					dynamicBox.SetActive(false);
 					setBuildingText();
 					return;
 				}
@@ -118,7 +171,7 @@ namespace CustomWirePlacer.Client.Windows
 				if(currentState == State.PegDrawing)
 				{
 					rootObject.SetActive(true);
-					dynamicBox.setActive(true);
+					dynamicBox.SetActive(true);
 					setPegDrawingText();
 					return;
 				}
@@ -128,34 +181,16 @@ namespace CustomWirePlacer.Client.Windows
 
 		//Init the text boxes structure:
 
-		private static void initConstantActionBox()
-		{
-			staticBox = new TextOverlayBox(rootObject, "CWP: Static Help Overlay");
-			RectTransform rectTransform = staticBox.getRect();
-			rectTransform.anchorMin = new Vector2(1, 1);
-			rectTransform.anchorMax = new Vector2(1, 1);
-			rectTransform.pivot = new Vector2(1, 1);
-		}
-
-		private static void initDynamicActionBox()
-		{
-			dynamicBox = new TextOverlayBox(rootObject, "CWP: Dynamic Help Overlay");
-			RectTransform rectTransform = dynamicBox.getRect();
-			rectTransform.anchorMin = new Vector2(0.5f, 1);
-			rectTransform.anchorMax = new Vector2(0.5f, 1);
-			rectTransform.pivot = new Vector2(0.5f, 1);
-		}
-
 		private static void setBuildingText()
 		{
-			staticBox.setText(TextLocalizer.LocalizedFormat("CWP.HelpOverlay.Building.StartWP", constructKeybinding("MHG.DrawWire")) + '\n' +
-			                  TextLocalizer.LocalizedFormat("CWP.HelpOverlay.Building.StartPD", constructKeybinding("CustomWirePlacer.ModificatorAlternative")));
+			staticText.text = TextLocalizer.LocalizedFormat("CWP.HelpOverlay.Building.StartWP", constructKeybinding("MHG.DrawWire")) + '\n' +
+				TextLocalizer.LocalizedFormat("CWP.HelpOverlay.Building.StartPD", constructKeybinding("CustomWirePlacer.ModificatorAlternative"));
 		}
 
 		private static void setPegDrawingText()
 		{
-			dynamicBox.setText(TextLocalizer.LocalizedFormat("CWP.HelpOverlay.PegDrawing.Finish", constructKeybinding("MHG.DrawWire")));
-			staticBox.setText(TextLocalizer.LocalizedFormat("CWP.HelpOverlay.CWP.Abort", constructKeybinding("LogicUI.Back"), constructKeybinding("MHG.CancelPlacing")));
+			dynamicText.text = TextLocalizer.LocalizedFormat("CWP.HelpOverlay.PegDrawing.Finish", constructKeybinding("MHG.DrawWire"));
+			staticText.text = TextLocalizer.LocalizedFormat("CWP.HelpOverlay.CWP.Abort", constructKeybinding("LogicUI.Back"), constructKeybinding("MHG.CancelPlacing"));
 		}
 
 		public static void updateText()
@@ -211,7 +246,7 @@ namespace CustomWirePlacer.Client.Windows
 					append(sb, "CWP.HelpOverlay.CWP.PatternNext", "CustomWirePlacer.ApplyPattern");
 				}
 			}
-			staticBox.setText(sb.ToString());
+			staticText.text = sb.ToString();
 
 			// OTHER :
 
@@ -272,7 +307,7 @@ namespace CustomWirePlacer.Client.Windows
 				append(sb, "CWP.HelpOverlay.CWP.SkipValue", "CustomWirePlacer.GenericMouseWheel");
 				append(sb, "CWP.HelpOverlay.CWP.SkipOffset", "CustomWirePlacer.GenericMouseWheel", "CustomWirePlacer.ModificatorAlternative");
 			}
-			dynamicBox.setText(sb.ToString());
+			dynamicText.text = sb.ToString();
 		}
 
 		private static void append(StringBuilder sb, string key, string arg0)

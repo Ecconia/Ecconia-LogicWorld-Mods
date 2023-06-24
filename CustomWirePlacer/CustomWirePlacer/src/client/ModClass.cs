@@ -2,9 +2,11 @@ using System;
 using CustomWirePlacer.Client.CWP;
 using CustomWirePlacer.Client.CWP.PegDrawing;
 using CustomWirePlacer.Client.Windows;
+using EccsLogicWorldAPI.Client.Hooks;
 using FancyInput;
 using LogicAPI.Client;
 using LogicLog;
+using LogicWorld;
 
 namespace CustomWirePlacer.Client
 {
@@ -28,14 +30,30 @@ namespace CustomWirePlacer.Client
 
 			//Hijack the original WirePlacer to do nothing and instead use the custom one.
 			Hijacker.hijackWirePlacer();
-			//Initialize the overlays:
-			CWPStatusOverlay.Init();
-			CWPHelpOverlay.Init();
 			//Initialize keys:
 			CustomInput.Register<CWPContext, CWPTrigger>("CustomWirePlacer");
 
-			//Prepare settings window:
-			CWPSettingsWindow.init();
+			CWPSettingsWindow.initOnce(); //Register static window events
+			WorldHook.worldLoading += () => {
+				try
+				{
+					//Initialize the overlays:
+					CWPStatusOverlay.Init();
+					CWPHelpOverlay.Init();
+					//Prepare settings window:
+					CWPSettingsWindow.init();
+				}
+				catch(Exception e)
+				{
+					logger.Error("Failed to initialize CWP GUI:");
+					SceneAndNetworkManager.TriggerErrorScreen(e);
+				}
+			};
+			
+			WorldHook.worldUnloading += () => {
+				CWPHelpOverlay.destroy();
+				CWPStatusOverlay.destroy();
+			};
 		}
 	}
 }

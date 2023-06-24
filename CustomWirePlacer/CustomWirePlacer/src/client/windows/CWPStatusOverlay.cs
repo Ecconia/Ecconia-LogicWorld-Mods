@@ -2,22 +2,24 @@ using System;
 using System.Reflection;
 using System.Text;
 using CustomWirePlacer.Client.CWP;
-using EccsWindowHelper.Client;
+using EccsGuiBuilder.Client.Wrappers;
+using EccsGuiBuilder.Client.Wrappers.AutoAssign;
+using EccsLogicWorldAPI.Shared.AccessHelper;
 using LogicLocalization;
 using LogicUI.MenuTypes;
 using LogicWorld.UI.DebugToggleTexts;
 using LogicWorld.UI.HelpList;
+using LogicWorld.UnityHacksAndExtensions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CustomWirePlacer.Client.Windows
 {
-	public class CWPStatusOverlay : MonoBehaviour, ILocalizedObject
+	public class CWPStatusOverlay : MonoBehaviour, ILocalizedObject, IAssignMyFields, IInitializable
 	{
 		private static GameObject rootObject;
-		private static RectTransform windowRect;
 
-		private static CWPStatusOverlay instance;
 		private static bool genericDirty = true;
 
 		public static void Init()
@@ -27,79 +29,62 @@ namespace CustomWirePlacer.Client.Windows
 			{
 				throw new Exception("Already initialized CWP-StatusDisplay");
 			}
-			rootObject = WindowHelper.makeOverlayCanvas("CWP: StatusDisplay root");
+			WS.canvas("CWP: StatusDisplay root")
+				.assignTo(out rootObject)
+				.addContainer("CWP: StatusDisplay window", content => content
+					.setAlignment(Alignment.TopLeft)
+					.vertical(padding: new RectOffset(5, 5, 0, 5))
+					.addAndConfigure<ContentSizeFitter>(configure => {
+						configure.horizontalFit = ContentSizeFitter.FitMode.MinSize;
+						configure.verticalFit = ContentSizeFitter.FitMode.MinSize;
+					})
+					.injectionKey(nameof(windowRect))
+					.addDebugBackground(new Color32(0, 0, 0, 128))
+					.add(WS.textLine
+						.removeLocalization()
+						.injectionKey(nameof(textMesh))
+						.configureTMP(tmp => {
+							tmp.fontSize = 40;
+							tmp.verticalAlignment = VerticalAlignmentOptions.Top;
+							tmp.horizontalAlignment = HorizontalAlignmentOptions.Left;
+							// tmp.autoSizeTextContainer = true;
+							tmp.enableWordWrapping = false;
+						})
+					)
+				)
+				.add<CWPStatusOverlay>()
+				.build();
+		}
 
-			//Add status Display:
-			GameObject windowObject = WindowHelper.makeGameObject("CWP: StatusDisplay window");
-			{
-				RectTransform rectTransform = windowObject.AddComponent<RectTransform>();
-				rectTransform.anchorMin = new Vector2(0, 1);
-				rectTransform.anchorMax = new Vector2(0, 1);
-				rectTransform.pivot = new Vector2(0, 1);
-				rectTransform.sizeDelta = new Vector2(300, 200);
-				windowRect = rectTransform;
-
-				windowObject.AddComponent<CanvasRenderer>();
-
-				windowObject.SetActive(true);
-				windowObject.setParent(rootObject);
-			}
-
-			CWPUIHelper.addBackground(windowObject);
-
-			//Add foreground:
-			{
-				GameObject textObject = WindowHelper.makeGameObject("CWP - Status text");
-				RectTransform rectTransform = textObject.AddComponent<RectTransform>();
-				rectTransform.anchorMin = new Vector2(0, 1);
-				rectTransform.anchorMax = new Vector2(0, 1);
-				rectTransform.pivot = new Vector2(0, 1);
-				rectTransform.sizeDelta = new Vector2(0, 0);
-				textObject.AddComponent<CanvasRenderer>();
-
-				textObject.AddComponent<TextMeshProUGUI>();
-
-				CWPStatusOverlay window = textObject.AddComponent<CWPStatusOverlay>();
-				window.Initialize();
-
-				textObject.SetActive(true);
-				textObject.setParent(windowObject);
-			}
+		public static void destroy()
+		{
+			rootObject = null;
 		}
 
 		public static void setVisible(bool val)
 		{
 			rootObject.SetActive(val);
-			instance.updatePosition(true);
 		}
 
-		private TextMeshProUGUI textMesh;
+		[AssignMe]
+		public TextMeshProUGUI textMesh;
+		[AssignMe]
+		public RectTransform windowRect;
 
 		public void Initialize()
 		{
-			instance = this;
-
-			//Add a text-field:
-			textMesh = gameObject.GetComponent<TextMeshProUGUI>();
-			textMesh.fontSize = 40;
-			textMesh.verticalAlignment = VerticalAlignmentOptions.Top;
-			textMesh.horizontalAlignment = HorizontalAlignmentOptions.Left;
-			textMesh.autoSizeTextContainer = true;
-			textMesh.enableWordWrapping = false;
-
-			fieldRect = typeof(DebugToggleTextManager).GetField("PlaceholdersParent", BindingFlags.Instance | BindingFlags.NonPublic);
-			if(fieldRect == null)
-			{
-				ModClass.logger.Error("Could not find field 'PlaceholdersParents' in class 'DebugToggleTextManager'. Cannot properly set status display depending on debug window state.");
-			}
-
+			fieldRect = Fields.getPrivate(typeof(DebugToggleTextManager), "PlaceholdersParent");
 			TextLocalizer.Initialize(this);
+		}
+
+		private void OnDestroy()
+		{
+			TextLocalizer.Finish(this);
 		}
 
 		private void setText(string text)
 		{
 			textMesh.text = text;
-			windowRect.sizeDelta = new Vector2(textMesh.preferredWidth, textMesh.preferredHeight);
 		}
 
 		private FieldInfo fieldRect;
@@ -157,6 +142,11 @@ namespace CustomWirePlacer.Client.Windows
 			}
 		}
 
+		private void OnEnable()
+		{
+			updatePosition(true);
+		}
+
 		private void Update()
 		{
 			if(!CWP.CustomWirePlacer.isActive())
@@ -184,7 +174,7 @@ namespace CustomWirePlacer.Client.Windows
 				if(firstGroup.isTwoDimensional())
 				{
 					sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.Dim2Pegs", 1, firstGroup.getPegCount(),
-					                                        firstGroup.getFirstAxis().getPegCount(), firstGroup.getSecondAxis().getPegCount()));
+						firstGroup.getFirstAxis().getPegCount(), firstGroup.getSecondAxis().getPegCount()));
 				}
 				else
 				{
@@ -197,7 +187,7 @@ namespace CustomWirePlacer.Client.Windows
 				if(secondGroup.isTwoDimensional())
 				{
 					sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.Dim2Pegs", 2, secondGroup.getPegCount(),
-					                                        secondGroup.getFirstAxis().getPegCount(), secondGroup.getSecondAxis().getPegCount()));
+						secondGroup.getFirstAxis().getPegCount(), secondGroup.getSecondAxis().getPegCount()));
 				}
 				else
 				{

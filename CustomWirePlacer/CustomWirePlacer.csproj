@@ -37,8 +37,14 @@
       <Reference Include="LogicLog">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLog.dll</HintPath>
       </Reference>
+      <Reference Include="LogicSettings.Internal">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicSettings.Internal.dll</HintPath>
+      </Reference>
       <Reference Include="LogicUI">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicUI.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.Audio">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Audio.dll</HintPath>
@@ -82,6 +88,9 @@
       <Reference Include="LogicWorld.UI">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.UI.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.UnityHacksAndExtensions">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.UnityHacksAndExtensions.dll</HintPath>
+      </Reference>
       <Reference Include="SUCC">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\SUCC.dll</HintPath>
       </Reference>
@@ -103,6 +112,9 @@
       <Reference Include="UnityEngine.PhysicsModule">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
       </Reference>
+      <Reference Include="UnityEngine.TextRenderingModule">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      </Reference>
       <Reference Include="UnityEngine.UI">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.UI.dll</HintPath>
       </Reference>
@@ -112,7 +124,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\EccsWindowHelper\EccsWindowHelper.csproj" />
+      <ProjectReference Include="..\EccsGuiBuilder\EccsGuiBuilder.csproj" />
+      <ProjectReference Include="..\EccsLogicWorldAPI\EccsLogicWorldAPI.csproj" />
     </ItemGroup>
 
 </Project>
