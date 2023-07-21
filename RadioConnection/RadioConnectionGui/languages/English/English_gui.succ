@@ -1,0 +1,20 @@
+RadioConnection.Gui.RadioComponent.Address : "Address:"
+RadioConnection.Gui.RadioComponent.Address.Offset : "Channel"
+RadioConnection.Gui.RadioComponent.Address.Offset.Help : "The channel to use. If there are 'Offset pegs', their binary value will be added ont this channel value."
+RadioConnection.Gui.RadioComponent.Address.Pegs : "Offset pegs"
+RadioConnection.Gui.RadioComponent.Address.Pegs.Help : "The binary number of the 'Offset pegs' will be added to the channel. The smallest peg is the LSB."
+
+RadioConnection.Gui.RadioComponent.Data : "Bits:"
+RadioConnection.Gui.RadioComponent.Data.Offset : "Offset"
+RadioConnection.Gui.RadioComponent.Data.Offset.Help : "The bit offset, of where on the current channel the bits should be connected to."
+RadioConnection.Gui.RadioComponent.Data.Pegs : "Amount:"
+RadioConnection.Gui.RadioComponent.Data.Pegs.Help : "The amount of bits to connect to on the current channel."
+
+RadioConnection.Gui.RadioComponent.Link : "Use phasic links?"
+RadioConnection.Gui.RadioComponent.Link.Help : "In the simulation there are two types of links. The 'secret link' behaves like a wire (fast to simulate, slow to edit). The 'phasic link' behaves like a relay connection (fast to edit, slower to simulation). If the channel of this component changes frequently, you should use 'phasic links', else stick to 'secret links'."
+
+RadioConnection.Gui.RadioComponent.Compact : "Compact peg placement"
+RadioConnection.Gui.RadioComponent.Compact.Help : "Place up to 3 pegs per block instead of just 1."
+
+RadioConnection.Gui.RadioComponent.Flip : "Flip peg order"
+RadioConnection.Gui.RadioComponent.Flip.Help : "The small and tall pegs swap their position."

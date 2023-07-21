@@ -12,3 +12,5 @@ In the ideal case we have one big chunky API mod that is helpful for every modde
 ## Install / Dependencies:
 
 Just drop the `EccsLogicWorldAPI` folder into your `GameData` folder.
+
+You might have to install `HarmonyForLogicWorld` to make use of some features. But you will be instructed to by the mod using this API.

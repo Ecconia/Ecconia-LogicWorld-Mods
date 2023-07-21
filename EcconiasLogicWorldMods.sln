@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EccsGuiBuilder", "EccsGuiBu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EccsLogicWorldAPI", "EccsLogicWorldAPI\EccsLogicWorldAPI.csproj", "{F82B43CC-655E-4AD8-B370-E5E666C8140B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadioConnection", "RadioConnection\RadioConnection.csproj", "{E747E5E3-CDBB-4116-8E88-4A18026029CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,5 +110,9 @@ Global
 		{F82B43CC-655E-4AD8-B370-E5E666C8140B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F82B43CC-655E-4AD8-B370-E5E666C8140B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F82B43CC-655E-4AD8-B370-E5E666C8140B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E747E5E3-CDBB-4116-8E88-4A18026029CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E747E5E3-CDBB-4116-8E88-4A18026029CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E747E5E3-CDBB-4116-8E88-4A18026029CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E747E5E3-CDBB-4116-8E88-4A18026029CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
