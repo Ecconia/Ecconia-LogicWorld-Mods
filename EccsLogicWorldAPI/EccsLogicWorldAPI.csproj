@@ -24,6 +24,9 @@
       <Reference Include="LogicAPI.Client">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.Client.dll</HintPath>
       </Reference>
+      <Reference Include="LogicAPI.Server">
+        <HintPath>..\LogicWorld\Server\LogicAPI.Server.dll</HintPath>
+      </Reference>
       <Reference Include="LogicUI">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicUI.dll</HintPath>
       </Reference>
@@ -42,6 +45,9 @@
       <Reference Include="LogicWorld.Interfaces">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Interfaces.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.Rendering">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Rendering.dll</HintPath>
+      </Reference>
       <Reference Include="LogicWorld.SharedCode">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
       </Reference>
@@ -50,6 +56,9 @@
       </Reference>
       <Reference Include="LogicWorld.UnityHacksAndExtensions">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.UnityHacksAndExtensions.dll</HintPath>
+      </Reference>
+      <Reference Include="Server">
+        <HintPath>..\LogicWorld\Server\Server.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.CoreModule">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
