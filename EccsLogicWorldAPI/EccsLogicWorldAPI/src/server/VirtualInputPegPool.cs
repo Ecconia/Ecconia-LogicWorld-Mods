@@ -40,7 +40,7 @@ namespace EccsLogicWorldAPI.Server
 		
 		public static bool harmonyTrapPatch(ref int ____StateID, int value, InputAddress ___iAddress)
 		{
-			if(___iAddress.ComponentAddress != rootAddress || ___iAddress.PegNumber == 0)
+			if(___iAddress.ComponentAddress != rootAddress)
 			{
 				return true; //Nothing to do here! Not a virtual peg.
 			}
