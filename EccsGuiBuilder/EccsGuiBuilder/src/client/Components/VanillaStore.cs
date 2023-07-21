@@ -44,6 +44,8 @@ namespace EccsGuiBuilder.Client.Components
 		public static GameObject genTextArea => stockTextArea.clone();
 		private static GameObject stockHelpCircle;
 		public static GameObject genHelpCircle => stockHelpCircle.clone();
+		private static GameObject stockInnerBox;
+		public static GameObject genInnerBox => stockInnerBox.clone();
 		
 		private static Material guiFontMaterial;
 		public static Material getGuiFontMaterial => guiFontMaterial;
@@ -118,7 +120,17 @@ namespace EccsGuiBuilder.Client.Components
 			var editKeyMenuContent = GameObjectQuery.queryGameObject("Edit Key Menu", "Menu", "Menu Content");
 			NullChecker.check(editKeyMenuContent, "Could not find edit Key window content");
 			takeApartKeyWindow(editKeyMenuContent);
-
+			var editDisplayMainContent = GameObjectQuery.queryGameObject("Edit Display Menu", "Menu", "Menu Content", "Choose Display Configuration", "Scroll View", "Background");
+			NullChecker.check(editKeyMenuContent, "Could not find edit Display window main content");
+			{
+				stockInnerBox = editDisplayMainContent.cloneWithParent(root);
+				stockInnerBox.name = "Box";
+				while(stockInnerBox.transform.childCount != 0)
+				{
+					Object.DestroyImmediate(stockInnerBox.getChild(0));
+				}
+			}
+			
 			var editLabelTextArea = GameObjectQuery.queryGameObject("Edit Label Menu", "Menu", "Menu Content", "Label Data Editor", "Left Side", "InputField scrollable");
 			NullChecker.check(editAndGateMenu, "Could not find text field of Label Edit Window.");
 			stockTextArea = editLabelTextArea.cloneWithParent(root);

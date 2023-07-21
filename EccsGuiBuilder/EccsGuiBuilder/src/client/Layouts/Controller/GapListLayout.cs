@@ -18,6 +18,28 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 		public float spacing;
 		public float gapSpace;
 		
+		//Presets:
+		
+		public void verticalPreset(float gap = 20f, bool expandThickness = false, int gapIndex = 0)
+		{
+			layoutAlignment = RectTransform.Axis.Vertical;
+			childAlignment = TextAnchor.UpperCenter;
+			expandChildThickness = expandThickness;
+			spacing = gap;
+			gapSpace = gap;
+			elementsUntilGap = gapIndex;
+		}
+		
+		public void horizontalPreset(float gap = 20f, bool expandThickness = false, int gapIndex = 0)
+		{
+			layoutAlignment = RectTransform.Axis.Horizontal;
+			childAlignment = TextAnchor.MiddleLeft;
+			expandChildThickness = expandThickness;
+			spacing = gap;
+			gapSpace = gap;
+			elementsUntilGap = gapIndex;
+		}
+		
 		//Internal:
 		
 		private Vector2[] sizeChildren;

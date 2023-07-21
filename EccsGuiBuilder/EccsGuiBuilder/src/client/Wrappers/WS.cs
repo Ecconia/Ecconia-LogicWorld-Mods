@@ -18,6 +18,7 @@ namespace EccsGuiBuilder.Client.Wrappers
 		public static TextFieldWrapper inputArea => new TextFieldWrapper(VanillaStore.genTextArea);
 		public static SliderWrapper slider => new SliderWrapper(VanillaStore.genSlider);
 		public static SimpleWrapper toggle => new SimpleWrapper(VanillaStore.genToggle);
+		public static HelpWrapper help => new HelpWrapper(VanillaStore.genHelpCircle);
 		
 		public static SimpleWrapper wrap(GameObject obj)
 		{

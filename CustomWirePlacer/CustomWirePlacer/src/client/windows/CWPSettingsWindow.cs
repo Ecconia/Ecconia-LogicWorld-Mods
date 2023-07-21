@@ -87,11 +87,11 @@ namespace CustomWirePlacer.Client.Windows
 					if(setting.hoverKey != null)
 					{
 						//Popup width: 700
-						var help = WS.wrap(VanillaStore.genHelpCircle)
-							.fixedSize(50, 50);
-						help.gameObject.GetComponent<HoverTagArea_Localized>().LocalizationKey = setting.hoverKey;
-						help.gameObject.GetComponent<PaletteGraphic>().SetPaletteColor(PaletteColor.Secondary);
-						line.add(help);
+						line.add(WS.help
+							.fixedSize(50, 50)
+							.setLocalizationKey(setting.hoverKey)
+							.setColor(PaletteColor.Secondary)
+						);
 					}
 					else
 					{
