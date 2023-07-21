@@ -13,7 +13,7 @@ The advantage is, that this mod runs on client and server and will be updated to
 
 ### What does it do?
 
-It only loads the `Harmony` DLL, using the `AssemblyLoader` mod. This way Harmony is only loaded once on the server.
+It only loads the `Harmony` DLL, using the `AssemblyLoader` mod.
 
 # Install:
 

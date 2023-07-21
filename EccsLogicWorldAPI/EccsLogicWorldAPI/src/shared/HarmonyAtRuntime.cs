@@ -12,7 +12,7 @@ namespace EccsLogicWorldAPI.Shared
 		private static MethodInfo harmonyMethodUnpatchAll;
 		private static MethodInfo harmonyPatchMethod;
 		
-		private static void init()
+		public static void init()
 		{
 			if(harmonyPatchMethod != null)
 			{
@@ -33,7 +33,12 @@ namespace EccsLogicWorldAPI.Shared
 			harmonyPropertyId = harmonyType.GetProperty("id");
 			if(harmonyPropertyId == null)
 			{
-				throw new AccessHelperException("Could not find property '" + "id" + "' in class '" + harmonyType.FullName + "'.");
+				//Some newer Harmony version changed it to Id instead of id:
+				harmonyPropertyId = harmonyType.GetProperty("Id");
+				if(harmonyPropertyId == null)
+				{
+					throw new AccessHelperException("Could not find property '" + "id" + "' or '" + "Id" + "' in class '" + harmonyType.FullName + "'.");
+				}
 			}
 			harmonyMethodUnpatchAll = harmonyType.GetMethod("UnpatchAll", Bindings.publicInst, null, new Type[]
 			{

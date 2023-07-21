@@ -17,16 +17,20 @@ You can copy/paste or `link` that `mod folder` to your `GameData` folder, where 
 
 You can ignore all other files outside of the `mod folder`s.
 
-## No Harmony on the latest preview server!
+## Harmony on server is still experimental!
 
-Since LogicWorld has switched to .Net 7 on the server, `Harmony` is no longer functional.\
-It loads perfectly fine and won't throw any error, but no patch will be applied.\
-Time will solve this issue, as one day it will support .Net 7, but that time is not now.
+`Harmony` is a modding tool, that allows hooking into functions and changing their behavior.\
+Very useful for all the mod hackery. I have a bunch of server mods that are using it.
 
-However this means, that most of my server mods using Harmony won't do what they should, and are useless.\
-The only exception is `CustomChatManager`, which just does not have a on-join message but everything else works (/tps command won't work too).
+A few circumstances have led to `HarmonyForLogicWorld` now providing a `prerelease` version, which might not work for everyone (it should though).\
+If you are experiencing any issue, please report them to @Ecconia!
 
-You can however download the dedicated server and use the `net 6` as your SP server folder. That way Harmony works again and you can use these mods.
+### Details:
+
+Harmony is using MonoMod as a base framework. This framework was completely refactored (rewritten) for .Net 7.\
+The reason was the new Apple M1 processor architecture, that had to be supported by the .Net framework.\
+The LogicWorld server is using .Net 7, to use Harmony on it, Harmony had to update to the new MonoMod.\
+This took some time, and it is still in `prerelease`, so there might be issues occuring for some players.
 
 ## List of mods:
 
@@ -41,7 +45,7 @@ You can however download the dedicated server and use the `net 6` as your SP ser
 
 Libraries:
 
-- `GuiBuilder`: Allows mods to more easily create LogicWorld-Styled windows/GUI (menus).
+- `EccsGuiBuilder`: Allows mods to more easily create LogicWorld-Styled windows/GUI (menus).
 
 #### Server:
 
