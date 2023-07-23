@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EccsLogicWorldAPI", "EccsLo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadioConnection", "RadioConnection\RadioConnection.csproj", "{E747E5E3-CDBB-4116-8E88-4A18026029CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintModCompilationErrors", "PrintModCompilationErrors\PrintModCompilationErrors.csproj", "{C661CABF-4909-4BF3-9C7D-5B59984EB71F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,5 +110,9 @@ Global
 		{E747E5E3-CDBB-4116-8E88-4A18026029CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E747E5E3-CDBB-4116-8E88-4A18026029CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E747E5E3-CDBB-4116-8E88-4A18026029CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C661CABF-4909-4BF3-9C7D-5B59984EB71F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C661CABF-4909-4BF3-9C7D-5B59984EB71F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C661CABF-4909-4BF3-9C7D-5B59984EB71F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C661CABF-4909-4BF3-9C7D-5B59984EB71F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

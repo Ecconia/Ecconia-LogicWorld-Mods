@@ -14,7 +14,6 @@ namespace RandomDebugCollection.Client
 			ClearSubassemblies.Initialize(Logger);
 			ClearHistory.Initialize(Logger);
 			StacktraceToLog.Initialize(Logger);
-			PrintCompilationErrors.Initialize(Logger);
 			JoinWorldHook.init();
 		}
 	}

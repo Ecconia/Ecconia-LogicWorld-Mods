@@ -1,0 +1,9 @@
+ID: PrintModCompilationErrors
+Name: PrintModCompilationErrors
+Author: Ecconia
+Version: 1.0.0
+# Loads as soon as the Harmony providing mod is loaded. The priority is high, as it has to print the compilation errors of all following mods.
+Priority: 84
+ClientOnly: true
+Dependencies:
+    - HarmonyForLogicWorld
