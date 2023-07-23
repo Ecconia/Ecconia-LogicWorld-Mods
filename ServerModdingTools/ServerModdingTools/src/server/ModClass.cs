@@ -6,7 +6,6 @@ namespace ServerModdingTools.Server
 	{
 		protected override void Initialize()
 		{
-			PlayerJoiningHook.inject(Logger);
 		}
 	}
 }
