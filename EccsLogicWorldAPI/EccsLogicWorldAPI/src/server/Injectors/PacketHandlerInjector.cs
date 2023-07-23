@@ -4,7 +4,7 @@ using LogicWorld.Server;
 using LogicWorld.Server.Networking;
 using LogicWorld.SharedCode.Networking;
 
-namespace ServerModdingTools.Server
+namespace EccsLogicWorldAPI.Server.Injectors
 {
 	public static class PacketHandlerInjector
 	{

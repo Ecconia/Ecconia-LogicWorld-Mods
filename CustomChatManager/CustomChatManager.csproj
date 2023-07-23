@@ -34,7 +34,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ServerModdingTools\ServerModdingTools.csproj" />
+      <ProjectReference Include="..\EccsLogicWorldAPI\EccsLogicWorldAPI.csproj" />
     </ItemGroup>
 
 </Project>

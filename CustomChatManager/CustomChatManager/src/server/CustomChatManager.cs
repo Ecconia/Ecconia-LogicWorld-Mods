@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CustomChatManager.Server.ChatServices;
+using EccsLogicWorldAPI.Server.Injectors;
 using LogicAPI.Data;
 using LogicAPI.Networking;
 using LogicAPI.Networking.Packets.Client;
@@ -9,7 +10,6 @@ using LogicAPI.Server.Networking;
 using LogicLog;
 using LogicWorld.Server;
 using LogicWorld.SharedCode.Networking;
-using ServerModdingTools.Server;
 
 namespace CustomChatManager.Server
 {
