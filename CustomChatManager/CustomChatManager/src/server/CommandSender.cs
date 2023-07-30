@@ -1,3 +1,4 @@
+using EccsLogicWorldAPI.Server;
 using JimmysUnityUtilities;
 using LogicAPI.Data;
 using LogicAPI.Networking;
@@ -64,7 +65,7 @@ namespace CustomChatManager.Server
 			{
 				if(playerManager == null)
 				{
-					playerManager = Program.Get<IPlayerManager>();
+					playerManager = ServiceGetter.getService<IPlayerManager>();
 				}
 				playerName = playerManager.GetPlayerIDFromConnection(connection).Name;
 			}

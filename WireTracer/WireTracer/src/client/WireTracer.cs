@@ -1,3 +1,5 @@
+using System;
+using EccsLogicWorldAPI.Client.Injectors;
 using FancyInput;
 using LogicAPI.Client;
 using LogicLog;
@@ -18,9 +20,13 @@ namespace WireTracer.Client
 		protected override void Initialize()
 		{
 			logger = Logger;
-			if(!GameStateInjector.inject(Logger, WireTracerGameState.id, typeof(WireTracerGameState)))
+			try
 			{
-				throw new WireTracerException("Was not able to load mod, as game state could not be injected. Would result in a runtime error on the client if you try to use the tool.");
+				GameStateInjector.inject(WireTracerGameState.id, typeof(WireTracerGameState));
+			}
+			catch(Exception e)
+			{
+				throw new Exception("[WireTracer] Failed to inject GameState, see rest of exception.", e);
 			}
 			if(!PacketHandlerInjector.injectNewPacketHandler(Logger, new AnnouncementPacketHandler()))
 			{

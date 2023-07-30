@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using EccsLogicWorldAPI.Shared;
+using EccsLogicWorldAPI.Shared.AccessHelper;
 using UnityEngine;
 
 namespace EccsGuiBuilder.Client.Wrappers.AutoAssign
@@ -32,7 +33,7 @@ namespace EccsGuiBuilder.Client.Wrappers.AutoAssign
 			root.GetComponents(classes);
 			foreach(var obj in classes)
 			{
-				foreach(var field in obj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
+				foreach(var field in obj.GetType().GetFields(Bindings.ppInst))
 				{
 					var attribute = (AssignMe[]) field.GetCustomAttributes(typeof(AssignMe));
 					if(attribute.Length != 0)

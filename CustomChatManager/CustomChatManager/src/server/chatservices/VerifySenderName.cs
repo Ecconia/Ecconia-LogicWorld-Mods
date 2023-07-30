@@ -1,4 +1,4 @@
-using System;
+using EccsLogicWorldAPI.Server;
 using LogicAPI.Data;
 using LogicWorld.Server;
 
@@ -10,11 +10,7 @@ namespace CustomChatManager.Server.ChatServices
 
 		public VerifySenderName()
 		{
-			playerManager = Program.Get<IPlayerManager>();
-			if(playerManager == null)
-			{
-				throw new Exception("Could not get IPlayerManager.");
-			}
+			playerManager = ServiceGetter.getService<IPlayerManager>();
 		}
 
 		public void processChatEvent(ChatMessageEvent e)

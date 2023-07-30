@@ -1,3 +1,4 @@
+using EccsLogicWorldAPI.Server;
 using LogicAPI.Networking.Packets.Initialization;
 using LogicWorld.Server;
 using LogicWorld.SharedCode.Networking;
@@ -20,7 +21,7 @@ namespace WireTracer.Server.Network
 			if(playerManager == null)
 			{
 				//Done here, as by default this gets resolved as "lazy":
-				playerManager = Program.Get<IPlayerManager>();
+				playerManager = ServiceGetter.getService<IPlayerManager>();
 				//Assume never null.
 			}
 			playerManager.PlayerJoinedWorld(context.Sender, packet.PlayerData);

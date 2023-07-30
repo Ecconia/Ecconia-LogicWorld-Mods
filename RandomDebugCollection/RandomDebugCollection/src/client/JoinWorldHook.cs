@@ -1,4 +1,4 @@
-using System.Reflection;
+using EccsLogicWorldAPI.Shared.AccessHelper;
 using HarmonyLib;
 using LogicWorld;
 
@@ -8,8 +8,8 @@ namespace RandomDebugCollection.Client
 	{
 		public static void init()
 		{
-			var meth = typeof(GameStarter).GetMethod("Start", BindingFlags.Instance | BindingFlags.NonPublic);
-			var handleMeth = typeof(JoinWorldHook).GetMethod("handle", BindingFlags.Public | BindingFlags.Static);
+			var meth = Methods.getPrivate(typeof(GameStarter), "Start");
+			var handleMeth = Methods.getPublicStatic(typeof(JoinWorldHook), nameof(handle));
 			new Harmony("Launch arg hook").Patch(meth, new HarmonyMethod(handleMeth));
 		}
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using CustomChatManager.Server.Commands;
+using EccsLogicWorldAPI.Server;
 using EccsLogicWorldAPI.Server.Hooks;
 using JimmysUnityUtilities;
 using LogicAPI.Data;
@@ -9,7 +10,6 @@ using LogicAPI.Networking;
 using LogicAPI.Networking.Packets.Server;
 using LogicAPI.Server.Networking;
 using LogicLog;
-using LogicWorld.Server;
 
 namespace CustomChatManager.Server.ChatServices
 {
@@ -49,11 +49,7 @@ namespace CustomChatManager.Server.ChatServices
 		public CommandManager(ILogicLogger logger)
 		{
 			instance = this;
-			server = Program.Get<NetworkServer>();
-			if(server == null)
-			{
-				throw new Exception("Could not get 'NetworkServer' service.");
-			}
+			server = ServiceGetter.getService<NetworkServer>();
 
 			try
 			{

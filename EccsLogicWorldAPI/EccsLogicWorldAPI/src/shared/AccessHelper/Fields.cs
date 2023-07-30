@@ -5,6 +5,22 @@ namespace EccsLogicWorldAPI.Shared.AccessHelper
 {
 	public static class Fields
 	{
+		//Random helpers:
+		
+		public static object getNonNull(FieldInfo field, string message = "Value of field is unexpectedly null.")
+		{
+			var value = field.GetValue(null);
+			NullChecker.check(value, message);
+			return value;
+		}
+		
+		public static object getNonNull(FieldInfo field, object instance, string message = "Value of field is unexpectedly null.")
+		{
+			var value = field.GetValue(instance);
+			NullChecker.check(value, message);
+			return value;
+		}
+		
 		//Accessor: any
 		
 		public static FieldInfo get(Type type, string name)

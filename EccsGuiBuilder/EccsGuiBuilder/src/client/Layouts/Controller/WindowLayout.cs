@@ -1,4 +1,4 @@
-using System.Reflection;
+using System;
 using EccsLogicWorldAPI.Shared.AccessHelper;
 using LogicUI.MenuTypes.ConfigurableMenus;
 using UnityEngine;
@@ -8,9 +8,22 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 {
 	public class WindowLayout : LayoutGroup, ILayoutSelfController
 	{
+		private static Func<ConfigurableMenu, float> getMinWidth;
+		private static Func<ConfigurableMenu, float> getMinHeight;
+		private static Action<ConfigurableMenu, float> setMinWidth;
+		private static Action<ConfigurableMenu, float> setMinHeight;
+		
+		static WindowLayout()
+		{
+			var fieldMinWidth = Fields.getPrivate(typeof(ConfigurableMenu), "MinWidth");
+			getMinWidth = Delegator.createFieldGetter<ConfigurableMenu, float>(fieldMinWidth);
+			setMinWidth = Delegator.createFieldSetter<ConfigurableMenu, float>(fieldMinWidth);
+			var fieldMinHeight = Fields.getPrivate(typeof(ConfigurableMenu), "MinWidth");
+			getMinHeight = Delegator.createFieldGetter<ConfigurableMenu, float>(fieldMinHeight);
+			setMinHeight = Delegator.createFieldSetter<ConfigurableMenu, float>(fieldMinHeight);
+		}
+		
 		private ConfigurableMenu windowController;
-		private FieldInfo resizeWidth;
-		private FieldInfo resizeHeight;
 		
 		private bool hasUpdated;
 		
@@ -18,8 +31,6 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 		{
 			base.Awake();
 			windowController = gameObject.transform.parent.GetComponent<ConfigurableMenu>();
-			resizeWidth = Fields.getPrivate(windowController.GetType(), "MinWidth");
-			resizeHeight = Fields.getPrivate(windowController.GetType(), "MinHeight");
 		}
 		
 		protected override void OnEnable()
@@ -63,9 +74,9 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 				}
 			}
 			float newMinWidth = miniWidth + padding.horizontal;
-			if((float) resizeWidth.GetValue(windowController) != newMinWidth)
+			if(getMinWidth(windowController) != newMinWidth)
 			{
-				resizeWidth.SetValue(windowController, newMinWidth);
+				setMinWidth(windowController, newMinWidth);
 			}
 			
 			SetLayoutInputForAxis(newMinWidth, prefWidth + padding.horizontal, -1, 0);
@@ -85,9 +96,9 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 				miniHeight += layout.minHeight;
 				prefHeight += layout.preferredHeight < 0 ? layout.minHeight : layout.preferredHeight;
 			}
-			if((float) resizeHeight.GetValue(windowController) != miniHeight)
+			if(getMinHeight(windowController) != miniHeight)
 			{
-				resizeHeight.SetValue(windowController, miniHeight);
+				setMinHeight(windowController, miniHeight);
 			}
 			SetLayoutInputForAxis(miniHeight, prefHeight, -1, 1);
 		}

@@ -1,4 +1,5 @@
-using System.Reflection;
+using System;
+using EccsLogicWorldAPI.Shared.AccessHelper;
 using LICC;
 using LogicUI.Palettes;
 
@@ -6,22 +7,23 @@ namespace RandomDebugCollection.Client.Commands
 {
 	public static class ReloadCurrentTheme
 	{
+		private static readonly Func<string> getCurrentTheme;
+		
+		static ReloadCurrentTheme()
+		{
+			getCurrentTheme = Delegator.createStaticPropertyGetter<string>(Properties.getPrivateStatic(typeof(PaletteManager), "PaletteSetting"));
+		}
+		
 		[Command("theme", Description = "Reload the current theme from disk")]
 		public static void reloadCurrentTheme()
 		{
-			var f = typeof(PaletteManager).GetProperty("PaletteSetting", BindingFlags.Static | BindingFlags.NonPublic);
-			if(f == null)
+			var name = getCurrentTheme();
+			if(name == null)
 			{
-				LConsole.WriteLine("Whoops cannot find property containing the palette name...");
+				LConsole.WriteLine("Whoops the palette name was 'null'...");
 				return;
 			}
-			var name = f.GetValue(null);
-			if(name == null || name.GetType() != typeof(string))
-			{
-				LConsole.WriteLine("Whoops the palette name was either 'null' or not a string...");
-				return;
-			}
-			PaletteManager.LoadPaletteFromGameData((string) name);
+			PaletteManager.LoadPaletteFromGameData(name);
 		}
 	}
 }

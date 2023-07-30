@@ -1,6 +1,8 @@
 ID: WorldSaver
 Name: WorldSaver
 Author: Ecconia
-Version: 1.0
+Version: 1.1
 Priority: 0
 ClientOnly: true
+Dependencies:
+    - EccsLogicWorldAPI

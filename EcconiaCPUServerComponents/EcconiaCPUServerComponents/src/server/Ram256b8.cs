@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
+using EccsLogicWorldAPI.Server;
+using EccsLogicWorldAPI.Shared.AccessHelper;
 using LogicAPI.Networking;
 using LogicAPI.Networking.Packets.Server;
 using LogicAPI.Server.Components;
@@ -39,18 +40,13 @@ namespace EcconiaCPUServerComponents.Server
 		static Ram256b8()
 		{
 			//World updater only exists once while runtime anyway. So lets keep it cached statically.
-			worldUpdater = Program.Get<IWorldUpdates>();
-			server = Program.Get<NetworkServer>();
+			worldUpdater = ServiceGetter.getService<IWorldUpdates>();
+			server = ServiceGetter.getService<NetworkServer>();
 			//Wohoo reflection again, because the API does not allow returning connections for username without exception...
 			var playerManager = Program.Get<IPlayerManager>();
-			var field = playerManager
-			            .GetType()
-			            .GetField("Connections", BindingFlags.NonPublic | BindingFlags.Instance);
-			if(field == null)
-			{
-				throw new Exception("Field 'Connections' could not be found in " + playerManager.GetType().Name);
-			}
-			connections = (Dictionary<Connection, ConnectionData>) field.GetValue(playerManager);
+			var field = Fields.getPrivate(playerManager.GetType(), "Connections");
+			var value = Fields.getNonNull(field, playerManager);
+			connections = Types.checkType<Dictionary<Connection, ConnectionData>>(value);
 		}
 
 		private static Connection getConnectionByName(string name)

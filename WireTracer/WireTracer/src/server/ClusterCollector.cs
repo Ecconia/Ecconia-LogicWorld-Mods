@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EccsLogicWorldAPI.Server;
+using EccsLogicWorldAPI.Shared.AccessHelper;
 using LogicAPI.Data;
 using LogicAPI.Services;
-using LogicWorld.Server;
 using LogicWorld.Server.Circuitry;
 using WireTracer.Shared;
 using WireTracer.Shared.Packets.S2C;
@@ -23,36 +24,12 @@ namespace WireTracer.Server
 
 		static ClusterCollector()
 		{
-			getCluster = DelegateConstructor.createGetterForProperty<InputPeg, Cluster>("Cluster");
-			if(getCluster == null)
-			{
-				throw new WireTracerException("Could not create getter for 'Cluster' on 'InputPeg'");
-			}
-			getLinker = DelegateConstructor.createGetterForField<Cluster, ClusterLinker>("Linker");
-			if(getLinker == null)
-			{
-				throw new WireTracerException("Could not create getter for 'ClusterLinker' on 'Cluster'");
-			}
-			getLeaders = DelegateConstructor.createGetterForField<ClusterLinker, List<ClusterLinker>>("LinkedLeaders");
-			if(getLeaders == null)
-			{
-				throw new WireTracerException("Could not create getter for 'LinkedLeaders' on 'ClusterLinker'");
-			}
-			getFollowers = DelegateConstructor.createGetterForField<ClusterLinker, List<ClusterLinker>>("LinkedFollowers");
-			if(getFollowers == null)
-			{
-				throw new WireTracerException("Could not create getter for 'LinkedFollowers' on 'ClusterLinker'");
-			}
-			circuits = Program.Get<ICircuitryManager>();
-			if(circuits == null)
-			{
-				throw new WireTracerException("Could not get service 'ICircuitryManager'");
-			}
-			world = Program.Get<IWorldData>();
-			if(world == null)
-			{
-				throw new WireTracerException("Could not get service 'IWorldData'");
-			}
+			getCluster = Delegator.createPropertyGetter<InputPeg, Cluster>(Properties.getPrivate(typeof(InputPeg), "Cluster"));
+			getLinker = Delegator.createFieldGetter<Cluster, ClusterLinker>(Fields.getPrivate(typeof(Cluster), "Linker"));
+			getLeaders = Delegator.createFieldGetter<ClusterLinker, List<ClusterLinker>>(Fields.getPrivate(typeof(ClusterLinker), "LinkedLeaders"));
+			getFollowers = Delegator.createFieldGetter<ClusterLinker, List<ClusterLinker>>(Fields.getPrivate(typeof(ClusterLinker), "LinkedFollowers"));
+			circuits = ServiceGetter.getService<ICircuitryManager>();
+			world = ServiceGetter.getService<IWorldData>();
 		}
 
 		//### HELPER FUNCTIONS: ############

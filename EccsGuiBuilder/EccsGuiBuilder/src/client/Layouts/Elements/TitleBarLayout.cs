@@ -9,13 +9,11 @@ namespace EccsGuiBuilder.Client.Layouts.Elements
 	{
 		public float height { get; set; } = 70 - 3;
 		
-		private RectTransform contentRect;
 		private TextMeshProUGUI title;
 		private ILayoutElement buttons;
 		 
 		private void Awake()
 		{
-			contentRect = GetComponent<RectTransform>();
 			title = gameObject.getChild(0).GetComponent<TextMeshProUGUI>();
 			buttons = gameObject.getChild(1).GetComponent<ILayoutElement>();
 		}

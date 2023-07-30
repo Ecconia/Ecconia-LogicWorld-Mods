@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using CustomChatManager.Server.ChatServices;
+using EccsLogicWorldAPI.Server;
 using EccsLogicWorldAPI.Server.Injectors;
 using LogicAPI.Data;
 using LogicAPI.Networking;
@@ -8,7 +8,6 @@ using LogicAPI.Networking.Packets.Client;
 using LogicAPI.Networking.Packets.Server;
 using LogicAPI.Server.Networking;
 using LogicLog;
-using LogicWorld.Server;
 using LogicWorld.SharedCode.Networking;
 
 namespace CustomChatManager.Server
@@ -22,12 +21,7 @@ namespace CustomChatManager.Server
 
 		public CustomChatManager()
 		{
-			server = Program.Get<NetworkServer>();
-			if(server == null)
-			{
-				throw new Exception("Could not get NetworkServer.");
-			}
-
+			server = ServiceGetter.getService<NetworkServer>();
 			instance = this;
 		}
 

@@ -1,9 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using EccsLogicWorldAPI.Shared.AccessHelper;
 using LICC;
 using LogicAPI.Client;
 using LogicWorld.Interfaces;
@@ -18,10 +17,6 @@ namespace WorldSaver.Client
 {
 	public class WorldSaver : ClientMod
 	{
-		protected override void Initialize()
-		{
-		}
-
 		[Command("SaveWorld", Description = "Yeah don't, if you don't know what you are doing.")]
 		public static void saveWorld()
 		{
@@ -35,9 +30,14 @@ namespace WorldSaver.Client
 			}
 
 			//Get world bytes to export:
-			bool[] circuitStates = extractCircuitStates();
-			if(circuitStates == null)
+			bool[] circuitStates;
+			try
 			{
+				circuitStates = extractCircuitStates();
+			}
+			catch(Exception e)
+			{
+				LConsole.WriteLine("Could not extract circuit states. Check & report stacktrace:\n" + e);
 				return;
 			}
 			byte[] saveBytes = SaveWriter.GetWorldSaveData(
@@ -64,9 +64,14 @@ namespace WorldSaver.Client
 			var pathExtraData = Path.Combine(saveFolder, "ExtraData");
 			Directory.CreateDirectory(pathExtraData);
 			LConsole.WriteLine("Writing extra data...");
-			var extraData = extractExtraData();
-			if(extraData == null)
+			List<(string, Type, object)> extraData;
+			try
 			{
+				extraData = extractExtraData();
+			}
+			catch(Exception e)
+			{
+				LConsole.WriteLine("Could not extract extra data. Check & report stacktrace:\n" + e);
 				return;
 			}
 			foreach(var (key, type, value) in extraData)
@@ -89,36 +94,16 @@ namespace WorldSaver.Client
 		{
 			var extraDatas = new List<(string, Type, object)>();
 			var instance = Instances.MainWorld.ExtraData;
-			var fieldAllCustomData = typeof(ExtraData).GetField("AllCustomData", BindingFlags.NonPublic | BindingFlags.Instance);
-			if(fieldAllCustomData == null)
+			var fieldAllCustomData = Fields.getPrivate(typeof(ExtraData), "AllCustomData");
+			var allCustomData = Types.checkType<IDictionary<string, object>>(Fields.getNonNull(fieldAllCustomData, instance));
+			var typeElement = Types.findInAssembly(typeof(ExtraData), "LogicWorld.SharedCode.ExtraData.ExtraDataElement");
+			var fieldType = Delegator.createPropertyGetter<object, Type>(Properties.getPublic(typeElement, "DataType"));
+			var fieldValue = Delegator.createPropertyGetter<object, object>(Properties.getPublic(typeElement, "DataValue"));
+			foreach(var entry in allCustomData)
 			{
-				LConsole.WriteLine("ExtraData: Da list field is null :/");
-				return null;
-			}
-			var allCustomData = fieldAllCustomData.GetValue(instance) as IDictionary;
-			if(allCustomData == null)
-			{
-				LConsole.WriteLine("ExtraData: Da list is null or not a dictionary :/");
-				return null;
-			}
-			var typeElement = typeof(ExtraData).Assembly.GetType("LogicWorld.SharedCode.ExtraData.ExtraDataElement");
-			if(typeElement == null)
-			{
-				LConsole.WriteLine("ExtraData: Da type is null :/");
-				return null;
-			}
-			var fieldType = typeElement.GetProperty("DataType", BindingFlags.Public | BindingFlags.Instance);
-			var fieldValue = typeElement.GetProperty("DataValue", BindingFlags.Public | BindingFlags.Instance);
-			if(fieldType == null || fieldValue == null)
-			{
-				LConsole.WriteLine("ExtraData: Da fields are null :/");
-				return null;
-			}
-			foreach(DictionaryEntry entry in allCustomData)
-			{
-				var type = (Type) fieldType.GetValue(entry.Value);
-				var value = fieldValue.GetValue(entry.Value);
-				extraDatas.Add(((string) entry.Key, type, value));
+				var type = fieldType(entry.Value);
+				var value = fieldValue(entry.Value);
+				extraDatas.Add((entry.Key, type, value));
 			}
 			return extraDatas;
 		}
@@ -137,31 +122,15 @@ namespace WorldSaver.Client
 
 		private static bool[] extractCircuitStates()
 		{
-			var typeFastCircuitStateManager = typeof(RenderUpdateManager).Assembly.GetType("LogicWorld.Rendering.FastCircuitStatesManager");
+			var typeFastCircuitStateManager = Types.findInAssembly(typeof(RenderUpdateManager), "LogicWorld.Rendering.FastCircuitStatesManager");
 			var objCircuitManager = Instances.MainWorld.CircuitStates;
 			if(objCircuitManager.GetType() != typeFastCircuitStateManager)
 			{
-				LConsole.WriteLine("Expected circuit state manager to be of the fast type, but got: " + objCircuitManager.GetType());
-				return null;
+				throw new Exception("Expected circuit state manager to be of the fast type, but got: " + objCircuitManager.GetType());
 			}
-			var fieldCircuitStates = typeFastCircuitStateManager.GetField("IndexedCircuitStates", BindingFlags.NonPublic | BindingFlags.Instance);
-			if(fieldCircuitStates == null)
-			{
-				LConsole.WriteLine("Could not find the field 'IndexedCircuitStates' in 'FastCircuitStatesManager'");
-				return null;
-			}
-			var valueCircuitStates = fieldCircuitStates.GetValue(objCircuitManager);
-			if(valueCircuitStates == null)
-			{
-				LConsole.WriteLine("For some reason the circuit states are 'null'...");
-				return null;
-			}
-			if(!(valueCircuitStates is bool[] circuitStates))
-			{
-				LConsole.WriteLine("For some reason the circuit states are not a bool array but: " + valueCircuitStates.GetType());
-				return null;
-			}
-			return circuitStates;
+			var fieldCircuitStates = Fields.getPrivate(typeFastCircuitStateManager, "IndexedCircuitStates");
+			var valueCircuitStates = Fields.getNonNull(fieldCircuitStates, objCircuitManager);
+			return Types.checkType<bool[]>(valueCircuitStates);
 		}
 	}
 }

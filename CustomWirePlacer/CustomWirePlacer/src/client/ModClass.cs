@@ -3,6 +3,7 @@ using CustomWirePlacer.Client.CWP;
 using CustomWirePlacer.Client.CWP.PegDrawing;
 using CustomWirePlacer.Client.Windows;
 using EccsLogicWorldAPI.Client.Hooks;
+using EccsLogicWorldAPI.Client.Injectors;
 using FancyInput;
 using LogicAPI.Client;
 using LogicLog;
@@ -19,13 +20,14 @@ namespace CustomWirePlacer.Client
 		{
 			logger = Logger;
 
-			if(!GameStateInjector.inject(Logger, GameStatePegDrawing.id, typeof(GameStatePegDrawing)))
+			try
 			{
-				throw new Exception("[CWP] Could not inject CustomWirePlacer's PegDrawing game state, see previous error.");
+				GameStateInjector.inject(GameStatePegDrawing.id, typeof(GameStatePegDrawing));
+				GameStateInjector.inject(CWPGameState.id, typeof(CWPGameState));
 			}
-			if(!GameStateInjector.inject(Logger, CWPGameState.id, typeof(CWPGameState)))
+			catch(Exception e)
 			{
-				throw new Exception("[CWP] Could not inject CustomWirePlacer's game state, see previous error.");
+				throw new Exception("[CWP] Could not inject CustomWirePlacer game states, see exception.", e);
 			}
 
 			//Hijack the original WirePlacer to do nothing and instead use the custom one.

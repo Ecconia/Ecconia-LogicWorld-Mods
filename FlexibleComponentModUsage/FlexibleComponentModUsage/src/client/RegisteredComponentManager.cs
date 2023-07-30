@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Reflection;
+using EccsLogicWorldAPI.Shared.AccessHelper;
 using LogicWorld.Rendering;
 using LogicWorld.Rendering.Dynamics;
 using LogicWorld.SharedCode.Components;
@@ -14,57 +14,19 @@ namespace FlexibleComponentModUsage.client
 		static RegisteredComponentManager()
 		{
 			//Setup component registry backdoor:
-			{
-				var field = typeof(ComponentRegistry).GetField("AllRegisteredComponents", BindingFlags.NonPublic | BindingFlags.Static);
-				if(field == null)
-				{
-					FlexibleComponentModUsage.logger.Error("Did not find field 'AllRegisteredComponents' inside of 'ComponentRegistry'." + FlexibleComponentModUsage.error);
-					return;
-				}
-				var value = field.GetValue(null);
-				if(value == null)
-				{
-					FlexibleComponentModUsage.logger.Error("Value of field 'AllRegisteredComponents' inside of 'ComponentRegistry' was 'null'." + FlexibleComponentModUsage.error);
-					return;
-				}
-				if(!(value is Dictionary<string, ComponentInfo> registry))
-				{
-					FlexibleComponentModUsage.logger.Error("Value of field 'AllRegisteredComponents' inside of 'ComponentRegistry' was not of type 'Dictionary<string, ComponentInfo>', but: '" + value.GetType() + "'." + FlexibleComponentModUsage.error);
-					return;
-				}
-				componentRegistryReference = registry;
-			}
-			{
-				var type = typeof(RenderUpdateManager).Assembly.GetType("LogicWorld.Rendering.Dynamics.ComponentVariantManager");
-				if(type == null)
-				{
-					FlexibleComponentModUsage.logger.Error("Did not find type 'ComponentVariantManager' inside of same assembly as type 'RenderUpdateManager'." + FlexibleComponentModUsage.error);
-					return;
-				}
-				var field = type.GetField("PrefabVariantInfoInstances", BindingFlags.NonPublic | BindingFlags.Static);
-				if(field == null)
-				{
-					FlexibleComponentModUsage.logger.Error("Did not find field 'PrefabVariantInfoInstances' inside of 'ComponentVariantManager'." + FlexibleComponentModUsage.error);
-					return;
-				}
-				var value = field.GetValue(null);
-				if(value == null)
-				{
-					FlexibleComponentModUsage.logger.Error("Value of field 'PrefabVariantInfoInstances' inside of 'ComponentVariantManager' was 'null'." + FlexibleComponentModUsage.error);
-					return;
-				}
-				if(!(value is List<PrefabVariantInfo> registry))
-				{
-					FlexibleComponentModUsage.logger.Error("Value of field 'PrefabVariantInfoInstances' inside of 'ComponentVariantManager' was not of type 'List<PrefabVariantInfo>', but: '" + value.GetType() + "'." + FlexibleComponentModUsage.error);
-					return;
-				}
-				prefabRegistryReference = registry;
-			}
-		}
-
-		public static bool hasInitializationFailed()
-		{
-			return componentRegistryReference == null || prefabRegistryReference == null;
+			componentRegistryReference = Types.checkType<Dictionary<string, ComponentInfo>>(
+				Fields.getNonNull(
+					Fields.getPrivateStatic(typeof(ComponentRegistry), "AllRegisteredComponents")
+				)
+			);
+			prefabRegistryReference = Types.checkType<List<PrefabVariantInfo>>(
+				Fields.getNonNull(
+					Fields.getPrivateStatic(
+						typeof(RenderUpdateManager).Assembly.GetType("LogicWorld.Rendering.Dynamics.ComponentVariantManager"),
+						"PrefabVariantInfoInstances"
+					)
+				)
+			);
 		}
 
 		//Runtime:
