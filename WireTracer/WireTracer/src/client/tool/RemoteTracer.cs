@@ -31,19 +31,33 @@ namespace WireTracer.Client.Tool
 				populateWires(clusterDetails);
 			}
 			
+			var world = Instances.MainWorld.Data;
+			
 			//Highlight primary cluster:
 			foreach(var currentClusterDetails in response.selectedClusters)
 			{
 				foreach(var address in currentClusterDetails.connectingComponents)
 				{
+					if(!world.Contains(address))
+					{
+						continue;
+					}
 					Outliner.Outline(address, WireTracerColors.primaryConnected);
 				}
 				foreach(var address in currentClusterDetails.linkingComponents)
 				{
+					if(!world.Contains(address))
+					{
+						continue;
+					}
 					Outliner.Outline(address, WireTracerColors.linking);
 				}
 				foreach(var address in currentClusterDetails.pegs)
 				{
+					if(!world.Contains(address.ComponentAddress))
+					{
+						continue;
+					}
 					if(address.IsInput)
 					{
 						Outliner.Outline(address, WireTracerColors.primaryNormal);
@@ -68,14 +82,26 @@ namespace WireTracer.Client.Tool
 			{
 				foreach(var address in currentClusterDetails.connectingComponents)
 				{
+					if(!world.Contains(address))
+					{
+						continue;
+					}
 					Outliner.Outline(address, WireTracerColors.sourcingConnected);
 				}
 				foreach(var address in currentClusterDetails.linkingComponents)
 				{
+					if(!world.Contains(address))
+					{
+						continue;
+					}
 					Outliner.Outline(address, WireTracerColors.linking);
 				}
 				foreach(var address in currentClusterDetails.pegs)
 				{
+					if(!world.Contains(address.ComponentAddress))
+					{
+						continue;
+					}
 					if(address.IsInput)
 					{
 						Outliner.Outline(address, WireTracerColors.sourcingNormal);
@@ -100,14 +126,26 @@ namespace WireTracer.Client.Tool
 			{
 				foreach(var address in currentClusterDetails.connectingComponents)
 				{
+					if(!world.Contains(address))
+					{
+						continue;
+					}
 					Outliner.Outline(address, WireTracerColors.connectedConnected);
 				}
 				foreach(var address in currentClusterDetails.linkingComponents)
 				{
+					if(!world.Contains(address))
+					{
+						continue;
+					}
 					Outliner.Outline(address, WireTracerColors.linking);
 				}
 				foreach(var address in currentClusterDetails.pegs)
 				{
+					if(!world.Contains(address.ComponentAddress))
+					{
+						continue;
+					}
 					if(address.IsInput)
 					{
 						Outliner.Outline(address, WireTracerColors.connectedNormal);
@@ -132,14 +170,26 @@ namespace WireTracer.Client.Tool
 			{
 				foreach(var address in currentClusterDetails.connectingComponents)
 				{
+					if(!world.Contains(address))
+					{
+						continue;
+					}
 					Outliner.Outline(address, WireTracerColors.drainingConnected);
 				}
 				foreach(var address in currentClusterDetails.linkingComponents)
 				{
+					if(!world.Contains(address))
+					{
+						continue;
+					}
 					Outliner.Outline(address, WireTracerColors.linking);
 				}
 				foreach(var address in currentClusterDetails.pegs)
 				{
+					if(!world.Contains(address.ComponentAddress))
+					{
+						continue;
+					}
 					if(address.IsInput)
 					{
 						Outliner.Outline(address, WireTracerColors.drainingNormal);
