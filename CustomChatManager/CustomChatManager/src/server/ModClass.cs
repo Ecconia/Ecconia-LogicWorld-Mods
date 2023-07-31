@@ -1,5 +1,6 @@
 using CustomChatManager.Server.ChatServices;
 using CustomChatManager.Server.Commands;
+using EccsLogicWorldAPI.Server.Injectors;
 using LogicAPI.Server;
 
 namespace CustomChatManager.Server
@@ -24,7 +25,7 @@ namespace CustomChatManager.Server
 				}
 			}
 
-			CustomChatManager.inject(Logger, chatManager);
+			RawPacketHandlerInjector.replacePacketHandler(new CustomChatManager.CustomChatPacketHandler(chatManager));
 		}
 	}
 }

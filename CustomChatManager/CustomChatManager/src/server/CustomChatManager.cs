@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using CustomChatManager.Server.ChatServices;
 using EccsLogicWorldAPI.Server;
-using EccsLogicWorldAPI.Server.Injectors;
 using LogicAPI.Data;
 using LogicAPI.Networking;
 using LogicAPI.Networking.Packets.Client;
 using LogicAPI.Networking.Packets.Server;
 using LogicAPI.Server.Networking;
-using LogicLog;
 using LogicWorld.SharedCode.Networking;
 
 namespace CustomChatManager.Server
@@ -50,13 +48,7 @@ namespace CustomChatManager.Server
 
 		// ### Static injection code: ###
 
-		public static void inject(ILogicLogger logger, ICustomChatManager customChatManager)
-		{
-			//Ignore success.
-			PacketHandlerInjector.injectPacketHandler(logger, new CustomChatPacketHandler(customChatManager));
-		}
-
-		private class CustomChatPacketHandler : PacketHandler<ChatMessageSentPacket>
+		public class CustomChatPacketHandler : PacketHandler<ChatMessageSentPacket>
 		{
 			private readonly ICustomChatManager customChatManager;
 

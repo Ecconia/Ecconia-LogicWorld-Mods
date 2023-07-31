@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using EccsLogicWorldAPI.Server.Injectors;
 using LogicAPI;
 using LogicAPI.Server;
+using LogicWorld.Server.Networking.ClientVerification;
 using LogicWorld.SharedCode.Modding;
 
 namespace ServerOnlyMods.Server
@@ -13,7 +15,7 @@ namespace ServerOnlyMods.Server
 
 		protected override void Initialize()
 		{
-			BetterClientModVerifier.inject(Logger);
+			RawJoinVerifierInjector.replaceVerifier(typeof(ModsVerifier), new BetterClientModVerifier());
 		}
 
 		public static List<MetaMod> getRequiredMods()

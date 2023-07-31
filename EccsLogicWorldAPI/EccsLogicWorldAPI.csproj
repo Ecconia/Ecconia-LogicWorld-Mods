@@ -51,6 +51,9 @@
       <Reference Include="LogicWorld.Interfaces">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Interfaces.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.Networking">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Networking.dll</HintPath>
+      </Reference>
       <Reference Include="LogicWorld.Rendering">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Rendering.dll</HintPath>
       </Reference>
