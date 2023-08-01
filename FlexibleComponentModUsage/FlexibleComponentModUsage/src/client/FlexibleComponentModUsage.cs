@@ -1,7 +1,8 @@
-using EccsLogicWorldAPI.Client.Injectors;
+using EccsLogicWorldAPI.Shared.PacketWrapper;
 using LogicAPI.Client;
 using LogicAPI.Networking.Packets.Initialization;
 using LogicLog;
+using LogicWorld.SharedCode.Networking;
 
 namespace FlexibleComponentModUsage.client
 {
@@ -14,7 +15,8 @@ namespace FlexibleComponentModUsage.client
 		protected override void Initialize()
 		{
 			logger = Logger;
-			RawPacketHandlerInjector.replacePacketHandler(oldHandler => new CustomWorldInitializationPacketHandler(this, oldHandler));
+			PacketHandlerManager.getCustomPacketHandler<WorldInitializationPacket>()
+				.addHandlerToFront(new Handler(this));
 		}
 
 		public void onWorldPacket(WorldInitializationPacket packet)
@@ -28,6 +30,25 @@ namespace FlexibleComponentModUsage.client
 				manager = new RegisteredComponentManager();
 			}
 			manager.adjust(packet.ComponentIDsMap);
+		}
+
+		private class Handler : CustomPacketHandler<WorldInitializationPacket>
+		{
+			private readonly FlexibleComponentModUsage mod;
+
+			public Handler(FlexibleComponentModUsage mod)
+			{
+				this.mod = mod;
+			}
+
+			public override void handle(ref bool isCancelled, ref WorldInitializationPacket packet, HandlerContext context)
+			{
+				if(isCancelled)
+				{
+					return;
+				}
+				mod.onWorldPacket(packet);
+			}
 		}
 	}
 }

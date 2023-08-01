@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using EccsLogicWorldAPI.Server.Injectors;
+using EccsLogicWorldAPI.Shared.PacketWrapper;
 using LogicAPI.Data;
 using LogicAPI.Networking;
+using LogicAPI.Networking.Packets.Initialization;
 using LogicAPI.Server;
 using LogicAPI.Server.Networking;
 using LogicWorld.Server;
@@ -28,7 +30,8 @@ namespace WireTracer.Server
 
 			//Inject verifier:
 			RawJoinVerifierInjector.addVerifier(new SniffingClientVerifier(this));
-			RawPacketHandlerInjector.replacePacketHandler(new ClientJoinedPacketHandler(this));
+			PacketHandlerManager.getCustomPacketHandler<ClientLoadedWorldPacket>()
+				.addHandlerToEnd(new ClientJoinedPacketHandler(this));
 			RawPacketHandlerInjector.addPacketHandler(new WireTracerRequestHandler(this));
 		}
 

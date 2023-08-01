@@ -1,6 +1,7 @@
 using CustomChatManager.Server.ChatServices;
 using CustomChatManager.Server.Commands;
-using EccsLogicWorldAPI.Server.Injectors;
+using EccsLogicWorldAPI.Shared.PacketWrapper;
+using LogicAPI.Networking.Packets.Client;
 using LogicAPI.Server;
 
 namespace CustomChatManager.Server
@@ -25,7 +26,8 @@ namespace CustomChatManager.Server
 				}
 			}
 
-			RawPacketHandlerInjector.replacePacketHandler(new CustomChatManager.CustomChatPacketHandler(chatManager));
+			PacketHandlerManager.getCustomPacketHandler<ChatMessageSentPacket>()
+				.addHandlerToFront(new CustomChatManager.CustomChatPacketHandler(chatManager));
 		}
 	}
 }
