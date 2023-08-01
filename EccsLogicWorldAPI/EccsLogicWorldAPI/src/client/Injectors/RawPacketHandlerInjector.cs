@@ -24,6 +24,16 @@ namespace EccsLogicWorldAPI.Client.Injectors
 			return handlersGetter(receiverInstance);
 		}
 		
+		public static void replacePacketHandler<T>(Func<IPacketHandler, IPacketHandler> handlerGenerator)
+		{
+			var handlers = getPacketHandlers();
+			if(!handlers.TryGetValue(typeof(T), out var oldHandler))
+			{
+				throw new Exception("Handler for packet type '" + typeof(T).FullName + "' cannot be replaced as it is not registered.");
+			}
+			handlers[typeof(T)] = handlerGenerator(oldHandler);
+		}
+		
 		public static void replacePacketHandler(IPacketHandler replacementPacketHandler)
 		{
 			var handlers = getPacketHandlers();

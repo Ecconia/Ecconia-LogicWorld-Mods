@@ -31,6 +31,20 @@ namespace EccsLogicWorldAPI.Server.Injectors
 			field.SetValue(receiverInstance, newHandlers);
 		}
 		
+		public static void replacePacketHandler<T>(Func<IPacketHandler, IPacketHandler> handlerGenerator)
+		{
+			var handlers = getPacketHandlers();
+			for(int i = 0; i < handlers.Length; i++)
+			{
+				if(handlers[i].PacketType == typeof(T))
+				{
+					handlers[i] = handlerGenerator(handlers[i]);
+					return;
+				}
+			}
+			throw new Exception("Could not find packet handler to replace for packet type '" + typeof(T).FullName + "'.");
+		}
+		
 		public static void replacePacketHandler(IPacketHandler replacementPacketHandler)
 		{
 			var handlers = getPacketHandlers();
@@ -48,10 +62,9 @@ namespace EccsLogicWorldAPI.Server.Injectors
 		public static void addPacketHandler(IPacketHandler newPacketHandler)
 		{
 			var oldHandlers = getPacketHandlers();
-			// Array.Resize(ref oldHandlers, oldHandlers.Length + 1);
 			var newHandlers = new IPacketHandler[oldHandlers.Length + 1];
 			Array.Copy(oldHandlers, newHandlers, oldHandlers.Length);
-			newHandlers[oldHandlers.Length - 1] = newPacketHandler;
+			newHandlers[oldHandlers.Length] = newPacketHandler;
 			setPacketHandlers(newHandlers);
 		}
 	}
