@@ -78,7 +78,6 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 			{
 				setMinWidth(windowController, newMinWidth);
 			}
-			
 			SetLayoutInputForAxis(newMinWidth, prefWidth + padding.horizontal, -1, 0);
 		}
 		
@@ -133,7 +132,7 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 				{
 					continue; //Whoops, this is bad... cannot work with this.
 				}
-				float size = layout.preferredHeight < 0 || useMinSize ? layout.minHeight : layout.preferredWidth;
+				float size = layout.preferredHeight < 0 || useMinSize ? layout.minHeight : layout.preferredHeight;
 				SetChildAlongAxis(child, 1, point, size);
 				point += size;
 			}
