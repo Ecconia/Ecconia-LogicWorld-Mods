@@ -1,5 +1,4 @@
-using System;
-using System.Reflection;
+using EccsLogicWorldAPI.Shared.AccessHelper;
 using HarmonyLib;
 using LogicWorld.Building;
 using WireTracer.Client.Tool;
@@ -10,13 +9,9 @@ namespace WireTracer.Client
 	{
 		public static void init()
 		{
-			MethodInfo target = typeof(StuffRotater).GetMethod("RunFirstPersonWireRotations", BindingFlags.NonPublic | BindingFlags.Static);
-			if(target == null)
-			{
-				throw new Exception("Did not find 'RunFirstPersonWireRotations' in 'StuffRotater'. Cannot hook WireTracer.");
-			}
-			MethodInfo hook = typeof(WireTracerHook).GetMethod(nameof(WireTracerHook.postfixHook), BindingFlags.Public | BindingFlags.Static);
-			Harmony harmony = new Harmony("WireTracer");
+			var target = Methods.getPrivateStatic(typeof(StuffRotater), "RunFirstPersonWireRotations");
+			var hook = Methods.getPublicStatic(typeof(WireTracerHook), nameof(postfixHook));
+			var harmony = new Harmony("WireTracer");
 			harmony.Patch(target, postfix: new HarmonyMethod(hook));
 		}
 

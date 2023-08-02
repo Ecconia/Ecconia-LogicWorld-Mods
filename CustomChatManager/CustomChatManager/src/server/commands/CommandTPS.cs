@@ -1,9 +1,9 @@
 using System;
-using System.Reflection;
+using EccsLogicWorldAPI.Server;
+using EccsLogicWorldAPI.Shared.AccessHelper;
 using HarmonyLib;
 using JimmysUnityUtilities;
 using LogicAPI.Server.Managers;
-using LogicWorld.Server;
 using LogicWorld.Server.HostServices;
 using LogicWorld.SharedCode.ExtraData;
 
@@ -26,22 +26,14 @@ namespace CustomChatManager.Server.Commands
 		public CommandTPS()
 		{
 			//Used to check if simulation is running:
-			simulationScheduler = Program.Get<ISimulationManager>();
-			if(simulationScheduler == null)
-			{
-				throw new Exception("Could not get simulation scheduling service. /" + name + " will break.");
-			}
+			simulationScheduler = ServiceGetter.getService<ISimulationManager>();
 			//Used for stepping the simulation:
-			simulation = Program.Get<ILogicManager>();
-			if(simulation == null)
-			{
-				throw new Exception("Could not get simulation service. /" + name + " will break. And the server is probably already broken...");
-			}
+			simulation = ServiceGetter.getService<ILogicManager>();
 			
 			//Hook into the initialize of the simulation manager, as that grants us access to the accessors:
 			// Point is, any point after the save has been initialized would do.
-			var initializeMethod = simulationScheduler.GetType().GetMethod("Initialize", BindingFlags.Public | BindingFlags.Instance);
-			var hookMethod = GetType().GetMethod(nameof(afterInitialization), BindingFlags.NonPublic | BindingFlags.Static);
+			var initializeMethod = Methods.getPublic(simulationScheduler.GetType(), "Initialize");
+			var hookMethod = Methods.getPrivateStatic(GetType(), nameof(afterInitialization));
 			Harmony harmony = new Harmony("Commands: SlashTPS");
 			harmony.Patch(initializeMethod, postfix: new HarmonyMethod(hookMethod));
 		}

@@ -9,5 +9,7 @@ namespace EccsLogicWorldAPI.Shared.AccessHelper
 		public const BindingFlags privateInst = BindingFlags.NonPublic | BindingFlags.Instance;
 		public const BindingFlags publicStatic = BindingFlags.Public | BindingFlags.Static;
 		public const BindingFlags publicInst = BindingFlags.Public | BindingFlags.Instance;
+		public const BindingFlags ppStatic = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static;
+		public const BindingFlags ppInst = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
 	}
 }

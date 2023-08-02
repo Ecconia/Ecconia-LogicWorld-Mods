@@ -80,8 +80,21 @@ namespace EccsLogicWorldAPI.Shared.AccessHelper
 			return Expression.Lambda<Func<INSTANCE, RESULT>>(callExpression, instanceParameter).Compile();
 		}
 		
+		public static Func<RESULT> createStaticPropertyGetter<RESULT>(PropertyInfo property)
+		{
+			var getter = property.GetMethod;
+			var callExpression = Expression.Call(null, getter);
+			return Expression.Lambda<Func<RESULT>>(callExpression).Compile();
+		}
+		
 		//TODO: Make generic to allow a random amount of arguments (or at least copy paste to make use of any amount).
-
+		
+		public static Action createStaticMethodCall(MethodInfo methodInfo)
+		{
+			var callExpression = Expression.Call(null, methodInfo);
+			return Expression.Lambda<Action>(callExpression).Compile();
+		}
+		
 		public static Action<A1> createStaticMethodCall<A1>(MethodInfo methodInfo)
 		{
 			var a1 = Expression.Parameter(typeof(A1), "a1");

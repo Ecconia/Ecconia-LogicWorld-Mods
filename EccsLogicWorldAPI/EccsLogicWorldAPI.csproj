@@ -27,6 +27,9 @@
       <Reference Include="LogicAPI.Server">
         <HintPath>..\LogicWorld\Server\LogicAPI.Server.dll</HintPath>
       </Reference>
+      <Reference Include="LogicLog">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLog.dll</HintPath>
+      </Reference>
       <Reference Include="LogicUI">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicUI.dll</HintPath>
       </Reference>
@@ -36,6 +39,9 @@
       <Reference Include="LogicWorld.Building">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Building.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.BuildingManagement">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.BuildingManagement.dll</HintPath>
+      </Reference>
       <Reference Include="LogicWorld.GameStates">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.GameStates.dll</HintPath>
       </Reference>
@@ -44,6 +50,9 @@
       </Reference>
       <Reference Include="LogicWorld.Interfaces">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Interfaces.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.Networking">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Networking.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.Rendering">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Rendering.dll</HintPath>

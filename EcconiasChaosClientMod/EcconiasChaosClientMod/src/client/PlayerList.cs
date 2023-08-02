@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
+using EccsLogicWorldAPI.Shared.AccessHelper;
 using LICC;
 using LogicAPI.Data;
 using LogicWorld.Players;
@@ -13,34 +13,15 @@ namespace EcconiasChaosClientMod.Client
 
 		static PlayerList()
 		{
-			var fieldPlayerList = typeof(PlayerModelsManager).GetField("WorldPlayerModels", BindingFlags.NonPublic | BindingFlags.Static);
-			if(fieldPlayerList == null)
-			{
-				ModClass.logger.Error("Was not able to get the field 'WorldPlayerModels' in class 'PlayerModelsManager', the 'listplayer' commands will not be functional.");
-				return;
-			}
-			var value = fieldPlayerList.GetValue(null);
-			if(value == null)
-			{
-				ModClass.logger.Error("Value of field 'WorldPlayerModels' from class 'PlayerModelsManager' was 'null' this is unexpected, the 'listplayer' commands will not be functional.");
-				return;
-			}
-			if(!(value is Dictionary<ShortPlayerID, PlayerModel> playerModels))
-			{
-				ModClass.logger.Error("Value of field 'WorldPlayerModels' from class 'PlayerModelsManager' was of type '" + value.GetType() + "' this is unexpected, the 'listplayer' commands will not be functional.");
-				return;
-			}
+			var fieldPlayerList = Fields.getPrivateStatic(typeof(PlayerModelsManager), "WorldPlayerModels");
+			var value = Fields.getNonNull(fieldPlayerList, "Value of field 'WorldPlayerModels' from class 'PlayerModelsManager' was 'null'.");
+			var playerModels = Types.checkType<Dictionary<ShortPlayerID, PlayerModel>>(value);
 			players = playerModels;
 		}
 
 		[Command("ListPlayersAll", Description = "Lists all players that are connected to this server. With all debug data.", Hidden = true)]
 		public static void listPlayersAll()
 		{
-			if(players == null)
-			{
-				LConsole.WriteLine("Cannot use this command, as the player-model-list is not accessible. Check the logs for errors of this mod and report them to the maintainer of this mod.");
-				return;
-			}
 			StringBuilder builder = new StringBuilder();
 			builder.Append("All player models:");
 			var playerList = new List<PlayerModel>(players.Values);

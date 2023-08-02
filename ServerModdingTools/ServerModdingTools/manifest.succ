@@ -1,7 +1,0 @@
-ID: ServerModdingTools
-Name: ServerModdingTools
-Author: Ecconia
-Version: 1.0.0
-Priority: 50
-Dependencies:
-    - HarmonyForLogicWorld

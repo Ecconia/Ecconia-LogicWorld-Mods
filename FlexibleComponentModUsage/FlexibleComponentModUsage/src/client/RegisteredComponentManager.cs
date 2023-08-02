@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Reflection;
+using EccsLogicWorldAPI.Shared.AccessHelper;
 using LogicWorld.Rendering;
 using LogicWorld.Rendering.Dynamics;
 using LogicWorld.SharedCode.Components;
@@ -14,66 +14,35 @@ namespace FlexibleComponentModUsage.client
 		static RegisteredComponentManager()
 		{
 			//Setup component registry backdoor:
-			{
-				var field = typeof(ComponentRegistry).GetField("AllRegisteredComponents", BindingFlags.NonPublic | BindingFlags.Static);
-				if(field == null)
-				{
-					FlexibleComponentModUsage.logger.Error("Did not find field 'AllRegisteredComponents' inside of 'ComponentRegistry'." + FlexibleComponentModUsage.error);
-					return;
-				}
-				var value = field.GetValue(null);
-				if(value == null)
-				{
-					FlexibleComponentModUsage.logger.Error("Value of field 'AllRegisteredComponents' inside of 'ComponentRegistry' was 'null'." + FlexibleComponentModUsage.error);
-					return;
-				}
-				if(!(value is Dictionary<string, ComponentInfo> registry))
-				{
-					FlexibleComponentModUsage.logger.Error("Value of field 'AllRegisteredComponents' inside of 'ComponentRegistry' was not of type 'Dictionary<string, ComponentInfo>', but: '" + value.GetType() + "'." + FlexibleComponentModUsage.error);
-					return;
-				}
-				componentRegistryReference = registry;
-			}
-			{
-				var type = typeof(RenderUpdateManager).Assembly.GetType("LogicWorld.Rendering.Dynamics.ComponentVariantManager");
-				if(type == null)
-				{
-					FlexibleComponentModUsage.logger.Error("Did not find type 'ComponentVariantManager' inside of same assembly as type 'RenderUpdateManager'." + FlexibleComponentModUsage.error);
-					return;
-				}
-				var field = type.GetField("PrefabVariantInfoInstances", BindingFlags.NonPublic | BindingFlags.Static);
-				if(field == null)
-				{
-					FlexibleComponentModUsage.logger.Error("Did not find field 'PrefabVariantInfoInstances' inside of 'ComponentVariantManager'." + FlexibleComponentModUsage.error);
-					return;
-				}
-				var value = field.GetValue(null);
-				if(value == null)
-				{
-					FlexibleComponentModUsage.logger.Error("Value of field 'PrefabVariantInfoInstances' inside of 'ComponentVariantManager' was 'null'." + FlexibleComponentModUsage.error);
-					return;
-				}
-				if(!(value is List<PrefabVariantInfo> registry))
-				{
-					FlexibleComponentModUsage.logger.Error("Value of field 'PrefabVariantInfoInstances' inside of 'ComponentVariantManager' was not of type 'List<PrefabVariantInfo>', but: '" + value.GetType() + "'." + FlexibleComponentModUsage.error);
-					return;
-				}
-				prefabRegistryReference = registry;
-			}
-		}
-
-		public static bool hasInitializationFailed()
-		{
-			return componentRegistryReference == null || prefabRegistryReference == null;
+			componentRegistryReference = Types.checkType<Dictionary<string, ComponentInfo>>(
+				Fields.getNonNull(
+					Fields.getPrivateStatic(typeof(ComponentRegistry), "AllRegisteredComponents")
+				)
+			);
+			prefabRegistryReference = Types.checkType<List<PrefabVariantInfo>>(
+				Fields.getNonNull(
+					Fields.getPrivateStatic(
+						typeof(RenderUpdateManager).Assembly.GetType("LogicWorld.Rendering.Dynamics.ComponentVariantManager"),
+						"PrefabVariantInfoInstances"
+					)
+				)
+			);
 		}
 
 		//Runtime:
 
+		private int orderIndex;
+		private readonly Dictionary<string, int> componentOrderIndex;
 		private readonly Dictionary<string, ComponentInfo> componentRegistryBackup;
 		private readonly List<PrefabVariantInfo> prefabRegistryBackup;
 
 		public RegisteredComponentManager()
 		{
+			componentOrderIndex = new Dictionary<string, int>();
+			foreach(var key in componentRegistryReference.Keys)
+			{
+				componentOrderIndex[key] = orderIndex++;
+			}
 			//Transmit the original components into a local structure.
 			componentRegistryBackup = new Dictionary<string, ComponentInfo>(componentRegistryReference);
 			prefabRegistryBackup = new List<PrefabVariantInfo>(prefabRegistryReference);
@@ -99,6 +68,7 @@ namespace FlexibleComponentModUsage.client
 				{
 					//Component is new!
 					componentRegistryBackup[newID] = newInfo;
+					componentOrderIndex[newID] = orderIndex++; //Just append to the end *shrug* Its runtime added. Will be different on game start anyway.
 					newComponents++;
 				}
 			}
@@ -112,7 +82,9 @@ namespace FlexibleComponentModUsage.client
 		{
 			//Adjust components in the official registry to the servers:
 			componentRegistryReference.Clear();
-			foreach(var serverID in packetComponentIDsMap.Values)
+			var sortedKeys = new List<string>(packetComponentIDsMap.Values);
+			sortedKeys.Sort((a, b) => componentOrderIndex[a].CompareTo(componentOrderIndex[b]));
+			foreach(var serverID in sortedKeys)
 			{
 				//Check if the server component is installed locally, by looking at the backup:
 				if(!componentRegistryBackup.TryGetValue(serverID, out var serverInfo))
@@ -140,7 +112,7 @@ namespace FlexibleComponentModUsage.client
 			//Done. Now the client thinks it has only the components that the server has.
 		}
 
-		private void restore()
+		public void restore()
 		{
 			componentRegistryReference.Clear();
 			foreach(var (clientID, clientInfo) in componentRegistryBackup)

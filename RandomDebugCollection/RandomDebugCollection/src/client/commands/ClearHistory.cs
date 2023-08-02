@@ -1,66 +1,26 @@
-//Needed for reflection classes:
-using System.Reflection;
-
-//Needed for 'Command', 'LConsole':
+using System;
+using EccsLogicWorldAPI.Shared.AccessHelper;
 using LICC;
-//Needed for 'ILogicLogger':
-using LogicLog;
-
-//Needed for 'UndoManager':
 using LogicWorld.BuildingManagement;
 
 namespace RandomDebugCollection.Client.Commands
 {
 	public static class ClearHistory
 	{
-		private static FieldInfo fieldUndoHistorySize;
-		private static MethodInfo methodReset;
+		private static readonly Func<int> getHistorySize;
+		private static readonly Action resetHistory;
 
-		public static void Initialize(ILogicLogger logger)
+		static ClearHistory()
 		{
-			var type = typeof(UndoManager);
-			var field = type.GetField("IndexOfNextNewBuildAction", BindingFlags.NonPublic | BindingFlags.Static);
-			if(field == null)
-			{
-				logger.Error("[Command: ClearHistory] Could not find field 'IndexOfNextNewBuildAction', this command will not work.");
-				return;
-			}
-			var method = type.GetMethod("Reset", BindingFlags.NonPublic | BindingFlags.Static);
-			if(method == null)
-			{
-				logger.Error("[Command: ClearHistory] Could not find method 'Reset', this command will not work.");
-				return;
-			}
-			//Do not set anything, if either could be null.
-			fieldUndoHistorySize = field;
-			methodReset = method;
-		}
-
-		private static bool isPrimed()
-		{
-			return fieldUndoHistorySize != null;
-		}
-
-		private static int getHistorySize()
-		{
-			return (int) fieldUndoHistorySize.GetValue(null);
-		}
-
-		private static void reset()
-		{
-			methodReset.Invoke(null, null);
+			getHistorySize = Delegator.createStaticFieldGetter<int>(Fields.getPublicStatic(typeof(UndoManager), "IndexOfNextNewBuildAction"));
+			resetHistory = Delegator.createStaticMethodCall(Methods.getPublicStatic(typeof(UndoManager), "Reset"));
 		}
 
 		[Command("ClearHistory", Description = "Clears the edit history.")]
-		private static void clearHistory()
+		public static void clearHistory()
 		{
-			if(!isPrimed())
-			{
-				LConsole.WriteLine("Error: Cloud not find field 'SubassemblyCache' or method 'Reset'. Command aborts.", CColor.Red);
-				return;
-			}
 			var value = getHistorySize();
-			reset();
+			resetHistory();
 			LConsole.WriteLine("Cleared {0} history entries.", value);
 		}
 	}

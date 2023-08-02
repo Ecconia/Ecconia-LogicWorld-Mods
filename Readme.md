@@ -38,8 +38,9 @@ This took some time, and it is still in `prerelease`, so there might be issues o
 
 - `DisableCollision` **Must have!**: Allows you to build even when LogicWorld does not want you to. (On floating-point/collider issues, or when refactoring buildings).
 - `CustomWirePlacer` **Must have!**: Replaces the vanilla wire placer with a power-user tool (that you won't want to miss later on).
-- `SimulationControl`: Adds a console command `tps`, which is much less complicated than `server "simulation.rate <number>"`. 
-- `RandomDebugCollection`: Prints stack traces (that happen when going to error screen) to logs and prints compiler errors, which normally require `loglevel trace`.
+- `SimulationControl`: Adds a console command `tps`, which is much less complicated than `server "simulation.rate <number>"`.
+- `PrintModCompilationErrors`: If you are a modder, this mod is a must have. As you can easily read compilation errors from the logs files with it.
+- `RandomDebugCollection`: Provides small features for debugging, will display the stacktrace in logs and the error screen.
 - `EcconiasChaosClientMod`: Mod made for Ecconia to dump tiny feature inside. Noteworthy: Custom skybox, command to list connected players.
 - `FlexibleComponentModUsage`: **Useful** Mod that will allow you to join servers with less components than you - without crashing.
 
@@ -55,7 +56,6 @@ Libraries:
 Libraries:
 
 - `ServerOnlyMods`: Allows you to develop mods for the server, that the client does not need to install.
-- `ServerModdingTools`: Very small collection of convenience features.
 
 #### Client | Server: (Installed on either or both sides)
 

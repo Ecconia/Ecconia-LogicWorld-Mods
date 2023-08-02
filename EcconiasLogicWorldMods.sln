@@ -10,8 +10,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulationControl", "Simula
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomChatManager", "CustomChatManager\CustomChatManager.csproj", "{F748B671-8905-4970-8E0C-FF126A5ACA10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerModdingTools", "ServerModdingTools\ServerModdingTools.csproj", "{17E359F8-646C-4743-A758-49C617A16ECF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarmonyForLogicWorld", "HarmonyForLogicWorld\HarmonyForLogicWorld.csproj", "{01398431-F086-48D0-BD42-8228440F1751}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerOnlyMods", "ServerOnlyMods\ServerOnlyMods.csproj", "{1A06FDD9-1B47-4576-8EE3-DFEB7C2AFFF5}"
@@ -35,6 +33,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EccsLogicWorldAPI", "EccsLogicWorldAPI\EccsLogicWorldAPI.csproj", "{F82B43CC-655E-4AD8-B370-E5E666C8140B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadioConnection", "RadioConnection\RadioConnection.csproj", "{E747E5E3-CDBB-4116-8E88-4A18026029CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintModCompilationErrors", "PrintModCompilationErrors\PrintModCompilationErrors.csproj", "{C661CABF-4909-4BF3-9C7D-5B59984EB71F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,10 +62,6 @@ Global
 		{F748B671-8905-4970-8E0C-FF126A5ACA10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F748B671-8905-4970-8E0C-FF126A5ACA10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F748B671-8905-4970-8E0C-FF126A5ACA10}.Release|Any CPU.Build.0 = Release|Any CPU
-		{17E359F8-646C-4743-A758-49C617A16ECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{17E359F8-646C-4743-A758-49C617A16ECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{17E359F8-646C-4743-A758-49C617A16ECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{17E359F8-646C-4743-A758-49C617A16ECF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{01398431-F086-48D0-BD42-8228440F1751}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{01398431-F086-48D0-BD42-8228440F1751}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01398431-F086-48D0-BD42-8228440F1751}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -114,5 +110,9 @@ Global
 		{E747E5E3-CDBB-4116-8E88-4A18026029CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E747E5E3-CDBB-4116-8E88-4A18026029CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E747E5E3-CDBB-4116-8E88-4A18026029CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C661CABF-4909-4BF3-9C7D-5B59984EB71F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C661CABF-4909-4BF3-9C7D-5B59984EB71F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C661CABF-4909-4BF3-9C7D-5B59984EB71F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C661CABF-4909-4BF3-9C7D-5B59984EB71F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

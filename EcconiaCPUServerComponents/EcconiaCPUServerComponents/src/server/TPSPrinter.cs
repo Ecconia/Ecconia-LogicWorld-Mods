@@ -1,6 +1,5 @@
-using System;
+using EccsLogicWorldAPI.Server;
 using LogicAPI.Server.Components;
-using LogicWorld.Server;
 using LogicWorld.Server.HostServices;
 
 namespace EcconiaCPUServerComponents.Server
@@ -11,11 +10,7 @@ namespace EcconiaCPUServerComponents.Server
 
 		static TPSPrinter()
 		{
-			simulation = Program.Get<ISimulationManager>(); //Just do the dirty casting, we need 'IsPaused'.
-			if(simulation == null)
-			{
-				throw new Exception("Could not get simulation service. /tps will break.");
-			}
+			simulation = ServiceGetter.getService<ISimulationManager>();
 		}
 
 		private int lastTPS;

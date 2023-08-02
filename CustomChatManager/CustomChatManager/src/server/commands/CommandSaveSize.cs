@@ -1,6 +1,5 @@
-using System;
+using EccsLogicWorldAPI.Server;
 using JimmysUnityUtilities;
-using LogicWorld.Server;
 using LogicWorld.Server.Saving;
 
 namespace CustomChatManager.Server.Commands
@@ -14,11 +13,7 @@ namespace CustomChatManager.Server.Commands
 
 		public CommandSaveSize()
 		{
-			saveManager = Program.Get<ISaveManager>();
-			if(saveManager == null)
-			{
-				throw new Exception("Could not get ISaveManager. /" + name + " will break");
-			}
+			saveManager = ServiceGetter.getService<ISaveManager>();
 		}
 
 		public void execute(CommandSender sender, string arguments)

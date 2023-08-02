@@ -28,6 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\EccsLogicWorldAPI\EccsLogicWorldAPI.csproj" />
       <ProjectReference Include="..\ServerOnlyMods\ServerOnlyMods.csproj" />
     </ItemGroup>
 

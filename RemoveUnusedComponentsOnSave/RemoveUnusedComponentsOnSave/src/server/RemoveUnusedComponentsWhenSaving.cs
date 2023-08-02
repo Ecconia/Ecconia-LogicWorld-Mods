@@ -1,11 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Reflection;
+using EccsLogicWorldAPI.Server;
+using EccsLogicWorldAPI.Shared.AccessHelper;
 using HarmonyLib;
 using LogicAPI.Data;
 using LogicAPI.Server;
 using LogicAPI.Services;
-using LogicWorld.Server;
 using LogicWorld.SharedCode.Saving;
 
 namespace RemoveUnusedComponentsOnSave.Server
@@ -16,21 +16,12 @@ namespace RemoveUnusedComponentsOnSave.Server
 
 		protected override void Initialize()
 		{
-			worldData = Program.Get<IWorldData>();
-			if(worldData == null)
-			{
-				throw new Exception("Could not get 'IWorldData' from server.");
-			}
-
-			MethodInfo methSaver = typeof(SaveWriter).GetMethod("WriteHeaderAndSaveInfo", BindingFlags.NonPublic | BindingFlags.Static);
-			if(methSaver == null)
-			{
-				Logger.Error("Could not find method 'WriteHeaderAndSaveInfo' in class 'SaveWriter'.");
-				return;
-			}
-			MethodInfo patchMethod = typeof(RemoveUnusedComponentsWhenSaving).GetMethod(nameof(patchSaving), BindingFlags.NonPublic | BindingFlags.Static);
+			worldData = ServiceGetter.getService<IWorldData>();
+			
+			MethodInfo method = Methods.getPrivateStatic(typeof(SaveWriter), "WriteHeaderAndSaveInfo");
+			MethodInfo patchMethod = Methods.getPrivateStatic(typeof(RemoveUnusedComponentsWhenSaving), nameof(patchSaving));
 			Harmony harmony = new Harmony("RemoveUnusedComponentsWhenSaving");
-			harmony.Patch(methSaver, new HarmonyMethod(patchMethod));
+			harmony.Patch(method, new HarmonyMethod(patchMethod));
 		}
 
 		private static void patchSaving(SaveType saveType, ref IReadOnlyDictionary<ushort, string> componentIDsMap)

@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
+using EccsLogicWorldAPI.Server.Injectors;
+using EccsLogicWorldAPI.Shared.PacketWrapper;
 using LogicAPI.Data;
 using LogicAPI.Networking;
+using LogicAPI.Networking.Packets.Initialization;
 using LogicAPI.Server;
 using LogicAPI.Server.Networking;
 using LogicWorld.Server;
 using LogicWorld.SharedCode.Networking;
-using WireTracer.Server.Injectors;
 using WireTracer.Server.Network;
 using WireTracer.Shared.Packets.S2C;
 
@@ -27,18 +29,10 @@ namespace WireTracer.Server
 			}
 
 			//Inject verifier:
-			if(!ClientVerifierInjector.injectNewType(Logger, new SniffingClientVerifier(this)))
-			{
-				throw new Exception("Could not inject client verifier that monitors client mods.");
-			}
-			if(!PacketHandlerInjector.injectPacketHandler(Logger, new ClientJoinedPacketHandler(this)))
-			{
-				throw new Exception("Could not replace packet handler that listens to player joins.");
-			}
-			if(!PacketHandlerInjector.injectNewPacketHandler(Logger, new WireTracerRequestHandler(this)))
-			{
-				throw new Exception("Could not add packet handler for cluster listing request packet.");
-			}
+			RawJoinVerifierInjector.addVerifier(new SniffingClientVerifier(this));
+			PacketHandlerManager.getCustomPacketHandler<ClientLoadedWorldPacket>()
+				.addHandlerToEnd(new ClientJoinedPacketHandler(this));
+			RawPacketHandlerInjector.addPacketHandler(new WireTracerRequestHandler(this));
 		}
 
 		public void playerRequestsCluster(Connection sender, Guid packetRequestGuid, PegAddress origin)

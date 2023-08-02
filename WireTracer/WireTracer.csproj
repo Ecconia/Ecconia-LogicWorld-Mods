@@ -76,4 +76,7 @@
         <HintPath>..\LogicWorld\Server\UnityEngine.CoreModule.dll</HintPath>
       </Reference>
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\EccsLogicWorldAPI\EccsLogicWorldAPI.csproj" />
+    </ItemGroup>
 </Project>

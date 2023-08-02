@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using EccsLogicWorldAPI.Server;
 using LogicAPI.Networking;
 using LogicWorld.Server;
 
@@ -14,11 +15,7 @@ namespace CustomChatManager.Server.Commands
 
 		public CommandList()
 		{
-			playerManager = Program.Get<IPlayerManager>();
-			if(playerManager == null)
-			{
-				throw new Exception("Could not get IPlayerManager. /list will break");
-			}
+			playerManager = ServiceGetter.getService<IPlayerManager>();
 		}
 
 		public void execute(CommandSender sender, string arguments)

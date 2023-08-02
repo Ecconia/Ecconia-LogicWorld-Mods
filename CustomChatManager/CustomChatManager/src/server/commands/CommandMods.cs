@@ -1,7 +1,6 @@
-using System;
 using System.Collections;
-using System.Reflection;
 using System.Text;
+using EccsLogicWorldAPI.Shared.AccessHelper;
 using LogicAPI;
 using LogicAPI.Modding;
 using LogicWorld.Server;
@@ -18,13 +17,10 @@ namespace CustomChatManager.Server.Commands
 
 		public CommandMods()
 		{
-			object modManager = Program.Get<IModManager>();
-			var field = typeof(ModManager).GetField("ModScripts", BindingFlags.NonPublic | BindingFlags.Instance);
-			if(field == null)
-			{
-				throw new Exception("Developer fix your mod, the ModScripts field does not exist.");
-			}
-			mods = (IDictionary) field.GetValue(modManager);
+			var modManager = Program.Get<IModManager>();
+			var field = Fields.getPrivate(typeof(ModManager), "ModScripts");
+			var value = Fields.getNonNull(field, modManager);
+			mods = Types.checkType<IDictionary>(value);
 		}
 
 		public void execute(CommandSender sender, string arguments)

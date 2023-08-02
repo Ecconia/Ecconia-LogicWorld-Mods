@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using CustomChatManager.Server.Commands;
+using EccsLogicWorldAPI.Server;
+using EccsLogicWorldAPI.Server.Hooks;
 using JimmysUnityUtilities;
 using LogicAPI.Data;
 using LogicAPI.Networking;
 using LogicAPI.Networking.Packets.Server;
 using LogicAPI.Server.Networking;
-using LogicWorld.Server;
-using ServerModdingTools.Server;
+using LogicLog;
 
 namespace CustomChatManager.Server.ChatServices
 {
@@ -45,23 +46,23 @@ namespace CustomChatManager.Server.ChatServices
 			commands.Add(command.name.ToLower(), command);
 		}
 
-		public CommandManager()
+		public CommandManager(ILogicLogger logger)
 		{
 			instance = this;
-			server = Program.Get<NetworkServer>();
-			if(server == null)
-			{
-				throw new Exception("Could not get 'NetworkServer' service.");
-			}
+			server = ServiceGetter.getService<NetworkServer>();
 
-			if(PlayerJoiningHook.isAvailable())
+			try
 			{
 				PlayerJoiningHook.registerCallback(new JoinMessage());
+			}
+			catch(Exception e)
+			{
+				logger.Error("Could not register player join callback. See stacktrace:\n" + e);
 			}
 			register(new HelpCommand());
 		}
 
-		private class JoinMessage : PlayerJoiningCallback
+		private class JoinMessage : PlayerJoiningHook.PlayerJoiningCallback
 		{
 			public void playerIsJoining(Connection connection, PlayerData playerData)
 			{

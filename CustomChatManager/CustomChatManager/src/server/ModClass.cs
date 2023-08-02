@@ -1,5 +1,7 @@
 using CustomChatManager.Server.ChatServices;
 using CustomChatManager.Server.Commands;
+using EccsLogicWorldAPI.Shared.PacketWrapper;
+using LogicAPI.Networking.Packets.Client;
 using LogicAPI.Server;
 
 namespace CustomChatManager.Server
@@ -15,7 +17,7 @@ namespace CustomChatManager.Server
 				//Comment out a feature if you do not like it:
 				chatManager.addProcessor(new VerifyMessageLength()); //This is the only validation done by the game.
 				chatManager.addProcessor(new VerifySenderName()); //Stops a player from fooling others, by fixing its message.
-				chatManager.addProcessor(new CommandManager());
+				chatManager.addProcessor(new CommandManager(Logger));
 				{
 					CommandManager.instance.register(new CommandTPS());
 					CommandManager.instance.register(new CommandList());
@@ -24,7 +26,8 @@ namespace CustomChatManager.Server
 				}
 			}
 
-			CustomChatManager.inject(Logger, chatManager);
+			PacketHandlerManager.getCustomPacketHandler<ChatMessageSentPacket>()
+				.addHandlerToFront(new CustomChatManager.CustomChatPacketHandler(chatManager));
 		}
 	}
 }

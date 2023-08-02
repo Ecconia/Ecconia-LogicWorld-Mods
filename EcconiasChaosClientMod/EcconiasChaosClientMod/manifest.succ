@@ -4,3 +4,5 @@ Author: Ecconia
 Version: 1.4.0
 Priority: 0
 ClientOnly: true
+Dependencies:
+    - EccsLogicWorldAPI

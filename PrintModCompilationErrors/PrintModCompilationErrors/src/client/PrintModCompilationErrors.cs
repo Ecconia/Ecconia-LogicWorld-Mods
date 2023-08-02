@@ -1,31 +1,32 @@
 using System.Reflection;
 using HarmonyLib;
+using LogicAPI.Client;
 using LogicLog;
 using LogicWorld.SharedCode.Modding.Compilation;
 
-namespace RandomDebugCollection.Client
+namespace PrintModCompilationErrors.Client
 {
-	public class PrintCompilationErrors
+	public class PrintModCompilationErrors : ClientMod
 	{
 		private static ILogicLogger logger;
 		private static string lastModName;
 		
-		public static void Initialize(ILogicLogger logger)
+		protected override void Initialize()
 		{
-			PrintCompilationErrors.logger = logger;
-			var harmony = new Harmony("RandomDebugCollection.PrintCompileErrors");
+			logger = Logger;
+			var harmony = new Harmony("PrintModCompilationErrors");
 			var meth = typeof(ModCompiler).GetMethod("Compile", BindingFlags.Public | BindingFlags.Static);
-			var pre = typeof(PrintCompilationErrors).GetMethod("Prefix", BindingFlags.Public | BindingFlags.Static);
-			var post = typeof(PrintCompilationErrors).GetMethod("Postfix", BindingFlags.Public | BindingFlags.Static);
+			var pre = typeof(PrintModCompilationErrors).GetMethod(nameof(prefix), BindingFlags.Public | BindingFlags.Static);
+			var post = typeof(PrintModCompilationErrors).GetMethod(nameof(postfix), BindingFlags.Public | BindingFlags.Static);
 			harmony.Patch(meth, new HarmonyMethod(pre), new HarmonyMethod(post));
 		}
 		
-		public static void Prefix(string name)
+		public static void prefix(string name)
 		{
 			lastModName = name;
 		}
-		 
-		public static void Postfix(ref ModCompiler.CompileResult __result)
+		
+		public static void postfix(ModCompiler.CompileResult __result)
 		{
 			if(!__result.Success)
 			{

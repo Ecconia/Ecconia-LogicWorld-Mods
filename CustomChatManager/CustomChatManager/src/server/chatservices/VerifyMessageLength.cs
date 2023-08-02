@@ -1,4 +1,4 @@
-using System;
+using EccsLogicWorldAPI.Server;
 using LogicWorld.Server;
 
 namespace CustomChatManager.Server.ChatServices
@@ -9,11 +9,7 @@ namespace CustomChatManager.Server.ChatServices
 
 		public VerifyMessageLength()
 		{
-			config = Program.Get<IGameConfig>();
-			if(config == null)
-			{
-				throw new Exception("Could not get IGameConfig.");
-			}
+			config = ServiceGetter.getService<IGameConfig>();
 		}
 
 		public void processChatEvent(ChatMessageEvent e)
