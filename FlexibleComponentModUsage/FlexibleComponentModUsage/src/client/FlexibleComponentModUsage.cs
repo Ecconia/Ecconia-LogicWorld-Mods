@@ -1,3 +1,4 @@
+using EccsLogicWorldAPI.Client.Hooks;
 using EccsLogicWorldAPI.Shared.PacketWrapper;
 using LogicAPI.Client;
 using LogicAPI.Networking.Packets.Initialization;
@@ -17,6 +18,10 @@ namespace FlexibleComponentModUsage.client
 			logger = Logger;
 			PacketHandlerManager.getCustomPacketHandler<WorldInitializationPacket>()
 				.addHandlerToFront(new Handler(this));
+
+			WorldHook.worldUnloading += () => {
+				manager?.restore();
+			};
 		}
 
 		public void onWorldPacket(WorldInitializationPacket packet)

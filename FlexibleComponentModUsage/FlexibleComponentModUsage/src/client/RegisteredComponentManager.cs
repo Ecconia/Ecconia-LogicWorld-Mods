@@ -112,7 +112,7 @@ namespace FlexibleComponentModUsage.client
 			//Done. Now the client thinks it has only the components that the server has.
 		}
 
-		private void restore()
+		public void restore()
 		{
 			componentRegistryReference.Clear();
 			foreach(var (clientID, clientInfo) in componentRegistryBackup)
