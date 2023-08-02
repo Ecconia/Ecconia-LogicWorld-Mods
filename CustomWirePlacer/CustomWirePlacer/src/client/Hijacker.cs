@@ -13,7 +13,7 @@ namespace CustomWirePlacer.Client
 			var callInsteadMethod = Methods.getPublicStatic(typeof(Hijacker), nameof(harmonyCallback));
 			new Harmony("WirePlacer Hijacker").Patch(methodEntryPoint, new HarmonyMethod(callInsteadMethod));
 		}
-
+		
 		public static bool harmonyCallback(ref bool __result)
 		{
 			//Oops I did it again, having a classname identical to a namespace.

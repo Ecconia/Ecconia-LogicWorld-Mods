@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using LogicAPI.Data;
 using LogicAPI.Data.BuildingRequests;
-using LogicAPI.Services;
 using LogicWorld.BuildingManagement;
 using LogicWorld.Interfaces;
 
@@ -12,22 +11,22 @@ namespace CustomWirePlacer.Client.CWP.feature
 	{
 		public static void removeWiresFromGroup(List<PegAddress> pegs)
 		{
-			List<BuildRequest> requests = new List<BuildRequest>();
-			IWorldData world = Instances.MainWorld.Data;
+			var requests = new List<BuildRequest>();
+			var world = Instances.MainWorld.Data;
 			for(int index = 0; index < pegs.Count; index++)
 			{
-				PegAddress peg = pegs[index];
-				HashSet<WireAddress> wires = world.LookupPegWires(peg);
+				var peg = pegs[index];
+				var wires = world.LookupPegWires(peg);
 				if(wires == null)
 				{
 					continue;
 				}
-				foreach(WireAddress wireAddress in wires)
+				foreach(var wireAddress in wires)
 				{
-					Wire wire = world.Lookup(wireAddress);
-					PegAddress pegOtherSide = wire.Point1 == peg ? wire.Point2 : wire.Point1;
+					var wire = world.Lookup(wireAddress);
+					var pegOtherSide = wire.Point1 == peg ? wire.Point2 : wire.Point1;
 					//Sadly the pegs might be connected to each other, in that case we only want to delete the wire once.
-					int otherIndex = pegs.IndexOf(pegOtherSide);
+					var otherIndex = pegs.IndexOf(pegOtherSide);
 					if(otherIndex >= 0 //The partner peg is in the list of pegs to process!
 						&& otherIndex <= index // we already processed this peg though.
 					)
@@ -42,25 +41,24 @@ namespace CustomWirePlacer.Client.CWP.feature
 				BuildRequestManager.SendManyBuildRequestsAsMultiUndoItem(requests);
 			}
 		}
-
+		
 		public static void removeWiresFromGroups(List<PegAddress> pegs, List<PegAddress> otherPegs)
 		{
-			List<BuildRequest> requests = new List<BuildRequest>();
-			IWorldData world = Instances.MainWorld.Data;
-			for(int index = 0; index < pegs.Count; index++)
+			var requests = new List<BuildRequest>();
+			var world = Instances.MainWorld.Data;
+			foreach(var peg in pegs)
 			{
-				PegAddress peg = pegs[index];
-				HashSet<WireAddress> wires = world.LookupPegWires(peg);
+				var wires = world.LookupPegWires(peg);
 				if(wires == null)
 				{
 					continue;
 				}
-				foreach(WireAddress wireAddress in wires)
+				foreach(var wireAddress in wires)
 				{
-					Wire wire = world.Lookup(wireAddress);
-					PegAddress pegOtherSide = wire.Point1 == peg ? wire.Point2 : wire.Point1;
+					var wire = world.Lookup(wireAddress);
+					var pegOtherSide = wire.Point1 == peg ? wire.Point2 : wire.Point1;
 					//Sadly the pegs might be connected to each other, in that case we only want to delete the wire once.
-					int otherIndex = otherPegs.IndexOf(pegOtherSide);
+					var otherIndex = otherPegs.IndexOf(pegOtherSide);
 					if(otherIndex >= 0) //The partner peg is in the other group of pegs, remove wire!
 					{
 						requests.Add(new BuildRequest_DeleteWire(wireAddress));

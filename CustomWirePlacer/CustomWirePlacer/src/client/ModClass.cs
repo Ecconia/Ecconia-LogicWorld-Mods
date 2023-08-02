@@ -15,11 +15,11 @@ namespace CustomWirePlacer.Client
 	{
 		// public static SimpleSettings settings;
 		public static ILogicLogger logger;
-
+		
 		protected override void Initialize()
 		{
 			logger = Logger;
-
+			
 			try
 			{
 				GameStateInjector.inject(GameStatePegDrawing.id, typeof(GameStatePegDrawing));
@@ -29,12 +29,12 @@ namespace CustomWirePlacer.Client
 			{
 				throw new Exception("[CWP] Could not inject CustomWirePlacer game states, see exception.", e);
 			}
-
+			
 			//Hijack the original WirePlacer to do nothing and instead use the custom one.
 			Hijacker.hijackWirePlacer();
 			//Initialize keys:
 			CustomInput.Register<CWPContext, CWPTrigger>("CustomWirePlacer");
-
+			
 			CWPSettingsWindow.initOnce(); //Register static window events
 			WorldHook.worldLoading += () => {
 				try

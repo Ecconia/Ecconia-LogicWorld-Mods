@@ -8,7 +8,7 @@ namespace CustomWirePlacer.Client.CWP
 	public static class CWPOutliner
 	{
 		private static readonly Dictionary<PegAddress, PegData> pegDatas = new Dictionary<PegAddress, PegData>();
-
+		
 		private static PegData getOrInject(PegAddress peg)
 		{
 			if(!pegDatas.TryGetValue(peg, out PegData data))
@@ -21,17 +21,17 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			return data;
 		}
-
+		
 		public static void OutlineHard(PegAddress peg, OutlineData color)
 		{
-			PegData data = getOrInject(peg);
+			var data = getOrInject(peg);
 			Outliner.Outline(data.entity, color, true); //Always set the outline/color for hard outlines.
 			data.hardCounter += 1;
 		}
-
+		
 		public static void OutlineSoft(PegAddress peg, OutlineData color, bool forceSet = false)
 		{
-			PegData data = getOrInject(peg);
+			var data = getOrInject(peg);
 			if(data.softCounter == 0 || forceSet) //When there is no color, this was just created. Else this already has a color, do not overwrite that color - unless force.
 			{
 				data.color = color;
@@ -42,7 +42,7 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			data.softCounter += 1;
 		}
-
+		
 		public static void RemoveOutlineHard(PegAddress peg)
 		{
 			if(peg == null)
@@ -74,7 +74,7 @@ namespace CustomWirePlacer.Client.CWP
 				}
 			}
 		}
-
+		
 		public static void RemoveOutlineHard(IEnumerable<PegAddress> pegs)
 		{
 			if(pegs == null)
@@ -86,7 +86,7 @@ namespace CustomWirePlacer.Client.CWP
 				RemoveOutlineHard(peg);
 			}
 		}
-
+		
 		public static void RemoveOutlineSoft(PegAddress peg)
 		{
 			if(peg == null)
@@ -107,7 +107,7 @@ namespace CustomWirePlacer.Client.CWP
 				}
 			}
 		}
-
+		
 		public static void RemoveAllOutlines()
 		{
 			foreach(var data in pegDatas.Values)
@@ -116,7 +116,7 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			pegDatas.Clear();
 		}
-
+		
 		private class PegData
 		{
 			public IRenderedEntity entity;

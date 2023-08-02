@@ -12,7 +12,6 @@ using LogicWorld.BuildingManagement;
 using LogicWorld.GameStates;
 using LogicWorld.Input;
 using LogicWorld.Interfaces;
-using LogicWorld.Outlines;
 using LogicWorld.UI.HelpList;
 
 namespace CustomWirePlacer.Client.CWP
@@ -23,11 +22,11 @@ namespace CustomWirePlacer.Client.CWP
 		private static CWPGroup secondGroup = new CWPGroup();
 		//The current group is used to reference the group which currently is being modified.
 		private static CWPGroup currentGroup;
-
+		
 		private static PegAddress lastLookedAtPeg;
-
+		
 		public static readonly CWPRaycastLine raycastLine = new CWPRaycastLine();
-
+		
 		private static bool active;
 		//Indicates, if the mouse is down while editing a group. And not just down.
 		private static bool drawing;
@@ -37,18 +36,18 @@ namespace CustomWirePlacer.Client.CWP
 		//When this is set, the next peg clicked will be used for the pattern of the second group.
 		public static bool waitForPegToApplyPatternTo;
 		public static bool flipping;
-
+		
 		private static bool enteredStallMode;
-
+		
 		public static bool doNotApplyExpandForward;
 		public static bool doNotApplyExpandBackwards;
-
+		
 		public static bool pendingTwoDimensional;
 		private static bool toggleListMode;
-
+		
 		//Stores all generated and used wire-ghosts, to easily remove them again.
 		private static readonly List<WireGhost> ghosts = new List<WireGhost>();
-
+		
 		public static bool pollStartWirePlacing()
 		{
 			if(!Trigger.DrawWire.DownThisFrame())
@@ -57,7 +56,7 @@ namespace CustomWirePlacer.Client.CWP
 				// If that is not the case, rest of interaction may happen.
 				return false;
 			}
-			PegAddress pegCurrentlyLookingAt = CWPHelper.getPegCurrentlyLookingAt();
+			var pegCurrentlyLookingAt = CWPHelper.getPegCurrentlyLookingAt();
 			if(pegCurrentlyLookingAt == null)
 			{
 				//Not looking at a peg currently, so am most certainly not starting to drag a wire.
@@ -68,7 +67,7 @@ namespace CustomWirePlacer.Client.CWP
 			startWireDrawing(pegCurrentlyLookingAt);
 			return true;
 		}
-
+		
 		private static void startWireDrawing(PegAddress initialPeg)
 		{
 			if(CWPTrigger.ModificatorAlternative.Held())
@@ -76,16 +75,16 @@ namespace CustomWirePlacer.Client.CWP
 				PegDrawing.PegDrawing.switchToPegDrawingMode(initialPeg);
 				return;
 			}
-
+			
 			// Set the first peg:
 			firstGroup.setFirstPeg(initialPeg, false);
 			raycastLine.setAxis(firstGroup.getCurrentAxis());
 			SoundPlayer.PlaySoundAt(Sounds.ConnectionInitial, CWPHelper.getWireConnectionPoint(initialPeg));
-
+			
 			//Switch state:
 			GameStateManager.TransitionTo(CWPGameState.id);
 		}
-
+		
 		public static void onActivate()
 		{
 			drawing = true; //Yes we are drawing!
@@ -96,10 +95,10 @@ namespace CustomWirePlacer.Client.CWP
 			toggleListMode = false;
 			flipping = false;
 			enteredStallMode = false;
-
+			
 			firstGroup.showFirstPeg();
 			currentGroup = firstGroup;
-
+			
 			if(CWPSettings.showStatusOverlay)
 			{
 				CWPStatusOverlay.setVisible(true);
@@ -107,23 +106,23 @@ namespace CustomWirePlacer.Client.CWP
 			active = true;
 			CWPHelpOverlay.updateText(); //Has to be called manually, because it only works after this initialization.
 		}
-
+		
 		private static void cleanUpWireGhosts()
 		{
-			foreach(WireGhost wire in ghosts)
+			foreach(var wire in ghosts)
 			{
 				wire.Recycle();
 			}
 			ghosts.Clear();
 		}
-
+		
 		public static void onDeactivate()
 		{
 			active = false;
 			CWPSettingsWindow.setVisible(false);
 			CWPStatusOverlay.setVisible(false);
 			raycastLine.reset();
-
+			
 			//Undo all outlining, and reset all data:
 			cleanUpWireGhosts();
 			currentGroup = null;
@@ -132,7 +131,7 @@ namespace CustomWirePlacer.Client.CWP
 			lastLookedAtPeg = null;
 			CWPOutliner.RemoveAllOutlines(); //Cleanup leftover (baked) outlines.
 		}
-
+		
 		public static void onUpdate()
 		{
 			if(UITrigger.Back.DownThisFrame() || Trigger.CancelPlacing.DownThisFrame())
@@ -144,17 +143,17 @@ namespace CustomWirePlacer.Client.CWP
 				GameStateManager.TransitionBackToBuildingState();
 				return;
 			}
-
+			
 			if(Trigger.ToggleHelp.DownThisFrame())
 			{
 				ToggleableSingletonMenu<HelpListMenu>.ToggleMenu();
 			}
-
-			bool updated = false;
-
+			
+			var updated = false;
+			
 			if(CWPTrigger.GoTwoDimensional.DownThisFrame())
 			{
-				bool old = pendingTwoDimensional;
+				var old = pendingTwoDimensional;
 				pendingTwoDimensional = !pendingTwoDimensional;
 				if(currentGroup.isTwoDimensional())
 				{
@@ -166,11 +165,11 @@ namespace CustomWirePlacer.Client.CWP
 					CWPHelpOverlay.updateText();
 				}
 			}
-
+			
 			//Handle peg-selection and mouse-up while drawing:
 			if(drawing)
 			{
-				PegAddress currentlyLookingAtPeg = CWPHelper.getPegCurrentlyLookingAt();
+				var currentlyLookingAtPeg = CWPHelper.getPegCurrentlyLookingAt();
 				if(currentlyLookingAtPeg != null)
 				{
 					if(toggleListMode)
@@ -201,7 +200,7 @@ namespace CustomWirePlacer.Client.CWP
 					}
 					else if(currentlyLookingAtPeg != currentGroup.getSecondPeg())
 					{
-						bool updateHelp = currentGroup.getCurrentAxis().secondPeg == null || !currentGroup.hasMultiplePegs();
+						var updateHelp = currentGroup.getCurrentAxis().secondPeg == null || !currentGroup.hasMultiplePegs();
 						//Peg switched:
 						currentGroup.setSecondPeg(currentlyLookingAtPeg);
 						if(updateHelp)
@@ -215,7 +214,7 @@ namespace CustomWirePlacer.Client.CWP
 						updated = true;
 					}
 				}
-
+				
 				if(CWPTrigger.ApplyPattern.DownThisFrame())
 				{
 					if(secondGroup.isSet())
@@ -244,16 +243,16 @@ namespace CustomWirePlacer.Client.CWP
 					GameStateManager.TransitionBackToBuildingState();
 					return;
 				}
-
+				
 				if(CWPTrigger.ApplyPattern.DownThisFrame())
 				{
 					waitForPegToApplyPatternTo = !waitForPegToApplyPatternTo;
 					CWPStatusOverlay.setDirtyGeneric();
 				}
-
+				
 				if(Trigger.DrawWire.DownThisFrame())
 				{
-					PegAddress lookingAt = CWPHelper.getPegCurrentlyLookingAt();
+					var lookingAt = CWPHelper.getPegCurrentlyLookingAt();
 					if(lookingAt != null)
 					{
 						if(CWPTrigger.ModificatorAlternative.Held())
@@ -329,7 +328,7 @@ namespace CustomWirePlacer.Client.CWP
 					lastLookedAtPeg = lookingAt;
 				}
 				//Else this click is for now meaningless.
-
+				
 				if(CWPTrigger.ApplyNormalAction.UpThisFrame())
 				{
 					applyNormalAction();
@@ -337,14 +336,14 @@ namespace CustomWirePlacer.Client.CWP
 					return;
 				}
 			}
-
+			
 			if(checkForMouseUp())
 			{
 				return;
 			}
-
+			
 			//Feature handling, that do not depend on the drawing state:
-
+			
 			//The expand/discover feature may actually be used while still drawing. However they get reset, if the second peg changes.
 			if(CWPTrigger.ExpandFurther.DownThisFrame() || CWPTrigger.ExpandBackwards.DownThisFrame())
 			{
@@ -372,42 +371,42 @@ namespace CustomWirePlacer.Client.CWP
 				doNotApplyExpandForward = false;
 				CWPHelpOverlay.updateText();
 			}
-
+			
 			if(CWPTrigger.OpenSettings.DownThisFrame())
 			{
 				CWPSettingsWindow.toggleVisibility();
 			}
-
+			
 			if(CWPTrigger.Flip.DownThisFrame())
 			{
 				flipping = !flipping;
 				updated = true;
 			}
-
+			
 			if(CWPTrigger.SkipModeSwitch.DownThisFrame())
 			{
 				//TODO: Make groups restore the mode, which was last used.
 				currentGroup.switchSkipMode();
 				updated = true;
 			}
-
+			
 			if(CWPTrigger.ModificatorAlternative.UpThisFrame() || CWPTrigger.ModificatorAlternative.DownThisFrame())
 			{
 				//Required, to update the skip text.
 				CWPHelpOverlay.updateText();
 			}
 			{
-				bool up = CWPTrigger.IncreaseInterval.Held();
-				bool down = CWPTrigger.DecreaseInterval.Held();
+				var up = CWPTrigger.IncreaseInterval.Held();
+				var down = CWPTrigger.DecreaseInterval.Held();
 				if(up ^ down)
 				{
-					int offset = up ? 1 : -1;
-					bool doSkipping = true;
+					var offset = up ? 1 : -1;
+					var doSkipping = true;
 					if(CWPTrigger.ExpandBackwards.Held())
 					{
 						currentGroup.updateExpandBackwardsCount(offset);
 						raycastLine.refresh();
-						bool old = doNotApplyExpandBackwards;
+						var old = doNotApplyExpandBackwards;
 						doNotApplyExpandBackwards = true;
 						if(doNotApplyExpandBackwards != old)
 						{
@@ -420,7 +419,7 @@ namespace CustomWirePlacer.Client.CWP
 					{
 						currentGroup.updateExpandFurtherCount(offset);
 						raycastLine.refresh();
-						bool old = doNotApplyExpandForward;
+						var old = doNotApplyExpandForward;
 						doNotApplyExpandForward = true;
 						if(doNotApplyExpandForward != old)
 						{
@@ -449,7 +448,7 @@ namespace CustomWirePlacer.Client.CWP
 					}
 				}
 			}
-
+			
 			if(CWPTrigger.RemoveWires.DownThisFrame())
 			{
 				if(secondGroup.isSet())
@@ -463,21 +462,21 @@ namespace CustomWirePlacer.Client.CWP
 				updated = true; //We might have deleted wires, that make room for the new ones.
 				// While ofc, I doubt that the server response comes in the same frame.
 			}
-
+			
 			if(!updated && !CWPSettings.connectPegsInOneGroupWithEachOther && (CWPTrigger.Modificator.UpThisFrame() || CWPTrigger.Modificator.DownThisFrame()))
 			{
 				updated = true; //When not connecting pegs in one group, the mod key might cause a visual update. Hence update when it is toggled.
 			}
-
+			
 			if(updated)
 			{
 				updateWireGhosts();
 				CWPStatusOverlay.setDirtyGeneric();
 			}
-
+			
 			raycastLine.onUpdate();
 		}
-
+		
 		private static bool checkForMouseUp()
 		{
 			if(!drawing || Trigger.DrawWire.Held())
@@ -515,14 +514,14 @@ namespace CustomWirePlacer.Client.CWP
 			GameStateManager.TransitionBackToBuildingState(); //Does the cleanup.
 			return true;
 		}
-
+		
 		private static IEnumerable<(PegAddress first, PegAddress second, bool valid)> getWires()
 		{
 			if(secondGroup.isSet())
 			{
-				List<PegAddress> smaller = firstGroup.getPegs();
-				List<PegAddress> bigger = secondGroup.getPegs();
-				NoDuplicationHasher<PegAddress> noDuplicationHasher = new NoDuplicationHasher<PegAddress>((uint) (smaller.Count + bigger.Count));
+				var smaller = firstGroup.getPegs();
+				var bigger = secondGroup.getPegs();
+				var noDuplicationHasher = new NoDuplicationHasher<PegAddress>((uint) (smaller.Count + bigger.Count));
 				if(flipping)
 				{
 					bigger.Reverse(); //Not pretty, but does the job reliably.
@@ -534,17 +533,17 @@ namespace CustomWirePlacer.Client.CWP
 				var counts = getWireCounts(smaller, bigger);
 				for(int i = 0; i < smaller.Count; i++)
 				{
-					PegAddress first = smaller[i];
-					PegAddress second = bigger[i];
+					var first = smaller[i];
+					var second = bigger[i];
 					if(shouldEmit(first, second) && noDuplicationHasher.probeDuplicate(first, second))
 					{
 						yield return (first, second, isValid(first, second, counts));
 					}
 				}
-				PegAddress constant = smaller[smaller.Count - 1];
+				var constant = smaller[smaller.Count - 1];
 				for(int i = smaller.Count; i < bigger.Count; i++)
 				{
-					PegAddress other = bigger[i];
+					var other = bigger[i];
 					if(shouldEmit(constant, other) && noDuplicationHasher.probeDuplicate(constant, other))
 					{
 						yield return (constant, other, isValid(constant, other, counts));
@@ -557,16 +556,16 @@ namespace CustomWirePlacer.Client.CWP
 				{
 					var offsets = firstGroup.get2DOffsets();
 					var startingPegs = firstGroup.getFirstAxis().getPegs();
-					NoDuplicationHasher<PegAddress> noDuplicationHasher = new NoDuplicationHasher<PegAddress>((uint) (offsets.Count * startingPegs.Count));
+					var noDuplicationHasher = new NoDuplicationHasher<PegAddress>((uint) (offsets.Count * startingPegs.Count));
 					foreach(var startingPeg in startingPegs)
 					{
 						var pegs = CWPGroup.get2DPegs(startingPeg, offsets).ToList();
 						//TBI: Literally the same code as in the block below, but the inputs are different. Not sure yet how to make this more pretty - while staying efficient enough. Could loop one more time...
 						var counts = getWireCounts(pegs);
-						PegAddress last = pegs[0];
+						var last = pegs[0];
 						for(int i = 1; i < pegs.Count; i++)
 						{
-							PegAddress current = pegs[i];
+							var current = pegs[i];
 							if(shouldEmit(last, current) && noDuplicationHasher.probeDuplicate(last, current))
 							{
 								yield return (last, current, isValid(last, current, counts));
@@ -578,12 +577,12 @@ namespace CustomWirePlacer.Client.CWP
 				else
 				{
 					var pegs = firstGroup.getPegs();
-					NoDuplicationHasher<PegAddress> noDuplicationHasher = new NoDuplicationHasher<PegAddress>((uint) pegs.Count);
+					var noDuplicationHasher = new NoDuplicationHasher<PegAddress>((uint) pegs.Count);
 					var counts = getWireCounts(pegs);
-					PegAddress last = pegs[0];
+					var last = pegs[0];
 					for(int i = 1; i < pegs.Count; i++)
 					{
-						PegAddress current = pegs[i];
+						var current = pegs[i];
 						if(shouldEmit(last, current) && noDuplicationHasher.probeDuplicate(last, current))
 						{
 							yield return (last, current, isValid(last, current, counts));
@@ -595,7 +594,7 @@ namespace CustomWirePlacer.Client.CWP
 			else
 			{
 				firstGroup.getPegs(); //Literally just call this to update the peg count.
-
+				
 				//Test, if it is still a simple single wire, else don't add the wire and assume MWP:
 				if(
 					enteredStallMode //If in stall mode, then it must be MWP.
@@ -605,19 +604,19 @@ namespace CustomWirePlacer.Client.CWP
 				{
 					yield break;
 				}
-				PegAddress first = firstGroup.getFirstAxis().firstPeg;
-				PegAddress second = firstGroup.getFirstAxis().secondPeg;
+				var first = firstGroup.getFirstAxis().firstPeg;
+				var second = firstGroup.getFirstAxis().secondPeg;
 				if(second != null)
 				{
 					yield return (first, second, WireUtility.WireWouldBeValid(first, second));
 				}
 			}
-
+			
 			bool shouldEmit(PegAddress first, PegAddress second)
 			{
 				return first != second; //May happen, don't ever forward these.
 			}
-
+			
 			bool isValid(PegAddress first, PegAddress second, Dictionary<PegAddress, int> counts)
 			{
 				//Before doing any ray casting, check that both pegs have at least one more slot for wires.
@@ -630,7 +629,7 @@ namespace CustomWirePlacer.Client.CWP
 					return false;
 				}
 				//Both pegs can accept one more wire, check if the wire would be valid:
-				bool valid = WireUtility.WireWouldBeValid(first, second);
+				var valid = WireUtility.WireWouldBeValid(first, second);
 				if(!valid)
 				{
 					//Not valid, don't add counts.
@@ -641,7 +640,7 @@ namespace CustomWirePlacer.Client.CWP
 				counts[second] += 1;
 				return true;
 			}
-
+			
 			Dictionary<PegAddress, int> getWireCounts(List<PegAddress> pegs1, List<PegAddress> pegs2 = null)
 			{
 				var counts = new Dictionary<PegAddress, int>();
@@ -661,39 +660,39 @@ namespace CustomWirePlacer.Client.CWP
 				return counts;
 			}
 		}
-
+		
 		public static void updateWireGhosts()
 		{
 			cleanUpWireGhosts();
-			OutlineData validColor = CWPOutlineData.validWire;
-			OutlineData invalidColor = CWPOutlineData.invalidWire;
+			var validColor = CWPOutlineData.validWire;
+			var invalidColor = CWPOutlineData.invalidWire;
 			if(!secondGroup.isSet() && CWPSettings.connectPegsInOneGroupWithEachOther && (firstGroup.isTwoDimensional() || firstGroup.hasExtraPegs()))
 			{
 				validColor = CWPOutlineData.validMultiWire;
 				invalidColor = CWPOutlineData.invalidMultiWire;
 			}
-			foreach((PegAddress first, PegAddress second, bool valid) in getWires())
+			foreach(var (first, second, valid) in getWires())
 			{
-				WireGhost wire = WireGhost.GetNewGhost();
+				var wire = WireGhost.GetNewGhost();
 				wire.SetInfo(first, second, 0f);
 				wire.SetOutlineData(valid ? validColor : invalidColor);
 				ghosts.Add(wire); //Add the wire to list, so that it can be removed on next update.
 			}
 		}
-
+		
 		private static void applyNormalAction()
 		{
 			cleanUpWireGhosts();
-			List<BuildRequest> requests = new List<BuildRequest>();
-			OutlineData outline = (!secondGroup.isSet() && (firstGroup.isTwoDimensional() || firstGroup.hasExtraPegs())) ? CWPOutlineData.validMultiWire : CWPOutlineData.validWire;
-			foreach((PegAddress first, PegAddress second, bool valid) in getWires())
+			var requests = new List<BuildRequest>();
+			var outline = (!secondGroup.isSet() && (firstGroup.isTwoDimensional() || firstGroup.hasExtraPegs())) ? CWPOutlineData.validMultiWire : CWPOutlineData.validWire;
+			foreach(var (first, second, valid) in getWires())
 			{
 				if(valid)
 				{
 					requests.Add(new BuildRequest_CreateWire(new WireData(first, second, 0f)));
 					//Since I do not know which of the wire ghosts is related to which pegs,
 					// there will just be new wire ghosts for only the valid wires:
-					WireGhost wire = WireGhost.GetNewGhost();
+					var wire = WireGhost.GetNewGhost();
 					wire.SetInfo(first, second, 0f);
 					wire.SetOutlineData(outline);
 					wire.RecycleOnWorldUpdate();
@@ -715,32 +714,32 @@ namespace CustomWirePlacer.Client.CWP
 				SoundPlayer.PlayFail();
 			}
 		}
-
+		
 		public static CWPGroup getCurrentGroup()
 		{
 			return currentGroup;
 		}
-
+		
 		public static bool isActive()
 		{
 			return active;
 		}
-
+		
 		public static CWPGroup getFirstGroup()
 		{
 			return firstGroup;
 		}
-
+		
 		public static CWPGroup getSecondGroup()
 		{
 			return secondGroup;
 		}
-
+		
 		public static bool isCurrentlyEditingAxis()
 		{
 			return applyOnUp;
 		}
-
+		
 		public static bool isCurrentlyInToggleListMode()
 		{
 			return toggleListMode;

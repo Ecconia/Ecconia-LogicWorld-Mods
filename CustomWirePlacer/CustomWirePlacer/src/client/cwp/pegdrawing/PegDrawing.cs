@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using JimmysUnityUtilities;
 using LogicAPI.Data;
@@ -19,13 +18,13 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 	public static class PegDrawing
 	{
 		private static readonly HotbarItemData pegData = new BasicHotbarItemData("MHG.Peg");
-
+		
 		private static PegAddress peg;
-
+		
 		private static StuffPlacer placer;
 		private static WireGhost wire;
 		private static Collider ghostlyCollider;
-
+		
 		public static void switchToPegDrawingMode(PegAddress initialPeg)
 		{
 			if(isPegFull(initialPeg))
@@ -36,19 +35,19 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 			peg = initialPeg;
 			GameStateManager.TransitionTo(GameStatePegDrawing.id);
 		}
-
+		
 		private static bool isPegFull(PegAddress pegAddress)
 		{
-			HashSet<WireAddress> wireAddressSet = Instances.MainWorld.Data.LookupPegWires(pegAddress);
-			int amountOfWires = wireAddressSet == null ? 0 : wireAddressSet.Count;
-			int maxAmountOfWires = pegAddress.IsInput ? WireUtility.MaxWiresPerInput : WireUtility.MaxWiresPerOutput;
+			var wireAddressSet = Instances.MainWorld.Data.LookupPegWires(pegAddress);
+			var amountOfWires = wireAddressSet == null ? 0 : wireAddressSet.Count;
+			var maxAmountOfWires = pegAddress.IsInput ? WireUtility.MaxWiresPerInput : WireUtility.MaxWiresPerOutput;
 			return amountOfWires >= maxAmountOfWires;
 		}
-
+		
 		public static void onActivate()
 		{
 			//Peg initialization:
-			PlacingGhost ghost = PlacingGhost.CreateForHotbarItem(pegData);
+			var ghost = PlacingGhost.CreateForHotbarItem(pegData);
 			placer = new StuffPlacer(ghost, ghost.GhostWorld.Dynamics.GetPlacingRulesAt(ghost.RootComponent))
 			{
 				AllowOffsetHold = true,
@@ -59,11 +58,11 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 			ghostlyCollider = ghost.Colliders.BoxColliders.First();
 			wire.SetInfo(ghostlyCollider, peg, 0f);
 		}
-
+		
 		public static void onDeactivate()
 		{
 			peg = null;
-
+			
 			//Peg:
 			placer.Ghost.Delete();
 			placer = null;
@@ -73,7 +72,7 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 			wire = null;
 			ghostlyCollider = null;
 		}
-
+		
 		public static void onUpdate()
 		{
 			if(UITrigger.Back.DownThisFrame() || Trigger.CancelPlacing.DownThisFrame())
@@ -82,15 +81,15 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 				GameStateManager.TransitionBackToBuildingState();
 				return;
 			}
-
+			
 			//Ghost peg placer:
 			placer.SyncCastingDataToPlayerCamera();
 			placer.RunStuffPlacing();
-
+			
 			//Ghost wire:
-			PlacingGhost ghost = placer.Ghost;
-			wire.GameObject.SetActive(!ghost.IsHidden); //Will 
-			Vector3 up = ghost.Transform.up;
+			var ghost = placer.Ghost;
+			wire.GameObject.SetActive(!ghost.IsHidden); //Will ???
+			var up = ghost.Transform.up;
 			wire.Peg1 = new PegRenderData()
 			{
 				WorldspaceComponentUp = up,
@@ -102,7 +101,7 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 			ghostlyCollider.enabled = true;
 			wire.UpdateValidityAndOutline();
 			ghostlyCollider.enabled = false;
-
+			
 			if(Trigger.DrawWire.UpThisFrame())
 			{
 				if(placer.CanPlaceGhost() && wire.ValidOnLastCheck)
@@ -117,7 +116,7 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 				GameStateManager.TransitionBackToBuildingState(); //Regardless stop CWP here.
 			}
 		}
-
+		
 		private static void apply(PlacingGhost ghost, Vector3 ghostTargetPos, PegAddress mainPeg)
 		{
 			IEditableComponentData data = ghost.GhostWorld.Data.Lookup(ghost.RootComponent).Data;
@@ -139,10 +138,10 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 				}
 			});
 		}
-
+		
 		private static bool attemptWirePlacement(Vector3 fromPosition, PegAddress toPeg)
 		{
-			PegAddress newlyPlacedPeg = CWPHelper.getPegAt(fromPosition);
+			var newlyPlacedPeg = CWPHelper.getPegAt(fromPosition);
 			if(newlyPlacedPeg != null && WireUtility.WireWouldBeValid(toPeg, newlyPlacedPeg))
 			{
 				BuildRequestManager.SendBuildRequest(new BuildRequest_CreateWire(new WireData(toPeg, newlyPlacedPeg, 0f)));

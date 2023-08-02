@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using FancyInput;
 using LogicUI;
@@ -10,32 +9,32 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 	public class GameStatePegDrawing : GameState
 	{
 		public const string id = "CustomWirePlacer.PegDrawing";
-
+		
 		//Setup:
-
+		
 		public override bool MouseLocked => true;
-
+		
 		public override string TextID => id;
-
+		
 		public override IEnumerable<InputTrigger> HelpScreenTriggers => new InputTrigger[]
 		{
-			(InputTrigger) (Enum) UITrigger.Back,
-			(InputTrigger) (Enum) Trigger.CancelPlacing,
-			(InputTrigger) (Enum) Trigger.DrawWire,
+			UITrigger.Back,
+			Trigger.CancelPlacing,
+			Trigger.DrawWire,
 		};
-
+		
 		//Routines:
-
+		
 		public override void OnEnter()
 		{
 			PegDrawing.onActivate();
 		}
-
+		
 		public override void OnRun()
 		{
 			PegDrawing.onUpdate();
 		}
-
+		
 		public override void OnExit()
 		{
 			PegDrawing.onDeactivate();

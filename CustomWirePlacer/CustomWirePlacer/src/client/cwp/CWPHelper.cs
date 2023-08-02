@@ -15,16 +15,16 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			return Instances.MainWorld.Renderer.Entities.GetWirePoint(pegAddress);
 		}
-
+		
 		public static Vector3 getRaycastPoint(PegAddress pegAddress)
 		{
 			var entityManager = Instances.MainWorld.Renderer.Entities;
 			if(CWPSettings.raycastAtBottomOfPegs)
 			{
-				Vector3 top = entityManager.GetWirePoint(pegAddress);
+				var top = entityManager.GetWirePoint(pegAddress);
 				var peg = entityManager.GetPegEntity(pegAddress);
 				var bot = peg.WorldPosition;
-
+				
 				var wirePointDistance = (top - bot).magnitude;
 				if(wirePointDistance < 0.025f)
 				{
@@ -38,12 +38,12 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			return entityManager.GetWirePoint(pegAddress);
 		}
-
+		
 		public static IEnumerable<PegAddress> collectPegsInBetween(PegAddress startPeg, PegAddress endPeg)
 		{
-			Vector3 start = getRaycastPoint(startPeg);
-			Vector3 end = getRaycastPoint(endPeg);
-			IEnumerable<PegAddress> collection =
+			var start = getRaycastPoint(startPeg);
+			var end = getRaycastPoint(endPeg);
+			var collection =
 				ChunkCaster
 					.CastAll(start, end - start, Vector3.Distance(start, end), Masks.Peg)
 					.OrderBy((Func<HitInfo, float>) (h => h.Hit.distance))
@@ -55,14 +55,14 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			return collection;
 		}
-
+		
 		public static PegAddress getPegCurrentlyLookingAt()
 		{
 			//Get collision with peg, however don't look through environment or structures.
 			// TBI: It would be interesting to remove environment, if one then get draw wires like looking from below the world floor.
 			return PlayerCaster.CameraCast(Masks.Environment | Masks.Structure | Masks.Peg).pAddress;
 		}
-
+		
 		//Gets the next peg on the ray, and returns the calculated center point of the peg along the ray.
 		// This is done by ray-casting from the other side too.
 		public static PegAddress findNextPeg(Vector3 start, Vector3 ray, out Vector3? position)
@@ -85,11 +85,11 @@ namespace CustomWirePlacer.Client.CWP
 			position = null;
 			return null;
 		}
-
+		
 		public static Vector3 getPegRayCenter(PegAddress peg, Vector3 start, Vector3 ray)
 		{
 			var collider = Instances.MainWorld.Renderer.Entities.GetPegEntity(peg).Collider;
-
+			
 			//I have to use a very high max distance, since the peg might be anywhere. No performance penalty here anyway.
 			if(!collider.Raycast(new Ray(start, ray), out RaycastHit hitEntry, float.MaxValue))
 			{
@@ -104,20 +104,20 @@ namespace CustomWirePlacer.Client.CWP
 			var pointExit = hitExit.point;
 			return pointEntry + (pointExit - pointEntry) / 2;
 		}
-
+		
 		public static PegAddress getPegRelativeToOtherPeg(PegAddress newPegOrigin, PegAddress oldPegOrigin, PegAddress oldPegPoint)
 		{
-			Vector3 oldOrigin = getWireConnectionPoint(oldPegOrigin);
-			Vector3 oldPoint = getWireConnectionPoint(oldPegPoint);
-			Vector3 offset = oldPoint - oldOrigin;
-			Vector3 newOrigin = getWireConnectionPoint(newPegOrigin);
-			Vector3 newPoint = newOrigin + offset;
+			var oldOrigin = getWireConnectionPoint(oldPegOrigin);
+			var oldPoint = getWireConnectionPoint(oldPegPoint);
+			var offset = oldPoint - oldOrigin;
+			var newOrigin = getWireConnectionPoint(newPegOrigin);
+			var newPoint = newOrigin + offset;
 			return getPegAt(newPoint);
 		}
-
+		
 		public static PegAddress getPegAt(Vector3 position)
 		{
-			Collider[] colliders = Physics.OverlapSphere(position, 0.01f, Masks.Peg);
+			var colliders = Physics.OverlapSphere(position, 0.01f, Masks.Peg);
 			if(colliders.Length != 1)
 			{
 				if(colliders.Length > 1)
@@ -126,8 +126,8 @@ namespace CustomWirePlacer.Client.CWP
 				}
 				return null;
 			}
-			Collider collider = colliders[0];
-			PegAddress peg = collider.GetComponent<ColliderReference>().PegAddress;
+			var collider = colliders[0];
+			var peg = collider.GetComponent<ColliderReference>().PegAddress;
 			if(peg == null)
 			{
 				ModClass.logger.Error("Casted for a peg, but got: " + collider.name + " : " + collider.tag);

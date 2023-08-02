@@ -1,11 +1,9 @@
 using CustomWirePlacer.Client.CWP;
-using EccsGuiBuilder.Client.Components;
 using EccsGuiBuilder.Client.Layouts.Controller;
 using EccsGuiBuilder.Client.Wrappers;
 using EccsLogicWorldAPI.Client.AccessHelpers;
 using JimmysUnityUtilities;
 using LogicUI;
-using LogicUI.HoverTags;
 using LogicUI.MenuParts.Toggles;
 using LogicUI.MenuTypes;
 using LogicUI.MenuTypes.ConfigurableMenus;
@@ -23,7 +21,7 @@ namespace CustomWirePlacer.Client.Windows
 		{
 			ToggleMenu();
 		}
-
+		
 		public static void setVisible(bool flag)
 		{
 			if(flag != MenuIsVisible)
@@ -31,13 +29,13 @@ namespace CustomWirePlacer.Client.Windows
 				SetMenuVisible(flag);
 			}
 		}
-
+		
 		public static void initOnce()
 		{
 			OnMenuShown += OverlayActions.getOverlayShownAction();
 			OnMenuHidden += OverlayActions.getOverlayHidingAction();
 		}
-
+		
 		public static void init()
 		{
 			var window = WS.window("Custom Wire Placer")
@@ -49,7 +47,7 @@ namespace CustomWirePlacer.Client.Windows
 				.add<CloseWindowOnKey>()
 				.add<HelpOverlayHelper>()
 				.build();
-
+			
 			var settings = window.gameObject.GetComponent<ConfigurableMenu>().Settings;
 			// build() triggers the setup of settings menu. Lets register a callback after that:
 			CoroutineUtility.RunAfterOneFrame(() => {
@@ -99,16 +97,16 @@ namespace CustomWirePlacer.Client.Windows
 							.fixedSize(50, 50)
 						);
 					}
-
+					
 					var settingAdapter = settings.AddSecretSetting(setting.key, setting.defaultValue);
 					setting.setter(settingAdapter.GetValue());
-
+					
 					toggle.OnValueChanged += b => settingAdapter.SetValue(b); //Update toggle state in settings file.
 					toggle.OnValueChanged += setting.setter; //Update toggle state in CWP settings.
 					toggle.SetValueWithoutNotify(settingAdapter.GetValue()); //Initial state.
-
+					
 					settings.OnSettingsReloaded += () => {
-						bool newValue = settingAdapter.GetValue();
+						var newValue = settingAdapter.GetValue();
 						if(toggle.Value != newValue) //Only update the values when they changed.
 						{
 							toggle.SetValueWithoutNotify(newValue); //Update toggle.
@@ -119,7 +117,7 @@ namespace CustomWirePlacer.Client.Windows
 			});
 		}
 	}
-
+	
 	public class CloseWindowOnKey : MonoBehaviour
 	{
 		private void Update()
@@ -131,7 +129,7 @@ namespace CustomWirePlacer.Client.Windows
 			}
 		}
 	}
-
+	
 	public class HelpOverlayHelper : MonoBehaviour
 	{
 		private void Update()
