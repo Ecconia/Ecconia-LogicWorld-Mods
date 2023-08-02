@@ -31,11 +31,18 @@ namespace FlexibleComponentModUsage.client
 
 		//Runtime:
 
+		private int orderIndex;
+		private readonly Dictionary<string, int> componentOrderIndex;
 		private readonly Dictionary<string, ComponentInfo> componentRegistryBackup;
 		private readonly List<PrefabVariantInfo> prefabRegistryBackup;
 
 		public RegisteredComponentManager()
 		{
+			componentOrderIndex = new Dictionary<string, int>();
+			foreach(var key in componentRegistryReference.Keys)
+			{
+				componentOrderIndex[key] = orderIndex++;
+			}
 			//Transmit the original components into a local structure.
 			componentRegistryBackup = new Dictionary<string, ComponentInfo>(componentRegistryReference);
 			prefabRegistryBackup = new List<PrefabVariantInfo>(prefabRegistryReference);
@@ -61,6 +68,7 @@ namespace FlexibleComponentModUsage.client
 				{
 					//Component is new!
 					componentRegistryBackup[newID] = newInfo;
+					componentOrderIndex[newID] = orderIndex++; //Just append to the end *shrug* Its runtime added. Will be different on game start anyway.
 					newComponents++;
 				}
 			}
@@ -74,7 +82,9 @@ namespace FlexibleComponentModUsage.client
 		{
 			//Adjust components in the official registry to the servers:
 			componentRegistryReference.Clear();
-			foreach(var serverID in packetComponentIDsMap.Values)
+			var sortedKeys = new List<string>(packetComponentIDsMap.Values);
+			sortedKeys.Sort((a, b) => componentOrderIndex[a].CompareTo(componentOrderIndex[b]));
+			foreach(var serverID in sortedKeys)
 			{
 				//Check if the server component is installed locally, by looking at the backup:
 				if(!componentRegistryBackup.TryGetValue(serverID, out var serverInfo))
