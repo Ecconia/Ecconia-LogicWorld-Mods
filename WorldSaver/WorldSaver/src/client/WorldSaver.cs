@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,10 +23,12 @@ namespace WorldSaver.Client
 		{
 			//Ensure target folder exists:
 			var savesFolder = Path.Combine(SUCC.Utilities.DefaultPath, "saves");
-			var saveFolder = Path.Combine(savesFolder, "WorldExport");
+			//TODO: Figure out the world name - should be MP and stuff.
+			var time = DateTime.Now.ToString("yyyy.MM.dd-hh·mm·ss");
+			var saveFolder = Path.Combine(savesFolder, "WorldExport@" + time);
 			if(Directory.Exists(saveFolder))
 			{
-				LConsole.WriteLine("First rename the 'WorldExport' folder.");
+				LConsole.WriteLine("This world folder exist already, try again: " + saveFolder);
 				return;
 			}
 
@@ -95,15 +98,15 @@ namespace WorldSaver.Client
 			var extraDatas = new List<(string, Type, object)>();
 			var instance = Instances.MainWorld.ExtraData;
 			var fieldAllCustomData = Fields.getPrivate(typeof(ExtraData), "AllCustomData");
-			var allCustomData = Types.checkType<IDictionary<string, object>>(Fields.getNonNull(fieldAllCustomData, instance));
+			var allCustomData = Types.checkType<IDictionary>(Fields.getNonNull(fieldAllCustomData, instance));
 			var typeElement = Types.findInAssembly(typeof(ExtraData), "LogicWorld.SharedCode.ExtraData.ExtraDataElement");
 			var fieldType = Delegator.createPropertyGetter<object, Type>(Properties.getPublic(typeElement, "DataType"));
 			var fieldValue = Delegator.createPropertyGetter<object, object>(Properties.getPublic(typeElement, "DataValue"));
-			foreach(var entry in allCustomData)
+			foreach(DictionaryEntry entry in allCustomData)
 			{
 				var type = fieldType(entry.Value);
 				var value = fieldValue(entry.Value);
-				extraDatas.Add((entry.Key, type, value));
+				extraDatas.Add(((string) entry.Key, type, value));
 			}
 			return extraDatas;
 		}
