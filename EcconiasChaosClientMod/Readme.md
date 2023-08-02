@@ -13,6 +13,9 @@ Mind the "Chaos" in the name. I can add random (passive) features to this at any
 Just drop the `EcconiasChaosClientMod` folder into the servers `GameData` folder.\
 And add your custom skybox into the `skyboxes` folder.
 
+For this mod to function you will need one additional mod: `EccsLogicWorldAPI`\
+You can find it in my mod collection (root folder).
+
 ### List of features:
 
 - Commands to list the currently connected players `listplayers`, or `listplayersall` if you like a more technical view.

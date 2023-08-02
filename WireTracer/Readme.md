@@ -11,6 +11,9 @@ But even if your wires are placed with the finest OCD, it will help you to follo
 
 Just drop the `WireTracer` folder into your `GameData` folder.
 
+For this mod to function you will need one additional mod: `EccsLogicWorldAPI`\
+You can find it in my mod collection (root folder).
+
 #### Warning: WireTracer is not "client only":
 
 This mod will behave as intended in SinglePlayer.

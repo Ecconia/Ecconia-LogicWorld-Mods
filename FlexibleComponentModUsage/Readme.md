@@ -30,3 +30,6 @@ Make sure your component mod has a priority higher than `-50`. But if your compo
 ## Install / Dependencies:
 
 Just drop the `FlexibleComponentModUsage` folder into your `GameData` folder.
+
+For this mod to function you will need one additional mod: `EccsLogicWorldAPI`\
+You can find it in my mod collection (root folder).

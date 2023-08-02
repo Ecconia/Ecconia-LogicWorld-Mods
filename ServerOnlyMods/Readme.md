@@ -32,4 +32,7 @@ The custom mod list verifier checks mods like the normal one, but skips the ones
 
 Just drop the `ServerOnlyMods` folder into your (servers) `GameData` folder.
 
-Unless you want the version to be included in the missing mods list, you only need to add this mod, if another mod depends on it.
+For this mod to function you will need one additional mod: `EccsLogicWorldAPI`\
+You can find it in my mod collection (root folder).
+
+Unless you want the version to be included in the missing mods list, you only need to add this mod, if you have server only mods.

@@ -15,3 +15,6 @@ The command `saveworld` will save the world into your `saves` folder with the na
 ## Install / Dependencies:
 
 Just drop the `WorldSaver` folder into your `GameData` folder.
+
+For this mod to function you will need one additional mod: `EccsLogicWorldAPI`\
+You can find it in my mod collection (root folder).

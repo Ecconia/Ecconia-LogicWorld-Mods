@@ -25,7 +25,7 @@ This mod con
 
 Just drop the `EcconiaCPUServerComponents` & `EcconiaCPUServerComponentsGui` folders into your `GameData` folder.
 
-For `EcconiaCPUServerComponentsGui` to function, you will need two additional mods: `EccsGuiBuilder` & `EccsLogicWorldAPI`\
+For this mod to function, you will need two additional mod: `EccsLogicWorldAPI` & `EccsGuiBuilder`\
 You can find both in my mod collection (root folder).
 
 ## Usage:

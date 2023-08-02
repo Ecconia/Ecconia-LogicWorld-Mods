@@ -21,7 +21,7 @@ In Unity console and logs, this only slightly changes the Exceptions, but they a
 
 Just drop the `RandomDebugCollection` folder into your `GameData` folder.
 
-You will also need the two mods `HarmonyForLogicWorld` and `AssemblyLoader` for this mod to function.\
+You will also need the three mods `HarmonyForLogicWorld` and `AssemblyLoader` and `EccsLogicWorldAPI` for this mod to function.\
 You can find them in my mod collection (root folder).
 
 ## Usage:
