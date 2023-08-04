@@ -63,6 +63,10 @@ namespace CustomWirePlacer.Client.Windows
 		
 		public static void setVisible(bool val)
 		{
+			if(val)
+			{
+				setDirtyGeneric();
+			}
 			rootObject.SetActive(val);
 		}
 		
