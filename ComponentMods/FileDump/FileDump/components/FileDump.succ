@@ -1,0 +1,5 @@
+FileDump:
+    column: "Output"
+    prefab: dynamic
+    logicCode: FileDump.Server.FileDump
+    clientCode: FileDump.Client.FileDump

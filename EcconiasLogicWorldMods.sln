@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadioConnection", "RadioCon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintModCompilationErrors", "PrintModCompilationErrors\PrintModCompilationErrors.csproj", "{C661CABF-4909-4BF3-9C7D-5B59984EB71F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileDump", "ComponentMods\FileDump\FileDump.csproj", "{C13C4526-2BD1-42C8-9776-36DFC7B7B1F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -114,5 +116,9 @@ Global
 		{C661CABF-4909-4BF3-9C7D-5B59984EB71F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C661CABF-4909-4BF3-9C7D-5B59984EB71F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C661CABF-4909-4BF3-9C7D-5B59984EB71F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C13C4526-2BD1-42C8-9776-36DFC7B7B1F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C13C4526-2BD1-42C8-9776-36DFC7B7B1F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C13C4526-2BD1-42C8-9776-36DFC7B7B1F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C13C4526-2BD1-42C8-9776-36DFC7B7B1F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

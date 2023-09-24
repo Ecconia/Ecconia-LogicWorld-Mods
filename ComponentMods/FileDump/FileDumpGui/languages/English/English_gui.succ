@@ -1,0 +1,3 @@
+FileDump.Gui.PegCount : "Data bit count:"
+FileDump.Gui.FileName : "File name:"
+FileDump.Gui.FileName.Hint : "File name"
