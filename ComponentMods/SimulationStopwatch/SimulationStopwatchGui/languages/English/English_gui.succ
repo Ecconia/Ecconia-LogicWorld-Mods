@@ -1,0 +1,3 @@
+SimulationStopwatch.Gui.SessionName : "Session name:"
+SimulationStopwatch.Gui.SessionName.Hint : "Session name"
+SimulationStopwatch.Gui.PerServerTickDebugging : "Print debugging every server tick:"

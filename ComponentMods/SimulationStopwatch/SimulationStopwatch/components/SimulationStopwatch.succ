@@ -1,0 +1,5 @@
+SimulationStopwatch:
+    column: "Simulation"
+    prefab: dynamic
+    logicCode: SimulationStopwatch.Server.SimulationStopwatch
+    clientCode: SimulationStopwatch.Client.SimulationStopwatch
