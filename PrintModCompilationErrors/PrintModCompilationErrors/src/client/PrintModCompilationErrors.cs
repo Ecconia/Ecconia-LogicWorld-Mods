@@ -43,7 +43,7 @@ namespace PrintModCompilationErrors.Client
 				}
 				if(skippedFalseEntries != 0)
 				{
-					logger.Info(" Skipped " + skippedFalseEntries + " 'mscorelib' warnings.");
+					logger.Info(" Skipped " + skippedFalseEntries + " 'mscorlib' warnings.");
 				}
 			}
 		}

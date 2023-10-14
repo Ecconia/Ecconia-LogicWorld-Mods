@@ -22,7 +22,7 @@ namespace FileDumpGui.Client
 				}
 				catch(Exception e)
 				{
-					Logger.Error("Failed to initialize File Dump Edit GUIs:");
+					Logger.Error("Failed to initialize File Dump Edit GUI:");
 					SceneAndNetworkManager.TriggerErrorScreen(e);
 				}
 			};
