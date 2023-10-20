@@ -21,8 +21,8 @@ namespace EcconiasChaosClientMod.Client.Lighting
 		public static void lightPreset()
 		{
 			Skybox.skyboxSilent();
-			lightSun(0.4f);
-			lightAmbient(0.8f);
+			lightSun(0.5f);
+			lightAmbient(0.9f);
 		}
 	}
 }
