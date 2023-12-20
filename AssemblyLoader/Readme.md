@@ -12,12 +12,6 @@ There are three core functionalities:
 - Automatically load all assemblies in the `assemblies` folder of mods that depend on this mod. Details below.
 - Load all server assemblies, as it does not do that on its own. With this mods can depend on these assemblies
 
-### One minor inconvenience on the server side:
-
-To allow loading assemblies for other mods, the other mods need to be known while the server is still compiling.\
-For that on the server AssemblyLoader has no chance, but to collect mods again using LWs mod collection function.\
-This will cause mod-finding warning/errors to be printed again.
-
 ### Why does it exist?
 
 Normally you could easily load an assembly like this: `Assembly.Load(modFile.readAllBytes())`.\

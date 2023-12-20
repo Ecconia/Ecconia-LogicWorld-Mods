@@ -2,6 +2,12 @@ using System;
 using System.Collections.Generic;
 using LogicWorld.SharedCode.Networking;
 
+#if LW_SIDE_SERVER
+using EccsLogicWorldAPI.Server.Injectors;
+#else
+using EccsLogicWorldAPI.Client.Injectors;
+#endif
+
 namespace EccsLogicWorldAPI.Shared.PacketWrapper
 {
 	public static class PacketHandlerManager
@@ -17,7 +23,7 @@ namespace EccsLogicWorldAPI.Shared.PacketWrapper
 			}
 			PacketHandlerWrapper<T> wrapper = null;
 			//Do injection:
-			SideHacks.hacks<T>(oldHandler => {
+			RawPacketHandlerInjector.replacePacketHandler<T>(oldHandler => {
 				wrapper = new PacketHandlerWrapper<T>((PacketHandler<T>) oldHandler);
 				return wrapper;
 			});

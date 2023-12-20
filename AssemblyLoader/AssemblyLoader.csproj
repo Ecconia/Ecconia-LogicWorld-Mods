@@ -25,6 +25,9 @@
       <Reference Include="LogicLog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLog.dll</HintPath>
       </Reference>
+      <Reference Include="Server">
+        <HintPath>..\LogicWorld\Server\Server.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
     <ItemGroup>
