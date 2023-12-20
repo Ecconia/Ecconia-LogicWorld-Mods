@@ -83,7 +83,7 @@ namespace CustomWirePlacer.Client.CWP
 				return peg;
 			}
 			position = null;
-			return null;
+			return PegAddress.Empty;
 		}
 
 		public static Vector3 getPegRayCenter(PegAddress peg, Vector3 start, Vector3 ray)
@@ -124,11 +124,11 @@ namespace CustomWirePlacer.Client.CWP
 				{
 					ModClass.logger.Warn("Sphere-cast resulted in more than one peg. Why?");
 				}
-				return null;
+				return PegAddress.Empty;
 			}
 			Collider collider = colliders[0];
 			PegAddress peg = collider.GetComponent<ColliderReference>().PegAddress;
-			if(peg == null)
+			if(peg.IsEmpty())
 			{
 				ModClass.logger.Error("Casted for a peg, but got: " + collider.name + " : " + collider.tag);
 			}

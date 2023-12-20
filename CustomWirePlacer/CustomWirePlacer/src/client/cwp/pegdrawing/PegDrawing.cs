@@ -41,7 +41,7 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 		{
 			HashSet<WireAddress> wireAddressSet = Instances.MainWorld.Data.LookupPegWires(pegAddress);
 			int amountOfWires = wireAddressSet == null ? 0 : wireAddressSet.Count;
-			int maxAmountOfWires = pegAddress.IsInput ? WireUtility.MaxWiresPerInput : WireUtility.MaxWiresPerOutput;
+			int maxAmountOfWires = WireUtility.GetMaxWiresFor(pegAddress);
 			return amountOfWires >= maxAmountOfWires;
 		}
 
@@ -62,7 +62,7 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 
 		public static void onDeactivate()
 		{
-			peg = null;
+			peg = PegAddress.Empty;
 
 			//Peg:
 			placer.Ghost.Delete();
@@ -96,7 +96,7 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 				WorldspaceComponentUp = up,
 				WorldspaceUp = up,
 				WorldspacePoint = ghost.Transform.position + up * 0.3f * 0.9f,
-				IsInput = true,
+				PegType = PegType.Input,
 			};
 			wire.ReDraw();
 			ghostlyCollider.enabled = true;
@@ -143,7 +143,7 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 		private static bool attemptWirePlacement(Vector3 fromPosition, PegAddress toPeg)
 		{
 			PegAddress newlyPlacedPeg = CWPHelper.getPegAt(fromPosition);
-			if(newlyPlacedPeg != null && WireUtility.WireWouldBeValid(toPeg, newlyPlacedPeg))
+			if(newlyPlacedPeg.IsNotEmpty() && WireUtility.WireWouldBeValid(toPeg, newlyPlacedPeg))
 			{
 				BuildRequestManager.SendBuildRequest(new BuildRequest_CreateWire(new WireData(toPeg, newlyPlacedPeg, 0f)));
 				return false;

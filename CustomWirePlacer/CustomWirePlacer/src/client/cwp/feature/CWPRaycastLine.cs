@@ -52,7 +52,7 @@ namespace CustomWirePlacer.Client.CWP.feature
 				return;
 			}
 			PegAddress second = axis.secondPeg;
-			if(second == null)
+			if(second.IsEmpty())
 			{
 				gameObject.SetActive(false); //Then we do only have one peg - no ray.
 				return;

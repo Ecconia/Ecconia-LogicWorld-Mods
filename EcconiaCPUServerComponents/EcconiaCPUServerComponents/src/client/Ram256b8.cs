@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Text;
 using JimmysUnityUtilities;
 using LogicAPI.Data.BuildingRequests;
@@ -134,7 +133,7 @@ namespace EcconiaCPUServerComponents.Client
 
 		private void setValue(int index, int value)
 		{
-			TextMeshPro label = GetDecorations()[0].DecorationObject.GetComponent<TextMeshPro>();
+			TextMeshPro label = Decorations[0].DecorationObject.GetComponent<TextMeshPro>();
 			var text = label.text.ToCharArray();
 			int offset = index * 11 + 5;
 			//0123456789
@@ -150,7 +149,7 @@ namespace EcconiaCPUServerComponents.Client
 			label.text = new string(text);
 		}
 
-		protected override IList<IDecoration> GenerateDecorations()
+		protected override IDecoration[] GenerateDecorations(Transform parentToCreateDecorationsUnder)
 		{
 			Quaternion alignment = Quaternion.AngleAxis(-90, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.forward);
 
@@ -179,8 +178,10 @@ namespace EcconiaCPUServerComponents.Client
 			}
 			label.text = sb.ToString();
 			label.color = new Color(0f, 0.8f, 0.6f);
-
-			return new List<IDecoration>()
+			
+			go.transform.SetParent(parentToCreateDecorationsUnder);
+			
+			return new IDecoration[]
 			{
 				new Decoration()
 				{

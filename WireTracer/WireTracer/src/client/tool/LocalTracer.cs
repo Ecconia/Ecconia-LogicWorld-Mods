@@ -21,7 +21,7 @@ namespace WireTracer.Client.Tool
 			}
 			foreach(var pAddress in pegs)
 			{
-				Outliner.Outline(pAddress, pAddress.IsInput ? WireTracerColors.primaryNormal : WireTracerColors.primaryOutput);
+				Outliner.Outline(pAddress, pAddress.IsInputAddress() ? WireTracerColors.primaryNormal : WireTracerColors.primaryOutput);
 			}
 			foreach(var (wireAddress, isOutput) in wires)
 			{

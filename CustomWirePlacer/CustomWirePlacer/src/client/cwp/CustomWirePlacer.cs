@@ -58,7 +58,7 @@ namespace CustomWirePlacer.Client.CWP
 				return false;
 			}
 			PegAddress pegCurrentlyLookingAt = CWPHelper.getPegCurrentlyLookingAt();
-			if(pegCurrentlyLookingAt == null)
+			if(pegCurrentlyLookingAt.IsEmpty())
 			{
 				//Not looking at a peg currently, so am most certainly not starting to drag a wire.
 				// Continue with rest of interaction:
@@ -129,7 +129,7 @@ namespace CustomWirePlacer.Client.CWP
 			currentGroup = null;
 			firstGroup.clear();
 			secondGroup.clear();
-			lastLookedAtPeg = null;
+			lastLookedAtPeg = PegAddress.Empty;
 			CWPOutliner.RemoveAllOutlines(); //Cleanup leftover (baked) outlines.
 		}
 
@@ -171,7 +171,7 @@ namespace CustomWirePlacer.Client.CWP
 			if(drawing)
 			{
 				PegAddress currentlyLookingAtPeg = CWPHelper.getPegCurrentlyLookingAt();
-				if(currentlyLookingAtPeg != null)
+				if(currentlyLookingAtPeg.IsNotEmpty())
 				{
 					if(toggleListMode)
 					{
@@ -183,10 +183,10 @@ namespace CustomWirePlacer.Client.CWP
 					}
 					else if(currentlyLookingAtPeg == currentGroup.getFirstPeg())
 					{
-						if(currentGroup.getSecondPeg() != null)
+						if(currentGroup.getSecondPeg().IsNotEmpty())
 						{
 							//Peg reset:
-							currentGroup.setSecondPeg(null);
+							currentGroup.setSecondPeg(PegAddress.Empty);
 							raycastLine.refresh();
 							if(secondGroup.isSet())
 							{
@@ -201,7 +201,7 @@ namespace CustomWirePlacer.Client.CWP
 					}
 					else if(currentlyLookingAtPeg != currentGroup.getSecondPeg())
 					{
-						bool updateHelp = currentGroup.getCurrentAxis().secondPeg == null || !currentGroup.hasMultiplePegs();
+						bool updateHelp = currentGroup.getCurrentAxis().secondPeg.IsEmpty() || !currentGroup.hasMultiplePegs();
 						//Peg switched:
 						currentGroup.setSecondPeg(currentlyLookingAtPeg);
 						if(updateHelp)
@@ -254,7 +254,7 @@ namespace CustomWirePlacer.Client.CWP
 				if(Trigger.DrawWire.DownThisFrame())
 				{
 					PegAddress lookingAt = CWPHelper.getPegCurrentlyLookingAt();
-					if(lookingAt != null)
+					if(lookingAt.IsNotEmpty())
 					{
 						if(CWPTrigger.ModificatorAlternative.Held())
 						{
@@ -607,7 +607,7 @@ namespace CustomWirePlacer.Client.CWP
 				}
 				PegAddress first = firstGroup.getFirstAxis().firstPeg;
 				PegAddress second = firstGroup.getFirstAxis().secondPeg;
-				if(second != null)
+				if(second.IsNotEmpty())
 				{
 					yield return (first, second, WireUtility.WireWouldBeValid(first, second));
 				}
@@ -621,11 +621,11 @@ namespace CustomWirePlacer.Client.CWP
 			bool isValid(PegAddress first, PegAddress second, Dictionary<PegAddress, int> counts)
 			{
 				//Before doing any ray casting, check that both pegs have at least one more slot for wires.
-				if(counts[first] >= (first.IsInput ? WireUtility.MaxWiresPerInput : WireUtility.MaxWiresPerOutput))
+				if(counts[first] >= WireUtility.GetMaxWiresFor(first))
 				{
 					return false;
 				}
-				if(counts[second] >= (second.IsInput ? WireUtility.MaxWiresPerInput : WireUtility.MaxWiresPerOutput))
+				if(counts[second] >= WireUtility.GetMaxWiresFor(second))
 				{
 					return false;
 				}

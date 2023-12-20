@@ -13,7 +13,7 @@ namespace WireTracer.Client
 			//If grabbing a wire, always start from the next input peg.
 			// Else it will select all wires from the output peg.
 			Wire wire = Instances.MainWorld.Data.Lookup(wireAddress);
-			return collect(wire.Point1.IsInput ? wire.Point1 : wire.Point2);
+			return collect(wire.Point1.IsInputAddress() ? wire.Point1 : wire.Point2);
 		}
 
 		public static (HashSet<PegAddress>, List<(WireAddress, bool)>, List<ComponentAddress>) collect(PegAddress originPegAddress)
@@ -39,7 +39,7 @@ namespace WireTracer.Client
 					{
 						collectedComponents.Add(thisSide.ComponentAddress);
 						//This is a through peg, so lets also investigate the peg on the other side:
-						PegAddress otherSide = new InputAddress(thisSide.ComponentAddress, thisSide.PegNumber == 0 ? 1 : 0); //Dirty but valid mapping
+						PegAddress otherSide = new InputAddress(thisSide.ComponentAddress, thisSide.PegIndex == 0 ? 1 : 0); //Dirty but valid mapping
 						if(collectedPegs.Add(otherSide))
 						{
 							//Other side was not yet processed!
@@ -60,13 +60,13 @@ namespace WireTracer.Client
 						//Most easy way to prevent a wire from being added twice.
 						// Pegs are in a HashSet, but wires only in a list.
 						// But wires only have one first peg, when that is being processed add it.
-						collectedWires.Add((wireAddress, !wire.Point1.IsInput || !wire.Point2.IsInput));
+						collectedWires.Add((wireAddress, !wire.Point1.IsInputAddress() || !wire.Point2.IsInputAddress()));
 					}
 					PegAddress otherSide = wire.Point1 == thisSide ? wire.Point2 : wire.Point1;
 					if(collectedPegs.Add(otherSide))
 					{
 						//Other side was not yet processed!
-						if(otherSide.IsInput)
+						if(otherSide.IsInputAddress())
 						{
 							pegs.Enqueue(otherSide); //If we collect a new peg, we also have to check it.
 						}

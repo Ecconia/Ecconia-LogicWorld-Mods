@@ -42,7 +42,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		private void updated2D()
 		{
-			if(secondAxis.firstPeg == null)
+			if(secondAxis.firstPeg.IsEmpty())
 			{
 				return; //Nothing to do.
 			}
@@ -96,7 +96,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				offset += secondOffset;
 				PegAddress receivedPeg = CWPHelper.getPegAt(offset);
-				if(receivedPeg != null)
+				if(receivedPeg.IsNotEmpty())
 				{
 					yield return receivedPeg;
 				}
@@ -138,13 +138,13 @@ namespace CustomWirePlacer.Client.CWP
 
 		public bool isSet()
 		{
-			return firstAxis.firstPeg != null;
+			return firstAxis.firstPeg.IsNotEmpty();
 		}
 
 		public void setFirstPeg(PegAddress firstPeg, bool outline = true)
 		{
 			//If dirty call, handle anyway:
-			if(firstAxis.firstPeg != null)
+			if(firstAxis.firstPeg.IsNotEmpty())
 			{
 				//Well... lets just clear it - should not have happened.
 				clear();
@@ -247,31 +247,31 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			//Check if the other starting peg can be found:
 			// Else no data should be erased.
-			PegAddress otherPeg = null;
-			PegAddress otherAxisSecondPeg = null;
+			PegAddress otherPeg = PegAddress.Empty;
+			PegAddress otherAxisSecondPeg = PegAddress.Empty;
 			if(firstGroup.isTwoDimensional())
 			{
 				otherPeg = CWPHelper.getPegRelativeToOtherPeg(firstPeg, firstGroup.firstAxis.firstPeg, firstGroup.secondAxis.firstPeg);
-				if(otherPeg == null)
+				if(otherPeg.IsEmpty())
 				{
 					SoundPlayer.PlayFail();
 					return false;
 				}
-				if(firstGroup.secondAxis.secondPeg != null)
+				if(firstGroup.secondAxis.secondPeg.IsNotEmpty())
 				{
 					otherAxisSecondPeg = CWPHelper.getPegRelativeToOtherPeg(firstPeg, firstGroup.firstAxis.firstPeg, firstGroup.secondAxis.secondPeg);
-					if(otherAxisSecondPeg == null)
+					if(otherAxisSecondPeg.IsEmpty())
 					{
 						SoundPlayer.PlayFail();
 						return false;
 					}
 				}
 			}
-			PegAddress firstGroupSecondPeg = null;
-			if(firstGroup.firstAxis.secondPeg != null)
+			PegAddress firstGroupSecondPeg = PegAddress.Empty;
+			if(firstGroup.firstAxis.secondPeg.IsNotEmpty())
 			{
 				firstGroupSecondPeg = CWPHelper.getPegRelativeToOtherPeg(firstPeg, firstGroup.firstAxis.firstPeg, firstGroup.firstAxis.secondPeg);
-				if(firstGroupSecondPeg == null)
+				if(firstGroupSecondPeg.IsEmpty())
 				{
 					SoundPlayer.PlayFail();
 					return false;
@@ -299,7 +299,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		public bool isTwoDimensional()
 		{
-			return secondAxis.firstPeg != null;
+			return secondAxis.firstPeg.IsNotEmpty();
 		}
 
 		public PegAddress getFirstPeg()
@@ -330,7 +330,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		public bool hasMultiplePegs()
 		{
-			return firstAxis.secondPeg != null || firstAxis.whitelist.Any() || secondAxis.firstPeg != null;
+			return firstAxis.secondPeg.IsNotEmpty() || firstAxis.whitelist.Any() || secondAxis.firstPeg.IsNotEmpty();
 		}
 
 		public int getPegCount()

@@ -221,7 +221,7 @@ namespace CustomWirePlacer.Client.Windows
 				//If there is only one group:
 				append(sb, "CWP.HelpOverlay.CWP.RemoveSingle", "CustomWirePlacer.RemoveWires");
 			}
-			if(CWP.CustomWirePlacer.getCurrentGroup().getCurrentAxis().secondPeg != null)
+			if(CWP.CustomWirePlacer.getCurrentGroup().getCurrentAxis().secondPeg.IsNotEmpty())
 			{
 				//If second peg present:
 				append(sb, "CWP.HelpOverlay.CWP.ForwardsStart", "CustomWirePlacer.ExpandFurther");
@@ -281,7 +281,7 @@ namespace CustomWirePlacer.Client.Windows
 				append(sb, "CWP.HelpOverlay.CWP.FinishCWPWithKey", "CustomWirePlacer.ApplyNormalAction");
 			}
 			bool allowSkipping = true;
-			if(CWP.CustomWirePlacer.getCurrentGroup().getCurrentAxis().secondPeg != null)
+			if(CWP.CustomWirePlacer.getCurrentGroup().getCurrentAxis().secondPeg.IsNotEmpty())
 			{
 				if(CWPTrigger.ExpandFurther.Held())
 				{

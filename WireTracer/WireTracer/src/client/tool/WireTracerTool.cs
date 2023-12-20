@@ -32,11 +32,11 @@ namespace WireTracer.Client.Tool
 			//The user is most definitely trying to use WireTracer now.
 
 			//Make sure there is no dirty state:
-			if(initialPegAddress != null || currentTracer != null)
+			if(initialPegAddress.IsNotEmpty() || currentTracer != null)
 			{
 				//For some reason WireTracer did not stop properly.
 				WireTracer.logger.Error("Attempted to check for WireTracer activate, but it was not cleanly stopped? Trying to fix this, but you should report this!");
-				initialPegAddress = null;
+				initialPegAddress = PegAddress.Empty;
 				if(currentTracer != null)
 				{
 					currentTracer.stop();
@@ -60,7 +60,7 @@ namespace WireTracer.Client.Tool
 				WireAddress wireAddress = hitInfo.wAddress;
 				Wire wire = Instances.MainWorld.Data.Lookup(wireAddress);
 				//Assume that wire is never null, as we did just ray-casted it.
-				initialPegAddress = wire.Point1.IsInput ? wire.Point1 : wire.Point2;
+				initialPegAddress = wire.Point1.IsInputAddress() ? wire.Point1 : wire.Point2;
 			}
 			else
 			{
@@ -75,7 +75,7 @@ namespace WireTracer.Client.Tool
 		public static void onStart()
 		{
 			//Confirm, that the most important values are set:
-			if(initialPegAddress == null || currentTracer != null)
+			if(initialPegAddress.IsEmpty() || currentTracer != null)
 			{
 				WireTracer.logger.Error("Started WireTracer tool, without preparing it properly! Initial peg was not set or tracer was still set. Going back to building state.");
 				GameStateManager.TransitionBackToBuildingState();
@@ -93,7 +93,7 @@ namespace WireTracer.Client.Tool
 			{
 				return;
 			}
-			if(!initialPegAddress.IsInput)
+			if(!initialPegAddress.IsInputAddress())
 			{
 				var wires = Instances.MainWorld.Data.LookupPegWires(initialPegAddress);
 				if(wires == null || wires.Count == 0)
@@ -156,7 +156,7 @@ namespace WireTracer.Client.Tool
 				currentTracer.stop();
 				currentTracer = null;
 			}
-			initialPegAddress = null;
+			initialPegAddress = PegAddress.Empty;
 			currentRequestID = null;
 		}
 	}

@@ -41,9 +41,9 @@ namespace WireTracer.Server
 			{
 				return false; //Component of the peg does not exist in world.
 			}
-			var pegAmount = address.IsInput ? component.Data.InputCount : component.Data.OutputCount;
+			var pegAmount = address.IsInputAddress() ? component.Data.InputCount : component.Data.OutputCount;
 			//If false: Component does not have this peg, as the peg index is bigger than the actual components input/output count.
-			return pegAmount >= address.PegNumber;
+			return pegAmount >= address.PegIndex;
 		}
 
 		private static Cluster getClusterAt(InputAddress peg)
@@ -145,9 +145,9 @@ namespace WireTracer.Server
 		private static bool collectMainClusters(PegAddress originPegAddress, out HashSet<Cluster> primaryClusters)
 		{
 			primaryClusters = new HashSet<Cluster>();
-			if(originPegAddress.IsInput)
+			if(originPegAddress.IsInputAddress(out var inputAddress))
 			{
-				primaryClusters.Add(getClusterAt((InputAddress) originPegAddress));
+				primaryClusters.Add(getClusterAt(inputAddress));
 			}
 			else
 			{
@@ -165,11 +165,11 @@ namespace WireTracer.Server
 						throw new WireTracerException("Tried to lookup wire given its address, but the world did not contain it. World must be corrupted.");
 					}
 					PegAddress otherSide = wire.Point1 == originPegAddress ? wire.Point2 : wire.Point1;
-					if(!otherSide.IsInput)
+					if(!otherSide.IsInputAddress(out var otherSideInputAddress))
 					{
 						continue; //Not supported, this wire would be invalid anyway.
 					}
-					primaryClusters.Add(getClusterAt((InputAddress) otherSide));
+					primaryClusters.Add(getClusterAt(otherSideInputAddress));
 				}
 			}
 			return true;

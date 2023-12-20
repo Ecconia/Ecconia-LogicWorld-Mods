@@ -65,8 +65,8 @@ namespace EcconiaCPUServerComponents.Client
 
 		protected override void DataUpdate()
 		{
-			GameObject keycapGameObject = GetDecorations()[0].DecorationObject;
-			GameObject labelGameObject = GetDecorations()[1].DecorationObject;
+			GameObject keycapGameObject = Decorations[0].DecorationObject;
+			GameObject labelGameObject = Decorations[1].DecorationObject;
 
 			TextMeshPro text = labelGameObject.GetComponent<TextMeshPro>();
 			if(SizeX != previousSizeX || SizeZ != previousSizeZ)
@@ -170,7 +170,7 @@ namespace EcconiaCPUServerComponents.Client
 		private void keyStateUpdate()
 		{
 			//Always do visual update:
-			GetDecorations()[0].DecorationObject.GetComponent<MeshRenderer>().material = MaterialsCache.WorldObject(Data.KeyDown ? Data.KeyColor.lighten() : Data.KeyColor);
+			Decorations[0].DecorationObject.GetComponent<MeshRenderer>().material = MaterialsCache.WorldObject(Data.KeyDown ? Data.KeyColor.lighten() : Data.KeyColor);
 
 			//TODO: If key is globally not pressed, but this client still presses it, force press the button again.
 			if(!PlacedInMainWorld || keyWasPressed == Data.KeyDown)
@@ -199,7 +199,7 @@ namespace EcconiaCPUServerComponents.Client
 				&& !ToggleableSingletonMenu<FancyPantsConsole.Console>.MenuIsVisible; //This window shadows over each game state, so manual query is required.
 		}
 
-		protected override IList<IDecoration> GenerateDecorations()
+		protected override IDecoration[] GenerateDecorations(Transform parentToCreateDecorationsUnder)
 		{
 			//Keycap:
 			GameObject keycapGameObject = new GameObject();
@@ -212,15 +212,19 @@ namespace EcconiaCPUServerComponents.Client
 			{
 				meshFilter,
 			};
-
+			
 			//Text:
 			(GameObject labelGameObject, TextMeshPro textRenderer) = Helper.textObjectMono("FlatKey: TextDecoration");
 			textRenderer.fontSizeMin = 0.01f;
 			textRenderer.enableAutoSizing = true;
 			textRenderer.horizontalAlignment = HorizontalAlignmentOptions.Center;
 			textRenderer.verticalAlignment = VerticalAlignmentOptions.Middle;
-
-			return new Decoration[]
+			
+			keycapGameObject.transform.SetParent(parentToCreateDecorationsUnder);
+			labelGameObject.transform.SetParent(parentToCreateDecorationsUnder);
+			textRenderer.transform.SetParent(parentToCreateDecorationsUnder);
+			
+			return new IDecoration[]
 			{
 				//The primary decoration, which is the key-cap:
 				new Decoration()

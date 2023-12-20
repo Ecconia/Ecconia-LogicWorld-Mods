@@ -58,7 +58,7 @@ namespace WireTracer.Client.Tool
 					{
 						continue;
 					}
-					if(address.IsInput)
+					if(address.IsInputAddress())
 					{
 						Outliner.Outline(address, WireTracerColors.primaryNormal);
 					}
@@ -102,7 +102,7 @@ namespace WireTracer.Client.Tool
 					{
 						continue;
 					}
-					if(address.IsInput)
+					if(address.IsInputAddress())
 					{
 						Outliner.Outline(address, WireTracerColors.sourcingNormal);
 					}
@@ -146,7 +146,7 @@ namespace WireTracer.Client.Tool
 					{
 						continue;
 					}
-					if(address.IsInput)
+					if(address.IsInputAddress())
 					{
 						Outliner.Outline(address, WireTracerColors.connectedNormal);
 					}
@@ -190,7 +190,7 @@ namespace WireTracer.Client.Tool
 					{
 						continue;
 					}
-					if(address.IsInput)
+					if(address.IsInputAddress())
 					{
 						Outliner.Outline(address, WireTracerColors.drainingNormal);
 					}
@@ -216,7 +216,7 @@ namespace WireTracer.Client.Tool
 			clusterDetails.highlightedOutputWires = new List<WireAddress>();
 			foreach(var pegAddress in clusterDetails.pegs)
 			{
-				if(!pegAddress.IsInput)
+				if(!pegAddress.IsInputAddress())
 				{
 					continue;
 				}
@@ -228,9 +228,9 @@ namespace WireTracer.Client.Tool
 				foreach(var wireAddress in wires)
 				{
 					Wire wire = Instances.MainWorld.Data.Lookup(wireAddress);
-					if(wire.Point1 == pegAddress || !wire.Point1.IsInput) //We do not collect wires from output pegs. So if the first is an output peg, the other side must be an input -> collect.
+					if(wire.Point1 == pegAddress || !wire.Point1.IsInputAddress()) //We do not collect wires from output pegs. So if the first is an output peg, the other side must be an input -> collect.
 					{
-						(wire.Point1.IsInput && wire.Point2.IsInput ? clusterDetails.highlightedWires : clusterDetails.highlightedOutputWires).Add(wireAddress);
+						(wire.Point1.IsInputAddress() && wire.Point2.IsInputAddress() ? clusterDetails.highlightedWires : clusterDetails.highlightedOutputWires).Add(wireAddress);
 					}
 				}
 			}

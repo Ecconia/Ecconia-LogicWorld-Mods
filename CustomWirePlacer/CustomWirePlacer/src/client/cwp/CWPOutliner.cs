@@ -45,7 +45,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		public static void RemoveOutlineHard(PegAddress peg)
 		{
-			if(peg == null)
+			if(peg.IsEmpty())
 			{
 				return;
 			}
@@ -89,7 +89,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		public static void RemoveOutlineSoft(PegAddress peg)
 		{
-			if(peg == null)
+			if(peg.IsEmpty())
 			{
 				return;
 			}

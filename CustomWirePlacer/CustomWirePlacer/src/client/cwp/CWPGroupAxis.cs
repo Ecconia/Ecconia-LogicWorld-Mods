@@ -29,7 +29,7 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			hide();
 			pegCount = 0;
-			firstPeg = secondPeg = null;
+			firstPeg = secondPeg = PegAddress.Empty;
 			inBetween = forwards = backwards = null;
 			skipNumber = skipOffset = 0;
 			binarySkipping = false;
@@ -62,7 +62,7 @@ namespace CustomWirePlacer.Client.CWP
 					}
 				}
 			}
-			if(firstPeg != null && !blacklist.Contains(firstPeg))
+			if(firstPeg.IsNotEmpty() && !blacklist.Contains(firstPeg))
 			{
 				CWPOutliner.OutlineHard(firstPeg, isNotSkipped(ref skipIndex) ? CWPOutlineData.firstPeg : CWPOutlineData.firstSkippedPeg);
 			}
@@ -76,7 +76,7 @@ namespace CustomWirePlacer.Client.CWP
 					}
 				}
 			}
-			if(secondPeg != null && !blacklist.Contains(secondPeg))
+			if(secondPeg.IsNotEmpty() && !blacklist.Contains(secondPeg))
 			{
 				CWPOutliner.OutlineHard(secondPeg, isNotSkipped(ref skipIndex) ? CWPOutlineData.secondPeg : CWPOutlineData.skippedPeg);
 			}
@@ -105,7 +105,7 @@ namespace CustomWirePlacer.Client.CWP
 			hide(); //Hide all visible outlines, since some might be removed.
 
 			this.secondPeg = secondPeg;
-			inBetween = secondPeg != null ? CWPHelper.collectPegsInBetween(firstPeg, secondPeg) : null;
+			inBetween = secondPeg.IsNotEmpty() ? CWPHelper.collectPegsInBetween(firstPeg, secondPeg) : null;
 			backwards = forwards = null; //These get reset, now that their axis might have changed.
 
 			show(); //Redraw all visible outlines, respecting the skip number.
@@ -140,7 +140,7 @@ namespace CustomWirePlacer.Client.CWP
 					}
 				}
 			}
-			if(secondPeg != null)
+			if(secondPeg.IsNotEmpty())
 			{
 				if(!blacklist.Contains(secondPeg) && isNotSkipped(ref skipIndex))
 				{
@@ -182,7 +182,7 @@ namespace CustomWirePlacer.Client.CWP
 					yield return peg;
 				}
 			}
-			if(secondPeg != null)
+			if(secondPeg.IsNotEmpty())
 			{
 				yield return secondPeg;
 			}
@@ -361,7 +361,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		public void expandFurther()
 		{
-			if(secondPeg == null)
+			if(secondPeg.IsEmpty())
 			{
 				return;
 			}
@@ -375,12 +375,12 @@ namespace CustomWirePlacer.Client.CWP
 
 		private bool expandFurtherInternal(bool onlyOne = false)
 		{
-			return expandInternal(ref forwards, firstPeg, secondPeg, inBetween?.Last(), onlyOne);
+			return expandInternal(ref forwards, firstPeg, secondPeg, inBetween == null ? PegAddress.Empty : inBetween.Last(), onlyOne);
 		}
 
 		public void expandBackwards()
 		{
-			if(secondPeg == null)
+			if(secondPeg.IsEmpty())
 			{
 				return;
 			}
@@ -394,7 +394,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		private bool expandBackwardsInternal(bool onlyOne = false)
 		{
-			return expandInternal(ref backwards, secondPeg, firstPeg, inBetween?.First(), onlyOne);
+			return expandInternal(ref backwards, secondPeg, firstPeg, inBetween == null ? PegAddress.Empty : inBetween.First(), onlyOne);
 		}
 
 		private static bool expandInternal(ref List<PegAddress> discoverList, PegAddress firstPeg, PegAddress secondPeg, PegAddress inBetweenPeg, bool onlyOne = false)
@@ -410,7 +410,7 @@ namespace CustomWirePlacer.Client.CWP
 					? discoverList.Count > 1
 						? discoverList[discoverList.Count - 2]
 						: secondPeg
-					: inBetweenPeg != null
+					: inBetweenPeg.IsNotEmpty()
 						? inBetweenPeg
 						: firstPeg;
 			//This is the last peg in this expand direction.
@@ -426,7 +426,7 @@ namespace CustomWirePlacer.Client.CWP
 
 			//When expanding we have to find at least one peg. If there is none we cannot expand.
 			PegAddress peg2 = CWPHelper.findNextPeg(pos1, ray, out Vector3? pos2nullable);
-			if(peg2 == null)
+			if(peg2.IsEmpty())
 			{
 				return false;
 			}
@@ -445,7 +445,7 @@ namespace CustomWirePlacer.Client.CWP
 
 			//Now that we got one peg, there is the possibility to collect more.
 			PegAddress peg3 = CWPHelper.findNextPeg(pos2, ray, out Vector3? pos3nullable);
-			if(peg3 == null)
+			if(peg3.IsEmpty())
 			{
 				//However there is no more peg, so there is no need to expand from here on.
 				return true;
@@ -462,7 +462,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				//If the uniform distance setting is ON, then only the original distance will be used as reference.
 				// So expanding only expands if the distance is the same as the original distance.
-				Vector3 previousPos = inBetweenPeg != null ? CWPHelper.getPegRayCenter(inBetweenPeg, rayStart, ray) : rayStart; //Ray start is the first pos point.
+				Vector3 previousPos = inBetweenPeg.IsNotEmpty() ? CWPHelper.getPegRayCenter(inBetweenPeg, rayStart, ray) : rayStart; //Ray start is the first pos point.
 				referenceDistance = (CWPHelper.getRaycastPoint(secondPeg) - previousPos).sqrMagnitude;
 			}
 			else
@@ -500,7 +500,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				//Get the next peg, to compare the distances:
 				PegAddress peg1 = CWPHelper.findNextPeg(pos0, ray, out Vector3? pos1nullable);
-				if(peg1 == null)
+				if(peg1.IsEmpty())
 				{
 					//No next peg, then the peg must belong to the active section.
 					discoverList.Add(peg0);
@@ -536,7 +536,7 @@ namespace CustomWirePlacer.Client.CWP
 		public void applyAxis(CWPGroupAxis otherAxis, PegAddress firstPeg, PegAddress secondPeg)
 		{
 			//No second peg, custom code for that:
-			if(otherAxis.secondPeg == null)
+			if(otherAxis.secondPeg.IsEmpty())
 			{
 				clear();
 				this.firstPeg = firstPeg;
@@ -588,7 +588,7 @@ namespace CustomWirePlacer.Client.CWP
 			foreach(PegAddress peg in otherAxis.blacklist)
 			{
 				PegAddress other = CWPHelper.getPegRelativeToOtherPeg(firstPeg, otherAxis.firstPeg, peg);
-				if(other != null)
+				if(other.IsNotEmpty())
 				{
 					blacklist.Add(other);
 				}
@@ -596,7 +596,7 @@ namespace CustomWirePlacer.Client.CWP
 			foreach(PegAddress peg in otherAxis.whitelist)
 			{
 				PegAddress other = CWPHelper.getPegRelativeToOtherPeg(firstPeg, otherAxis.firstPeg, peg);
-				if(other != null)
+				if(other.IsNotEmpty())
 				{
 					whitelist.Add(other);
 				}
@@ -605,7 +605,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		public void updateExpandBackwardsCount(int offset)
 		{
-			if(secondPeg == null)
+			if(secondPeg.IsEmpty())
 			{
 				return;
 			}
@@ -631,7 +631,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		public void updateExpandFurtherCount(int offset)
 		{
-			if(secondPeg == null)
+			if(secondPeg.IsEmpty())
 			{
 				return;
 			}
@@ -695,7 +695,7 @@ namespace CustomWirePlacer.Client.CWP
 
 		public void refreshMiddlePegs()
 		{
-			if(secondPeg != null)
+			if(secondPeg.IsNotEmpty())
 			{
 				hide();
 				inBetween = CWPHelper.collectPegsInBetween(firstPeg, secondPeg);
