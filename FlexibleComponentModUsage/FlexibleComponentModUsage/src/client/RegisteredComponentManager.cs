@@ -31,8 +31,10 @@ namespace FlexibleComponentModUsage.client
 
 		//Runtime:
 
+		//Original component order, required as dictionaries mess up orders. And the order should stay consistent in GUI.
 		private int orderIndex;
 		private readonly Dictionary<string, int> componentOrderIndex;
+		//Backup reference values for restoring everything:
 		private readonly Dictionary<string, ComponentInfo> componentRegistryBackup;
 		private readonly List<PrefabVariantInfo> prefabRegistryBackup;
 
@@ -80,25 +82,29 @@ namespace FlexibleComponentModUsage.client
 
 		public void adjust(IReadOnlyDictionary<ushort, string> packetComponentIDsMap)
 		{
+			//Check that every component on the server is installed on the client by looking at the backup:
+			foreach(var serverID in packetComponentIDsMap.Values)
+			{
+				if(!componentRegistryBackup.ContainsKey(serverID))
+				{
+					//Whoops the component demanded by the server does not really exist.
+					//Reset the component map instead of adjusting it to the servers expectations.
+					FlexibleComponentModUsage.logger.Warn(
+						"Server expects component '" + serverID + "' to be installed. " +
+						"But it cannot be found in the original client component map. Falling back to full component map."
+					);
+					restore();
+					return;
+				}
+			}
 			//Adjust components in the official registry to the servers:
 			componentRegistryReference.Clear();
 			var sortedKeys = new List<string>(packetComponentIDsMap.Values);
 			sortedKeys.Sort((a, b) => componentOrderIndex[a].CompareTo(componentOrderIndex[b]));
 			foreach(var serverID in sortedKeys)
 			{
-				//Check if the server component is installed locally, by looking at the backup:
-				if(!componentRegistryBackup.TryGetValue(serverID, out var serverInfo))
-				{
-					//Whoops the component demanded by the server does not really exist.
-					//Reset the component map instead of adjusting it to the servers expectations.
-					FlexibleComponentModUsage.logger.Warn(
-						"Server expects a component to be installed, that the client does not have." +
-						" Will restore original full client component map, instead of reducing it to the servers map.");
-					restore();
-					return;
-				}
 				//Inject the component, that the server has:
-				componentRegistryReference[serverID] = serverInfo;
+				componentRegistryReference[serverID] = componentRegistryBackup[serverID];
 			}
 			//Adjust prefabs in the official registry to the servers:
 			prefabRegistryReference.Clear();
