@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using LogicLog;
 using LogicWorld.SharedCode.Networking;
@@ -36,14 +35,8 @@ namespace EccsLogicWorldAPI.Shared.PacketWrapper
 			var isCancelled = false;
 			foreach(var handler in handlers)
 			{
-				try
-				{
-					handler.handle(ref isCancelled, ref packet, context);
-				}
-				catch(Exception e)
-				{
-					logger.Error("Failed to handle packet, skipping custom packet handler. Stacktrace:\n" + e);
-				}
+				//TBI: Consider if custom handlers or all in general should be try-catched. Normally a failure is hard, thus don't capture them. But maybe a mod could opt-in to handling-exceptions?
+				handler.handle(ref isCancelled, ref packet, context);
 			}
 		}
 	}
