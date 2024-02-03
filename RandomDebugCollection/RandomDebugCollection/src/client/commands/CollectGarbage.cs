@@ -1,4 +1,3 @@
-//Needed for 'Command', 'LConsole':
 using LICC;
 
 namespace RandomDebugCollection.Client.Commands

@@ -14,7 +14,7 @@ namespace RandomDebugCollection.Client.Commands
 
 		static ClearSubassemblies()
 		{
-			getSubassemblyCacheDatabase = Delegator.createFieldGetter<IClientSubassemblyManager, SubassemblyCacheDatabase>(Fields.getPublic(typeof(ClientSubassemblyManager), "SubassemblyCache"));
+			getSubassemblyCacheDatabase = Delegator.createFieldGetter<IClientSubassemblyManager, SubassemblyCacheDatabase>(Fields.getPrivate(typeof(ClientSubassemblyManager), "SubassemblyCache"));
 		}
 
 		[Command("ClearSubassemblies", Description = "Clears all stored subassemblies on the client. Exists because the official command is broken.")]

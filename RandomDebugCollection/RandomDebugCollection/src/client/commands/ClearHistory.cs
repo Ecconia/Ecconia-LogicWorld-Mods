@@ -12,8 +12,8 @@ namespace RandomDebugCollection.Client.Commands
 
 		static ClearHistory()
 		{
-			getHistorySize = Delegator.createStaticFieldGetter<int>(Fields.getPublicStatic(typeof(UndoManager), "IndexOfNextNewBuildAction"));
-			resetHistory = Delegator.createStaticMethodCall(Methods.getPublicStatic(typeof(UndoManager), "Reset"));
+			getHistorySize = Delegator.createStaticFieldGetter<int>(Fields.getPrivateStatic(typeof(UndoManager), "IndexOfNextNewBuildAction"));
+			resetHistory = Delegator.createStaticMethodCall(Methods.getPrivateStatic(typeof(UndoManager), "Reset"));
 		}
 
 		[Command("ClearHistory", Description = "Clears the edit history.")]
