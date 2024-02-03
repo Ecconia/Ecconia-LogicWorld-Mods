@@ -35,7 +35,7 @@ namespace EcconiasChaosClientMod.Client
 				Color = AvatarSettings.BodyColor,
 				MessageContent = builder.ToString(),
 			});
-
+			
 			string h(ref float hue)
 			{
 				var aa = Color.HSVToRGB(hue, 1.0f, 1.0f);

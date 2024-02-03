@@ -12,19 +12,19 @@ namespace EcconiaCPUServerComponents.Client
 		public const string COMPONENT_TEXT_ID = "EcconiaCPUServerComponents.RTPulser";
 		
 		public override string ComponentTextID => COMPONENT_TEXT_ID;
-
+		
 		public override PrefabVariantIdentifier GetDefaultComponentVariant()
 		{
 			return new PrefabVariantIdentifier(1, 2);
 		}
-
+		
 		public override ComponentVariant GenerateVariant(PrefabVariantIdentifier identifier)
 		{
 			if(identifier.InputCount != 1 || identifier.OutputCount != 2)
 			{
 				throw new Exception("Attempted to create RTPulser with unexpected peg configuration. Loading old save? Wrong mod version?");
 			}
-
+			
 			return new ComponentVariant
 			{
 				VariantPrefab = new Prefab

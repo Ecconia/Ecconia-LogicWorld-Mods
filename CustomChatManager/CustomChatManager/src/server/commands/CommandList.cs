@@ -10,14 +10,14 @@ namespace CustomChatManager.Server.Commands
 	{
 		public string name => "List";
 		public string shortDescription => "Lists all connected players.";
-
+		
 		private readonly IPlayerManager playerManager;
-
+		
 		public CommandList()
 		{
 			playerManager = ServiceGetter.getService<IPlayerManager>();
 		}
-
+		
 		public void execute(CommandSender sender, string arguments)
 		{
 			List<string> names = new List<string>();

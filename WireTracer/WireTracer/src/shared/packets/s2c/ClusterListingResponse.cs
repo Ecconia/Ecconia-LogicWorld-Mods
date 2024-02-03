@@ -20,7 +20,7 @@ namespace WireTracer.Shared.Packets.S2C
 		[Key(4)]
 		public List<ClusterDetails> drainingClusters;
 	}
-
+	
 	[MessagePackObject]
 	public sealed class ClusterDetails
 	{

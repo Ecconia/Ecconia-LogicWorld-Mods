@@ -30,7 +30,7 @@ namespace EcconiaCPUServerComponents.Client
 			);
 		}
 	}
-
+	
 	public class FlatKey : ComponentClientCode<IFlatKeyData>,
 	                       IResizableX,
 	                       IResizableZ,
@@ -39,13 +39,13 @@ namespace EcconiaCPUServerComponents.Client
 	{
 		//Constants:
 		private static readonly SoundEffect effect = SoundEffectDatabase.GetSoundEffectByTextID("EcconiaCPUServerComponents.FlatKeySound");
-
+		
 		private VisibilityDetector visibilityDetector;
-
+		
 		//Remember last size, to detect changes. Memory overhead in favor of runtime overhead.
 		private int previousSizeX;
 		private int previousSizeZ;
-
+		
 		/*
 		 * Keeps an internal state, if the button is currently being pressed.
 		 * TBI: I do not like this solution, since it adds yet another field to the component.
@@ -62,12 +62,12 @@ namespace EcconiaCPUServerComponents.Client
 		 * Only used to check if the local state has changed, whatever it was.
 		 */
 		private bool keyWasPressed;
-
+		
 		protected override void DataUpdate()
 		{
 			GameObject keycapGameObject = Decorations[0].DecorationObject;
 			GameObject labelGameObject = Decorations[1].DecorationObject;
-
+			
 			TextMeshPro text = labelGameObject.GetComponent<TextMeshPro>();
 			if(SizeX != previousSizeX || SizeZ != previousSizeZ)
 			{
@@ -105,13 +105,13 @@ namespace EcconiaCPUServerComponents.Client
 				text.text = Data.label.IsNullOrEmpty() ? ((RawInput) this.Data.BoundInput).DisplayName() : Data.label.Replace(" ", "<color=#0000>.</color>");
 			}
 		}
-
+		
 		protected override void InitializeInWorld()
 		{
 			//Became visible to the camera, start looping functionality.
 			visibilityDetector.OnBecomeVisible += this.QueueFrameUpdate;
 		}
-
+		
 		protected override void FrameUpdate()
 		{
 			//Required, else NPE on SoundPlayer.
@@ -119,7 +119,7 @@ namespace EcconiaCPUServerComponents.Client
 			{
 				return;
 			}
-
+			
 			//Is this client currently pressing this key?
 			bool clientIsPressingKey = isButtonCurrentlyPressable() && (manuallyPressed || isPressingWithKeyboard());
 			if(clientIsPressingKey != clientWasPressingKey)
@@ -129,32 +129,32 @@ namespace EcconiaCPUServerComponents.Client
 				Data.KeyDown = clientIsPressingKey; //This might turn off the key for someone else!
 				//Update the old pressing state:
 				clientWasPressingKey = clientIsPressingKey;
-
+				
 				//Update the client state:
 				keyStateUpdate();
 			}
-
+			
 			//Keep updating as long as it is visible.
 			if(visibilityDetector.IsVisible)
 			{
 				ContinueUpdatingForAnotherFrame();
 			}
 		}
-
+		
 		private bool isPressingWithKeyboard()
 		{
 			//This method is heavily "inspired" by the original LogicWorld-Key source code.
-
+			
 			return ((RawInput) Data.BoundInput).Held() //First of all, the key has to be down.
 				&& GameStateManager.CurrentStateID == "MHG.InChair" //We checked this before, but keys only works when in a chair - cause I decided so (=> many advantages).
 				&& rangeCheck() //Check if the distance is not higher than max allowed interaction.
 				&& isRoughlySeeingEachOther(); //Key needs to be "in front of" player and player "in front of" key.
-
+				
 			bool rangeCheck()
 			{
 				return Vector3.Distance(this.Component.WorldPosition, PlayerControllerManager.PlayerCamera.CameraWorldspacePosition) < PlayerControllerManager.ReachDistance;
 			}
-
+			
 			bool isRoughlySeeingEachOther()
 			{
 				Vector3 keyPosition = Component.WorldPosition;
@@ -162,16 +162,16 @@ namespace EcconiaCPUServerComponents.Client
 				Ray ray = PlayerControllerManager.PlayerCamera.GetCameraRay();
 				Vector3 cameraSpacePos = Quaternion.FromToRotation(ray.direction, Vector3.forward) * (keyPosition - ray.origin);
 				Vector3 keySpacePos = keyAlignment.Inverse() * (ray.origin - keyPosition);
-
+				
 				return cameraSpacePos.z > 0 && keySpacePos.y > 0;
 			}
 		}
-
+		
 		private void keyStateUpdate()
 		{
 			//Always do visual update:
 			Decorations[0].DecorationObject.GetComponent<MeshRenderer>().material = MaterialsCache.WorldObject(Data.KeyDown ? Data.KeyColor.lighten() : Data.KeyColor);
-
+			
 			//TODO: If key is globally not pressed, but this client still presses it, force press the button again.
 			if(!PlacedInMainWorld || keyWasPressed == Data.KeyDown)
 			{
@@ -185,11 +185,11 @@ namespace EcconiaCPUServerComponents.Client
 				//The key was switched on. Play sound:
 				SoundPlayer.PlaySoundAt(effect, Address);
 			}
-
+			
 			//Update the displayed state.
 			keyWasPressed = Data.KeyDown;
 		}
-
+		
 		private bool isButtonCurrentlyPressable()
 		{
 			return
@@ -198,7 +198,7 @@ namespace EcconiaCPUServerComponents.Client
 				&& (GameStateManager.CurrentStateID == "MHG.Building" || GameStateManager.CurrentStateID == "MHG.InChair") //Only let the keys be pressable, when building (free-cam) or in chair.
 				&& !ToggleableSingletonMenu<FancyPantsConsole.Console>.MenuIsVisible; //This window shadows over each game state, so manual query is required.
 		}
-
+		
 		protected override IDecoration[] GenerateDecorations(Transform parentToCreateDecorationsUnder)
 		{
 			//Keycap:
@@ -250,31 +250,31 @@ namespace EcconiaCPUServerComponents.Client
 				},
 			};
 		}
-
+		
 		//Resizeable interface things:
-
+		
 		public int SizeX
 		{
 			get => Data.sizeX;
 			set => Data.sizeX = value;
 		}
-
+		
 		public int MinX => 1;
 		public int MaxX => 10;
 		public float GridIntervalX => 1;
-
+		
 		public int SizeZ
 		{
 			get => Data.sizeZ;
 			set => Data.sizeZ = value;
 		}
-
+		
 		public int MinZ => 1;
 		public int MaxZ => 10;
 		public float GridIntervalZ => 1;
-
+		
 		//Custom data interface things:
-
+		
 		protected override void SetDataDefaultValues()
 		{
 			Data.KeyDown = false;
@@ -285,31 +285,31 @@ namespace EcconiaCPUServerComponents.Client
 			Data.sizeZ = 1;
 			Data.label = null; //Yes 'null' is the default - means no overwrite.
 		}
-
+		
 		//Pressable button interface:
-
+		
 		public void MousePressDown()
 		{
 			manuallyPressed = true;
 			QueueFrameUpdate();
 		}
-
+		
 		public void MousePressUp()
 		{
 			manuallyPressed = false;
 			QueueFrameUpdate();
 		}
-
+		
 		public IReadOnlyList<MeshFilter> OutlineWhenInteractableLookedAt { get; private set; }
-
+		
 		//Weird stuff for color:
-
+		
 		public Color24 Color
 		{
 			get => this.Data.KeyColor;
 			set => this.Data.KeyColor = value;
 		}
-
+		
 		public string ColorsFileKey => "Interactables";
 		public float MinColorValue => 0.0f;
 	}

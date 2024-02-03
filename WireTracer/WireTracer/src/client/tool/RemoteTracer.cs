@@ -209,7 +209,7 @@ namespace WireTracer.Client.Tool
 				}
 			}
 		}
-
+		
 		private static void populateWires(ClusterDetails clusterDetails)
 		{
 			clusterDetails.highlightedWires = new List<WireAddress>();
@@ -235,7 +235,7 @@ namespace WireTracer.Client.Tool
 				}
 			}
 		}
-
+		
 		public void stop()
 		{
 			foreach(var clusterDetails in response.selectedClusters)
@@ -255,7 +255,7 @@ namespace WireTracer.Client.Tool
 				unhighlightCluster(clusterDetails);
 			}
 		}
-
+		
 		private static void unhighlightCluster(ClusterDetails cluster)
 		{
 			foreach(var address in cluster.pegs)

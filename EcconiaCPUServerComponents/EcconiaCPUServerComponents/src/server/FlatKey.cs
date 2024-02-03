@@ -12,14 +12,14 @@ namespace EcconiaCPUServerComponents.Server
 			// So the output must update.
 			QueueLogicUpdate();
 		}
-
+		
 		protected override void DoLogicUpdate()
 		{
 			//Update the output, with whatever the state says.
 			//Might be needless in some cases, but that does not matter.
 			this.Outputs[0].On = this.Data.KeyDown;
 		}
-
+		
 		protected override void SetDataDefaultValues()
 		{
 			//Not that this matters...

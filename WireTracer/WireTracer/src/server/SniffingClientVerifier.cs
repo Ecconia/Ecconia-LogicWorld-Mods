@@ -5,12 +5,12 @@ namespace WireTracer.Server
 	public class SniffingClientVerifier : IClientVerifier
 	{
 		private readonly WireTracerServer wireTracerServer;
-
+		
 		public SniffingClientVerifier(WireTracerServer wireTracerServer)
 		{
 			this.wireTracerServer = wireTracerServer;
 		}
-
+		
 		public void Verify(VerificationContext ctx)
 		{
 			foreach(var modID in ctx.ApprovalPacket.ClientMods)

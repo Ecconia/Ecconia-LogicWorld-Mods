@@ -33,7 +33,7 @@ namespace ServerOnlyMods.Server
 				ctx.DenyConnection(builder.ToString());
 			}
 		}
-
+		
 		private static string modToString(MetaMod mod)
 		{
 			return mod.Manifest.ID + ":" + mod.Manifest.Version;

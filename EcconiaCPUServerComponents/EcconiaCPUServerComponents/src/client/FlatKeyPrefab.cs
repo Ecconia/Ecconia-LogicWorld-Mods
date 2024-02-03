@@ -10,19 +10,19 @@ namespace EcconiaCPUServerComponents.Client
 	public class FlatKeyPrefab : PrefabVariantInfo
 	{
 		public override string ComponentTextID => "EcconiaCPUServerComponents.FlatKey";
-
+		
 		public override PrefabVariantIdentifier GetDefaultComponentVariant()
 		{
 			return new PrefabVariantIdentifier(0, 1);
 		}
-
+		
 		public override ComponentVariant GenerateVariant(PrefabVariantIdentifier identifier)
 		{
 			if(identifier.InputCount != 0 || identifier.OutputCount != 1)
 			{
 				throw new Exception("Attempted to create Ecconias FlatKey with unexpected peg configuration. Loading old save? Wrong mod version? Inputs: " + identifier.InputCount + " Outputs: " + identifier.OutputCount);
 			}
-
+			
 			return new ComponentVariant()
 			{
 				VariantPrefab = new Prefab()
@@ -39,7 +39,7 @@ namespace EcconiaCPUServerComponents.Client
 							Rotation = new Vector3(180, 0, 0),
 							Scale = new Vector3(2f / 3f, 5f / 6f, 2f / 3f),
 							Mesh = Meshes.BetterCube_OpenBottom,
-
+							
 							ColliderData = new ColliderData()
 							{
 								Type = ColliderType.Box,

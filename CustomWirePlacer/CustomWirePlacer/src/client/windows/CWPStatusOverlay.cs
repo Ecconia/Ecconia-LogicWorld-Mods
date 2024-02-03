@@ -19,9 +19,9 @@ namespace CustomWirePlacer.Client.Windows
 	public class CWPStatusOverlay : MonoBehaviour, ILocalizedObject, IAssignMyFields, IInitializable
 	{
 		private static GameObject rootObject;
-
+		
 		private static bool genericDirty = true;
-
+		
 		public static void Init()
 		{
 			//Static initialization, create the game object, which this window is attached to.
@@ -55,43 +55,43 @@ namespace CustomWirePlacer.Client.Windows
 				.add<CWPStatusOverlay>()
 				.build();
 		}
-
+		
 		public static void destroy()
 		{
 			rootObject = null;
 		}
-
+		
 		public static void setVisible(bool val)
 		{
 			rootObject.SetActive(val);
 		}
-
+		
 		[AssignMe]
 		public TextMeshProUGUI textMesh;
 		[AssignMe]
 		public RectTransform windowRect;
-
+		
 		public void Initialize()
 		{
 			fieldRect = Fields.getPrivate(typeof(DebugToggleTextManager), "PlaceholdersParent");
 			TextLocalizer.Initialize(this);
 		}
-
+		
 		private void OnDestroy()
 		{
 			TextLocalizer.Finish(this);
 		}
-
+		
 		private void setText(string text)
 		{
 			textMesh.text = text;
 		}
-
+		
 		private FieldInfo fieldRect;
 		private DebugToggleTextManager obj;
 		private bool keyHelpOpen;
 		private byte debugState;
-
+		
 		private void updatePosition(bool dirty = false)
 		{
 			bool keyHelpOpen = ToggleableSingletonMenu<HelpListMenu>.MenuIsVisible;
@@ -100,20 +100,20 @@ namespace CustomWirePlacer.Client.Windows
 				this.keyHelpOpen = keyHelpOpen;
 				dirty = true;
 			}
-
+			
 			byte debugState = (byte) ((ToggleableSingletonMenu<DebugFpsText>.MenuIsVisible ? 2 : 0) | (ToggleableSingletonMenu<DebugCoordinatesText>.MenuIsVisible ? 1 : 0));
 			if(debugState != this.debugState)
 			{
 				this.debugState = debugState;
 				dirty = true;
 			}
-
+			
 			if(dirty)
 			{
 				actuallyUpdatePosition();
 			}
 		}
-
+		
 		private void actuallyUpdatePosition()
 		{
 			if(keyHelpOpen)
@@ -141,12 +141,12 @@ namespace CustomWirePlacer.Client.Windows
 				windowRect.anchoredPosition = new Vector2(0, 0);
 			}
 		}
-
+		
 		private void OnEnable()
 		{
 			updatePosition(true);
 		}
-
+		
 		private void Update()
 		{
 			if(!CWP.CustomWirePlacer.isActive())
@@ -161,7 +161,7 @@ namespace CustomWirePlacer.Client.Windows
 				genericDirty = false;
 			}
 		}
-
+		
 		private void constructText()
 		{
 			CWPGroup firstGroup = CWP.CustomWirePlacer.getFirstGroup();
@@ -195,7 +195,7 @@ namespace CustomWirePlacer.Client.Windows
 				}
 				sb.Append('\n');
 			}
-
+			
 			//Current axis details:
 			CWPGroupAxis currentAxis = currentGroup.getCurrentAxis();
 			int forward = currentAxis.forwards != null ? currentAxis.forwards.Count : 0;
@@ -204,7 +204,7 @@ namespace CustomWirePlacer.Client.Windows
 			{
 				sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.Expand", backward, forward)).Append('\n');
 			}
-
+			
 			//Skipping:
 			int amount = currentGroup.getCurrentAxis().skipNumber;
 			if(amount != 0)
@@ -222,7 +222,7 @@ namespace CustomWirePlacer.Client.Windows
 					sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.SkipOffset", currentGroup.getCurrentAxis().skipOffset)).Append('\n');
 				}
 			}
-
+			
 			//Modifiers:
 			if(CWPSettings.showStatusOverlayModifiers)
 			{
@@ -239,7 +239,7 @@ namespace CustomWirePlacer.Client.Windows
 					sb.Append(TextLocalizer.LocalizeByKey("CWP.StatusOverlay.Pattern")).Append('\n');
 				}
 			}
-
+			
 			//Settings:
 			if(CWPSettings.showStatusOverlaySettings)
 			{
@@ -252,25 +252,25 @@ namespace CustomWirePlacer.Client.Windows
 					sb.Append(TextLocalizer.LocalizeByKey("CWP.StatusOverlay.ExpandUniform")).Append('\n');
 				}
 			}
-
+			
 			setText(sb.ToString());
 		}
-
+		
 		public static void setDirtyGeneric()
 		{
 			genericDirty = true;
 		}
-
+		
 		public static void setDirtySettings()
 		{
 			setDirtyGeneric();
 		}
-
+		
 		public static void setDirtySettingsConfig()
 		{
 			setDirtyGeneric();
 		}
-
+		
 		public void UpdateLocalization()
 		{
 			setDirtyGeneric();

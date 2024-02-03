@@ -12,9 +12,9 @@ namespace CustomChatManager.Server.Commands
 	{
 		public string name => "Mods";
 		public string shortDescription => "Lists all installed server mods.";
-
+		
 		private readonly IDictionary mods;
-
+		
 		public CommandMods()
 		{
 			var modManager = Program.Get<IModManager>();
@@ -22,7 +22,7 @@ namespace CustomChatManager.Server.Commands
 			var value = Fields.getNonNull(field, modManager);
 			mods = Types.checkType<IDictionary>(value);
 		}
-
+		
 		public void execute(CommandSender sender, string arguments)
 		{
 			//There is always at least one mod installed, this one.

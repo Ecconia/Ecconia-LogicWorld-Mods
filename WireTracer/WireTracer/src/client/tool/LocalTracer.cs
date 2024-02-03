@@ -9,11 +9,11 @@ namespace WireTracer.Client.Tool
 		private static IEnumerable<(WireAddress, bool)> wires;
 		private static IEnumerable<PegAddress> pegs;
 		private static IEnumerable<ComponentAddress> comps;
-
+		
 		public LocalTracer(PegAddress origin)
 		{
 			(pegs, wires, comps) = BruteForceCollector.collect(origin);
-
+			
 			//First components, so that the pegs can be overwritten.
 			foreach(var componentAddress in comps)
 			{
@@ -28,7 +28,7 @@ namespace WireTracer.Client.Tool
 				Outliner.Outline(wireAddress, isOutput ? WireTracerColors.primaryOutput : WireTracerColors.primaryNormal);
 			}
 		}
-
+		
 		public void stop()
 		{
 			foreach(var (wireAddress, _) in wires)

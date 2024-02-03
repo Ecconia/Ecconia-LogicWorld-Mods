@@ -7,15 +7,15 @@ namespace CustomChatManager.Server
 	{
 		public Connection sender;
 		public ChatMessageData originalMessage;
-
+		
 		public MessageEventResult result = MessageEventResult.Send;
 		public ChatMessageData responseMessage;
-
+		
 		public ChatMessageEvent(ChatMessageData originalMessage, Connection sender)
 		{
 			this.sender = sender;
 			this.originalMessage = originalMessage;
-
+			
 			responseMessage = new ChatMessageData
 			{
 				Color = originalMessage.Color,
@@ -23,7 +23,7 @@ namespace CustomChatManager.Server
 				MessageContent = originalMessage.MessageContent,
 			};
 		}
-
+		
 		public bool isAlreadyRejected()
 		{
 			return result == MessageEventResult.Drop;

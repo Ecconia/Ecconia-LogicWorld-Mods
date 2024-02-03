@@ -13,7 +13,7 @@ namespace AssemblyLoader.Client
 		{
 			//Set the logger, to be used when loading assemblies:
 			AssemblyLoaderShared.logger = Logger;
-
+			
 			//Load all mods (active or not), so that they can be probed for assemblies to load:
 			var metaMods = getMods(Logger);
 			if(metaMods != null)
@@ -22,7 +22,7 @@ namespace AssemblyLoader.Client
 				AutoLoader.autoLoad(metaMods, Manifest.ID, ModSide.Client);
 			}
 		}
-
+		
 		private static MetaMod[] getMods(ILogicLogger logger)
 		{
 			var typeModLoader = typeof(Mods).Assembly.GetType("LogicWorld.Modding.Loading.ModLoader");

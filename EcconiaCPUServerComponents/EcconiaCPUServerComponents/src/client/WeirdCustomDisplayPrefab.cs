@@ -15,7 +15,7 @@ namespace EcconiaCPUServerComponents.Client
 		//MUST BE AN EVEN NUMBER, OR CODE AND MODEL BREAK! Actually it is used everywhere now, do not change.
 		private const int DisplaySideLength = 32;
 		private const int PegAmount = DisplaySideLength * 4 + 1;
-
+		
 		//This is how far a panel displays stands out of a board. This display should be aligned with them:
 		private const float PanelDisplayOffset = 1f / 3f; //Third of a square.
 		//Other offsets:
@@ -24,15 +24,15 @@ namespace EcconiaCPUServerComponents.Client
 		private const float BlockZOffset = GeneralZOffset;
 		//The distance from the pegs to the pixel center on axis.
 		const float PegPairOffset = 1f / 3f; //Is not aligned to the squares, but looks better.
-
+		
 		public override string ComponentTextID => "EcconiaCPUServerComponents.WeirdCustomDisplay";
-
+		
 		public override PrefabVariantIdentifier GetDefaultComponentVariant()
 		{
 			// (32 'Selector' + 32 'Invert Selector') * 2 'X/Y' + 1 'Data'
 			return new PrefabVariantIdentifier(PegAmount + 1, 0);
 		}
-
+		
 		public override ComponentVariant GenerateVariant(PrefabVariantIdentifier identifier)
 		{
 			bool hasExtraPeg = identifier.InputCount == PegAmount + 1;
@@ -40,7 +40,7 @@ namespace EcconiaCPUServerComponents.Client
 			{
 				throw new Exception("Attempted to create Ecconias WeirdCustomDisplay with unexpected peg configuration. Loading old save? Wrong mod version?");
 			}
-
+			
 			//Blocks:
 			Block[] blocks = new Block[DisplaySideLength * DisplaySideLength + 1];
 			{
@@ -78,7 +78,7 @@ namespace EcconiaCPUServerComponents.Client
 					Mesh = Meshes.Cube, //Meshes.BetterCube_OpenBottom, //Try a hovering display...
 				};
 			}
-
+			
 			//Inputs:
 			ComponentInput[] inputs = new ComponentInput[hasExtraPeg ? PegAmount + 1 : PegAmount];
 			{
@@ -86,13 +86,13 @@ namespace EcconiaCPUServerComponents.Client
 				float startY = +1.0f; //Going into positive Y axis, starting at 0.0.
 				float middleX = +.5f - DisplaySideLength; //The first .5 are to get to the edge of the Display, to then go into the middle.
 				float middleY = DisplaySideLength;
-
+				
 				int indexInvertX = DisplaySideLength * 1 - 1;
 				int indexDataX = DisplaySideLength * 2 - 1;
 				int indexInvertY = DisplaySideLength * 2;
 				int indexDataY = DisplaySideLength * 3;
 				//TBI: Is it worth it, to also have 4 start positions which include the offset?
-
+				
 				for(int i = 0; i < DisplaySideLength * 2; i += 2)
 				{
 					//Invert X:
@@ -138,7 +138,7 @@ namespace EcconiaCPUServerComponents.Client
 						),
 					};
 				}
-
+				
 				//Data:
 				int index = inputs.Length - (hasExtraPeg ? 2 : 1);
 				inputs[index++] = new ComponentInput

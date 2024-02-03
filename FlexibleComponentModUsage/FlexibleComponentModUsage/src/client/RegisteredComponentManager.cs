@@ -10,7 +10,7 @@ namespace FlexibleComponentModUsage.client
 	{
 		private static readonly Dictionary<string, ComponentInfo> componentRegistryReference;
 		private static readonly List<PrefabVariantInfo> prefabRegistryReference;
-
+		
 		static RegisteredComponentManager()
 		{
 			//Setup component registry backdoor:
@@ -28,16 +28,16 @@ namespace FlexibleComponentModUsage.client
 				)
 			);
 		}
-
+		
 		//Runtime:
-
+		
 		//Original component order, required as dictionaries mess up orders. And the order should stay consistent in GUI.
 		private int orderIndex;
 		private readonly Dictionary<string, int> componentOrderIndex;
 		//Backup reference values for restoring everything:
 		private readonly Dictionary<string, ComponentInfo> componentRegistryBackup;
 		private readonly List<PrefabVariantInfo> prefabRegistryBackup;
-
+		
 		public RegisteredComponentManager()
 		{
 			componentOrderIndex = new Dictionary<string, int>();
@@ -49,7 +49,7 @@ namespace FlexibleComponentModUsage.client
 			componentRegistryBackup = new Dictionary<string, ComponentInfo>(componentRegistryReference);
 			prefabRegistryBackup = new List<PrefabVariantInfo>(prefabRegistryReference);
 		}
-
+		
 		public void checkForChanges()
 		{
 			//Transfer possibly changed components into the local storage.
@@ -79,7 +79,7 @@ namespace FlexibleComponentModUsage.client
 				FlexibleComponentModUsage.logger.Info("Client added " + newComponents + " and updated " + updatedComponents + " components, while gameplay.");
 			}
 		}
-
+		
 		public void adjust(IReadOnlyDictionary<ushort, string> packetComponentIDsMap)
 		{
 			//Check that every component on the server is installed on the client by looking at the backup:
@@ -117,7 +117,7 @@ namespace FlexibleComponentModUsage.client
 			}
 			//Done. Now the client thinks it has only the components that the server has.
 		}
-
+		
 		public void restore()
 		{
 			componentRegistryReference.Clear();

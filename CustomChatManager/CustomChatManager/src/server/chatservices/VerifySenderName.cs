@@ -7,12 +7,12 @@ namespace CustomChatManager.Server.ChatServices
 	public class VerifySenderName : IChatService
 	{
 		private readonly IPlayerManager playerManager;
-
+		
 		public VerifySenderName()
 		{
 			playerManager = ServiceGetter.getService<IPlayerManager>();
 		}
-
+		
 		public void processChatEvent(ChatMessageEvent e)
 		{
 			if(e.isAlreadyRejected())

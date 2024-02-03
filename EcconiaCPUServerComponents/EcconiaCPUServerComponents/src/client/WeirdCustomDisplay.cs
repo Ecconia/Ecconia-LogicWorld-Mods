@@ -11,26 +11,26 @@ namespace EcconiaCPUServerComponents.Client
 	public class WeirdCustomDisplay : ComponentClientCode<IWeirdCustomDisplayData>
 	{
 		private bool dataDirty = true;
-
+		
 		private const int DisplaySideLength = 32;
 		private static readonly GpuColor onColor = new Color24(255, 150, 0).ToGpuColor();
 		private static readonly GpuColor offColor = Colors.DisplayOff.ToGpuColor();
-
+		
 		protected override void Initialize()
 		{
 		}
-
+		
 		protected override void SetDataDefaultValues()
 		{
 			Data.pixelData = new byte[128];
 		}
-
+		
 		protected override void DataUpdate()
 		{
 			dataDirty = true;
 			QueueFrameUpdate();
 		}
-
+		
 		protected override void FrameUpdate()
 		{
 			if(dataDirty)
@@ -39,7 +39,7 @@ namespace EcconiaCPUServerComponents.Client
 				applyPixelData();
 			}
 		}
-
+		
 		private void applyPixelData()
 		{
 			int index = 0;
@@ -55,12 +55,12 @@ namespace EcconiaCPUServerComponents.Client
 				SetBlockColor((b & 0b1) != 0 ? onColor : offColor, index++);
 			}
 		}
-
+		
 		private void setPixel(int x, int y, bool state)
 		{
 			SetBlockColor(state ? onColor : offColor, x + y * 32);
 		}
-
+		
 		//Allows components to be placed on this component.
 		protected override ChildPlacementInfo GenerateChildPlacementInfo()
 		{

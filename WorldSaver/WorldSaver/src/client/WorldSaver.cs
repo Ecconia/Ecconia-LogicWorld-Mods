@@ -31,7 +31,7 @@ namespace WorldSaver.Client
 				LConsole.WriteLine("This world folder exist already, try again: " + saveFolder);
 				return;
 			}
-
+			
 			//Get world bytes to export:
 			bool[] circuitStates;
 			try
@@ -48,7 +48,7 @@ namespace WorldSaver.Client
 				Instances.MainWorld.ComponentTypes,
 				circuitStates
 			);
-
+			
 			//Save world file:
 			Directory.CreateDirectory(saveFolder);
 			//Save to world file:
@@ -63,7 +63,7 @@ namespace WorldSaver.Client
 			worldTypeFile.SetAtPath(0, "WorldSpawnPosition", "z");
 			worldTypeFile.SaveAllData();
 			LConsole.WriteLine("Wrote world info.");
-
+			
 			var pathExtraData = Path.Combine(saveFolder, "ExtraData");
 			Directory.CreateDirectory(pathExtraData);
 			LConsole.WriteLine("Writing extra data...");
@@ -89,10 +89,10 @@ namespace WorldSaver.Client
 				dataFile.SetNonGeneric(type, "Data", value);
 				dataFile.SaveAllData();
 			}
-
+			
 			LConsole.WriteLine("Done.");
 		}
-
+		
 		private static List<(string, Type, object)> extractExtraData()
 		{
 			var extraDatas = new List<(string, Type, object)>();
@@ -110,7 +110,7 @@ namespace WorldSaver.Client
 			}
 			return extraDatas;
 		}
-
+		
 		private static string extractWorldType()
 		{
 			var types = WorldTypesManager.WorldTypesByID.Keys;
@@ -122,7 +122,7 @@ namespace WorldSaver.Client
 			}
 			return scene;
 		}
-
+		
 		private static bool[] extractCircuitStates()
 		{
 			var typeFastCircuitStateManager = Types.findInAssembly(typeof(RenderUpdateManager), "LogicWorld.Rendering.FastCircuitStatesManager");

@@ -16,7 +16,7 @@ namespace EcconiaCPUServerComponents.Client
 	{
 		private const int fileCustomDataLength = 256 + 8;
 		private static readonly char[] mapping = new char[256];
-
+		
 		//TODO: Add control characters, such as space and newline.
 		static Ram256b8()
 		{
@@ -40,9 +40,9 @@ namespace EcconiaCPUServerComponents.Client
 				mapping[index++] = otherCharacters[i];
 			}
 		}
-
+		
 		private bool isInitialized;
-
+		
 		protected override ChildPlacementInfo GenerateChildPlacementInfo()
 		{
 			return new ChildPlacementInfo()
@@ -57,7 +57,7 @@ namespace EcconiaCPUServerComponents.Client
 				},
 			};
 		}
-
+		
 		protected override void InitializeInWorld()
 		{
 			//Gets apparently called whenever this component is placed.
@@ -68,7 +68,7 @@ namespace EcconiaCPUServerComponents.Client
 				setup(DateTime.Now, 2);
 			}
 		}
-
+		
 		private void setup(DateTime started, byte isFirstFrame)
 		{
 			var playerName = Helper.getPlayerName();
@@ -105,7 +105,7 @@ namespace EcconiaCPUServerComponents.Client
 			}
 			BuildRequestManager.SendBuildRequestWithoutAddingToUndoStack(new BuildRequest_UpdateComponentCustomData(Address, newBytes));
 		}
-
+		
 		protected override void DeserializeData(byte[] data)
 		{
 			if(data == null || data.Length == 1)
@@ -130,7 +130,7 @@ namespace EcconiaCPUServerComponents.Client
 				setValue(data[0], data[1]); //Update data.
 			}
 		}
-
+		
 		private void setValue(int index, int value)
 		{
 			TextMeshPro label = Decorations[0].DecorationObject.GetComponent<TextMeshPro>();
@@ -148,11 +148,11 @@ namespace EcconiaCPUServerComponents.Client
 			text[offset] = value == 0 ? ' ' : mapped == 0 ? '…' : mapped;
 			label.text = new string(text);
 		}
-
+		
 		protected override IDecoration[] GenerateDecorations(Transform parentToCreateDecorationsUnder)
 		{
 			Quaternion alignment = Quaternion.AngleAxis(-90, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.forward);
-
+			
 			(GameObject go, TextMeshPro label) = Helper.textObjectMono("Ram256b8: TextDecoration");
 			RectTransform rect = go.GetComponent<RectTransform>();
 			rect.sizeDelta = new Vector2(0, 0.5625f);

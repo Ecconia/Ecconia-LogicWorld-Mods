@@ -12,9 +12,9 @@ namespace AssemblyLoader.Shared
 	public static class AssemblyLoaderShared
 	{
 		public static ILogicLogger logger;
-
+		
 		private static string cacheFolder;
-
+		
 		public static void loadAssemblyFromModFile(ModFile modFile)
 		{
 			logger.Debug("Loading mod file '" + modFile.Path + "' in mod-FS '" + modFile.FileSystem.Path + "'.");
@@ -25,7 +25,7 @@ namespace AssemblyLoader.Shared
 				return;
 			}
 			//File system type is archive or something else, play safe and first extract the DLL into a cache folder:
-
+			
 			if(cacheFolder == null)
 			{
 				var temporaryDictionary = Path.GetTempPath();
@@ -36,11 +36,11 @@ namespace AssemblyLoader.Shared
 				cacheFolder = Path.Combine(temporaryDictionary, "LogicWorld-AssemblyLoader");
 				Directory.CreateDirectory(cacheFolder);
 			}
-
+			
 			//Create the cached-file-path:
 			var fileHash = createHash(modFile);
 			var cachedFilePath = Path.Combine(cacheFolder, string.Concat(modFile.FileName, "-", fileHash, modFile.Extension));
-
+			
 			//Always overwrite the file:
 			using(Stream outputStream = File.Create(cachedFilePath))
 			{
@@ -49,11 +49,11 @@ namespace AssemblyLoader.Shared
 					inputStream.CopyTo(outputStream);
 				}
 			}
-
+			
 			//Finally, load the assembly:
 			loadAssembly(cachedFilePath);
 		}
-
+		
 		private static void loadAssembly(string filePath)
 		{
 			try
@@ -65,7 +65,7 @@ namespace AssemblyLoader.Shared
 				logger.Error("Failed to load file at '" + filePath + "', because an " + e.GetType().Name + " got caught with message: " + e.Message);
 			}
 		}
-
+		
 		private static string createHash(ModFile modFile)
 		{
 			SHA256 sha256 = SHA256.Create();
@@ -74,7 +74,7 @@ namespace AssemblyLoader.Shared
 				return bytesToString(sha256.ComputeHash(stream));
 			}
 		}
-
+		
 		private static string bytesToString(byte[] bytes)
 		{
 			StringBuilder builder = new StringBuilder(bytes.Length * 2);

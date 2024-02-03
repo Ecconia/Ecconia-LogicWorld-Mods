@@ -15,12 +15,12 @@ namespace SimulationControl.Client
 	public class SimulationControl : ClientMod
 	{
 		private static readonly CColor failureColor = CColor.Red;
-
+		
 		//Entry point of this mod
 		protected override void Initialize()
 		{
 		}
-
+		
 		//Command of this mod, in charge of toggling, if this mod should be active or not
 		[Command("tps", Description = "Allows you to easily change the current ticks per second. Usage: tps < 0/Stop/H/Halt/P/Pause | R/Resume/Play/C | S/Step | <Floating Point Number> >")]
 		public static void tps(string argument)
@@ -66,7 +66,7 @@ namespace SimulationControl.Client
 				LConsole.WriteLine("Could not parse your command. Use 'tps' to see usage.", failureColor);
 				return;
 			}
-
+			
 			//Actual sending code:
 			try
 			{

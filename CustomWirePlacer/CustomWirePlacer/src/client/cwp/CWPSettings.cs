@@ -7,7 +7,7 @@ namespace CustomWirePlacer.Client.CWP
 	public static class CWPSettings
 	{
 		private static bool _showStatusOverlay = true;
-
+		
 		public static bool showStatusOverlay
 		{
 			get => _showStatusOverlay;
@@ -20,9 +20,9 @@ namespace CustomWirePlacer.Client.CWP
 				}
 			}
 		}
-
+		
 		private static bool _showHelpOverlay = true;
-
+		
 		public static bool showHelpOverlay
 		{
 			get => _showHelpOverlay;
@@ -32,9 +32,9 @@ namespace CustomWirePlacer.Client.CWP
 				CWPHelpOverlay.checkVisibility();
 			}
 		}
-
+		
 		private static bool _showStatusOverlayModifiers = true;
-
+		
 		public static bool showStatusOverlayModifiers
 		{
 			get => _showStatusOverlayModifiers;
@@ -44,9 +44,9 @@ namespace CustomWirePlacer.Client.CWP
 				CWPStatusOverlay.setDirtySettingsConfig();
 			}
 		}
-
+		
 		private static bool _showStatusOverlaySettings;
-
+		
 		public static bool showStatusOverlaySettings
 		{
 			get => _showStatusOverlaySettings;
@@ -56,11 +56,11 @@ namespace CustomWirePlacer.Client.CWP
 				CWPStatusOverlay.setDirtySettingsConfig();
 			}
 		}
-
+		
 		public static bool allowStartingWithOnePegGroup { get; private set; }
-
+		
 		private static bool _raycastAtBottomOfPegs;
-
+		
 		public static bool raycastAtBottomOfPegs
 		{
 			get => _raycastAtBottomOfPegs;
@@ -76,9 +76,9 @@ namespace CustomWirePlacer.Client.CWP
 				CWPStatusOverlay.setDirtySettings();
 			}
 		}
-
+		
 		private static bool _showRaycastRay;
-
+		
 		public static bool showRaycastRay
 		{
 			get => _showRaycastRay;
@@ -88,9 +88,9 @@ namespace CustomWirePlacer.Client.CWP
 				CustomWirePlacer.raycastLine.refresh();
 			}
 		}
-
+		
 		private static bool _expandOnlyUniformDistance;
-
+		
 		public static bool expandOnlyUniformDistance
 		{
 			get => _expandOnlyUniformDistance;
@@ -100,9 +100,9 @@ namespace CustomWirePlacer.Client.CWP
 				CWPStatusOverlay.setDirtySettings();
 			}
 		}
-
+		
 		private static bool _resetSkipOffsetWhenNotSkipping = true;
-
+		
 		public static bool resetSkipOffsetWhenNotSkipping
 		{
 			get => _resetSkipOffsetWhenNotSkipping;
@@ -115,11 +115,11 @@ namespace CustomWirePlacer.Client.CWP
 				}
 			}
 		}
-
+		
 		public static bool scrollSkipInMulDivOfTwoSteps { get; private set; }
-
+		
 		private static bool _roundSkipOffsetToNextBinaryNumber = true;
-
+		
 		public static bool roundSkipOffsetToNextBinaryNumber
 		{
 			get => _roundSkipOffsetToNextBinaryNumber;
@@ -133,9 +133,9 @@ namespace CustomWirePlacer.Client.CWP
 				}
 			}
 		}
-
+		
 		private static bool _connectPegsInOneGroupWithEachOther = true;
-
+		
 		public static bool connectPegsInOneGroupWithEachOther
 		{
 			get => _connectPegsInOneGroupWithEachOther;
@@ -148,10 +148,10 @@ namespace CustomWirePlacer.Client.CWP
 				}
 			}
 		}
-
+		
 		//TBI: Somehow option preserve last skip rate?
 		//Make second group 2D, if first was.
-
+		
 		public static IEnumerable<SettingsWindowEntry> collectSettings()
 		{
 			//Other settings:
@@ -251,16 +251,16 @@ namespace CustomWirePlacer.Client.CWP
 			};
 		}
 	}
-
+	
 	public abstract class SettingsWindowEntry
 	{
 	}
-
+	
 	public class SettingsWindowTitle : SettingsWindowEntry
 	{
 		public string title;
 	}
-
+	
 	public class SettingsWindowSetting : SettingsWindowEntry
 	{
 		public string key;

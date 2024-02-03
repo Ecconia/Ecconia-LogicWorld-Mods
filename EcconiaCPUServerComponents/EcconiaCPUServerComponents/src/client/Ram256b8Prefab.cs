@@ -13,25 +13,25 @@ namespace EcconiaCPUServerComponents.Client
 		public static readonly float width = 20f;
 		public static readonly float depth = 481.5f;
 		public static readonly float height = 13f;
-
+		
 		private static readonly int dataWidth = 8;
 		private static readonly int outputCount = dataWidth;
 		private static readonly int inputCount = 9 + 9 + dataWidth;
-
+		
 		public override string ComponentTextID => "EcconiaCPUServerComponents.Ram256b8";
-
+		
 		public override PrefabVariantIdentifier GetDefaultComponentVariant()
 		{
 			return new PrefabVariantIdentifier(inputCount, outputCount);
 		}
-
+		
 		public override ComponentVariant GenerateVariant(PrefabVariantIdentifier identifier)
 		{
 			if(identifier.InputCount != inputCount || identifier.OutputCount != outputCount)
 			{
 				throw new Exception("Attempted to create Ecconias Ram256b8 with unexpected peg configuration. Loading old save? Wrong mod version? Inputs: " + identifier.InputCount + " Outputs: " + identifier.OutputCount);
 			}
-
+			
 			ComponentInput[] inputs = new ComponentInput[inputCount];
 			int index = 0;
 			//WRITE:
@@ -47,7 +47,7 @@ namespace EcconiaCPUServerComponents.Client
 					Rotation = new Vector3(-90, 0, 0),
 				};
 			}
-
+			
 			//READ:
 			for(int i = 0; i < 9; i++)
 			{
@@ -61,7 +61,7 @@ namespace EcconiaCPUServerComponents.Client
 					Rotation = new Vector3(-90, 0, 0),
 				};
 			}
-
+			
 			//DATA:
 			for(int i = 0; i < 8; i++)
 			{
@@ -75,7 +75,7 @@ namespace EcconiaCPUServerComponents.Client
 					Rotation = new Vector3(-90, 0, 0),
 				};
 			}
-
+			
 			ComponentOutput[] outputs = new ComponentOutput[outputCount];
 			for(int i = 0; i < dataWidth; i++)
 			{
@@ -89,7 +89,7 @@ namespace EcconiaCPUServerComponents.Client
 					Rotation = new Vector3(-90, 0, 0),
 				};
 			}
-
+			
 			return new ComponentVariant()
 			{
 				VariantPrefab = new Prefab()

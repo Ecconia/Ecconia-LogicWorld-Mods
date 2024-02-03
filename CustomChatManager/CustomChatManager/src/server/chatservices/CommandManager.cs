@@ -19,7 +19,7 @@ namespace CustomChatManager.Server.ChatServices
 		{
 			server.sendMessage(connection, content, Color24.White);
 		}
-
+		
 		public static void sendMessage(this NetworkServer server, Connection connection, String content, Color24 color)
 		{
 			server.Send(connection, new ChatMessageBroadcastPacket()
@@ -33,24 +33,24 @@ namespace CustomChatManager.Server.ChatServices
 			});
 		}
 	}
-
+	
 	public class CommandManager : IChatService
 	{
 		public static CommandManager instance; //Usable for other mods.
 		private static NetworkServer server;
-
+		
 		private Dictionary<String, ICommand> commands = new Dictionary<string, ICommand>();
-
+		
 		public void register(ICommand command)
 		{
 			commands.Add(command.name.ToLower(), command);
 		}
-
+		
 		public CommandManager(ILogicLogger logger)
 		{
 			instance = this;
 			server = ServiceGetter.getService<NetworkServer>();
-
+			
 			try
 			{
 				PlayerJoiningHook.registerCallback(new JoinMessage());
@@ -61,7 +61,7 @@ namespace CustomChatManager.Server.ChatServices
 			}
 			register(new HelpCommand());
 		}
-
+		
 		private class JoinMessage : PlayerJoiningHook.PlayerJoiningCallback
 		{
 			public void playerIsJoining(Connection connection, PlayerData playerData)
@@ -70,13 +70,13 @@ namespace CustomChatManager.Server.ChatServices
 				server.sendMessage(connection, "Try using '" + ChatColors.highlight + "/help" + ChatColors.close + "' in chat.");
 			}
 		}
-
+		
 		private class HelpCommand : ICommand
 		{
 			public string name => "Help";
-
+			
 			public string shortDescription => "Prints this list.";
-
+			
 			public void execute(CommandSender sender, string arguments)
 			{
 				//Print help message:
@@ -98,14 +98,14 @@ namespace CustomChatManager.Server.ChatServices
 				sender.sendMessage(builder.ToString());
 			}
 		}
-
+		
 		public void processChatEvent(ChatMessageEvent e)
 		{
 			if(e.isAlreadyRejected())
 			{
 				return;
 			}
-
+			
 			String content = e.originalMessage.MessageContent;
 			if(content.Length <= 1)
 			{
@@ -118,9 +118,9 @@ namespace CustomChatManager.Server.ChatServices
 			content = content.Substring(1); //Dispose '/'
 			e.result = MessageEventResult.Drop; //Yep, this is a command, no forwarding!
 			CommandSender sender = new CommandSender(server, e.sender);
-
+			
 			(string command, string argument) split = splitArguments(content);
-
+			
 			commands.TryGetValue(split.command.ToLower(), out ICommand suitableCommand);
 			if(suitableCommand == null)
 			{
@@ -129,7 +129,7 @@ namespace CustomChatManager.Server.ChatServices
 			}
 			suitableCommand.execute(sender, split.argument);
 		}
-
+		
 		public static (string, string) splitArguments(string input)
 		{
 			String command;

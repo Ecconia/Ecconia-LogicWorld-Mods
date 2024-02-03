@@ -12,22 +12,22 @@ namespace CustomChatManager.Server
 	{
 		private readonly NetworkServer server;
 		private readonly Connection connection;
-
+		
 		//Lazy load:
 		private IPlayerManager playerManager;
 		private string playerName;
-
+		
 		public CommandSender(NetworkServer server, Connection connection)
 		{
 			this.server = server;
 			this.connection = connection;
 		}
-
+		
 		public void sendMessage(string content)
 		{
 			sendMessage(content, Color24.White);
 		}
-
+		
 		public void sendMessage(string content, Color24 color)
 		{
 			server.Send(connection, new ChatMessageBroadcastPacket()
@@ -40,12 +40,12 @@ namespace CustomChatManager.Server
 				}
 			});
 		}
-
+		
 		public void broadcast(string content)
 		{
 			broadcast(content, Color24.White);
 		}
-
+		
 		public void broadcast(string content, Color24 color)
 		{
 			server.Broadcast(new ChatMessageBroadcastPacket()
@@ -58,7 +58,7 @@ namespace CustomChatManager.Server
 				}
 			});
 		}
-
+		
 		public string getPlayerName()
 		{
 			if(playerName == null)
@@ -71,7 +71,7 @@ namespace CustomChatManager.Server
 			}
 			return playerName;
 		}
-
+		
 		public void sendConsoleMessage(string content)
 		{
 			server.Send(connection, new DebugMessagePacket()
@@ -79,7 +79,7 @@ namespace CustomChatManager.Server
 				Message = content,
 			});
 		}
-
+		
 		public void broadcastConsoleMessage(string content)
 		{
 			server.Broadcast(new DebugMessagePacket()

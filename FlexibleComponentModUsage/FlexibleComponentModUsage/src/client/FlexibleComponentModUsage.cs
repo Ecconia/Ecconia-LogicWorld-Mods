@@ -10,20 +10,20 @@ namespace FlexibleComponentModUsage.client
 	public class FlexibleComponentModUsage : ClientMod
 	{
 		public static ILogicLogger logger;
-
+		
 		private RegisteredComponentManager manager;
-
+		
 		protected override void Initialize()
 		{
 			logger = Logger;
 			PacketHandlerManager.getCustomPacketHandler<WorldInitializationPacket>()
 				.addHandlerToFront(new Handler(this));
-
+			
 			WorldHook.worldUnloading += () => {
 				manager?.restore();
 			};
 		}
-
+		
 		public void onWorldPacket(WorldInitializationPacket packet)
 		{
 			if(manager != null)
@@ -36,16 +36,16 @@ namespace FlexibleComponentModUsage.client
 			}
 			manager.adjust(packet.ComponentIDsMap);
 		}
-
+		
 		private class Handler : CustomPacketHandler<WorldInitializationPacket>
 		{
 			private readonly FlexibleComponentModUsage mod;
-
+			
 			public Handler(FlexibleComponentModUsage mod)
 			{
 				this.mod = mod;
 			}
-
+			
 			public override void handle(ref bool isCancelled, ref WorldInitializationPacket packet, HandlerContext context)
 			{
 				if(isCancelled)

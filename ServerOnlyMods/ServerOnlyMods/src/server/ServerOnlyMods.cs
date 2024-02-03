@@ -12,12 +12,12 @@ namespace ServerOnlyMods.Server
 		//You have a reason to access this with reflection?
 		// Maybe rather contact the developer Ecconia, and tell him what this mod is lacking or doing wrong...
 		private static List<MetaMod> clientRequiredMods;
-
+		
 		protected override void Initialize()
 		{
 			RawJoinVerifierInjector.replaceVerifier(typeof(ModsVerifier), new BetterClientModVerifier());
 		}
-
+		
 		public static List<MetaMod> getRequiredMods()
 		{
 			if(clientRequiredMods == null)

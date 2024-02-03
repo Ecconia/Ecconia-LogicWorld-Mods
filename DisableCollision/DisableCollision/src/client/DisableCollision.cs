@@ -14,7 +14,7 @@ namespace DisableCollision.Client
 		public static bool enable; //Needs to be public, for patches to access.
 		//This flag gets set if the warning has been displayed
 		private static bool showedWarning = false;
-
+		
 		//Entry point of this mod
 		protected override void Initialize()
 		{
@@ -22,7 +22,7 @@ namespace DisableCollision.Client
 			var harmony = new Harmony("DisableCollision");
 			harmony.PatchAll();
 		}
-
+		
 		//Command of this mod, in charge of toggling, if this mod should be active or not
 		[Command("ToggleCollision", Description = "Disables collision when building! Mod by Ecconia. Only use this mod when the game gives you a hard time, do not intentionally clip components and wires into each other.")]
 		private static void ToggleClipping()
@@ -48,7 +48,7 @@ namespace DisableCollision.Client
 			}
 		}
 	}
-
+	
 	[HarmonyPatch(typeof(Intersections))]
 	[HarmonyPatch("CollidersIntersectingSomething")]
 	public class PatchOne
@@ -67,7 +67,7 @@ namespace DisableCollision.Client
 			return true;
 		}
 	}
-
+	
 	[HarmonyPatch(typeof(WireUtility))]
 	[HarmonyPatch("ValidWireLineOfSight")]
 	public class PatchTwo

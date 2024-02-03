@@ -12,17 +12,17 @@ namespace CustomChatManager.Server.Commands
 	public class CommandTPS : ICommand
 	{
 		private const double minTPS = 0.1f;
-
+		
 		private const string usage = "Usage: /tps [ <tps> | stop/halt/pause | step | resume/play/continue ]";
-
+		
 		private readonly ISimulationManager simulationScheduler; //To get if it is actually running
 		private readonly ILogicManager simulation; //To step the simulation
 		private static ExtraDataAccessor<bool> accessor_tps_paused; //To get and set paused (by player) state
 		private static ExtraDataAccessor<double> accessor_tps_speed; //To get and set TPS (by player)
-
+		
 		public string name => "TPS";
 		public string shortDescription => "Changes the processed ticks per second.";
-
+		
 		public CommandTPS()
 		{
 			//Used to check if simulation is running:
@@ -37,7 +37,7 @@ namespace CustomChatManager.Server.Commands
 			Harmony harmony = new Harmony("Commands: SlashTPS");
 			harmony.Patch(initializeMethod, postfix: new HarmonyMethod(hookMethod));
 		}
-
+		
 		private static void afterInitialization(ExtraDataAccessor<double> ___Accessor_SimulationSpeedTPS, ExtraDataAccessor<bool> ___Accessor_SimulationPaused)
 		{
 			//Used for controlling pause and tps:
@@ -46,7 +46,7 @@ namespace CustomChatManager.Server.Commands
 			accessor_tps_paused = ___Accessor_SimulationPaused;
 			//Should never be null at this point. Else Simulation won't work. Probably Harmony will complain if the game changes something.
 		}
-
+		
 		public void execute(CommandSender sender, string arguments)
 		{
 			if(arguments.IsNullOrWhiteSpace())
@@ -62,7 +62,7 @@ namespace CustomChatManager.Server.Commands
 				}
 				return;
 			}
-
+			
 			//We got some argument:
 			arguments = arguments.TrimStart();
 			if(arguments.IndexOf(' ') >= 0)
@@ -70,10 +70,10 @@ namespace CustomChatManager.Server.Commands
 				sender.sendMessage(ChatColors.failure + "Too many arguments." + ChatColors.close + "\n" + ChatColors.background + usage + ChatColors.close);
 				return;
 			}
-
+			
 			//Only one argument remaining:
 			string argument = arguments.ToLower();
-
+			
 			if(argument.Equals("?") || argument.Equals("help"))
 			{
 				sender.sendMessage(usage);
@@ -119,7 +119,7 @@ namespace CustomChatManager.Server.Commands
 				sender.sendMessage(ChatColors.failure + "Could not parse your command." + ChatColors.close + "\n" + usage);
 			}
 		}
-
+		
 		private void stepSimulation(CommandSender sender)
 		{
 			if(isRunning())
@@ -130,7 +130,7 @@ namespace CustomChatManager.Server.Commands
 			simulation.DoLogicUpdate(); //Cause the stepping in the Manager is ofc private, just do it like it does.
 			sender.broadcastConsoleMessage(sender.getPlayerName() + " stepped simulation.");
 		}
-
+		
 		private void resumeSimulation(CommandSender sender)
 		{
 			if(!isPaused()) //The simulation might be stopped by the server, although then this likely won't be called.
@@ -141,7 +141,7 @@ namespace CustomChatManager.Server.Commands
 			resume(); //Might not resume it though... (If something goes wrong).
 			sender.broadcast(ChatColors.background + "<i>" + sender.getPlayerName() + " resumed simulation.</i>" + ChatColors.close);
 		}
-
+		
 		private void pauseSimulation(CommandSender sender)
 		{
 			if(isPaused()) //Might be disabled by the server, so query this.
@@ -152,7 +152,7 @@ namespace CustomChatManager.Server.Commands
 			pause();
 			sender.broadcast(ChatColors.background + "<i>" + sender.getPlayerName() + " paused simulation.</i>" + ChatColors.close);
 		}
-
+		
 		private void setSpeed(CommandSender sender, double tps)
 		{
 			bool paused = isPaused();
@@ -174,7 +174,7 @@ namespace CustomChatManager.Server.Commands
 				}
 			}
 		}
-
+		
 		private double getSpeed()
 		{
 			return accessor_tps_speed.Data;
@@ -184,17 +184,17 @@ namespace CustomChatManager.Server.Commands
 		{
 			return simulationScheduler.SimulationIsRunning;
 		}
-
+		
 		private bool isPaused()
 		{
 			return accessor_tps_paused.Data;
 		}
-
+		
 		private void pause()
 		{
 			accessor_tps_paused.SetData(true);
 		}
-
+		
 		private void resume()
 		{
 			accessor_tps_paused.SetData(false);

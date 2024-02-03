@@ -31,7 +31,7 @@ namespace EcconiaCPUServerComponents.Client
 		//### Reflection access helper: ############
 		
 		private static readonly FieldInfo nametagField;
-
+		
 		private static FieldInfo initializeNametagReflection()
 		{
 			//Reflection:
@@ -42,7 +42,7 @@ namespace EcconiaCPUServerComponents.Client
 			}
 			return nametagFieldInner;
 		}
-
+		
 		public static string getPlayerName()
 		{
 			var playerModel = PlayerModelsManager.PlayerModelSelf;

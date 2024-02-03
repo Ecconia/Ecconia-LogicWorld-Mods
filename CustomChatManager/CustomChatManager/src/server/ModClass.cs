@@ -11,7 +11,7 @@ namespace CustomChatManager.Server
 		protected override void Initialize()
 		{
 			CustomChatManager chatManager = new CustomChatManager();
-
+			
 			//Setup the chat manager:
 			{
 				//Comment out a feature if you do not like it:
@@ -25,7 +25,7 @@ namespace CustomChatManager.Server
 					CommandManager.instance.register(new CommandMods());
 				}
 			}
-
+			
 			PacketHandlerManager.getCustomPacketHandler<ChatMessageSentPacket>()
 				.addHandlerToFront(new CustomChatManager.CustomChatPacketHandler(chatManager));
 		}

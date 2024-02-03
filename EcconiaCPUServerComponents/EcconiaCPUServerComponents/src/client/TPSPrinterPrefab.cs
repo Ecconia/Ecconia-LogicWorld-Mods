@@ -10,21 +10,21 @@ namespace EcconiaCPUServerComponents.Client
 	public class TPSPrinter : PrefabVariantInfo
 	{
 		private const int OutputBitwidth = 16;
-
+		
 		public override string ComponentTextID => "EcconiaCPUServerComponents.TPSPrinter";
-
+		
 		public override PrefabVariantIdentifier GetDefaultComponentVariant()
 		{
 			return new PrefabVariantIdentifier(0, OutputBitwidth);
 		}
-
+		
 		public override ComponentVariant GenerateVariant(PrefabVariantIdentifier identifier)
 		{
 			if(identifier.InputCount != 0 || identifier.OutputCount != OutputBitwidth)
 			{
 				throw new Exception("Attempted to create TPSPrinter with unexpected peg configuration. Loading old save? Wrong mod version?");
 			}
-
+			
 			//Inputs:
 			ComponentOutput[] outputs = new ComponentOutput[OutputBitwidth];
 			{

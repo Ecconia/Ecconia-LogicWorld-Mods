@@ -12,7 +12,7 @@ namespace RandomDebugCollection.Client
 			var handleMeth = Methods.getPublicStatic(typeof(JoinWorldHook), nameof(handle));
 			new Harmony("Launch arg hook").Patch(meth, new HarmonyMethod(handleMeth));
 		}
-
+		
 		public static bool handle()
 		{
 			string[] args = System.Environment.GetCommandLineArgs();

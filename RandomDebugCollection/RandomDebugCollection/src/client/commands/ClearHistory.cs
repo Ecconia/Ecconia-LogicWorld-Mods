@@ -9,13 +9,13 @@ namespace RandomDebugCollection.Client.Commands
 	{
 		private static readonly Func<int> getHistorySize;
 		private static readonly Action resetHistory;
-
+		
 		static ClearHistory()
 		{
 			getHistorySize = Delegator.createStaticFieldGetter<int>(Fields.getPrivateStatic(typeof(UndoManager), "IndexOfNextNewBuildAction"));
 			resetHistory = Delegator.createStaticMethodCall(Methods.getPrivateStatic(typeof(UndoManager), "Reset"));
 		}
-
+		
 		[Command("ClearHistory", Description = "Clears the edit history.")]
 		public static void clearHistory()
 		{

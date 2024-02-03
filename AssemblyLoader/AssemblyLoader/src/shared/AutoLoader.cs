@@ -18,7 +18,7 @@ namespace AssemblyLoader.Shared
 				autoLoadAssembliesForMod(metaMod, side);
 			}
 		}
-
+		
 		private static void autoLoadAssembliesForMod(MetaMod mod, ModSide side)
 		{
 			foreach(var modFile in mod.Files.EnumerateFiles())

@@ -21,7 +21,7 @@ namespace WireTracer.Server
 		//Services needed to lookup wires/pegs:
 		private static readonly ICircuitryManager circuits;
 		private static readonly IWorldData world;
-
+		
 		static ClusterCollector()
 		{
 			getCluster = Delegator.createPropertyGetter<InputPeg, Cluster>(Properties.getPrivate(typeof(InputPeg), "Cluster"));
@@ -31,9 +31,9 @@ namespace WireTracer.Server
 			circuits = ServiceGetter.getService<ICircuitryManager>();
 			world = ServiceGetter.getService<IWorldData>();
 		}
-
+		
 		//### HELPER FUNCTIONS: ############
-
+		
 		private static bool doesPegExist(PegAddress address)
 		{
 			var component = world.Lookup(address.ComponentAddress);
@@ -45,7 +45,7 @@ namespace WireTracer.Server
 			//If false: Component does not have this peg, as the peg index is bigger than the actual components input/output count.
 			return pegAmount >= address.PegIndex;
 		}
-
+		
 		private static Cluster getClusterAt(InputAddress peg)
 		{
 			InputPeg originPeg = circuits.LookupInput(peg);
@@ -60,15 +60,15 @@ namespace WireTracer.Server
 			}
 			return cluster;
 		}
-
+		
 		private static bool getLinkerAt(Cluster cluster, out ClusterLinker linker)
 		{
 			linker = getLinker(cluster);
 			return linker != null;
 		}
-
+		
 		//### COLLECTION FUNCTIONS: ########
-
+		
 		public static bool collect(PegAddress originPegAddress, out ClusterListingResponse response)
 		{
 			//Validate, that the peg is actually existing:
@@ -77,7 +77,7 @@ namespace WireTracer.Server
 				response = null;
 				return false;
 			}
-
+			
 			//An input peg, only has a single cluster.
 			// An output peg however can be connected to multiple clusters.
 			// It only makes sense to then select all these clusters as primary cluster.
@@ -86,7 +86,7 @@ namespace WireTracer.Server
 				response = null;
 				return false; //Whoops, cannot collect the primary clusters, probably probing an output peg.
 			}
-
+			
 			//Collect clusters that get powered by the original cluster or will power it.
 			var collectedSources = new HashSet<Cluster>();
 			var collectedDrains = new HashSet<Cluster>();
@@ -100,7 +100,7 @@ namespace WireTracer.Server
 				collectedSources.Remove(cluster);
 				collectedDrains.Remove(cluster);
 			}
-
+			
 			//Collect and filter clusters that are both source and drain:
 			var collectedEquals = new HashSet<Cluster>();
 			foreach(var collectedSource in collectedSources)
@@ -114,7 +114,7 @@ namespace WireTracer.Server
 			{
 				collectedSources.Remove(collectedEqual);
 			}
-
+			
 			//Collect information about each cluster:
 			response = new ClusterListingResponse
 			{
@@ -141,7 +141,7 @@ namespace WireTracer.Server
 			}
 			return true;
 		}
-
+		
 		private static bool collectMainClusters(PegAddress originPegAddress, out HashSet<Cluster> primaryClusters)
 		{
 			primaryClusters = new HashSet<Cluster>();
@@ -174,7 +174,7 @@ namespace WireTracer.Server
 			}
 			return true;
 		}
-
+		
 		private static void collectClusters(Cluster startingPoint, HashSet<Cluster> collectedClusters, Func<ClusterLinker, List<ClusterLinker>> linkedLinkerGetter)
 		{
 			var clustersToProcess = new Queue<ClusterLinker>();
@@ -198,7 +198,7 @@ namespace WireTracer.Server
 				}
 			}
 		}
-
+		
 		private static ClusterDetails collectClusterInformation(Cluster cluster)
 		{
 			var details = new ClusterDetails
@@ -207,11 +207,11 @@ namespace WireTracer.Server
 				connectingComponents = new List<ComponentAddress>(),
 				linkingComponents = new List<ComponentAddress>(),
 			};
-
+			
 			//Two lists are never null, according to how it is created and used:
 			var inputPegs = cluster.ConnectedInputs;
 			var outputPegs = cluster.ConnectedOutputs;
-
+			
 			foreach(var peg in inputPegs)
 			{
 				details.pegs.Add(peg.Address);

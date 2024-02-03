@@ -14,7 +14,7 @@ namespace WireTracer.Client
 			var harmony = new Harmony("WireTracer");
 			harmony.Patch(target, postfix: new HarmonyMethod(hook));
 		}
-
+		
 		public static void postfixHook(ref bool rotatedWire)
 		{
 			if(rotatedWire)

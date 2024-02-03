@@ -10,7 +10,7 @@ namespace EcconiasChaosClientMod.Client
 	public static class PlayerList
 	{
 		private static readonly Dictionary<ShortPlayerID, PlayerModel> players;
-
+		
 		static PlayerList()
 		{
 			var fieldPlayerList = Fields.getPrivateStatic(typeof(PlayerModelsManager), "WorldPlayerModels");
@@ -18,7 +18,7 @@ namespace EcconiasChaosClientMod.Client
 			var playerModels = Types.checkType<Dictionary<ShortPlayerID, PlayerModel>>(value);
 			players = playerModels;
 		}
-
+		
 		[Command("ListPlayersAll", Description = "Lists all players that are connected to this server. With all debug data.", Hidden = true)]
 		public static void listPlayersAll()
 		{
@@ -57,7 +57,7 @@ namespace EcconiasChaosClientMod.Client
 			}
 			LConsole.WriteLine(builder);
 		}
-
+		
 		[Command("ListPlayers", Description = "Lists all players that are connected to this server.")]
 		public static void listPlayers()
 		{
@@ -85,7 +85,7 @@ namespace EcconiasChaosClientMod.Client
 			}
 			LConsole.WriteLine(builder);
 		}
-
+		
 		private static string getPlayerName(PlayerModel player)
 		{
 			string name = player.gameObject.name;

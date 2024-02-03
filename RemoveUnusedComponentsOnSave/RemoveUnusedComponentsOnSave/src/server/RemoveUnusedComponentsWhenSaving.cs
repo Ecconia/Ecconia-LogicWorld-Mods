@@ -13,7 +13,7 @@ namespace RemoveUnusedComponentsOnSave.Server
 	public class RemoveUnusedComponentsWhenSaving : ServerMod
 	{
 		private static IWorldData worldData;
-
+		
 		protected override void Initialize()
 		{
 			worldData = ServiceGetter.getService<IWorldData>();
@@ -23,14 +23,14 @@ namespace RemoveUnusedComponentsOnSave.Server
 			Harmony harmony = new Harmony("RemoveUnusedComponentsWhenSaving");
 			harmony.Patch(method, new HarmonyMethod(patchMethod));
 		}
-
+		
 		private static void patchSaving(SaveType saveType, ref IReadOnlyDictionary<ushort, string> componentIDsMap)
 		{
 			if(saveType != SaveType.World)
 			{
 				return; //Don't dance with this yet.
 			}
-
+			
 			//Collect component IDs:
 			HashSet<ushort> usedIDs = new HashSet<ushort>();
 			foreach(ComponentAddress topLevelComponent in worldData.TopLevelComponents)
@@ -43,7 +43,7 @@ namespace RemoveUnusedComponentsOnSave.Server
 				newComponentIDMap[usedID] = componentIDsMap[usedID];
 			}
 			componentIDsMap = newComponentIDMap;
-
+			
 			void GoOverComponent(ComponentAddress address)
 			{
 				IComponentInWorld component = worldData.Lookup(address);

@@ -56,7 +56,7 @@ namespace FileDump.Server
 				}
 				bit <<= 1;
 			}
-
+			
 			if(value == lastValue)
 			{
 				return;

@@ -10,12 +10,12 @@ namespace SimulationStopwatch.Client
 	public class SimulationStopwatchPrefab : PrefabVariantInfo
 	{
 		public override string ComponentTextID => "SimulationStopwatch.SimulationStopwatch";
-
+		
 		public override PrefabVariantIdentifier GetDefaultComponentVariant()
 		{
 			return new PrefabVariantIdentifier(2, 0);
 		}
-
+		
 		public override ComponentVariant GenerateVariant(PrefabVariantIdentifier identifier)
 		{
 			if(identifier.OutputCount != 0)
@@ -26,7 +26,7 @@ namespace SimulationStopwatch.Client
 			{
 				throw new Exception("Attempted to create FileDump with wrong input peg count. This component is not designed for that. Fix your save or mod!");
 			}
-
+			
 			return new ComponentVariant()
 			{
 				VariantPrefab = new Prefab()

@@ -15,7 +15,7 @@ namespace WireTracer.Client
 			Wire wire = Instances.MainWorld.Data.Lookup(wireAddress);
 			return collect(wire.Point1.IsInputAddress() ? wire.Point1 : wire.Point2);
 		}
-
+		
 		public static (HashSet<PegAddress>, List<(WireAddress, bool)>, List<ComponentAddress>) collect(PegAddress originPegAddress)
 		{
 			IWorldData world = Instances.MainWorld.Data;

@@ -18,10 +18,10 @@ namespace EcconiaCPUServerComponents.Server
 		private static readonly IWorldUpdates worldUpdater;
 		private static readonly Dictionary<Connection, ConnectionData> connections;
 		private static readonly NetworkServer server;
-
+		
 		//Contains the in memory stored bytes:
 		private readonly byte[] data = new byte[256];
-
+		
 		//Keeps track of how many of the next ticks it should run (to shift data where it belongs):
 		private byte ticksToContinue;
 		//Shifting data:
@@ -36,7 +36,7 @@ namespace EcconiaCPUServerComponents.Server
 		//Level 1: Pre-decoder data, after the Blotter/Inverter
 		private byte writeAddress1;
 		private byte readAddress1;
-
+		
 		static Ram256b8()
 		{
 			//World updater only exists once while runtime anyway. So lets keep it cached statically.
@@ -48,7 +48,7 @@ namespace EcconiaCPUServerComponents.Server
 			var value = Fields.getNonNull(field, playerManager);
 			connections = Types.checkType<Dictionary<Connection, ConnectionData>>(value);
 		}
-
+		
 		private static Connection getConnectionByName(string name)
 		{
 			foreach(var entry in connections)
@@ -60,11 +60,11 @@ namespace EcconiaCPUServerComponents.Server
 			}
 			return null;
 		}
-
+		
 		//Set this to true, so that LogicWorld knows, that it has to serialize this component before saving.
 		public override bool HasPersistentValues => true;
 		//No need to override the SavePersistentValuesToCustomData method, since there is no CustomData object.
-
+		
 		protected override void DeserializeData(byte[] customDataArray)
 		{
 			if(customDataArray == null)
@@ -87,7 +87,7 @@ namespace EcconiaCPUServerComponents.Server
 				readEnable3 = (booleans & (1 << 1)) != 0;
 				return;
 			}
-
+			
 			//There should be a name encoded in bytes:
 			int padding = customDataArray[0] == 0 ? 1 : 2;
 			string name;
@@ -119,7 +119,7 @@ namespace EcconiaCPUServerComponents.Server
 				},
 			});
 		}
-
+		
 		protected override byte[] SerializeCustomData()
 		{
 			byte[] customDataArray = new byte[256 + 8];
@@ -143,7 +143,7 @@ namespace EcconiaCPUServerComponents.Server
 			customDataArray[256 + 7] = booleans;
 			return customDataArray;
 		}
-
+		
 		/**
 			I-Map:
 				0-7 = LSB write MSB
@@ -162,7 +162,7 @@ namespace EcconiaCPUServerComponents.Server
 			bool writeEnable2 = Inputs[8].On;
 			bool readEnable2 = Inputs[17].On;
 			byte writeData3 = inputToByte(18);
-
+			
 			//Detect changes:
 			if(ticksToContinue < 3 && (writeAddress0 != writeAddress1 || readAddress0 != readAddress1))
 			{
@@ -172,7 +172,7 @@ namespace EcconiaCPUServerComponents.Server
 			{
 				ticksToContinue = 1;
 			}
-
+			
 			//Perform actions:
 			//We are using Level 3 as input, because we calculate the 4th tick.
 			setOutput(readEnable3 ? data[readAddress3] : (byte) 0);
@@ -199,14 +199,14 @@ namespace EcconiaCPUServerComponents.Server
 					});
 				}
 			}
-
+			
 			//Check if has to run more:
 			if(ticksToContinue > 0)
 			{
 				ticksToContinue--;
 				QueueLogicUpdate();
 			}
-
+			
 			//Level 3 gets disposed, since its at Level 4 already (=> used).
 			//After 3 real ticks, data here:
 			writeAddress3 = writeAddress2;
@@ -220,7 +220,7 @@ namespace EcconiaCPUServerComponents.Server
 			writeAddress1 = writeAddress0;
 			readAddress1 = readAddress0;
 		}
-
+		
 		private void setOutput(byte value)
 		{
 			for(int i = 0; i < 8; i++)
@@ -229,7 +229,7 @@ namespace EcconiaCPUServerComponents.Server
 				value >>= 1;
 			}
 		}
-
+		
 		private byte inputToByte(int start)
 		{
 			byte tmp = 0;

@@ -14,7 +14,7 @@ namespace WireTracer.Client
 	{
 		public static ILogicLogger logger;
 		public static bool serverHasWireTracer;
-
+		
 		protected override void Initialize()
 		{
 			logger = Logger;
@@ -30,7 +30,7 @@ namespace WireTracer.Client
 			RawPacketHandlerInjector.addPacketHandler(new ClusterListingResponseHandler());
 			CustomInput.Register<WireTracerContext, WireTracerTrigger>("WireTracer");
 			WireTracerHook.init();
-
+			
 			//When quitting a server, reset the WireTracer availability state flag:
 			SceneManager.sceneLoaded += (_, mode) =>
 			{

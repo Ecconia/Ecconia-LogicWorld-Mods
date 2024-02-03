@@ -42,7 +42,7 @@ namespace CustomWirePlacer.Client.CWP.feature
 				BuildRequestManager.SendManyBuildRequestsAsMultiUndoItem(requests);
 			}
 		}
-
+		
 		public static void removeWiresFromGroups(List<PegAddress> pegs, List<PegAddress> otherPegs)
 		{
 			List<BuildRequest> requests = new List<BuildRequest>();

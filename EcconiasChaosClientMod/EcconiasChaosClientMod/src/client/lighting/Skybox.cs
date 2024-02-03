@@ -9,7 +9,7 @@ namespace EcconiasChaosClientMod.Client.Lighting
 	{
 		private static Texture2D texture;
 		private static IModFiles files;
-
+		
 		public static void init(IModFiles files, ILogicLogger logger)
 		{
 			Skybox.files = files;
@@ -25,7 +25,7 @@ namespace EcconiasChaosClientMod.Client.Lighting
 			logger.Info("Loaded skybox with: " + texture.width + " | " + texture.height);
 			texture = FlipTexture(texture);
 		}
-
+		
 		static Texture2D FlipTexture(Texture2D original)
 		{
 			Texture2D flipped = new Texture2D(original.width, original.height);
@@ -41,7 +41,7 @@ namespace EcconiasChaosClientMod.Client.Lighting
 			flipped.Apply();
 			return flipped;
 		}
-
+		
 		private static ModFile findSkyboxTexture()
 		{
 			foreach(var file in files.EnumerateFiles())
@@ -53,7 +53,7 @@ namespace EcconiasChaosClientMod.Client.Lighting
 			}
 			return null;
 		}
-
+		
 		[Command(name: "Skybox", Description = "Activates a custom skybox from the skybox folder (if any). Read the readme (inside that folder) to learn more.")]
 		public static void skybox()
 		{
@@ -64,7 +64,7 @@ namespace EcconiasChaosClientMod.Client.Lighting
 			}
 			skyboxSilent();
 		}
-
+		
 		public static void skyboxSilent()
 		{
 			if(texture == null)
@@ -75,7 +75,7 @@ namespace EcconiasChaosClientMod.Client.Lighting
 			skybox.SetTexture("_Tex", CubemapFromTexture2D(texture));
 			DynamicGI.UpdateEnvironment();
 		}
-
+		
 		public static Cubemap CubemapFromTexture2D(Texture2D texture)
 		{
 			int side = texture.width / 4;

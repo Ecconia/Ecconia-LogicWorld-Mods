@@ -18,10 +18,10 @@ namespace WireTracer.Client.Tool
 	public static class WireTracerTool
 	{
 		private static PegAddress initialPegAddress;
-
+		
 		private static Guid? currentRequestID;
 		private static GenericTracer currentTracer;
-
+		
 		public static bool RunFirstPersonClusterHighlighting()
 		{
 			//First check if this tool is actually being used:
@@ -30,7 +30,7 @@ namespace WireTracer.Client.Tool
 				return false; //Keybinding not pressed.
 			}
 			//The user is most definitely trying to use WireTracer now.
-
+			
 			//Make sure there is no dirty state:
 			if(initialPegAddress.IsNotEmpty() || currentTracer != null)
 			{
@@ -43,7 +43,7 @@ namespace WireTracer.Client.Tool
 					currentTracer = null;
 				}
 			}
-
+			
 			//Get the peg (or wire) in question:
 			HitInfo hitInfo = PlayerCaster.CameraCast(Masks.Environment | Masks.Structure | Masks.Peg | Masks.Wire);
 			if(!hitInfo.HitSomething)
@@ -66,12 +66,12 @@ namespace WireTracer.Client.Tool
 			{
 				return false;
 			}
-
+			
 			//Got the starting peg, start the tool:
 			GameStateManager.TransitionTo(WireTracerGameState.id);
 			return true;
 		}
-
+		
 		public static void onStart()
 		{
 			//Confirm, that the most important values are set:
@@ -81,12 +81,12 @@ namespace WireTracer.Client.Tool
 				GameStateManager.TransitionBackToBuildingState();
 				return;
 			}
-
+			
 			requestServerHelp();
-
+			
 			currentTracer = new LocalTracer(initialPegAddress);
 		}
-
+		
 		private static void requestServerHelp()
 		{
 			if(!WireTracer.serverHasWireTracer)
@@ -111,7 +111,7 @@ namespace WireTracer.Client.Tool
 				pegAddress = initialPegAddress,
 			});
 		}
-
+		
 		public static void onResponseReceived(ClusterListingResponse response)
 		{
 			if(!currentRequestID.HasValue || response.requestGuid != currentRequestID.Value)
@@ -120,7 +120,7 @@ namespace WireTracer.Client.Tool
 				return;
 			}
 			currentRequestID = null; //Received response, clear GUID.
-
+			
 			//Clear up all data immediately:
 			if(currentTracer != null)
 			{
@@ -130,7 +130,7 @@ namespace WireTracer.Client.Tool
 			//Start showing new data:
 			currentTracer = new RemoteTracer(response);
 		}
-
+		
 		public static void onUpdate()
 		{
 			//It is safer, to just like stop it and then lets re-enter it...
@@ -148,7 +148,7 @@ namespace WireTracer.Client.Tool
 				ToggleableSingletonMenu<HelpListMenu>.ToggleMenu();
 			}
 		}
-
+		
 		public static void onStop()
 		{
 			if(currentTracer != null)

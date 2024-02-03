@@ -7,23 +7,23 @@ namespace EcconiaCPUServerComponents.Server
 	public class TPSPrinter : LogicComponent
 	{
 		private static readonly ISimulationManager simulation;
-
+		
 		static TPSPrinter()
 		{
 			simulation = ServiceGetter.getService<ISimulationManager>();
 		}
-
+		
 		private int lastTPS;
-
+		
 		protected override void DoLogicUpdate()
 		{
 			QueueLogicUpdate(); //We gonna run every tick.
-
+			
 			int currentTPS = (int) simulation.TicksPerSecond;
 			if(lastTPS != currentTPS)
 			{
 				lastTPS = currentTPS;
-
+				
 				//Update outputs:
 				if(currentTPS > 0xFFFF)
 				{

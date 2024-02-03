@@ -17,9 +17,9 @@ namespace WireTracer.Server
 	public class WireTracerServer : ServerMod
 	{
 		private readonly Dictionary<string, bool> playerHasWireTracer = new Dictionary<string, bool>();
-
+		
 		private NetworkServer networkServer;
-
+		
 		protected override void Initialize()
 		{
 			networkServer = Program.Get<NetworkServer>();
@@ -27,14 +27,14 @@ namespace WireTracer.Server
 			{
 				throw new Exception("Could not get Service 'NetworkServer'.");
 			}
-
+			
 			//Inject verifier:
 			RawJoinVerifierInjector.addVerifier(new SniffingClientVerifier(this));
 			PacketHandlerManager.getCustomPacketHandler<ClientLoadedWorldPacket>()
 				.addHandlerToEnd(new ClientJoinedPacketHandler(this));
 			RawPacketHandlerInjector.addPacketHandler(new WireTracerRequestHandler(this));
 		}
-
+		
 		public void playerRequestsCluster(Connection sender, Guid packetRequestGuid, PegAddress origin)
 		{
 			if(!ClusterCollector.collect(origin, out var response))
@@ -44,7 +44,7 @@ namespace WireTracer.Server
 			response.requestGuid = packetRequestGuid;
 			networkServer.Send(sender, response);
 		}
-
+		
 		public void playerHasMod(string playerName, bool hasWireTracer)
 		{
 			if(!hasWireTracer)
@@ -56,7 +56,7 @@ namespace WireTracer.Server
 			Logger.Debug("Player " + playerName + " uses WireTracer");
 			playerHasWireTracer[playerName] = true;
 		}
-
+		
 		public void playerJoined(PlayerData playerData, HandlerContext context)
 		{
 			playerHasWireTracer.TryGetValue(playerData.Name, out bool hasWireTracer);

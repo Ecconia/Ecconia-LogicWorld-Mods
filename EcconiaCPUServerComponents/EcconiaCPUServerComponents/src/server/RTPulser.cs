@@ -8,7 +8,7 @@ namespace EcconiaCPUServerComponents.Server
 		private TimeSpan pulseDuration = TimeSpan.FromSeconds(1);
 		private DateTime? startOfPulse;
 		private bool wasPowered;
-
+		
 		protected override void DoLogicUpdate()
 		{
 			Outputs[0].On = false;
@@ -34,14 +34,14 @@ namespace EcconiaCPUServerComponents.Server
 			}
 			QueueLogicUpdate();
 		}
-
+		
 		public override bool HasPersistentValues => true;
-
+		
 		protected override void SavePersistentValuesToCustomData()
 		{
 			//Nothing to do, as the normal serialize will include that already.
 		}
-
+		
 		protected override void DeserializeData(byte[] data)
 		{
 			if(data == null)
@@ -77,7 +77,7 @@ namespace EcconiaCPUServerComponents.Server
 				throw new Exception("Expected custom data of 9 bytes, but got: " + data.Length);
 			}
 		}
-
+		
 		protected override byte[] SerializeCustomData()
 		{
 			//Serialization of default existing data:

@@ -6,12 +6,12 @@ namespace CustomChatManager.Server.ChatServices
 	public class VerifyMessageLength : IChatService
 	{
 		private readonly IGameConfig config;
-
+		
 		public VerifyMessageLength()
 		{
 			config = ServiceGetter.getService<IGameConfig>();
 		}
-
+		
 		public void processChatEvent(ChatMessageEvent e)
 		{
 			int messageLengthLimit = config.Values.ChatMessageLengthLimit;
