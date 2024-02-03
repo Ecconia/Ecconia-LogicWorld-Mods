@@ -32,7 +32,7 @@ namespace AssemblyLoader.Shared
 					)
 				)
 				{
-					AssemblyLoader.loadAssemblyFromModFile(modFile);
+					AssemblyLoaderShared.loadAssemblyFromModFile(modFile);
 				}
 			}
 		}

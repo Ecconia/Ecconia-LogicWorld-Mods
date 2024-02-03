@@ -9,7 +9,7 @@ using LogicWorld.SharedCode.Modding;
 
 namespace AssemblyLoader.Shared
 {
-	public static class AssemblyLoader
+	public static class AssemblyLoaderShared
 	{
 		public static ILogicLogger logger;
 

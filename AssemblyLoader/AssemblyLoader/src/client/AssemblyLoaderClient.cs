@@ -12,7 +12,7 @@ namespace AssemblyLoader.Client
 		protected override void Initialize()
 		{
 			//Set the logger, to be used when loading assemblies:
-			AssemblyLoader.Shared.AssemblyLoader.logger = Logger;
+			AssemblyLoaderShared.logger = Logger;
 
 			//Load all mods (active or not), so that they can be probed for assemblies to load:
 			var metaMods = getMods(Logger);

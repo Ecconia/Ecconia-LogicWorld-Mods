@@ -14,7 +14,7 @@ namespace AssemblyLoader.Server
 		protected override void Initialize()
 		{
 			//Set the logger, to be used when loading assemblies:
-			AssemblyLoader.Shared.AssemblyLoader.logger = Logger;
+			AssemblyLoaderShared.logger = Logger;
 			
 			//Since 0.91 the server does no longer load all DLLs it comes with.
 			// Some mods however need some of these DLLs to compile, the compilation will fail.
