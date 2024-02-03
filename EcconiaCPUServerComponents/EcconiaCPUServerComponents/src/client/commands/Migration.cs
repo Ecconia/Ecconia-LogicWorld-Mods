@@ -7,6 +7,7 @@ using LogicWorld.Interfaces;
 
 namespace EcconiaCPUServerComponents.Client.commands
 {
+	//TODO: Get rid of this with the 0.91.3 update and make it a normal conversion.
 	public class Migration
 	{
 		[Command("eccMigrate", Description = "Add missing pegs to old components.")]
