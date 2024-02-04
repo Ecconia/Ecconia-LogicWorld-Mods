@@ -20,8 +20,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcconiasChaosClientMod", "E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomWirePlacer", "CustomWirePlacer\CustomWirePlacer.csproj", "{305852B3-D4A3-42B6-A885-A141BE6F47F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoveUnusedComponentsOnSave", "RemoveUnusedComponentsOnSave\RemoveUnusedComponentsOnSave.csproj", "{69892A83-2669-4974-91C8-79D71AE9739A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WireTracer", "WireTracer\WireTracer.csproj", "{5256253B-7482-4FD7-86A9-DBEF9A05AE30}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexibleComponentModUsage", "FlexibleComponentModUsage\FlexibleComponentModUsage.csproj", "{2F5D607C-2087-4B27-AF91-776189BBE2DA}"
@@ -84,10 +82,6 @@ Global
 		{305852B3-D4A3-42B6-A885-A141BE6F47F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{305852B3-D4A3-42B6-A885-A141BE6F47F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{305852B3-D4A3-42B6-A885-A141BE6F47F4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{69892A83-2669-4974-91C8-79D71AE9739A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{69892A83-2669-4974-91C8-79D71AE9739A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{69892A83-2669-4974-91C8-79D71AE9739A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{69892A83-2669-4974-91C8-79D71AE9739A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5256253B-7482-4FD7-86A9-DBEF9A05AE30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5256253B-7482-4FD7-86A9-DBEF9A05AE30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5256253B-7482-4FD7-86A9-DBEF9A05AE30}.Release|Any CPU.ActiveCfg = Release|Any CPU

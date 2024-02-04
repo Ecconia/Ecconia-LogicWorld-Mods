@@ -50,7 +50,6 @@ Libraries:
 
 #### Server:
 
-- `RemoveUnusedComponentsOnSave`: Mod, which removes components from the component-id-map of a save, if a component is not placed in the world. **Use with care.**
 - `CustomChatManager`: Prevents players from abusing `sayraw` and adds chat commands, such as `/list` and `/tps` which allows anyone in multiplayer to control the simulation. 
 
 Libraries:
