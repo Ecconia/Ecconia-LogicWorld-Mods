@@ -2,11 +2,8 @@
 
 In this repository you will find all mods created by @Ecconia for the game `Logic World`.
 
-**All mods in this repository are for LogicWorld 0.91.1**\
+**All mods in this repository are for LogicWorld 0.91.3**\
 To find mods for older LogicWorld versions, check out the GitHub tags of this repository.
-
-If you still use 0.91.0 (you should not). Get `FixClientBugs`, if you do not want bad crashes while building.\
-Besides `EcconiasChaosClientMod` (player list command broken), all mods are still compatible.
 
 ## How to install / use them?
 
@@ -16,21 +13,6 @@ Inside each `project folder` you will find another folder, which is the actual `
 You can copy/paste or `link` that `mod folder` to your `GameData` folder, where `Logic World` searches for mods.
 
 You can ignore all other files outside of the `mod folder`s.
-
-## Harmony on server is still experimental!
-
-`Harmony` is a modding tool, that allows hooking into functions and changing their behavior.\
-Very useful for all the mod hackery. I have a bunch of server mods that are using it.
-
-A few circumstances have led to `HarmonyForLogicWorld` now providing a `prerelease` version, which might not work for everyone (it should though).\
-If you are experiencing any issue, please report them to @Ecconia!
-
-### Details:
-
-Harmony is using MonoMod as a base framework. This framework was completely refactored (rewritten) for .Net 7.\
-The reason was the new Apple M1 processor architecture, that had to be supported by the .Net framework.\
-The LogicWorld server is using .Net 7, to use Harmony on it, Harmony had to update to the new MonoMod.\
-This took some time, and it is still in `prerelease`, so there might be issues occuring for some players.
 
 ## List of mods:
 
