@@ -13,13 +13,13 @@ namespace EcconiasChaosClientMod.Client.Lighting
 		public static void init(IModFiles files, ILogicLogger logger)
 		{
 			Skybox.files = files;
-			ModFile skyboxFile = findSkyboxTexture();
+			var skyboxFile = findSkyboxTexture();
 			if(skyboxFile == null)
 			{
 				logger.Info("Did not find any skybox matching: 'skyboxes/*.png' in the mod files.");
 				return;
 			}
-			byte[] data = skyboxFile.ReadAllBytes();
+			var data = skyboxFile.ReadAllBytes();
 			texture = new Texture2D(1, 1);
 			texture.LoadImage(data, false);
 			logger.Info("Loaded skybox with: " + texture.width + " | " + texture.height);
@@ -28,12 +28,12 @@ namespace EcconiasChaosClientMod.Client.Lighting
 		
 		static Texture2D FlipTexture(Texture2D original)
 		{
-			Texture2D flipped = new Texture2D(original.width, original.height);
-			int width = original.width;
-			int height = original.height;
-			for(int x = 0; x < width; x++)
+			var flipped = new Texture2D(original.width, original.height);
+			var width = original.width;
+			var height = original.height;
+			for(var x = 0; x < width; x++)
 			{
-				for(int y = 0; y < height; y++)
+				for(var y = 0; y < height; y++)
 				{
 					flipped.SetPixel(x, height - y - 1, original.GetPixel(x, y));
 				}
@@ -71,21 +71,21 @@ namespace EcconiasChaosClientMod.Client.Lighting
 			{
 				return;
 			}
-			Material skybox = RenderSettings.skybox;
+			var skybox = RenderSettings.skybox;
 			skybox.SetTexture("_Tex", CubemapFromTexture2D(texture));
 			DynamicGI.UpdateEnvironment();
 		}
 		
 		public static Cubemap CubemapFromTexture2D(Texture2D texture)
 		{
-			int side = texture.width / 4;
-			Cubemap cube = new Cubemap(side, TextureFormat.ARGB32, false);
-			Color[] up = texture.GetPixels(1 * side, 0 * side, side, side);
-			Color[] down = texture.GetPixels(1 * side, 2 * side, side, side);
-			Color[] left = texture.GetPixels(0 * side, 1 * side, side, side);
-			Color[] forward = texture.GetPixels(1 * side, 1 * side, side, side);
-			Color[] right = texture.GetPixels(2 * side, 1 * side, side, side);
-			Color[] back = texture.GetPixels(3 * side, 1 * side, side, side);
+			var side = texture.width / 4;
+			var cube = new Cubemap(side, TextureFormat.ARGB32, false);
+			var up = texture.GetPixels(1 * side, 0 * side, side, side);
+			var down = texture.GetPixels(1 * side, 2 * side, side, side);
+			var left = texture.GetPixels(0 * side, 1 * side, side, side);
+			var forward = texture.GetPixels(1 * side, 1 * side, side, side);
+			var right = texture.GetPixels(2 * side, 1 * side, side, side);
+			var back = texture.GetPixels(3 * side, 1 * side, side, side);
 			cube.SetPixels(up, CubemapFace.PositiveY);
 			cube.SetPixels(down, CubemapFace.NegativeY);
 			cube.SetPixels(forward, CubemapFace.PositiveZ);

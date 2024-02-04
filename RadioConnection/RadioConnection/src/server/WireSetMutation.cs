@@ -53,7 +53,7 @@ namespace RadioConnection.Server
 			{
 				//Have to move output wires up!
 				var delta = newListA - oldListA;
-				for(int i = oldListA; i < pegs.Count; i++)
+				for(var i = oldListA; i < pegs.Count; i++)
 				{
 					var pegAddress = pegs[i].Address;
 					foreach(var wireAddress in iWorldData.LookupPegWires(pegAddress).OrEmptyIfNull())
@@ -68,7 +68,7 @@ namespace RadioConnection.Server
 			else if(newListA < oldListA)
 			{
 				//Move wires down to max peg:
-				for(int i = newListA; i < oldListA; i++)
+				for(var i = newListA; i < oldListA; i++)
 				{
 					var pegAddress = pegs[i].Address;
 					foreach(var wireAddress in iWorldData.LookupPegWires(pegAddress).OrEmptyIfNull())
@@ -78,7 +78,7 @@ namespace RadioConnection.Server
 				}
 				//Have to move output wires down!
 				var delta = newListA - oldListA;
-				for(int i = oldListA; i < pegs.Count; i++)
+				for(var i = oldListA; i < pegs.Count; i++)
 				{
 					var pegAddress = pegs[i].Address;
 					foreach(var wireAddress in iWorldData.LookupPegWires(pegAddress).OrEmptyIfNull())

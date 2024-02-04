@@ -69,7 +69,7 @@ namespace EccsLogicWorldAPI.Shared.AccessHelper
 		
 		private static PropertyInfo get(Type type, string name, BindingFlags flags, string accessors)
 		{
-			PropertyInfo field = type.GetProperty(name, flags);
+			var field = type.GetProperty(name, flags);
 			if(field == null)
 			{
 				if(accessors.Length != 0)

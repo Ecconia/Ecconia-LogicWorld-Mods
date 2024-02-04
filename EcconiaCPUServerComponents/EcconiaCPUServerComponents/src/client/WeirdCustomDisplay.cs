@@ -1,10 +1,10 @@
-using LogicWorld.SharedCode;
-using LogicWorld.Rendering.Components;
-using LogicWorld.Interfaces.Building;
-using JimmysUnityUtilities;
-using UnityEngine;
 using EcconiaCPUServerComponents.Shared;
+using JimmysUnityUtilities;
 using LogicAPI.Data;
+using LogicWorld.Interfaces.Building;
+using LogicWorld.Rendering.Components;
+using LogicWorld.SharedCode;
+using UnityEngine;
 
 namespace EcconiaCPUServerComponents.Client
 {
@@ -22,7 +22,7 @@ namespace EcconiaCPUServerComponents.Client
 		
 		protected override void SetDataDefaultValues()
 		{
-			Data.pixelData = new byte[128];
+			Data.initialize();
 		}
 		
 		protected override void DataUpdate()
@@ -42,8 +42,8 @@ namespace EcconiaCPUServerComponents.Client
 		
 		private void applyPixelData()
 		{
-			int index = 0;
-			foreach(byte b in Data.pixelData)
+			var index = 0;
+			foreach(var b in Data.pixelData)
 			{
 				SetBlockColor((b & 0b10000000) != 0 ? onColor : offColor, index++);
 				SetBlockColor((b & 0b1000000) != 0 ? onColor : offColor, index++);

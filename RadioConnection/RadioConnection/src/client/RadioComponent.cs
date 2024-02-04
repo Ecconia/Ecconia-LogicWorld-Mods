@@ -56,10 +56,10 @@ namespace RadioConnection.Client
 			lastFlip = Data.flipped;
 			
 			//Update the peg positions:
-			float pegStep = 1; //Distance to the next peg.
-			float jitter = 0; //Amount of how far data pegs jump up/down. By default not at all.
-			float addressWidth = lastAddressPegs - (1f - 1f / 3f); //Amount of address pegs in blocks, but subtract the space left and right from all pegs (1 block - 1 peg).
-			float dataWidth = lastDataPegs - (1f - 2f * 0.2616f); //Amount of data pegs in blocks, but subtract the space left and right from all pegs (1 block - 2 half diagonal bigger peg). 
+			var pegStep = 1f; //Distance to the next peg.
+			var jitter = 0f; //Amount of how far data pegs jump up/down. By default not at all.
+			var addressWidth = lastAddressPegs - (1f - 1f / 3f); //Amount of address pegs in blocks, but subtract the space left and right from all pegs (1 block - 1 peg).
+			var dataWidth = lastDataPegs - (1f - 2f * 0.2616f); //Amount of data pegs in blocks, but subtract the space left and right from all pegs (1 block - 2 half diagonal bigger peg). 
 			if(lastCompact) //If compact modify the values:
 			{
 				//Other compact stuff:
@@ -81,23 +81,23 @@ namespace RadioConnection.Client
 			const float endHeight = 0.8f;
 			const float deltaHeight = endHeight - startHeight;
 			//Other helper:
-			float rawStep = pegStep;
+			var rawStep = pegStep;
 			
 			// SET ADDRESS PEGS:
 			//Subtract .5 to move the position to the start of the component.
 			// Take the length of the block, subtract the width of the peg group. This results in the amount of unused space.
 			// Divide that by two to get the point on the block where the pegs start.
 			//Finally add the distance from start of pegs to the center of the first peg. Half a peg (1/6).
-			float position = -.5f + (blockWidth - addressWidth + 1f / 3f) / 2f;
-			float heightOffset = lastAddressPegs == 1 ? endHeight : startHeight; //If there is only one peg, make it tall instead of of the small start value. Looks better when changing the pegs.
-			float heightStep = deltaHeight / (Data.addressPegs - 1); //The height change per peg. Amount of additions, hence the decrement.
+			var position = -.5f + (blockWidth - addressWidth + 1f / 3f) / 2f;
+			var heightOffset = lastAddressPegs == 1 ? endHeight : startHeight; //If there is only one peg, make it tall instead of of the small start value. Looks better when changing the pegs.
+			var heightStep = deltaHeight / (Data.addressPegs - 1); //The height change per peg. Amount of additions, hence the decrement.
 			
 			if(Data.flipped)
 			{
 				position += rawStep * (Data.addressPegs - 1); //If flipped, jump to the final placement position, by simply jumping the gap between pegs by the amount of gaps between gaps.
 				pegStep *= -1; //This is only done once, here. Let the peg position grow backwards.
 			}
-			for(int i = 0; i < Data.addressPegs; i++)
+			for(var i = 0; i < Data.addressPegs; i++)
 			{
 				SetInputPosition((byte) i, new Vector3(position, 1, 0));
 				SetInputRotation((byte) i, Quaternion.identity);
@@ -119,8 +119,8 @@ namespace RadioConnection.Client
 			{
 				position += rawStep * (Data.dataPegs - 1); //If flipped, jump to the final placement position, by simply jumping the gap between pegs by the amount of gaps between gaps.
 			}
-			bool down = true; //Helper to make jitter go up/down.
-			for(int i = (int) Data.addressPegs; i < InputCount; i++)
+			var down = true; //Helper to make jitter go up/down.
+			for(var i = (int) Data.addressPegs; i < InputCount; i++)
 			{
 				SetInputPosition((byte) i, new Vector3(position, 0.5f + (down ? -jitter : jitter), 0.5f));
 				SetInputRotation((byte) i, dataPegRotation);

@@ -13,7 +13,7 @@ namespace EcconiaCPUServerComponents.Server
 		{
 			Outputs[0].On = false;
 			{
-				bool isPowered = Inputs[0].On;
+				var isPowered = Inputs[0].On;
 				if(isPowered && !wasPowered)
 				{
 					Outputs[1].On = true;
@@ -25,7 +25,7 @@ namespace EcconiaCPUServerComponents.Server
 			{
 				return;
 			}
-			TimeSpan timeSince = DateTime.Now - startOfPulse.Value;
+			var timeSince = DateTime.Now - startOfPulse.Value;
 			if(timeSince >= pulseDuration)
 			{
 				startOfPulse = null;
@@ -52,7 +52,7 @@ namespace EcconiaCPUServerComponents.Server
 			if(data.Length == 4)
 			{
 				//Client update, containing the new duration:
-				int timeSpanInMilliseconds = BitConverter.ToInt32(data);
+				var timeSpanInMilliseconds = BitConverter.ToInt32(data);
 				pulseDuration = TimeSpan.FromMilliseconds(timeSpanInMilliseconds);
 				//TBI: Does this have to queue another LogicUpdate, or was that implied?
 			}
@@ -62,7 +62,7 @@ namespace EcconiaCPUServerComponents.Server
 				var readStream = new ReadOnlySpan<byte>(data);
 				wasPowered = BitConverter.ToBoolean(readStream.Slice(0, 1)); //1
 				pulseDuration = TimeSpan.FromMilliseconds(BitConverter.ToInt32(readStream.Slice(1, 4))); //4
-				int millisSinceStart = BitConverter.ToInt32(readStream.Slice(5, 4)); //4
+				var millisSinceStart = BitConverter.ToInt32(readStream.Slice(5, 4)); //4
 				if(millisSinceStart < 0)
 				{
 					startOfPulse = null;
@@ -84,7 +84,7 @@ namespace EcconiaCPUServerComponents.Server
 			Span<byte> outputBytes = stackalloc byte[9];
 			BitConverter.TryWriteBytes(outputBytes, wasPowered);
 			BitConverter.TryWriteBytes(outputBytes.Slice(1, 4), (int) pulseDuration.TotalMilliseconds);
-			int value = startOfPulse.HasValue ? (int) (DateTime.Now - startOfPulse.Value).TotalMilliseconds : -1;
+			var value = startOfPulse.HasValue ? (int) (DateTime.Now - startOfPulse.Value).TotalMilliseconds : -1;
 			BitConverter.TryWriteBytes(outputBytes.Slice(5, 4), value);
 			return outputBytes.ToArray();
 		}

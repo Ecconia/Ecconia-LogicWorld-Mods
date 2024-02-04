@@ -1,3 +1,4 @@
+using System;
 using EccsLogicWorldAPI.Shared.AccessHelper;
 using HarmonyLib;
 using LogicWorld;
@@ -15,12 +16,12 @@ namespace RandomDebugCollection.Client
 		
 		public static bool handle()
 		{
-			string[] args = System.Environment.GetCommandLineArgs();
-			for(int i = 0; i < args.Length; i++)
+			var args = Environment.GetCommandLineArgs();
+			for(var i = 0; i < args.Length; i++)
 			{
 				if(args[i].ToLower() == "-loadworld" && args.Length > i)
 				{
-					string input = args[i + 1];
+					var input = args[i + 1];
 					SceneAndNetworkManager.ConnectToIntegratedServer(input, false);
 					RandomDebugCollection.logger.Info("Stopping normal execution, loading into save! Name: '" + input + "'");
 					return false;

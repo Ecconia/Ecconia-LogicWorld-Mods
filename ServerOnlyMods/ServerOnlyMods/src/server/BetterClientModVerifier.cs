@@ -10,11 +10,11 @@ namespace ServerOnlyMods.Server
 	{
 		public void Verify(VerificationContext ctx)
 		{
-			List<MetaMod> missingMods = new List<MetaMod>();
-			string[] clientMods = ctx.ApprovalPacket.ClientMods;
+			var missingMods = new List<MetaMod>();
+			var clientMods = ctx.ApprovalPacket.ClientMods;
 			foreach(var metaMod in ServerOnlyMods.getRequiredMods())
 			{
-				string modName = metaMod.Manifest.ID;
+				var modName = metaMod.Manifest.ID;
 				if(!clientMods.Contains(modName))
 				{
 					missingMods.Add(metaMod);
@@ -22,10 +22,10 @@ namespace ServerOnlyMods.Server
 			}
 			if(missingMods.Count != 0)
 			{
-				StringBuilder builder = new StringBuilder();
+				var builder = new StringBuilder();
 				builder.Append("You are missing the following mods:\n");
 				builder.Append(modToString(missingMods[0]));
-				for(int i = 1; i < missingMods.Count; i++)
+				for(var i = 1; i < missingMods.Count; i++)
 				{
 					builder.Append(", ");
 					builder.Append(modToString(missingMods[i]));

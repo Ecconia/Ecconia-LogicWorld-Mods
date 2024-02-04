@@ -41,9 +41,9 @@ namespace EccsLogicWorldAPI.Client.UnityHelper
 		private static GameObject queryGameObject(GameObject gameObject, int index, string[] arguments)
 		{
 			string argument = arguments[index++];
-			foreach(Transform transChild in gameObject.GetComponentsInChildren<Transform>(true))
+			foreach(var transChild in gameObject.GetComponentsInChildren<Transform>(true))
 			{
-				GameObject obj = transChild.gameObject;
+				var obj = transChild.gameObject;
 				if(transChild.parent != gameObject.transform || !argument.Equals(obj.name))
 				{
 					continue;

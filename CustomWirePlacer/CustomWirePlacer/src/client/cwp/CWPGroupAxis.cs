@@ -50,12 +50,12 @@ namespace CustomWirePlacer.Client.CWP
 		
 		public void show()
 		{
-			int skipIndex = getSkipStart(); //Start with skip-number, because the first peg is always chosen.
+			var skipIndex = getSkipStart(); //Start with skip-number, because the first peg is always chosen.
 			if(backwards != null)
 			{
-				for(int index = backwards.Count - 1; index >= 0; index--)
+				for(var index = backwards.Count - 1; index >= 0; index--)
 				{
-					PegAddress peg = backwards[index];
+					var peg = backwards[index];
 					if(!blacklist.Contains(peg))
 					{
 						CWPOutliner.OutlineHard(peg, isNotSkipped(ref skipIndex) ? CWPOutlineData.firstDiscoveredPegs : CWPOutlineData.skippedPeg);
@@ -68,7 +68,7 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			if(inBetween != null)
 			{
-				foreach(PegAddress peg in inBetween)
+				foreach(var peg in inBetween)
 				{
 					if(!blacklist.Contains(peg))
 					{
@@ -82,7 +82,7 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			if(forwards != null)
 			{
-				foreach(PegAddress peg in forwards)
+				foreach(var peg in forwards)
 				{
 					if(!blacklist.Contains(peg))
 					{
@@ -90,11 +90,11 @@ namespace CustomWirePlacer.Client.CWP
 					}
 				}
 			}
-			foreach(PegAddress peg in blacklist)
+			foreach(var peg in blacklist)
 			{
 				CWPOutliner.OutlineHard(peg, CWPOutlineData.blacklistedPeg);
 			}
-			foreach(PegAddress peg in whitelist)
+			foreach(var peg in whitelist)
 			{
 				CWPOutliner.OutlineHard(peg, CWPOutlineData.whitelistedPeg);
 			}
@@ -113,13 +113,13 @@ namespace CustomWirePlacer.Client.CWP
 		
 		public List<PegAddress> getPegs()
 		{
-			List<PegAddress> pegs = new List<PegAddress>(); //Cannot use yield, because of the peg counting side-effect.
-			int skipIndex = getSkipStart(); //Start with skipNumber, to always select the first peg.
+			var pegs = new List<PegAddress>(); //Cannot use yield, because of the peg counting side-effect.
+			var skipIndex = getSkipStart(); //Start with skipNumber, to always select the first peg.
 			if(backwards != null)
 			{
-				for(int index = backwards.Count - 1; index >= 0; index--)
+				for(var index = backwards.Count - 1; index >= 0; index--)
 				{
-					PegAddress peg = backwards[index];
+					var peg = backwards[index];
 					if(!blacklist.Contains(peg) && isNotSkipped(ref skipIndex))
 					{
 						pegs.Add(peg);
@@ -132,7 +132,7 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			if(inBetween != null)
 			{
-				foreach(PegAddress peg in inBetween)
+				foreach(var peg in inBetween)
 				{
 					if(!blacklist.Contains(peg) && isNotSkipped(ref skipIndex))
 					{
@@ -149,7 +149,7 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			if(forwards != null)
 			{
-				foreach(PegAddress peg in forwards)
+				foreach(var peg in forwards)
 				{
 					if(!blacklist.Contains(peg) && isNotSkipped(ref skipIndex))
 					{
@@ -157,7 +157,7 @@ namespace CustomWirePlacer.Client.CWP
 					}
 				}
 			}
-			foreach(PegAddress peg in whitelist)
+			foreach(var peg in whitelist)
 			{
 				pegs.Add(peg);
 			}
@@ -169,7 +169,7 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			if(backwards != null)
 			{
-				for(int index = backwards.Count - 1; index >= 0; index--)
+				for(var index = backwards.Count - 1; index >= 0; index--)
 				{
 					yield return backwards[index];
 				}
@@ -177,7 +177,7 @@ namespace CustomWirePlacer.Client.CWP
 			yield return firstPeg;
 			if(inBetween != null)
 			{
-				foreach(PegAddress peg in inBetween)
+				foreach(var peg in inBetween)
 				{
 					yield return peg;
 				}
@@ -188,12 +188,12 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			if(forwards != null)
 			{
-				foreach(PegAddress peg in forwards)
+				foreach(var peg in forwards)
 				{
 					yield return peg;
 				}
 			}
-			foreach(PegAddress peg in whitelist)
+			foreach(var peg in whitelist)
 			{
 				yield return peg;
 			}
@@ -208,7 +208,7 @@ namespace CustomWirePlacer.Client.CWP
 			
 			if(binarySkipping)
 			{
-				int start = -skipOffset;
+				var start = -skipOffset;
 				start %= skipNumber + skipNumber;
 				if(start < 0)
 				{
@@ -218,7 +218,7 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			else
 			{
-				int start = skipNumber - skipOffset;
+				var start = skipNumber - skipOffset;
 				start %= skipNumber + 1;
 				if(start < 0)
 				{
@@ -237,7 +237,7 @@ namespace CustomWirePlacer.Client.CWP
 			
 			if(binarySkipping)
 			{
-				bool result = skipIndex >= skipNumber;
+				var result = skipIndex >= skipNumber;
 				if(++skipIndex == skipNumber + skipNumber)
 				{
 					skipIndex = 0;
@@ -257,7 +257,7 @@ namespace CustomWirePlacer.Client.CWP
 		
 		public bool updateSkipNumber(int offset)
 		{
-			int oldValue = skipNumber;
+			var oldValue = skipNumber;
 			if(binarySkipping && (CWPSettings.scrollSkipInMulDivOfTwoSteps || CWPSettings.roundSkipOffsetToNextBinaryNumber))
 			{
 				roundSkipOffsetToBinary(); //Make the value valid (if required) before changing it.
@@ -317,13 +317,13 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			if(binarySkipping && CWPSettings.roundSkipOffsetToNextBinaryNumber)
 			{
-				uint value = (uint) skipNumber;
-				uint mask = 0x40000000; //Do not start at the very top, to prevent generating negative numbers - should not be possible, because the input is in theory non-negative.
+				var value = (uint) skipNumber;
+				var mask = (uint) 0x40000000; //Do not start at the very top, to prevent generating negative numbers - should not be possible, because the input is in theory non-negative.
 				while(mask != 0)
 				{
 					if((value & mask) != 0)
 					{
-						uint nextBitMask = mask >> 1;
+						var nextBitMask = mask >> 1;
 						if(nextBitMask == 0)
 						{
 							//We are at the lowest bit, just leave it as is (SET).
@@ -400,12 +400,12 @@ namespace CustomWirePlacer.Client.CWP
 		private static bool expandInternal(ref List<PegAddress> discoverList, PegAddress firstPeg, PegAddress secondPeg, PegAddress inBetweenPeg, bool onlyOne = false)
 		{
 			//One ray to rule them all. The ray should always be constructed from the two main pegs, it shall never bend in any other direction.
-			Vector3 rayStart = CWPHelper.getRaycastPoint(firstPeg);
-			Vector3 ray = (CWPHelper.getRaycastPoint(secondPeg) - rayStart).normalized; //For later calculations, it has to be normalized.
+			var rayStart = CWPHelper.getRaycastPoint(firstPeg);
+			var ray = (CWPHelper.getRaycastPoint(secondPeg) - rayStart).normalized; //For later calculations, it has to be normalized.
 			
 			//This is the peg, which is before the last peg in expand direction.
 			// Required to get the distance between this one and the actual last peg.
-			PegAddress peg0 =
+			var peg0 =
 				discoverList != null
 					? discoverList.Count > 1
 						? discoverList[discoverList.Count - 2]
@@ -415,22 +415,22 @@ namespace CustomWirePlacer.Client.CWP
 						: firstPeg;
 			//This is the last peg in this expand direction.
 			// From here we expand.
-			PegAddress peg1 =
+			var peg1 =
 				discoverList != null
 					? discoverList.Last()
 					: secondPeg;
 					
 			//Get positions, important that the positions must be on the ray, so raycast to get the positions. 
-			Vector3 pos0 = peg0 != firstPeg ? CWPHelper.getPegRayCenter(peg0, rayStart, ray) : rayStart; //If it is the first peg, the raycast would fail, so fallback. And the ray start is the first peg pos.
-			Vector3 pos1 = CWPHelper.getPegRayCenter(peg1, rayStart, ray);
+			var pos0 = peg0 != firstPeg ? CWPHelper.getPegRayCenter(peg0, rayStart, ray) : rayStart; //If it is the first peg, the raycast would fail, so fallback. And the ray start is the first peg pos.
+			var pos1 = CWPHelper.getPegRayCenter(peg1, rayStart, ray);
 			
 			//When expanding we have to find at least one peg. If there is none we cannot expand.
-			PegAddress peg2 = CWPHelper.findNextPeg(pos1, ray, out Vector3? pos2nullable);
+			var peg2 = CWPHelper.findNextPeg(pos1, ray, out var pos2nullable);
 			if(peg2.IsEmpty())
 			{
 				return false;
 			}
-			Vector3 pos2 = pos2nullable.Value; //TBI: This works, but is it possible to do this syntactically more pretty?
+			var pos2 = pos2nullable.Value; //TBI: This works, but is it possible to do this syntactically more pretty?
 			//The list is null when it is empty, but we found at least one peg,
 			// so create the list and add that peg.
 			if(discoverList == null)
@@ -444,25 +444,25 @@ namespace CustomWirePlacer.Client.CWP
 			}
 			
 			//Now that we got one peg, there is the possibility to collect more.
-			PegAddress peg3 = CWPHelper.findNextPeg(pos2, ray, out Vector3? pos3nullable);
+			var peg3 = CWPHelper.findNextPeg(pos2, ray, out var pos3nullable);
 			if(peg3.IsEmpty())
 			{
 				//However there is no more peg, so there is no need to expand from here on.
 				return true;
 			}
-			Vector3 pos3 = pos3nullable.Value;
+			var pos3 = pos3nullable.Value;
 			
 			//Calculate all the distances between the pegs, required to decide for an expand strategy.
-			float dist1 = (pos1 - pos0).sqrMagnitude;
-			float dist2 = (pos2 - pos1).sqrMagnitude;
-			float dist3 = (pos3 - pos2).sqrMagnitude;
+			var dist1 = (pos1 - pos0).sqrMagnitude;
+			var dist2 = (pos2 - pos1).sqrMagnitude;
+			var dist3 = (pos3 - pos2).sqrMagnitude;
 			
 			float referenceDistance;
 			if(CWPSettings.expandOnlyUniformDistance)
 			{
 				//If the uniform distance setting is ON, then only the original distance will be used as reference.
 				// So expanding only expands if the distance is the same as the original distance.
-				Vector3 previousPos = inBetweenPeg.IsNotEmpty() ? CWPHelper.getPegRayCenter(inBetweenPeg, rayStart, ray) : rayStart; //Ray start is the first pos point.
+				var previousPos = inBetweenPeg.IsNotEmpty() ? CWPHelper.getPegRayCenter(inBetweenPeg, rayStart, ray) : rayStart; //Ray start is the first pos point.
 				referenceDistance = (CWPHelper.getRaycastPoint(secondPeg) - previousPos).sqrMagnitude;
 			}
 			else
@@ -493,21 +493,21 @@ namespace CustomWirePlacer.Client.CWP
 			float dist0, Vector3 pos0, PegAddress peg0
 		)
 		{
-			int pegCounter = 0;
+			var pegCounter = 0;
 			//If the reference distance, is not the same as the distance to this peg,
 			// The section is 100% changed, thus stop collecting pegs here.
 			while(isSame(distance, dist0))
 			{
 				//Get the next peg, to compare the distances:
-				PegAddress peg1 = CWPHelper.findNextPeg(pos0, ray, out Vector3? pos1nullable);
+				var peg1 = CWPHelper.findNextPeg(pos0, ray, out var pos1nullable);
 				if(peg1.IsEmpty())
 				{
 					//No next peg, then the peg must belong to the active section.
 					discoverList.Add(peg0);
 					return;
 				}
-				Vector3 pos1 = pos1nullable.Value;
-				float dist1 = (pos1 - pos0).sqrMagnitude;
+				var pos1 = pos1nullable.Value;
+				var dist1 = (pos1 - pos0).sqrMagnitude;
 				
 				//If the distance of the probe peg to the current peg is smaller than the previous distance,
 				// the current peg must belong to a new section and collecting pegs should stop.
@@ -540,7 +540,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				clear();
 				this.firstPeg = firstPeg;
-				this.binarySkipping = otherAxis.binarySkipping;
+				binarySkipping = otherAxis.binarySkipping;
 				applyLists(otherAxis);
 				show();
 				return; //Done.
@@ -551,15 +551,15 @@ namespace CustomWirePlacer.Client.CWP
 			clear();
 			this.firstPeg = firstPeg;
 			this.secondPeg = secondPeg;
-			this.skipNumber = otherAxis.skipNumber;
-			this.skipOffset = otherAxis.skipOffset;
-			this.binarySkipping = otherAxis.binarySkipping;
+			skipNumber = otherAxis.skipNumber;
+			skipOffset = otherAxis.skipOffset;
+			binarySkipping = otherAxis.binarySkipping;
 			//In between:
-			this.inBetween = CWPHelper.collectPegsInBetween(firstPeg, secondPeg);
+			inBetween = CWPHelper.collectPegsInBetween(firstPeg, secondPeg);
 			//Backwards:
 			if(otherAxis.backwards != null)
 			{
-				for(int i = 0; i < otherAxis.backwards.Count; i++)
+				for(var i = 0; i < otherAxis.backwards.Count; i++)
 				{
 					if(!expandBackwardsInternal(true))
 					{
@@ -570,7 +570,7 @@ namespace CustomWirePlacer.Client.CWP
 			//Forwards:
 			if(otherAxis.forwards != null)
 			{
-				for(int i = 0; i < otherAxis.forwards.Count; i++)
+				for(var i = 0; i < otherAxis.forwards.Count; i++)
 				{
 					if(!expandFurtherInternal(true))
 					{
@@ -585,17 +585,17 @@ namespace CustomWirePlacer.Client.CWP
 		
 		private void applyLists(CWPGroupAxis otherAxis)
 		{
-			foreach(PegAddress peg in otherAxis.blacklist)
+			foreach(var peg in otherAxis.blacklist)
 			{
-				PegAddress other = CWPHelper.getPegRelativeToOtherPeg(firstPeg, otherAxis.firstPeg, peg);
+				var other = CWPHelper.getPegRelativeToOtherPeg(firstPeg, otherAxis.firstPeg, peg);
 				if(other.IsNotEmpty())
 				{
 					blacklist.Add(other);
 				}
 			}
-			foreach(PegAddress peg in otherAxis.whitelist)
+			foreach(var peg in otherAxis.whitelist)
 			{
-				PegAddress other = CWPHelper.getPegRelativeToOtherPeg(firstPeg, otherAxis.firstPeg, peg);
+				var other = CWPHelper.getPegRelativeToOtherPeg(firstPeg, otherAxis.firstPeg, peg);
 				if(other.IsNotEmpty())
 				{
 					whitelist.Add(other);

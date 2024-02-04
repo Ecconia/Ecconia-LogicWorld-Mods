@@ -43,7 +43,7 @@ namespace EccsLogicWorldAPI.Client.Injectors.EditComponentWindow.Helper
 		
 		private IEnumerable<BuildRequest> GetUndoRequestsOnClose()
 		{
-			foreach (var editingInfo in ComponentsBeingEdited)
+			foreach(var editingInfo in ComponentsBeingEdited)
 			{
 				if(editingInfo.hasCustomDataChanged())
 				{
@@ -63,7 +63,7 @@ namespace EccsLogicWorldAPI.Client.Injectors.EditComponentWindow.Helper
 		bool IEditComponentWindow.CanEditCollection(IEnumerable<ComponentAddress> collection)
 		{
 			var componentsToEdit = new List<T>();
-			foreach (ComponentAddress cAddress in collection)
+			foreach(var cAddress in collection)
 			{
 				//TBI: Is this cast free? Does C# have another way for this implicit casting.
 				if(!(this as IEditComponentWindow).CanEdit(cAddress))
@@ -80,7 +80,7 @@ namespace EccsLogicWorldAPI.Client.Injectors.EditComponentWindow.Helper
 		public void StartEditing(ComponentSelection selection)
 		{
 			var editingInfoList = new List<T>();
-			foreach(ComponentAddress cAddress in selection)
+			foreach(var cAddress in selection)
 			{
 				editingInfoList.Add(CreateComponentInfoFor(cAddress));
 			}

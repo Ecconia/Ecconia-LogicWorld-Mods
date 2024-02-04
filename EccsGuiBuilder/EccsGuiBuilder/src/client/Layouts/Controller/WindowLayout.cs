@@ -54,8 +54,8 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 		{
 			base.CalculateLayoutInputHorizontal(); //Sets up the components to process.
 			
-			float miniWidth = 0;
-			float prefWidth = 0;
+			var miniWidth = 0f;
+			var prefWidth = 0f;
 			foreach(var child in rectChildren)
 			{
 				var layout = child.GetComponent<ILayoutElement>();
@@ -67,13 +67,13 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 				{
 					miniWidth = layout.minWidth;
 				}
-				float perf = layout.preferredWidth < 0 ? layout.minWidth : layout.preferredWidth;
+				var perf = layout.preferredWidth < 0 ? layout.minWidth : layout.preferredWidth;
 				if(perf > prefWidth)
 				{
 					prefWidth = perf;
 				}
 			}
-			float newMinWidth = miniWidth + padding.horizontal;
+			var newMinWidth = miniWidth + padding.horizontal;
 			if(getMinWidth(windowController) != newMinWidth)
 			{
 				setMinWidth(windowController, newMinWidth);
@@ -104,7 +104,7 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 		
 		public override void SetLayoutHorizontal()
 		{
-			float width = rectTransform.rect.size[0];
+			var width = rectTransform.rect.size[0];
 			if(width < minWidth)
 			{
 				rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, minWidth);
@@ -118,13 +118,13 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 		public override void SetLayoutVertical()
 		{
 			float point = padding.top;
-			float height = rectTransform.rect.size[1] - padding.bottom;
+			var height = rectTransform.rect.size[1] - padding.bottom;
 			if(height < minHeight)
 			{
 				rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, minHeight);
 			}
-			bool useMinSize = height >= GetTotalPreferredSize(1);
-			for(int i = rectChildren.Count - 1; i > 0; i--)
+			var useMinSize = height >= GetTotalPreferredSize(1);
+			for(var i = rectChildren.Count - 1; i > 0; i--)
 			{
 				var child = rectChildren[i];
 				var layout = child.GetComponent<ILayoutElement>();
@@ -132,7 +132,7 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 				{
 					continue; //Whoops, this is bad... cannot work with this.
 				}
-				float size = layout.preferredHeight < 0 || useMinSize ? layout.minHeight : layout.preferredHeight;
+				var size = layout.preferredHeight < 0 || useMinSize ? layout.minHeight : layout.preferredHeight;
 				SetChildAlongAxis(child, 1, point, size);
 				point += size;
 			}

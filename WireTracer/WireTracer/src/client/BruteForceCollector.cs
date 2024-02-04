@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using LogicAPI.Data;
-using LogicAPI.Services;
 using LogicWorld.Interfaces;
 
 namespace WireTracer.Client
@@ -12,15 +11,15 @@ namespace WireTracer.Client
 		{
 			//If grabbing a wire, always start from the next input peg.
 			// Else it will select all wires from the output peg.
-			Wire wire = Instances.MainWorld.Data.Lookup(wireAddress);
+			var wire = Instances.MainWorld.Data.Lookup(wireAddress);
 			return collect(wire.Point1.IsInputAddress() ? wire.Point1 : wire.Point2);
 		}
 		
 		public static (HashSet<PegAddress>, List<(WireAddress, bool)>, List<ComponentAddress>) collect(PegAddress originPegAddress)
 		{
-			IWorldData world = Instances.MainWorld.Data;
+			var world = Instances.MainWorld.Data;
 			//Throws exception if that type does not exist (lets accept that):
-			ComponentType throughPeg = Instances.MainWorld.ComponentTypes.GetComponentType("MHG.ThroughPeg");
+			var throughPeg = Instances.MainWorld.ComponentTypes.GetComponentType("MHG.ThroughPeg");
 			
 			var collectedWires = new List<(WireAddress, bool)>();
 			var collectedComponents = new List<ComponentAddress>();
@@ -32,14 +31,14 @@ namespace WireTracer.Client
 			
 			while(pegs.Count != 0)
 			{
-				PegAddress thisSide = pegs.Dequeue(); //Unless this is the first peg, it should always be an input-peg.
+				var thisSide = pegs.Dequeue(); //Unless this is the first peg, it should always be an input-peg.
 				{
-					IComponentInWorld component = world.Lookup(thisSide.ComponentAddress);
+					var component = world.Lookup(thisSide.ComponentAddress);
 					if(component.Data.Type == throughPeg && component.Data.InputCount == 2) //Sanity check, confirm peg count.
 					{
 						collectedComponents.Add(thisSide.ComponentAddress);
 						//This is a through peg, so lets also investigate the peg on the other side:
-						PegAddress otherSide = new InputAddress(thisSide.ComponentAddress, thisSide.PegIndex == 0 ? 1 : 0); //Dirty but valid mapping
+						var otherSide = new InputAddress(thisSide.ComponentAddress, thisSide.PegIndex == 0 ? 1 : 0); //Dirty but valid mapping
 						if(collectedPegs.Add(otherSide))
 						{
 							//Other side was not yet processed!
@@ -54,7 +53,7 @@ namespace WireTracer.Client
 				}
 				foreach(var wireAddress in wireSet)
 				{
-					Wire wire = world.Lookup(wireAddress);
+					var wire = world.Lookup(wireAddress);
 					if(wire.Point1 == thisSide)
 					{
 						//Most easy way to prevent a wire from being added twice.
@@ -62,7 +61,7 @@ namespace WireTracer.Client
 						// But wires only have one first peg, when that is being processed add it.
 						collectedWires.Add((wireAddress, !wire.Point1.IsInputAddress() || !wire.Point2.IsInputAddress()));
 					}
-					PegAddress otherSide = wire.Point1 == thisSide ? wire.Point2 : wire.Point1;
+					var otherSide = wire.Point1 == thisSide ? wire.Point2 : wire.Point1;
 					if(collectedPegs.Add(otherSide))
 					{
 						//Other side was not yet processed!

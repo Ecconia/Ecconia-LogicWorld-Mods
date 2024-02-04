@@ -3,8 +3,8 @@ using EccsLogicWorldAPI.Shared.AccessHelper;
 using LICC;
 using LogicWorld.Interfaces;
 using LogicWorld.Interfaces.Subassemblies;
-using LogicWorld.Subassemblies;
 using LogicWorld.SharedCode.Subassemblies;
+using LogicWorld.Subassemblies;
 
 namespace RandomDebugCollection.Client.Commands
 {
@@ -23,7 +23,7 @@ namespace RandomDebugCollection.Client.Commands
 			SubassemblyCacheDatabase cache = getSubassemblyCacheDatabase(Instances.SubassemblyManager);
 			if(cache != null)
 			{
-				int cacheSize = cache.CachedSubassembliesCount;
+				var cacheSize = cache.CachedSubassembliesCount;
 				cache.ClearCache();
 				LConsole.WriteLine("Cleared {0} subassemblies.", cacheSize);
 			}

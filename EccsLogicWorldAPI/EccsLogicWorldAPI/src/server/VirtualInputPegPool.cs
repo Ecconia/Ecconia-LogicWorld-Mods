@@ -51,7 +51,7 @@ namespace EccsLogicWorldAPI.Server
 		
 		public static InputPeg borrowPeg()
 		{
-			if(pegs.TryPop(out InputPeg peg))
+			if(pegs.TryPop(out var peg))
 			{
 				return peg;
 			}

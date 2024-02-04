@@ -24,7 +24,7 @@ namespace EccsLogicWorldAPI.Shared.AccessHelper
 		
 		public static Type getType(Assembly assembly, string name)
 		{
-			Type type = assembly.GetType(name);
+			var type = assembly.GetType(name);
 			if(type == null)
 			{
 				throw new AccessHelperException("Could not find class '" + name + "' in assembly '" + assembly.FullName + "'.");
@@ -34,7 +34,7 @@ namespace EccsLogicWorldAPI.Shared.AccessHelper
 		
 		public static Type findInAssembly(Type neighborType, string targetClassName)
 		{
-			Type type = neighborType.Assembly.GetType(targetClassName);
+			var type = neighborType.Assembly.GetType(targetClassName);
 			if(type == null)
 			{
 				throw new AccessHelperException("Could not find class '" + targetClassName + "' in same assembly as '" + neighborType + "'.");
@@ -46,7 +46,7 @@ namespace EccsLogicWorldAPI.Shared.AccessHelper
 		
 		public static object createInstance(Type type, params object[] args)
 		{
-			object instance = Activator.CreateInstance(type, args);
+			var instance = Activator.CreateInstance(type, args);
 			if(instance == null)
 			{
 				throw new AccessHelperException("Was not able to create type '" + type + "' with arguments '" + args + "'.");

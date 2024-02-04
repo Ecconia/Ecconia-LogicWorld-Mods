@@ -94,14 +94,14 @@ namespace CustomWirePlacer.Client.Windows
 		
 		private void updatePosition(bool dirty = false)
 		{
-			bool keyHelpOpen = ToggleableSingletonMenu<HelpListMenu>.MenuIsVisible;
+			var keyHelpOpen = ToggleableSingletonMenu<HelpListMenu>.MenuIsVisible;
 			if(keyHelpOpen != this.keyHelpOpen)
 			{
 				this.keyHelpOpen = keyHelpOpen;
 				dirty = true;
 			}
 			
-			byte debugState = (byte) ((ToggleableSingletonMenu<DebugFpsText>.MenuIsVisible ? 2 : 0) | (ToggleableSingletonMenu<DebugCoordinatesText>.MenuIsVisible ? 1 : 0));
+			var debugState = (byte) ((ToggleableSingletonMenu<DebugFpsText>.MenuIsVisible ? 2 : 0) | (ToggleableSingletonMenu<DebugCoordinatesText>.MenuIsVisible ? 1 : 0));
 			if(debugState != this.debugState)
 			{
 				this.debugState = debugState;
@@ -133,7 +133,7 @@ namespace CustomWirePlacer.Client.Windows
 						return;
 					}
 				}
-				RectTransform rectTransform = (RectTransform) fieldRect.GetValue(obj);
+				var rectTransform = (RectTransform) fieldRect.GetValue(obj);
 				windowRect.anchoredPosition = new Vector2(0, -rectTransform.sizeDelta.y);
 			}
 			else
@@ -164,10 +164,10 @@ namespace CustomWirePlacer.Client.Windows
 		
 		private void constructText()
 		{
-			CWPGroup firstGroup = CWP.CustomWirePlacer.getFirstGroup();
-			CWPGroup secondGroup = CWP.CustomWirePlacer.getSecondGroup();
-			CWPGroup currentGroup = CWP.CustomWirePlacer.getCurrentGroup();
-			StringBuilder sb = new StringBuilder();
+			var firstGroup = CWP.CustomWirePlacer.getFirstGroup();
+			var secondGroup = CWP.CustomWirePlacer.getSecondGroup();
+			var currentGroup = CWP.CustomWirePlacer.getCurrentGroup();
+			var sb = new StringBuilder();
 			//Peg count:
 			if(firstGroup.isSet())
 			{
@@ -197,16 +197,16 @@ namespace CustomWirePlacer.Client.Windows
 			}
 			
 			//Current axis details:
-			CWPGroupAxis currentAxis = currentGroup.getCurrentAxis();
-			int forward = currentAxis.forwards != null ? currentAxis.forwards.Count : 0;
-			int backward = currentAxis.backwards != null ? currentAxis.backwards.Count : 0;
+			var currentAxis = currentGroup.getCurrentAxis();
+			var forward = currentAxis.forwards != null ? currentAxis.forwards.Count : 0;
+			var backward = currentAxis.backwards != null ? currentAxis.backwards.Count : 0;
 			if(forward != 0 || backward != 0)
 			{
 				sb.Append(TextLocalizer.LocalizedFormat("CWP.StatusOverlay.Expand", backward, forward)).Append('\n');
 			}
 			
 			//Skipping:
-			int amount = currentGroup.getCurrentAxis().skipNumber;
+			var amount = currentGroup.getCurrentAxis().skipNumber;
 			if(amount != 0)
 			{
 				if(currentGroup.getCurrentAxis().binarySkipping)

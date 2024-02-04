@@ -56,7 +56,7 @@ namespace EccsLogicWorldAPI.Server.Generators
 		public static InputPeg generateNewInputPeg(InputAddress address)
 		{
 			//Create peg:
-			InputPeg input = newInputPeg(
+			var input = newInputPeg(
 				address,
 				null,
 				false,

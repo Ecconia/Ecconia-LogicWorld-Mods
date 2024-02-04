@@ -43,7 +43,7 @@ namespace WorldSaver.Client
 				LConsole.WriteLine("Could not extract circuit states. Check & report stacktrace:\n" + e);
 				return;
 			}
-			byte[] saveBytes = SaveWriter.GetWorldSaveData(
+			var saveBytes = SaveWriter.GetWorldSaveData(
 				Instances.MainWorld.Data,
 				Instances.MainWorld.ComponentTypes,
 				circuitStates
@@ -55,7 +55,7 @@ namespace WorldSaver.Client
 			File.WriteAllBytes(Path.Combine(saveFolder, "data.logicworld"), saveBytes);
 			LConsole.WriteLine("Wrote world.");
 			//Save world info file:
-			DataFile worldTypeFile = new DataFile(Path.Combine(saveFolder, "worldinfo.succ"));
+			var worldTypeFile = new DataFile(Path.Combine(saveFolder, "worldinfo.succ"));
 			worldTypeFile.AutoSave = false;
 			worldTypeFile.Set("WorldTypeID", extractWorldType());
 			worldTypeFile.SetAtPath(0, "WorldSpawnPosition", "x");

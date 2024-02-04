@@ -48,7 +48,7 @@ namespace FileDump.Server
 			
 			var value = 0uL;
 			var bit = 1uL;
-			for(int i = 0; i < Inputs.Count; i++)
+			for(var i = 0; i < Inputs.Count; i++)
 			{
 				if(Inputs[i].On)
 				{
@@ -63,7 +63,7 @@ namespace FileDump.Server
 			}
 			lastValue = value;
 			
-			for(int i = 0; i < Inputs.Count; i++)
+			for(var i = 0; i < Inputs.Count; i++)
 			{
 				fileWriter.Write(Inputs[i].On ? '1' : '0');
 			}
@@ -125,8 +125,8 @@ namespace FileDump.Server
 			}
 			
 			//Detect the two relevant types of custom data change:
-			bool pegLayoutChanged = Data.pegCount != lastPegCount;
-			bool fileNameChanged = !Data.fileName.Equals(lastFileName);
+			var pegLayoutChanged = Data.pegCount != lastPegCount;
+			var fileNameChanged = !Data.fileName.Equals(lastFileName);
 			
 			if(fileNameChanged)
 			{

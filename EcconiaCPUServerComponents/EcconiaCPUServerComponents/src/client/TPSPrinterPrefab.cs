@@ -26,9 +26,9 @@ namespace EcconiaCPUServerComponents.Client
 			}
 			
 			//Inputs:
-			ComponentOutput[] outputs = new ComponentOutput[OutputBitwidth];
+			var outputs = new ComponentOutput[OutputBitwidth];
 			{
-				for(int i = 0; i < OutputBitwidth; i++)
+				for(var i = 0; i < OutputBitwidth; i++)
 				{
 					outputs[i] = new ComponentOutput()
 					{

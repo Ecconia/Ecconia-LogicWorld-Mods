@@ -89,7 +89,7 @@ namespace EcconiaCPUServerComponents.Server
 			}
 			
 			//There should be a name encoded in bytes:
-			int padding = customDataArray[0] == 0 ? 1 : 2;
+			var padding = customDataArray[0] == 0 ? 1 : 2;
 			string name;
 			try
 			{
@@ -122,7 +122,7 @@ namespace EcconiaCPUServerComponents.Server
 		
 		protected override byte[] SerializeCustomData()
 		{
-			byte[] customDataArray = new byte[256 + 8];
+			var customDataArray = new byte[256 + 8];
 			Array.Copy(data, customDataArray, 256);
 			customDataArray[256] = ticksToContinue;
 			customDataArray[256 + 1] = writeAddress3;
@@ -157,11 +157,11 @@ namespace EcconiaCPUServerComponents.Server
 		protected override void DoLogicUpdate()
 		{
 			//Read all current inputs (with level - 1):
-			byte writeAddress0 = inputToByte(0);
-			byte readAddress0 = inputToByte(9);
-			bool writeEnable2 = Inputs[8].On;
-			bool readEnable2 = Inputs[17].On;
-			byte writeData3 = inputToByte(18);
+			var writeAddress0 = inputToByte(0);
+			var readAddress0 = inputToByte(9);
+			var writeEnable2 = Inputs[8].On;
+			var readEnable2 = Inputs[17].On;
+			var writeData3 = inputToByte(18);
 			
 			//Detect changes:
 			if(ticksToContinue < 3 && (writeAddress0 != writeAddress1 || readAddress0 != readAddress1))
@@ -223,7 +223,7 @@ namespace EcconiaCPUServerComponents.Server
 		
 		private void setOutput(byte value)
 		{
-			for(int i = 0; i < 8; i++)
+			for(var i = 0; i < 8; i++)
 			{
 				Outputs[i].On = (value & 1) != 0;
 				value >>= 1;
@@ -234,7 +234,7 @@ namespace EcconiaCPUServerComponents.Server
 		{
 			byte tmp = 0;
 			byte bitMask = 1;
-			for(int i = start; i < (start + 8); i++)
+			for(var i = start; i < (start + 8); i++)
 			{
 				if(Inputs[i].On)
 				{

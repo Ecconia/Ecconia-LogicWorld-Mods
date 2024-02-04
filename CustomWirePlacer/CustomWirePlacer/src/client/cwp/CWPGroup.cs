@@ -34,7 +34,7 @@ namespace CustomWirePlacer.Client.CWP
 		
 		private void hideInternal()
 		{
-			foreach(PegAddress peg in pegs2DOutlined)
+			foreach(var peg in pegs2DOutlined)
 			{
 				CWPOutliner.RemoveOutlineHard(peg);
 			}
@@ -52,12 +52,12 @@ namespace CustomWirePlacer.Client.CWP
 			pegs2DOutlined.Clear();
 			
 			//Collecting the pegs is redundant here...
-			HashSet<PegAddress> skipHighlightPegs = secondAxis.getAllPegs().ToHashSet();
+			var skipHighlightPegs = secondAxis.getAllPegs().ToHashSet();
 			
-			List<Vector3> secondOffsets = get2DOffsets();
-			foreach(PegAddress startingPeg in firstAxis.getPegs())
+			var secondOffsets = get2DOffsets();
+			foreach(var startingPeg in firstAxis.getPegs())
 			{
-				foreach(PegAddress receivedPeg in get2DPegs(startingPeg, secondOffsets))
+				foreach(var receivedPeg in get2DPegs(startingPeg, secondOffsets))
 				{
 					pegs2D.Add(receivedPeg);
 					if(!skipHighlightPegs.Contains(receivedPeg))
@@ -73,14 +73,14 @@ namespace CustomWirePlacer.Client.CWP
 		public List<Vector3> get2DOffsets()
 		{
 			//Get the second axis and all the offsets in between pegs:
-			List<PegAddress> secondAxisList = secondAxis.getPegs().ToList();
-			List<Vector3> secondOffsets = new List<Vector3>(secondAxisList.Count - 1);
+			var secondAxisList = secondAxis.getPegs().ToList();
+			var secondOffsets = new List<Vector3>(secondAxisList.Count - 1);
 			{
-				Vector3 lastPos = CWPHelper.getWireConnectionPoint(secondAxisList.First());
+				var lastPos = CWPHelper.getWireConnectionPoint(secondAxisList.First());
 				secondOffsets.Add(lastPos - CWPHelper.getWireConnectionPoint(secondAxis.firstPeg));
-				for(int i = 1; i < secondAxisList.Count; i++)
+				for(var i = 1; i < secondAxisList.Count; i++)
 				{
-					Vector3 nextPos = CWPHelper.getWireConnectionPoint(secondAxisList[i]);
+					var nextPos = CWPHelper.getWireConnectionPoint(secondAxisList[i]);
 					secondOffsets.Add(nextPos - lastPos);
 					lastPos = nextPos;
 				}
@@ -91,11 +91,11 @@ namespace CustomWirePlacer.Client.CWP
 		public static IEnumerable<PegAddress> get2DPegs(PegAddress startingPeg, List<Vector3> secondOffsets)
 		{
 			//Get the starting point, from which we stack up, according to the second axis.
-			Vector3 offset = CWPHelper.getWireConnectionPoint(startingPeg);
-			foreach(Vector3 secondOffset in secondOffsets)
+			var offset = CWPHelper.getWireConnectionPoint(startingPeg);
+			foreach(var secondOffset in secondOffsets)
 			{
 				offset += secondOffset;
-				PegAddress receivedPeg = CWPHelper.getPegAt(offset);
+				var receivedPeg = CWPHelper.getPegAt(offset);
 				if(receivedPeg.IsNotEmpty())
 				{
 					yield return receivedPeg;
@@ -105,7 +105,7 @@ namespace CustomWirePlacer.Client.CWP
 		
 		private void showInternal()
 		{
-			foreach(PegAddress peg in pegs2DOutlined)
+			foreach(var peg in pegs2DOutlined)
 			{
 				CWPOutliner.OutlineHard(peg, CWPOutlineData.middlePegs);
 			}
@@ -247,8 +247,8 @@ namespace CustomWirePlacer.Client.CWP
 		{
 			//Check if the other starting peg can be found:
 			// Else no data should be erased.
-			PegAddress otherPeg = PegAddress.Empty;
-			PegAddress otherAxisSecondPeg = PegAddress.Empty;
+			var otherPeg = PegAddress.Empty;
+			var otherAxisSecondPeg = PegAddress.Empty;
 			if(firstGroup.isTwoDimensional())
 			{
 				otherPeg = CWPHelper.getPegRelativeToOtherPeg(firstPeg, firstGroup.firstAxis.firstPeg, firstGroup.secondAxis.firstPeg);
@@ -267,7 +267,7 @@ namespace CustomWirePlacer.Client.CWP
 					}
 				}
 			}
-			PegAddress firstGroupSecondPeg = PegAddress.Empty;
+			var firstGroupSecondPeg = PegAddress.Empty;
 			if(firstGroup.firstAxis.secondPeg.IsNotEmpty())
 			{
 				firstGroupSecondPeg = CWPHelper.getPegRelativeToOtherPeg(firstPeg, firstGroup.firstAxis.firstPeg, firstGroup.firstAxis.secondPeg);

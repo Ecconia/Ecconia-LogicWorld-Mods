@@ -59,7 +59,7 @@ namespace WireTracer.Server
 		
 		public void playerJoined(PlayerData playerData, HandlerContext context)
 		{
-			playerHasWireTracer.TryGetValue(playerData.Name, out bool hasWireTracer);
+			playerHasWireTracer.TryGetValue(playerData.Name, out var hasWireTracer);
 			if(hasWireTracer)
 			{
 				networkServer.Send(context.Sender, new AnnounceWireTrackerPresence());

@@ -22,21 +22,21 @@ namespace EcconiasChaosClientMod.Client
 		[Command("ListPlayersAll", Description = "Lists all players that are connected to this server. With all debug data.", Hidden = true)]
 		public static void listPlayersAll()
 		{
-			StringBuilder builder = new StringBuilder();
+			var builder = new StringBuilder();
 			builder.Append("All player models:");
 			var playerList = new List<PlayerModel>(players.Values);
-			int amountOfPlayers = playerList.Count;
-			int prefixWidth = amountOfPlayers.ToString().Length;
-			for(int i = 0; i < amountOfPlayers; i++)
+			var amountOfPlayers = playerList.Count;
+			var prefixWidth = amountOfPlayers.ToString().Length;
+			for(var i = 0; i < amountOfPlayers; i++)
 			{
-				PlayerModel player = playerList[i];
-				bool isYou = player == PlayerModelsManager.PlayerModelSelf;
+				var player = playerList[i];
+				var isYou = player == PlayerModelsManager.PlayerModelSelf;
 				builder.Append('\n')
 				       .Append(isYou ? '>' : '-')
 				       .Append(' ');
 				{
-					string number = (i + 1).ToString();
-					for(int j = number.Length; j < prefixWidth; j++)
+					var number = (i + 1).ToString();
+					for(var j = number.Length; j < prefixWidth; j++)
 					{
 						builder.Append(' ');
 					}
@@ -66,7 +66,7 @@ namespace EcconiasChaosClientMod.Client
 				LConsole.WriteLine("Cannot use this command, as the player-model-list is not accessible. Check the logs for errors of this mod and report them to the maintainer of this mod.");
 				return;
 			}
-			StringBuilder builder = new StringBuilder();
+			var builder = new StringBuilder();
 			builder.Append("Visible players:");
 			foreach(var player in players.Values)
 			{
@@ -74,7 +74,7 @@ namespace EcconiasChaosClientMod.Client
 				{
 					continue;
 				}
-				bool isYou = player == PlayerModelsManager.PlayerModelSelf;
+				var isYou = player == PlayerModelsManager.PlayerModelSelf;
 				builder.Append('\n')
 				       .Append(isYou ? '>' : '-')
 				       .Append(" <#")
@@ -88,7 +88,7 @@ namespace EcconiasChaosClientMod.Client
 		
 		private static string getPlayerName(PlayerModel player)
 		{
-			string name = player.gameObject.name;
+			var name = player.gameObject.name;
 			if(name.StartsWith("Player Model: "))
 			{
 				name = name.Substring("Player Model: ".Length);

@@ -36,7 +36,7 @@ namespace EccsLogicWorldAPI.Server.Injectors
 			var oldVerifiers = getVerifiers();
 			if(oldVerifiers is List<IClientVerifier> oldVerifierList)
 			{
-				for(int i = 0; i < oldVerifierList.Count; i++)
+				for(var i = 0; i < oldVerifierList.Count; i++)
 				{
 					if(oldVerifierList[i].GetType() == verifierToReplace)
 					{
@@ -75,7 +75,7 @@ namespace EccsLogicWorldAPI.Server.Injectors
 			//By default, the field contains an array, if so, optimize code for that and maintain field type:
 			if(oldVerifiers is IClientVerifier[] oldVerifierArray)
 			{
-				for(int i = 0; i < oldVerifierArray.Length; i++)
+				for(var i = 0; i < oldVerifierArray.Length; i++)
 				{
 					if(oldVerifierArray[i].GetType() == verifierToReplace)
 					{
@@ -86,7 +86,7 @@ namespace EccsLogicWorldAPI.Server.Injectors
 				throw new Exception("Was not able to inject new replacement join verifier, as the original of type '" + verifierToReplace.FullName + "' was not found.");
 			}
 			//Fallback, if not a list:
-			bool notInjected = true;
+			var notInjected = true;
 			var newVerifiers = new List<IClientVerifier>();
 			foreach(var oldVerifier in oldVerifiers)
 			{
@@ -113,7 +113,7 @@ namespace EccsLogicWorldAPI.Server.Injectors
 			//By default, the field contains an array, if so, optimize code for that and maintain field type:
 			if(oldVerifiers is IClientVerifier[] oldVerifierArray)
 			{
-				for(int i = 0; i < oldVerifierArray.Length; i++)
+				for(var i = 0; i < oldVerifierArray.Length; i++)
 				{
 					if(oldVerifierArray[i].GetType() == verifierToReplace)
 					{
@@ -124,7 +124,7 @@ namespace EccsLogicWorldAPI.Server.Injectors
 				throw new Exception("Was not able to inject new replacement join verifier, as the original of type '" + verifierToReplace.FullName + "' was not found.");
 			}
 			//Fallback, if not an array:
-			bool notInjected = true;
+			var notInjected = true;
 			var newVerifiers = new List<IClientVerifier>();
 			foreach(var oldVerifier in oldVerifiers)
 			{

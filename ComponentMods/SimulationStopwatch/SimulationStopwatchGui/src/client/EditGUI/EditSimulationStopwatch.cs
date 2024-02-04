@@ -2,8 +2,8 @@ using EccsGuiBuilder.Client.Layouts.Controller;
 using EccsGuiBuilder.Client.Wrappers;
 using EccsGuiBuilder.Client.Wrappers.AutoAssign;
 using LogicUI.MenuParts.Toggles;
-using SimulationStopwatch.Shared;
 using LogicWorld.UI;
+using SimulationStopwatch.Shared;
 using TMPro;
 using UnityEngine;
 

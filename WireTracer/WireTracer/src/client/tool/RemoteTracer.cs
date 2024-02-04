@@ -227,7 +227,7 @@ namespace WireTracer.Client.Tool
 				}
 				foreach(var wireAddress in wires)
 				{
-					Wire wire = Instances.MainWorld.Data.Lookup(wireAddress);
+					var wire = Instances.MainWorld.Data.Lookup(wireAddress);
 					if(wire.Point1 == pegAddress || !wire.Point1.IsInputAddress()) //We do not collect wires from output pegs. So if the first is an output peg, the other side must be an input -> collect.
 					{
 						(wire.Point1.IsInputAddress() && wire.Point2.IsInputAddress() ? clusterDetails.highlightedWires : clusterDetails.highlightedOutputWires).Add(wireAddress);

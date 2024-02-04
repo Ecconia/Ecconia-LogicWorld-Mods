@@ -8,7 +8,7 @@ namespace EccsLogicWorldAPI.Shared.AccessHelper
 	{
 		public static Assembly findAssemblyWithName(string name)
 		{
-			Assembly harmonyAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(ass => name.Equals(ass.GetName().Name));
+			var harmonyAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(ass => name.Equals(ass.GetName().Name));
 			if(harmonyAssembly == null)
 			{
 				throw new AccessHelperException("Could not find '" + name + "' assembly!");

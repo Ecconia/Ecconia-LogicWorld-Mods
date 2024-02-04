@@ -26,7 +26,7 @@ namespace CustomChatManager.Server
 		
 		public void processChatPacket(ChatMessageData data, Connection sender)
 		{
-			ChatMessageEvent e = new ChatMessageEvent(data, sender);
+			var e = new ChatMessageEvent(data, sender);
 			foreach(var chatService in chatServices)
 			{
 				chatService.processChatEvent(e);
@@ -37,7 +37,7 @@ namespace CustomChatManager.Server
 			{
 				server.Broadcast(new ChatMessageBroadcastPacket()
 				{
-					Data = e.responseMessage
+					Data = e.responseMessage,
 				});
 			}
 		}

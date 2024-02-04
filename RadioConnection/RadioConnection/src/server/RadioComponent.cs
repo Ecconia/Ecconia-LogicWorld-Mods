@@ -57,7 +57,7 @@ namespace RadioConnection.Server
 			updateLastValues();
 			//Update the bool inside the address pegs to cause logic updates.
 			// LW does not consider custom data when originally setting this property.
-			for(int i = 0; i < lastAddressPegs; i++)
+			for(var i = 0; i < lastAddressPegs; i++)
 			{
 				fieldInputPegShouldTriggerLogicUpdate.SetValue(Inputs[i], true);
 			}
@@ -86,7 +86,7 @@ namespace RadioConnection.Server
 			if(Data.addressPegs != 0)
 			{
 				uint mask = 1;
-				for(int i = 0; i < Data.addressPegs; i++)
+				for(var i = 0; i < Data.addressPegs; i++)
 				{
 					if(Inputs[i].On)
 					{
@@ -135,9 +135,9 @@ namespace RadioConnection.Server
 			}
 			
 			//Detect the two relevant types of custom data change:
-			bool pegLayoutChanged = Data.addressPegs != lastAddressPegs
+			var pegLayoutChanged = Data.addressPegs != lastAddressPegs
 				|| Data.dataPegs != lastDataPegs;
-			bool relevantCustomDataChange = pegLayoutChanged
+			var relevantCustomDataChange = pegLayoutChanged
 				|| Data.dataOffset != lastDataOffset
 				|| Data.addressBase != lastAddressBase
 				|| Data.useLinkLayer != lastLinkType;

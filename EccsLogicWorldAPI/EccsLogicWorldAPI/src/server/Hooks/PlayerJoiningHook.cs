@@ -49,7 +49,7 @@ namespace EccsLogicWorldAPI.Server.Hooks
 		{
 			public static void Patch(Connection connection, PlayerData playerData)
 			{
-				foreach(PlayerJoiningCallback callback in callbacks)
+				foreach(var callback in callbacks)
 				{
 					callback.playerIsJoining(connection, playerData);
 				}

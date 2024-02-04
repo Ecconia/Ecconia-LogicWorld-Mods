@@ -19,7 +19,7 @@ namespace EcconiaCPUServerComponents.Server
 		{
 			QueueLogicUpdate(); //We gonna run every tick.
 			
-			int currentTPS = (int) simulation.TicksPerSecond;
+			var currentTPS = (int) simulation.TicksPerSecond;
 			if(lastTPS != currentTPS)
 			{
 				lastTPS = currentTPS;
@@ -29,8 +29,8 @@ namespace EcconiaCPUServerComponents.Server
 				{
 					currentTPS = 0xFFFF;
 				}
-				int mask = 1;
-				for(int i = 0; i < 16; i++)
+				var mask = 1;
+				for(var i = 0; i < 16; i++)
 				{
 					Outputs[i].On = (currentTPS & mask) != 0;
 					mask <<= 1;

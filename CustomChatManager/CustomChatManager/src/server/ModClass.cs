@@ -10,7 +10,7 @@ namespace CustomChatManager.Server
 	{
 		protected override void Initialize()
 		{
-			CustomChatManager chatManager = new CustomChatManager();
+			var chatManager = new CustomChatManager();
 			
 			//Setup the chat manager:
 			{

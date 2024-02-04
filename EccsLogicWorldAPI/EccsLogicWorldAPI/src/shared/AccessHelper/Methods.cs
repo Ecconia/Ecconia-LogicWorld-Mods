@@ -69,7 +69,7 @@ namespace EccsLogicWorldAPI.Shared.AccessHelper
 		
 		private static MethodInfo get(Type type, string name, BindingFlags flags, string accessors)
 		{
-			MethodInfo method = type.GetMethod(name, flags);
+			var method = type.GetMethod(name, flags);
 			if(method == null)
 			{
 				if(accessors.Length != 0)

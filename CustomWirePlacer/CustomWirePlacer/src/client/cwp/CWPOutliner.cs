@@ -11,7 +11,7 @@ namespace CustomWirePlacer.Client.CWP
 		
 		private static PegData getOrInject(PegAddress peg)
 		{
-			if(!pegDatas.TryGetValue(peg, out PegData data))
+			if(!pegDatas.TryGetValue(peg, out var data))
 			{
 				data = new PegData()
 				{
@@ -31,7 +31,7 @@ namespace CustomWirePlacer.Client.CWP
 		
 		public static void OutlineSoft(PegAddress peg, OutlineData color, bool forceSet = false)
 		{
-			PegData data = getOrInject(peg);
+			var data = getOrInject(peg);
 			if(data.softCounter == 0 || forceSet) //When there is no color, this was just created. Else this already has a color, do not overwrite that color - unless force.
 			{
 				data.color = color;
@@ -49,7 +49,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				return;
 			}
-			if(pegDatas.TryGetValue(peg, out PegData data))
+			if(pegDatas.TryGetValue(peg, out var data))
 			{
 				if(data.hardCounter <= 0)
 				{
@@ -93,7 +93,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				return;
 			}
-			if(pegDatas.TryGetValue(peg, out PegData data))
+			if(pegDatas.TryGetValue(peg, out var data))
 			{
 				if(data.softCounter <= 0)
 				{

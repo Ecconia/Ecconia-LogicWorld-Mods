@@ -34,7 +34,7 @@ namespace EccsLogicWorldAPI.Server.Injectors
 		public static void replacePacketHandler<T>(Func<IPacketHandler, IPacketHandler> handlerGenerator)
 		{
 			var handlers = getPacketHandlers();
-			for(int i = 0; i < handlers.Length; i++)
+			for(var i = 0; i < handlers.Length; i++)
 			{
 				if(handlers[i].PacketType == typeof(T))
 				{
@@ -48,7 +48,7 @@ namespace EccsLogicWorldAPI.Server.Injectors
 		public static void replacePacketHandler(IPacketHandler replacementPacketHandler)
 		{
 			var handlers = getPacketHandlers();
-			for(int i = 0; i < handlers.Length; i++)
+			for(var i = 0; i < handlers.Length; i++)
 			{
 				if(handlers[i].PacketType == replacementPacketHandler.PacketType)
 				{

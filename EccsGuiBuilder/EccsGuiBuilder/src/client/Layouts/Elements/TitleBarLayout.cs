@@ -20,7 +20,7 @@ namespace EccsGuiBuilder.Client.Layouts.Elements
 		
 		public void CalculateLayoutInputHorizontal()
 		{
-			float padding = 30;
+			var padding = 30f;
 			//As this is a shortcut layout, a fixed padding is applied - it must match what is defined in the rect!
 			minWidth = title.preferredWidth + padding + buttons.minWidth; //title.minWidth; MinWidth is broken or misconfigured, it will always return 0, not helping.
 			preferredWidth = title.preferredWidth + padding + buttons.preferredWidth;

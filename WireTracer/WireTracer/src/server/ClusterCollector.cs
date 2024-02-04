@@ -48,7 +48,7 @@ namespace WireTracer.Server
 		
 		private static Cluster getClusterAt(InputAddress peg)
 		{
-			InputPeg originPeg = circuits.LookupInput(peg);
+			var originPeg = circuits.LookupInput(peg);
 			if(originPeg == null)
 			{
 				throw new WireTracerException("Tried to lookup cluster on input peg, but the peg was not present in the circuit model! This should never happen, as the peg is present in the world.");
@@ -159,12 +159,12 @@ namespace WireTracer.Server
 				}
 				foreach(var wireAddress in wires)
 				{
-					Wire wire = world.Lookup(wireAddress);
+					var wire = world.Lookup(wireAddress);
 					if(wire == null)
 					{
 						throw new WireTracerException("Tried to lookup wire given its address, but the world did not contain it. World must be corrupted.");
 					}
-					PegAddress otherSide = wire.Point1 == originPegAddress ? wire.Point2 : wire.Point1;
+					var otherSide = wire.Point1 == originPegAddress ? wire.Point2 : wire.Point1;
 					if(!otherSide.IsInputAddress(out var otherSideInputAddress))
 					{
 						continue; //Not supported, this wire would be invalid anyway.

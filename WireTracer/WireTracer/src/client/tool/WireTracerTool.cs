@@ -45,7 +45,7 @@ namespace WireTracer.Client.Tool
 			}
 			
 			//Get the peg (or wire) in question:
-			HitInfo hitInfo = PlayerCaster.CameraCast(Masks.Environment | Masks.Structure | Masks.Peg | Masks.Wire);
+			var hitInfo = PlayerCaster.CameraCast(Masks.Environment | Masks.Structure | Masks.Peg | Masks.Wire);
 			if(!hitInfo.HitSomething)
 			{
 				return false;
@@ -57,8 +57,8 @@ namespace WireTracer.Client.Tool
 			}
 			else if(hitInfo.HitWire)
 			{
-				WireAddress wireAddress = hitInfo.wAddress;
-				Wire wire = Instances.MainWorld.Data.Lookup(wireAddress);
+				var wireAddress = hitInfo.wAddress;
+				var wire = Instances.MainWorld.Data.Lookup(wireAddress);
 				//Assume that wire is never null, as we did just ray-casted it.
 				initialPegAddress = wire.Point1.IsInputAddress() ? wire.Point1 : wire.Point2;
 			}

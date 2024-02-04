@@ -20,12 +20,12 @@ namespace EcconiaCPUServerComponents.Client
 		//TODO: Add control characters, such as space and newline.
 		static Ram256b8()
 		{
-			int index = 1; //Skip the first character.
-			for(int i = 0; i < 26; i++)
+			var index = 1; //Skip the first character.
+			for(var i = 0; i < 26; i++)
 			{
 				mapping[index++] = (char) ('A' + i);
 			}
-			for(int i = 0; i < 26; i++)
+			for(var i = 0; i < 26; i++)
 			{
 				mapping[index++] = (char) ('a' + i);
 			}
@@ -35,7 +35,7 @@ namespace EcconiaCPUServerComponents.Client
 				'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 				'+', '-', '×', '/', '=', '(', ')', '→', '←', '↓', '↑',
 			};
-			for(int i = 0; i < otherCharacters.Length; i++)
+			for(var i = 0; i < otherCharacters.Length; i++)
 			{
 				mapping[index++] = otherCharacters[i];
 			}
@@ -94,10 +94,10 @@ namespace EcconiaCPUServerComponents.Client
 				return;
 			}
 			//Send the name encoded as UTF8 to the server:
-			byte[] bytes = Encoding.UTF8.GetBytes(playerName);
-			bool isCritical = (bytes.Length + 1) == fileCustomDataLength;
-			int prefix = isCritical ? 2 : 1;
-			byte[] newBytes = new byte[bytes.Length + prefix];
+			var bytes = Encoding.UTF8.GetBytes(playerName);
+			var isCritical = (bytes.Length + 1) == fileCustomDataLength;
+			var prefix = isCritical ? 2 : 1;
+			var newBytes = new byte[bytes.Length + prefix];
 			Buffer.BlockCopy(bytes, 0, newBytes, prefix, bytes.Length);
 			if(isCritical)
 			{
@@ -116,7 +116,7 @@ namespace EcconiaCPUServerComponents.Client
 			{
 				//Full data update:
 				// LConsole.WriteLine("Got full update.");
-				for(int i = 0; i < 256; i++)
+				for(var i = 0; i < 256; i++)
 				{
 					setValue(i, data[i]);
 				}
@@ -133,28 +133,28 @@ namespace EcconiaCPUServerComponents.Client
 		
 		private void setValue(int index, int value)
 		{
-			TextMeshPro label = Decorations[0].DecorationObject.GetComponent<TextMeshPro>();
+			var label = Decorations[0].DecorationObject.GetComponent<TextMeshPro>();
 			var text = label.text.ToCharArray();
-			int offset = index * 11 + 5;
+			var offset = index * 11 + 5;
 			//0123456789
 			//123: vvv M
-			string v = value.ToString();
-			int iv = 0;
+			var v = value.ToString();
+			var iv = 0;
 			text[offset++] = v.Length < 3 ? ' ' : v[iv++];
 			text[offset++] = v.Length < 2 ? ' ' : v[iv++];
 			text[offset] = v[iv];
 			offset += 2;
-			char mapped = mapping[value];
+			var mapped = mapping[value];
 			text[offset] = value == 0 ? ' ' : mapped == 0 ? '…' : mapped;
 			label.text = new string(text);
 		}
 		
 		protected override IDecoration[] GenerateDecorations(Transform parentToCreateDecorationsUnder)
 		{
-			Quaternion alignment = Quaternion.AngleAxis(-90, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.forward);
+			var alignment = Quaternion.AngleAxis(-90, Vector3.up) * Quaternion.AngleAxis(-90, Vector3.forward);
 			
-			(GameObject go, TextMeshPro label) = Helper.textObjectMono("Ram256b8: TextDecoration");
-			RectTransform rect = go.GetComponent<RectTransform>();
+			var (go, label) = Helper.textObjectMono("Ram256b8: TextDecoration");
+			var rect = go.GetComponent<RectTransform>();
 			rect.sizeDelta = new Vector2(0, 0.5625f);
 			rect.pivot = new Vector2(0, -1);
 			label.fontSize = 5.625f;
@@ -163,8 +163,8 @@ namespace EcconiaCPUServerComponents.Client
 			label.horizontalAlignment = HorizontalAlignmentOptions.Left;
 			label.verticalAlignment = VerticalAlignmentOptions.Top;
 			label.enableWordWrapping = false;
-			StringBuilder sb = new StringBuilder(256 * 11);
-			for(int i = 255; i >= 0; i--)
+			var sb = new StringBuilder(256 * 11);
+			for(var i = 255; i >= 0; i--)
 			{
 				if(i < 10)
 				{

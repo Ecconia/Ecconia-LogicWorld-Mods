@@ -21,7 +21,7 @@ namespace SimulationStopwatch.Server
 			
 			var newList = new List<IServerTicker>();
 			newList.Add(new CustomTicker(startServerTick));
-			bool foundSimulation = false;
+			var foundSimulation = false;
 			foreach(var ticker in tickers)
 			{
 				if("SimulationManager".Equals(ticker.GetType().Name))

@@ -53,8 +53,8 @@ namespace FlexibleComponentModUsage.client
 		public void checkForChanges()
 		{
 			//Transfer possibly changed components into the local storage.
-			int newComponents = 0;
-			int updatedComponents = 0;
+			var newComponents = 0;
+			var updatedComponents = 0;
 			foreach(var (newID, newInfo) in componentRegistryReference)
 			{
 				if(componentRegistryBackup.TryGetValue(newID, out var oldInfo))

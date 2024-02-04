@@ -35,20 +35,20 @@ namespace EcconiaCPUServerComponents.Client
 		
 		public override ComponentVariant GenerateVariant(PrefabVariantIdentifier identifier)
 		{
-			bool hasExtraPeg = identifier.InputCount == PegAmount + 1;
+			var hasExtraPeg = identifier.InputCount == PegAmount + 1;
 			if((identifier.InputCount != PegAmount && !hasExtraPeg) || identifier.OutputCount != 0)
 			{
 				throw new Exception("Attempted to create Ecconias WeirdCustomDisplay with unexpected peg configuration. Loading old save? Wrong mod version?");
 			}
 			
 			//Blocks:
-			Block[] blocks = new Block[DisplaySideLength * DisplaySideLength + 1];
+			var blocks = new Block[DisplaySideLength * DisplaySideLength + 1];
 			{
 				//Set Display faces:
-				int index = 0;
-				for(int y = 0; y < DisplaySideLength; y++)
+				var index = 0;
+				for(var y = 0; y < DisplaySideLength; y++)
 				{
-					for(int x = 0; x < DisplaySideLength; x++)
+					for(var x = 0; x < DisplaySideLength; x++)
 					{
 						blocks[index++] = new Block
 						{
@@ -80,20 +80,20 @@ namespace EcconiaCPUServerComponents.Client
 			}
 			
 			//Inputs:
-			ComponentInput[] inputs = new ComponentInput[hasExtraPeg ? PegAmount + 1 : PegAmount];
+			var inputs = new ComponentInput[hasExtraPeg ? PegAmount + 1 : PegAmount];
 			{
-				float startX = -0.5f; //Going in the negative X axis, starting is at 0.5.
-				float startY = +1.0f; //Going into positive Y axis, starting at 0.0.
-				float middleX = +.5f - DisplaySideLength; //The first .5 are to get to the edge of the Display, to then go into the middle.
-				float middleY = DisplaySideLength;
+				var startX = -0.5f; //Going in the negative X axis, starting is at 0.5.
+				var startY = +1.0f; //Going into positive Y axis, starting at 0.0.
+				var middleX = +.5f - DisplaySideLength; //The first .5 are to get to the edge of the Display, to then go into the middle.
+				var middleY = DisplaySideLength;
 				
-				int indexInvertX = DisplaySideLength * 1 - 1;
-				int indexDataX = DisplaySideLength * 2 - 1;
-				int indexInvertY = DisplaySideLength * 2;
-				int indexDataY = DisplaySideLength * 3;
+				var indexInvertX = DisplaySideLength * 1 - 1;
+				var indexDataX = DisplaySideLength * 2 - 1;
+				var indexInvertY = DisplaySideLength * 2;
+				var indexDataY = DisplaySideLength * 3;
 				//TBI: Is it worth it, to also have 4 start positions which include the offset?
 				
-				for(int i = 0; i < DisplaySideLength * 2; i += 2)
+				for(var i = 0; i < DisplaySideLength * 2; i += 2)
 				{
 					//Invert X:
 					inputs[indexInvertX--] = new ComponentInput
@@ -140,7 +140,7 @@ namespace EcconiaCPUServerComponents.Client
 				}
 				
 				//Data:
-				int index = inputs.Length - (hasExtraPeg ? 2 : 1);
+				var index = inputs.Length - (hasExtraPeg ? 2 : 1);
 				inputs[index++] = new ComponentInput
 				{
 					Length = 1.1f, //Default is: 0.8

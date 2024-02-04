@@ -29,7 +29,7 @@ namespace FileDump.Client
 			
 			var baseOffsetX = identifier.InputCount / 2f;
 			var inputs = new ComponentInput[identifier.InputCount];
-			for(int i = 0; i < inputs.Length; i++)
+			for(var i = 0; i < inputs.Length; i++)
 			{
 				inputs[i] = new ComponentInput()
 				{

@@ -28,14 +28,14 @@ namespace EcconiaCPUServerComponents.Client
 		
 		private static void createCorner(Mesh mesh)
 		{
-			List<Vector3> vertexList = new List<Vector3>();
-			List<Vector3> vertexNormalList = new List<Vector3>();
-			List<int> triangleList = new List<int>();
+			var vertexList = new List<Vector3>();
+			var vertexNormalList = new List<Vector3>();
+			var triangleList = new List<int>();
 			{
-				int amountOfCornerPoints = 15;
-				float angle = 90f / (float) amountOfCornerPoints;
-				Quaternion rotation = Quaternion.Euler(0, angle, 0);
-				Vector3 normal = new Vector3(-1, 0, 0);
+				var amountOfCornerPoints = 15;
+				var angle = 90f / (float) amountOfCornerPoints;
+				var rotation = Quaternion.Euler(0, angle, 0);
+				var normal = new Vector3(-1, 0, 0);
 				
 				//Top middle vertices:
 				vertexList.Add(new Vector3(0, 0, 0)); //0 Middle
@@ -71,8 +71,8 @@ namespace EcconiaCPUServerComponents.Client
 				triangleList.Add(6);
 				triangleList.Add(5);
 				
-				int vertexListSize = vertexList.Count;
-				for(int i = 0; i < amountOfCornerPoints - 1; i++)
+				var vertexListSize = vertexList.Count;
+				for(var i = 0; i < amountOfCornerPoints - 1; i++)
 				{
 					vertexList.Add(rotation * vertexList[vertexListSize - 3]); //Top
 					vertexNormalList.Add(Vector3.up);
@@ -105,9 +105,9 @@ namespace EcconiaCPUServerComponents.Client
 		
 		private static void createEdge(Mesh mesh)
 		{
-			List<Vector3> vertexList = new List<Vector3>();
-			List<Vector3> vertexNormalList = new List<Vector3>();
-			List<int> triangleList = new List<int>();
+			var vertexList = new List<Vector3>();
+			var vertexNormalList = new List<Vector3>();
+			var triangleList = new List<int>();
 			{
 				//Top:
 				vertexList.Add(new Vector3(0, 0, 0)); //0
@@ -148,9 +148,9 @@ namespace EcconiaCPUServerComponents.Client
 		
 		private static void createBridge(Mesh mesh)
 		{
-			List<Vector3> vertexList = new List<Vector3>();
-			List<Vector3> vertexNormalList = new List<Vector3>();
-			List<int> triangleList = new List<int>();
+			var vertexList = new List<Vector3>();
+			var vertexNormalList = new List<Vector3>();
+			var triangleList = new List<int>();
 			{
 				//Top:
 				vertexList.Add(new Vector3(0, 0, 0)); //0
@@ -211,7 +211,7 @@ namespace EcconiaCPUServerComponents.Client
 			{
 				throw new Exception("Keycap has illegal size, must be clamped between 0 and 10, got: " + x + ", " + z);
 			}
-			int key = x * 10 + z;
+			var key = x * 10 + z;
 			Mesh mesh;
 			meshCache.TryGetValue(key, out mesh);
 			if(mesh == null)
@@ -225,8 +225,8 @@ namespace EcconiaCPUServerComponents.Client
 		private static Mesh createMeshFor(int sideX, int sideZ)
 		{
 			const float unit = 0.3f; //Constant of one square unit.
-			float x = (sideX - 1) * unit;
-			float z = (sideZ - 1) * unit;
+			var x = (sideX - 1) * unit;
+			var z = (sideZ - 1) * unit;
 			
 			const float inset = unit / 20f;
 			const float radius = unit / 5f;
@@ -236,9 +236,9 @@ namespace EcconiaCPUServerComponents.Client
 			const float sideHalf = side / 2f;
 			const float outset = sideHalf - radius;
 			
-			Vector3 cornerScaler = new Vector3(radius, depth, radius);
+			var cornerScaler = new Vector3(radius, depth, radius);
 			
-			CombineInstance[] combine = new CombineInstance[]
+			var combine = new CombineInstance[]
 			{
 				//Corners:
 				new CombineInstance()
@@ -308,16 +308,16 @@ namespace EcconiaCPUServerComponents.Client
 				},
 			};
 			
-			Mesh mesh = new Mesh();
+			var mesh = new Mesh();
 			mesh.CombineMeshes(combine);
 			return mesh;
 		}
 		
 		private static Matrix4x4 transform(Vector3 scale, Quaternion rotation, Vector3 position)
 		{
-			Matrix4x4 pos = Matrix4x4.Translate(position);
-			Matrix4x4 sca = Matrix4x4.Scale(scale);
-			Matrix4x4 rot = Matrix4x4.Rotate(rotation);
+			var pos = Matrix4x4.Translate(position);
+			var sca = Matrix4x4.Scale(scale);
+			var rot = Matrix4x4.Rotate(rotation);
 			return pos * rot * sca;
 		}
 	}

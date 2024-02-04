@@ -23,11 +23,11 @@ namespace EcconiaCPUServerComponents.Client.commands
 				LConsole.WriteLine("Could not find Display type in component-type map, although mod is installed. Complain to the mods developer!");
 				return;
 			}
-			int displaysThatDoNotNeedUpgrade = 0;
-			List<ComponentAddress> gatheredDisplays = new List<ComponentAddress>();
+			var displaysThatDoNotNeedUpgrade = 0;
+			var gatheredDisplays = new List<ComponentAddress>();
 			foreach(var entry in Instances.MainWorld.Data.AllComponents)
 			{
-				ComponentData data = entry.Value.Data;
+				var data = entry.Value.Data;
 				if(data.Type == typeDisplay)
 				{
 					if(data.InputCount == (32 * 4 + 1)) //32 pixels per length, by XY and Blink, plus data peg.

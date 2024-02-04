@@ -106,7 +106,7 @@ namespace CustomWirePlacer.Client.Windows
 					toggle.SetValueWithoutNotify(settingAdapter.GetValue()); //Initial state.
 					
 					settings.OnSettingsReloaded += () => {
-						bool newValue = settingAdapter.GetValue();
+						var newValue = settingAdapter.GetValue();
 						if(toggle.Value != newValue) //Only update the values when they changed.
 						{
 							toggle.SetValueWithoutNotify(newValue); //Update toggle.

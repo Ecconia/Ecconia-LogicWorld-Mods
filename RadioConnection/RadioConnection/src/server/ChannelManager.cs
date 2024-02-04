@@ -11,7 +11,7 @@ namespace RadioConnection.Server
 		
 		public static void linkChannel(RadioCapable component, uint channelIndex)
 		{
-			if(!channels.TryGetValue(channelIndex, out Channel channel))
+			if(!channels.TryGetValue(channelIndex, out var channel))
 			{
 				channel = new Channel(channelIndex);
 				channels.Add(channelIndex, channel);

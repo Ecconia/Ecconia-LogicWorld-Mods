@@ -39,7 +39,7 @@ namespace CustomChatManager.Server.ChatServices
 		public static CommandManager instance; //Usable for other mods.
 		private static NetworkServer server;
 		
-		private Dictionary<String, ICommand> commands = new Dictionary<string, ICommand>();
+		private Dictionary<string, ICommand> commands = new Dictionary<string, ICommand>();
 		
 		public void register(ICommand command)
 		{
@@ -80,7 +80,7 @@ namespace CustomChatManager.Server.ChatServices
 			public void execute(CommandSender sender, string arguments)
 			{
 				//Print help message:
-				StringBuilder builder = new StringBuilder();
+				var builder = new StringBuilder();
 				builder.Append("Available commands:");
 				foreach(var command in instance.commands.Values)
 				{
@@ -106,7 +106,7 @@ namespace CustomChatManager.Server.ChatServices
 				return;
 			}
 			
-			String content = e.originalMessage.MessageContent;
+			var content = e.originalMessage.MessageContent;
 			if(content.Length <= 1)
 			{
 				return;
@@ -117,11 +117,11 @@ namespace CustomChatManager.Server.ChatServices
 			}
 			content = content.Substring(1); //Dispose '/'
 			e.result = MessageEventResult.Drop; //Yep, this is a command, no forwarding!
-			CommandSender sender = new CommandSender(server, e.sender);
+			var sender = new CommandSender(server, e.sender);
 			
 			(string command, string argument) split = splitArguments(content);
 			
-			commands.TryGetValue(split.command.ToLower(), out ICommand suitableCommand);
+			commands.TryGetValue(split.command.ToLower(), out var suitableCommand);
 			if(suitableCommand == null)
 			{
 				sender.sendMessage(ChatColors.failure + "Unknown command '" + ChatColors.highlight + "/" + split.command + ChatColors.close + "'!" + ChatColors.close);
@@ -132,8 +132,8 @@ namespace CustomChatManager.Server.ChatServices
 		
 		public static (string, string) splitArguments(string input)
 		{
-			String command;
-			String arguments;
+			string command;
+			string arguments;
 			int firstSpace = input.IndexOf(' ');
 			if(firstSpace < 0)
 			{

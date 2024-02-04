@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using EccsLogicWorldAPI.Client.AccessHelpers;
 using JimmysUnityUtilities;
 using LICC;
-using LogicAPI.Data;
 using LogicAPI.Data.BuildingRequests;
 using LogicWorld.ClientCode;
 using LogicWorld.Interfaces;
@@ -30,16 +29,16 @@ namespace EcconiasChaosClientMod.Client
 				{
 					return; //Whoops, nothing selected yet (probably impossible).
 				}
-				List<BuildRequest> undoList = new List<BuildRequest>();
+				var undoList = new List<BuildRequest>();
 				var colorables = new List<IColorableClientCode>();
 				foreach(var address in selection)
 				{
-					IComponentClientCode code = world.Renderer.Entities.GetClientCode(address);
+					var code = world.Renderer.Entities.GetClientCode(address);
 					if(code == null || !(code is IColorableClientCode colorable))
 					{
 						continue;
 					}
-					IComponentInWorld component = world.Data.Lookup(address);
+					var component = world.Data.Lookup(address);
 					if(component == null)
 					{
 						continue;
@@ -71,17 +70,17 @@ namespace EcconiasChaosClientMod.Client
 				return;
 			}
 			//Try casting:
-			HitInfo info = PlayerCaster.CameraCast(Masks.Environment | Masks.Structure | Masks.Peg | Masks.PlayerModel);
+			var info = PlayerCaster.CameraCast(Masks.Environment | Masks.Structure | Masks.Peg | Masks.PlayerModel);
 			if(info.HitComponent)
 			{
 				var address = info.cAddress;
-				IComponentInWorld component = world.Data.Lookup(address);
+				var component = world.Data.Lookup(address);
 				if(component == null)
 				{
 					LConsole.WriteLine("Look at a component to paint it.");
 					return;
 				}
-				IComponentClientCode code = world.Renderer.Entities.GetClientCode(address);
+				var code = world.Renderer.Entities.GetClientCode(address);
 				if(code == null || !(code is IColorableClientCode colorable))
 				{
 					LConsole.WriteLine("Cannot color that component, look at something else.");

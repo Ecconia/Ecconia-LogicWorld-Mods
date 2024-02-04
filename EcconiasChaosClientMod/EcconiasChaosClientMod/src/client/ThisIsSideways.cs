@@ -4,7 +4,6 @@ using LICC;
 using LogicAPI.Data;
 using LogicAPI.Data.BuildingRequests;
 using LogicWorld.BuildingManagement;
-using LogicWorld.ClientCode;
 using LogicWorld.Interfaces;
 using LogicWorld.Physics;
 using LogicWorld.Players;
@@ -37,7 +36,7 @@ namespace EcconiasChaosClientMod.Client
 				var requests = new List<(ComponentAddress, IComponentInWorld)>();
 				foreach(var address in selection)
 				{
-					IComponentInWorld component = world.Data.Lookup(address);
+					var component = world.Data.Lookup(address);
 					if(component == null || component.Data.Type != andID)
 					{
 						continue; //No such component??
@@ -73,11 +72,11 @@ namespace EcconiasChaosClientMod.Client
 				return;
 			}
 			//Try casting:
-			HitInfo info = PlayerCaster.CameraCast(Masks.Environment | Masks.Structure | Masks.Peg | Masks.PlayerModel);
+			var info = PlayerCaster.CameraCast(Masks.Environment | Masks.Structure | Masks.Peg | Masks.PlayerModel);
 			if(info.HitComponent)
 			{
 				var address = info.cAddress;
-				IComponentInWorld component = world.Data.Lookup(address);
+				var component = world.Data.Lookup(address);
 				if(component == null)
 				{
 					LConsole.WriteLine("Look at an AND gate to flip it sideways.");

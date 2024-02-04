@@ -77,7 +77,7 @@ namespace AssemblyLoader.Shared
 		
 		private static string bytesToString(byte[] bytes)
 		{
-			StringBuilder builder = new StringBuilder(bytes.Length * 2);
+			var builder = new StringBuilder(bytes.Length * 2);
 			foreach(byte b in bytes)
 			{
 				builder.Append(b.ToString("x2"));

@@ -14,7 +14,7 @@ namespace CustomChatManager.Server.ChatServices
 		
 		public void processChatEvent(ChatMessageEvent e)
 		{
-			int messageLengthLimit = config.Values.ChatMessageLengthLimit;
+			var messageLengthLimit = config.Values.ChatMessageLengthLimit;
 			if(
 				messageLengthLimit < 0 ||
 				messageLengthLimit > 0 &&

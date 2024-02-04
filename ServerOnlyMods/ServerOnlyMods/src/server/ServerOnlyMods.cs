@@ -22,7 +22,7 @@ namespace ServerOnlyMods.Server
 		{
 			if(clientRequiredMods == null)
 			{
-				List<MetaMod> collectedMods = new List<MetaMod>();
+				var collectedMods = new List<MetaMod>();
 				foreach(var modMeta in ModLoader.LoadedMods.Values)
 				{
 					if(modMeta.Files.Exists("OnlyServerMod"))

@@ -20,7 +20,7 @@ namespace CustomChatManager.Server.Commands
 		
 		public void execute(CommandSender sender, string arguments)
 		{
-			List<string> names = new List<string>();
+			var names = new List<string>();
 			foreach(Connection connection in playerManager.AllConnections)
 			{
 				names.Add(playerManager.GetPlayerIDFromConnection(connection).Name);

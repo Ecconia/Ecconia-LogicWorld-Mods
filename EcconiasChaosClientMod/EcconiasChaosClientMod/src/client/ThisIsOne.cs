@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using EccsLogicWorldAPI.Client.AccessHelpers;
 using LICC;
-using LogicAPI.Data;
 using LogicAPI.Data.BuildingRequests;
 using LogicWorld.ClientCode;
 using LogicWorld.Interfaces;
@@ -38,7 +37,7 @@ namespace EcconiasChaosClientMod.Client
 					{
 						continue; //Not a delayer
 					}
-					IComponentInWorld component = world.Data.Lookup(address);
+					var component = world.Data.Lookup(address);
 					if(component == null)
 					{
 						continue; //No such component??
@@ -70,11 +69,11 @@ namespace EcconiasChaosClientMod.Client
 				return;
 			}
 			//Try casting:
-			HitInfo info = PlayerCaster.CameraCast(Masks.Environment | Masks.Structure | Masks.Peg | Masks.PlayerModel);
+			var info = PlayerCaster.CameraCast(Masks.Environment | Masks.Structure | Masks.Peg | Masks.PlayerModel);
 			if(info.HitComponent)
 			{
 				var address = info.cAddress;
-				IComponentInWorld component = world.Data.Lookup(address);
+				var component = world.Data.Lookup(address);
 				if(component == null)
 				{
 					LConsole.WriteLine("Look at a delayer to change it.");

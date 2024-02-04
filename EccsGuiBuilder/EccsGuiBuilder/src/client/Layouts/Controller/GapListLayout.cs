@@ -69,12 +69,12 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 		
 		private void setupChildren(RectTransform.Axis axis)
 		{
-			int axisIndex = (int) axis;
-			for(int i = 0; i < rectChildren.Count; i++)
+			var axisIndex = (int) axis;
+			for(var i = 0; i < rectChildren.Count; i++)
 			{
 				var childRect = rectChildren[i];
 				var childLayout = childRect.GetComponent<ILayoutElement>(); //Assume there is only one - can be updated later.
-				float value = -1;
+				var value = -1f;
 				if(childLayout != null)
 				{
 					//Use the utility class for this, to handle the priorities. It is not the most efficient but gets the job done.
@@ -113,7 +113,7 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 			{
 				var a = LConsole.BeginLine();
 				a.WriteLine("ChildSize for " + axis);
-				for(int i = 0; i < sizeChildren.Length; i++)
+				for(var i = 0; i < sizeChildren.Length; i++)
 				{
 					a.WriteLine($"- {sizeChildren[i][axisIndex]}");
 				}
@@ -123,7 +123,7 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 		
 		private float findMax(RectTransform.Axis axis)
 		{
-			float max = -1;
+			var max = -1f;
 			foreach(var childSize in sizeChildren)
 			{
 				var value = childSize[(int) axis];
@@ -138,8 +138,8 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 		private float findTotal(RectTransform.Axis axis)
 		{
 			//Spacing:
-			int gapEdges = elementsUntilGap > 0 && elementsUntilGap < sizeChildren.Length ? 1 : 0;
-			float total = gapSpace; //Assume there always to be the gap to be filled of minimal size
+			var gapEdges = elementsUntilGap > 0 && elementsUntilGap < sizeChildren.Length ? 1 : 0;
+			var total = gapSpace; //Assume there always to be the gap to be filled of minimal size
 			total += (sizeChildren.Length - 1 - gapEdges) * spacing;
 			//Elements:
 			foreach(var childSize in sizeChildren)
@@ -179,7 +179,7 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 		
 		private void adjustThickness(RectTransform.Axis axis)
 		{
-			float availableSize = layoutAlignment == RectTransform.Axis.Vertical ? rectTransform.rect.width : rectTransform.rect.height;
+			var availableSize = layoutAlignment == RectTransform.Axis.Vertical ? rectTransform.rect.width : rectTransform.rect.height;
 			//Start = V: Left | H: Top
 			//End = V: Right | H: Bottom
 			float paddingStart = layoutAlignment == RectTransform.Axis.Vertical ? padding.left : padding.top;
@@ -187,15 +187,15 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 			//0 = Start
 			//1 = Center
 			//2 = End
-			int alignment = layoutAlignment == RectTransform.Axis.Vertical
+			var alignment = layoutAlignment == RectTransform.Axis.Vertical
 				? (childAlignment == TextAnchor.LowerLeft || childAlignment == TextAnchor.MiddleLeft ||childAlignment == TextAnchor.UpperLeft) ? 0
 					: (childAlignment == TextAnchor.LowerCenter || childAlignment == TextAnchor.MiddleCenter ||childAlignment == TextAnchor.UpperCenter) ? 1 : 2
 				: (childAlignment == TextAnchor.UpperLeft || childAlignment == TextAnchor.UpperCenter ||childAlignment == TextAnchor.UpperRight) ? 0
 					: (childAlignment == TextAnchor.MiddleLeft || childAlignment == TextAnchor.MiddleCenter ||childAlignment == TextAnchor.MiddleRight) ? 1 : 2;
-			float maxChildWidth = availableSize - paddingStart - paddingEnd;
+			var maxChildWidth = availableSize - paddingStart - paddingEnd;
 			
-			int iAxis = (int) axis;
-			for(int i = 0; i < sizeChildren.Length; i++)
+			var iAxis = (int) axis;
+			for(var i = 0; i < sizeChildren.Length; i++)
 			{
 				var childSize = sizeChildren[i][iAxis];
 				if(childSize < 0)
@@ -223,7 +223,7 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 		private void align(RectTransform.Axis axis)
 		{
 			float paddingOffset = layoutAlignment == RectTransform.Axis.Horizontal ? padding.left : padding.top;
-			float availableSize = layoutAlignment == RectTransform.Axis.Vertical ? rectTransform.rect.height : rectTransform.rect.width;
+			var availableSize = layoutAlignment == RectTransform.Axis.Vertical ? rectTransform.rect.height : rectTransform.rect.width;
 			
 			var childRects = rectChildren.ToArray(); //Copy
 			var childSizes = sizeChildren;
@@ -244,7 +244,7 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 			{
 				gapIndex = childSizes.Length - gapIndex;
 			}
-			float overflow = availableSize - GetTotalPreferredSize((int) axis);
+			var overflow = availableSize - GetTotalPreferredSize((int) axis);
 			if(overflow < 0)
 			{
 				//Whoops, something went horribly wrong... Probably misuse or failed configuration of layout.
@@ -252,8 +252,8 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 			}
 			var gapSize = overflow + gapSpace;
 			
-			float totalOffset = paddingOffset;
-			for(int i = 0; i < childSizes.Length; i++)
+			var totalOffset = paddingOffset;
+			for(var i = 0; i < childSizes.Length; i++)
 			{
 				if(i == gapIndex)
 				{

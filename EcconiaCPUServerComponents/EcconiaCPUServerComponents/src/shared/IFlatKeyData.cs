@@ -2,7 +2,6 @@ using JimmysUnityUtilities;
 
 namespace EcconiaCPUServerComponents.Shared
 {
-	//TODO: Find another way, to make LogicWorld aware of that this key is "just like a normal key" (or copy its UI completely).
 	public interface IFlatKeyData
 	{
 		bool KeyDown { get; set; }
@@ -15,5 +14,19 @@ namespace EcconiaCPUServerComponents.Shared
 		int sizeZ { get; set; }
 		
 		string label { get; set; }
+	}
+	
+	public static class FlatKeyDataExtension
+	{
+		public static void initialize(this IFlatKeyData data)
+		{
+			data.KeyDown = false;
+			data.BoundInput = 2;
+			data.KeyColor = new Color24(85, 85, 85);
+			data.KeyLabelColor = new Color24(229, 229, 229);
+			data.sizeX = 1;
+			data.sizeZ = 1;
+			data.label = null; //Yes 'null' is the default - means no overwrite.
+		}
 	}
 }

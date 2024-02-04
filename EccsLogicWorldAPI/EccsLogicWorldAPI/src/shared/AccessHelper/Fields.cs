@@ -85,7 +85,7 @@ namespace EccsLogicWorldAPI.Shared.AccessHelper
 		
 		private static FieldInfo get(Type type, string name, BindingFlags flags, string accessors)
 		{
-			FieldInfo field = type.GetField(name, flags);
+			var field = type.GetField(name, flags);
 			if(field == null)
 			{
 				if(accessors.Length != 0)

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using JimmysUnityUtilities;
 using LogicAPI.Data;
@@ -39,16 +38,16 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 		
 		private static bool isPegFull(PegAddress pegAddress)
 		{
-			HashSet<WireAddress> wireAddressSet = Instances.MainWorld.Data.LookupPegWires(pegAddress);
-			int amountOfWires = wireAddressSet == null ? 0 : wireAddressSet.Count;
-			int maxAmountOfWires = WireUtility.GetMaxWiresFor(pegAddress);
+			var wireAddressSet = Instances.MainWorld.Data.LookupPegWires(pegAddress);
+			var amountOfWires = wireAddressSet == null ? 0 : wireAddressSet.Count;
+			var maxAmountOfWires = WireUtility.GetMaxWiresFor(pegAddress);
 			return amountOfWires >= maxAmountOfWires;
 		}
 		
 		public static void onActivate()
 		{
 			//Peg initialization:
-			PlacingGhost ghost = PlacingGhost.CreateForHotbarItem(pegData);
+			var ghost = PlacingGhost.CreateForHotbarItem(pegData);
 			placer = new StuffPlacer(ghost, ghost.GhostWorld.Dynamics.GetPlacingRulesAt(ghost.RootComponent))
 			{
 				AllowOffsetHold = true,
@@ -88,9 +87,9 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 			placer.RunStuffPlacing();
 			
 			//Ghost wire:
-			PlacingGhost ghost = placer.Ghost;
+			var ghost = placer.Ghost;
 			wire.GameObject.SetActive(!ghost.IsHidden); //Will 
-			Vector3 up = ghost.Transform.up;
+			var up = ghost.Transform.up;
 			wire.Peg1 = new PegRenderData()
 			{
 				WorldspaceComponentUp = up,
@@ -142,7 +141,7 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 		
 		private static bool attemptWirePlacement(Vector3 fromPosition, PegAddress toPeg)
 		{
-			PegAddress newlyPlacedPeg = CWPHelper.getPegAt(fromPosition);
+			var newlyPlacedPeg = CWPHelper.getPegAt(fromPosition);
 			if(newlyPlacedPeg.IsNotEmpty() && WireUtility.WireWouldBeValid(toPeg, newlyPlacedPeg))
 			{
 				BuildRequestManager.SendBuildRequest(new BuildRequest_CreateWire(new WireData(toPeg, newlyPlacedPeg, 0f)));

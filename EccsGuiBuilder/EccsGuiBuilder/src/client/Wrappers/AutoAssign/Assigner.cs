@@ -44,7 +44,7 @@ namespace EccsGuiBuilder.Client.Wrappers.AutoAssign
 						{
 							key = field.Name;
 						}
-						resolvedKeys.TryGetValue(key, out GameObject gameObject);
+						resolvedKeys.TryGetValue(key, out var gameObject);
 						NullChecker.check(gameObject, $"Could not find key '{attribute[0].key}' defined in field: {obj.GetType().Name}");
 						var targetType = field.FieldType;
 						if(targetType == typeof(GameObject))

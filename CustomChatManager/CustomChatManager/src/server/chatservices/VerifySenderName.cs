@@ -1,5 +1,4 @@
 using EccsLogicWorldAPI.Server;
-using LogicAPI.Data;
 using LogicWorld.Server;
 
 namespace CustomChatManager.Server.ChatServices
@@ -19,11 +18,11 @@ namespace CustomChatManager.Server.ChatServices
 			{
 				return;
 			}
-			PlayerID playerID = playerManager.GetPlayerIDFromConnection(e.sender);
+			var playerID = playerManager.GetPlayerIDFromConnection(e.sender);
 			var claimedSenderName = e.originalMessage.Sender;
 			if(!playerID.Name.Equals(claimedSenderName))
 			{
-				PlayerAppearanceData appearanceData = playerManager.GetPlayerDataFromConnection(e.sender).AppearanceData;
+				var appearanceData = playerManager.GetPlayerDataFromConnection(e.sender).AppearanceData;
 				e.responseMessage.Color = appearanceData.BackgroundColor;
 				e.responseMessage.Sender = playerID.Name;
 				e.responseMessage.MessageContent = "<" + claimedSenderName + "> " + e.originalMessage.MessageContent;

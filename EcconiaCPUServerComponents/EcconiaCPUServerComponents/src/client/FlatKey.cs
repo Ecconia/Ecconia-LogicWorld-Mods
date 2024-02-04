@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using EcconiaCPUServerComponents.Shared;
 using FancyInput;
+using FancyPantsConsole;
 using JimmysUnityUtilities;
 using LogicUI.MenuTypes;
 using LogicWorld.Audio;
@@ -65,10 +66,10 @@ namespace EcconiaCPUServerComponents.Client
 		
 		protected override void DataUpdate()
 		{
-			GameObject keycapGameObject = Decorations[0].DecorationObject;
-			GameObject labelGameObject = Decorations[1].DecorationObject;
+			var keycapGameObject = Decorations[0].DecorationObject;
+			var labelGameObject = Decorations[1].DecorationObject;
 			
-			TextMeshPro text = labelGameObject.GetComponent<TextMeshPro>();
+			var text = labelGameObject.GetComponent<TextMeshPro>();
 			if(SizeX != previousSizeX || SizeZ != previousSizeZ)
 			{
 				//Update solid:
@@ -80,13 +81,13 @@ namespace EcconiaCPUServerComponents.Client
 				SetOutputPosition(0, new Vector3((SizeX - 1) * 0.5f, -5f / 6f, (SizeZ - 1) * 0.5f));
 				//Update keycap:
 				keycapGameObject.GetComponent<MeshFilter>().mesh = KeycapLab.getKeycapMeshFor(SizeX, SizeZ);
-				BoxCollider collider = keycapGameObject.GetComponent<BoxCollider>();
+				var collider = keycapGameObject.GetComponent<BoxCollider>();
 				collider.center = new Vector3((SizeX - 1) * 0.15f, -0.3f * 0.1f, (SizeZ - 1) * 0.15f);
 				collider.size = new Vector3(SizeX * 0.3f - 0.015f, 0.3f * 0.2f, SizeZ * 0.3f - 0.015f); //Shrink a bit (same amount as the visuals in the KeyCapLab). To not let the bounding boxes collide - breaks stuff.
 				//Update text bounds:
 				text.rectTransform.sizeDelta = new Vector2(Data.sizeX * 0.3f - 0.02f, Data.sizeZ * 0.3f - 0.02f);
-				Vector3 worldPos = Component.WorldPosition
-					+ this.Component.WorldRotation * new Vector3(
+				var worldPos = Component.WorldPosition
+					+ Component.WorldRotation * new Vector3(
 						(SizeX - 1) * 0.15f,
 						0.1f + 0.3f * 0.2f + 0.001f,
 						(SizeZ - 1) * 0.15f
@@ -102,14 +103,14 @@ namespace EcconiaCPUServerComponents.Client
 				keyStateUpdate();
 				//Data update:
 				text.color = Data.KeyLabelColor.WithOpacity();
-				text.text = Data.label.IsNullOrEmpty() ? ((RawInput) this.Data.BoundInput).DisplayName() : Data.label.Replace(" ", "<color=#0000>.</color>");
+				text.text = Data.label.IsNullOrEmpty() ? ((RawInput) Data.BoundInput).DisplayName() : Data.label.Replace(" ", "<color=#0000>.</color>");
 			}
 		}
 		
 		protected override void InitializeInWorld()
 		{
 			//Became visible to the camera, start looping functionality.
-			visibilityDetector.OnBecomeVisible += this.QueueFrameUpdate;
+			visibilityDetector.OnBecomeVisible += QueueFrameUpdate;
 		}
 		
 		protected override void FrameUpdate()
@@ -121,7 +122,7 @@ namespace EcconiaCPUServerComponents.Client
 			}
 			
 			//Is this client currently pressing this key?
-			bool clientIsPressingKey = isButtonCurrentlyPressable() && (manuallyPressed || isPressingWithKeyboard());
+			var clientIsPressingKey = isButtonCurrentlyPressable() && (manuallyPressed || isPressingWithKeyboard());
 			if(clientIsPressingKey != clientWasPressingKey)
 			{
 				//TODO: Only unpress, when no other is pressing this.
@@ -152,16 +153,16 @@ namespace EcconiaCPUServerComponents.Client
 				
 			bool rangeCheck()
 			{
-				return Vector3.Distance(this.Component.WorldPosition, PlayerControllerManager.PlayerCamera.CameraWorldspacePosition) < PlayerControllerManager.ReachDistance;
+				return Vector3.Distance(Component.WorldPosition, PlayerControllerManager.PlayerCamera.CameraWorldspacePosition) < PlayerControllerManager.ReachDistance;
 			}
 			
 			bool isRoughlySeeingEachOther()
 			{
-				Vector3 keyPosition = Component.WorldPosition;
-				Quaternion keyAlignment = Component.WorldRotation;
-				Ray ray = PlayerControllerManager.PlayerCamera.GetCameraRay();
-				Vector3 cameraSpacePos = Quaternion.FromToRotation(ray.direction, Vector3.forward) * (keyPosition - ray.origin);
-				Vector3 keySpacePos = keyAlignment.Inverse() * (ray.origin - keyPosition);
+				var keyPosition = Component.WorldPosition;
+				var keyAlignment = Component.WorldRotation;
+				var ray = PlayerControllerManager.PlayerCamera.GetCameraRay();
+				var cameraSpacePos = Quaternion.FromToRotation(ray.direction, Vector3.forward) * (keyPosition - ray.origin);
+				var keySpacePos = keyAlignment.Inverse() * (ray.origin - keyPosition);
 				
 				return cameraSpacePos.z > 0 && keySpacePos.y > 0;
 			}
@@ -196,14 +197,14 @@ namespace EcconiaCPUServerComponents.Client
 				visibilityDetector.IsVisible //The KeyCap needs to be roughly visible.
 				//Questionable solution: Should instead ask the current state for properties, cause this is not extendable.
 				&& (GameStateManager.CurrentStateID == "MHG.Building" || GameStateManager.CurrentStateID == "MHG.InChair") //Only let the keys be pressable, when building (free-cam) or in chair.
-				&& !ToggleableSingletonMenu<FancyPantsConsole.Console>.MenuIsVisible; //This window shadows over each game state, so manual query is required.
+				&& !ToggleableSingletonMenu<Console>.MenuIsVisible; //This window shadows over each game state, so manual query is required.
 		}
 		
 		protected override IDecoration[] GenerateDecorations(Transform parentToCreateDecorationsUnder)
 		{
 			//Keycap:
-			GameObject keycapGameObject = new GameObject();
-			MeshFilter meshFilter = keycapGameObject.AddComponent<MeshFilter>();
+			var keycapGameObject = new GameObject();
+			var meshFilter = keycapGameObject.AddComponent<MeshFilter>();
 			keycapGameObject.AddComponent<MeshRenderer>();
 			keycapGameObject.AddComponent<BoxCollider>();
 			keycapGameObject.AddComponent<ButtonInteractable>().Button = this;
@@ -214,7 +215,7 @@ namespace EcconiaCPUServerComponents.Client
 			};
 			
 			//Text:
-			(GameObject labelGameObject, TextMeshPro textRenderer) = Helper.textObjectMono("FlatKey: TextDecoration");
+			var (labelGameObject, textRenderer) = Helper.textObjectMono("FlatKey: TextDecoration");
 			textRenderer.fontSizeMin = 0.01f;
 			textRenderer.enableAutoSizing = true;
 			textRenderer.horizontalAlignment = HorizontalAlignmentOptions.Center;
@@ -227,7 +228,7 @@ namespace EcconiaCPUServerComponents.Client
 			return new IDecoration[]
 			{
 				//The primary decoration, which is the key-cap:
-				new Decoration()
+				new Decoration
 				{
 					LocalPosition = new Vector3(0, 0.1f + 0.3f * 0.2f, 0),
 					LocalRotation = Quaternion.identity,
@@ -236,7 +237,7 @@ namespace EcconiaCPUServerComponents.Client
 					IncludeInModels = true,
 				},
 				//The label decoration, which is the text/description:
-				new Decoration()
+				new Decoration
 				{
 					LocalPosition = new Vector3(
 						(Data.sizeX - 1) * 0.15f,
@@ -277,13 +278,7 @@ namespace EcconiaCPUServerComponents.Client
 		
 		protected override void SetDataDefaultValues()
 		{
-			Data.KeyDown = false;
-			Data.BoundInput = 2;
-			Data.KeyColor = new Color24(85, 85, 85);
-			Data.KeyLabelColor = new Color24(229, 229, 229);
-			Data.sizeX = 1;
-			Data.sizeZ = 1;
-			Data.label = null; //Yes 'null' is the default - means no overwrite.
+			Data.initialize();
 		}
 		
 		//Pressable button interface:
@@ -306,8 +301,8 @@ namespace EcconiaCPUServerComponents.Client
 		
 		public Color24 Color
 		{
-			get => this.Data.KeyColor;
-			set => this.Data.KeyColor = value;
+			get => Data.KeyColor;
+			set => Data.KeyColor = value;
 		}
 		
 		public string ColorsFileKey => "Interactables";

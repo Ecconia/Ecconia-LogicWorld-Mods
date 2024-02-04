@@ -1,11 +1,11 @@
 using System;
 using EccsLogicWorldAPI.Client.Hooks;
-using SimulationStopwatchGui.Client.EditGUI;
 using LogicAPI.Client;
 using LogicLog;
 using LogicWorld;
+using SimulationStopwatchGui.Client.EditGUI;
 
-namespace FileDumpGui.Client
+namespace SimulationStopwatchGui.Client
 {
 	public class ModClass : ClientMod
 	{

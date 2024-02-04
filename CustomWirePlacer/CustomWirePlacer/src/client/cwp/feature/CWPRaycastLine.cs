@@ -1,4 +1,3 @@
-using LogicAPI.Data;
 using LogicWorld.References;
 using UnityEngine;
 
@@ -51,21 +50,21 @@ namespace CustomWirePlacer.Client.CWP.feature
 				gameObject.SetActive(false);
 				return;
 			}
-			PegAddress second = axis.secondPeg;
+			var second = axis.secondPeg;
 			if(second.IsEmpty())
 			{
 				gameObject.SetActive(false); //Then we do only have one peg - no ray.
 				return;
 			}
 			
-			Vector3 pFirst = CWPHelper.getRaycastPoint(axis.firstPeg);
-			Vector3 pSecond = CWPHelper.getRaycastPoint(second);
-			Vector3 ray = (pSecond - pFirst).normalized;
+			var pFirst = CWPHelper.getRaycastPoint(axis.firstPeg);
+			var pSecond = CWPHelper.getRaycastPoint(second);
+			var ray = (pSecond - pFirst).normalized;
 			
-			Vector3 pStart = axis.backwards != null
+			var pStart = axis.backwards != null
 				? CWPHelper.getPegRayCenter(axis.backwards[axis.backwards.Count - 1], pFirst, ray * -1)
 				: pFirst;
-			Vector3 pEnd = axis.forwards != null
+			var pEnd = axis.forwards != null
 				? CWPHelper.getPegRayCenter(axis.forwards[axis.forwards.Count - 1], pFirst, ray)
 				: pSecond;
 			

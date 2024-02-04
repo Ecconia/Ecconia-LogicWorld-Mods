@@ -1,13 +1,6 @@
-//Framework imports:
-//Needed for 'ClientMod':
-using LogicAPI.Client;
-//Needed for 'LConsole' (command feedback) and 'Command':
-using LICC;
-//Needed for 'Exception':
 using System;
-
-//Custom imports:
-//Needed for 'SceneAndNetworkManager':
+using LICC;
+using LogicAPI.Client;
 using LogicWorld;
 
 namespace SimulationControl.Client

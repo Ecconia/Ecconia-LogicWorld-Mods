@@ -1,10 +1,7 @@
-//Framework imports:
-using LogicAPI.Client; //Needed for 'ClientMod'
-using HarmonyLib; //Needed for 'Harmony'
-using LICC; //Needed for 'LConsole' and 'Command'
-
-//Custom imports:
-using LogicWorld.Building; //Needed for 'Intersections' and 'WireUtility'
+using HarmonyLib;
+using LICC;
+using LogicAPI.Client;
+using LogicWorld.Building;
 
 namespace DisableCollision.Client
 {

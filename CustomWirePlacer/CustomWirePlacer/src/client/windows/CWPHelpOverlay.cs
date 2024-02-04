@@ -58,10 +58,10 @@ namespace CustomWirePlacer.Client.Windows
 		
 		private static void onHelpUpdated(GameState gameState)
 		{
-			State newState = State.Disabled;
+			var newState = State.Disabled;
 			if(gameState != null)
 			{
-				string id = gameState.TextID;
+				var id = gameState.TextID;
 				if("MHG.Building".Equals(id))
 				{
 					newState = State.Building;
@@ -206,7 +206,7 @@ namespace CustomWirePlacer.Client.Windows
 		{
 			//TODO: It is majorly inefficient to lookup and format the keys every refresh. Improve! (Eventually).
 			
-			StringBuilder sb = new StringBuilder();
+			var sb = new StringBuilder();
 			append(sb, "CWP.HelpOverlay.CWP.Abort", "LogicUI.Back", "MHG.CancelPlacing");
 			append(sb, "CWP.HelpOverlay.CWP.Settings", "CustomWirePlacer.OpenSettings");
 			append(sb, "CWP.HelpOverlay.CWP.Flip", "CustomWirePlacer.Flip");
@@ -280,7 +280,7 @@ namespace CustomWirePlacer.Client.Windows
 				append(sb, "CWP.HelpOverlay.CWP.ExToggleList", "MHG.DrawWire", "CustomWirePlacer.ModificatorAlternative");
 				append(sb, "CWP.HelpOverlay.CWP.FinishCWPWithKey", "CustomWirePlacer.ApplyNormalAction");
 			}
-			bool allowSkipping = true;
+			var allowSkipping = true;
 			if(CWP.CustomWirePlacer.getCurrentGroup().getCurrentAxis().secondPeg.IsNotEmpty())
 			{
 				if(CWPTrigger.ExpandFurther.Held())
@@ -322,7 +322,7 @@ namespace CustomWirePlacer.Client.Windows
 		
 		private static string constructKeybinding(string key)
 		{
-			string keyName = TextLocalizer.LocalizeByKey("FancyInput.Trigger." + key);
+			var keyName = TextLocalizer.LocalizeByKey("FancyInput.Trigger." + key);
 			return "<mark=#ffffff44 padding=\"20, 20, 0, 0\"><b>[" + keyName + "]</b></mark>";
 		}
 	}

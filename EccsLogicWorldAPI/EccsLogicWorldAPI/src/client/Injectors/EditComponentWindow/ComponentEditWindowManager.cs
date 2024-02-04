@@ -5,7 +5,6 @@ using System.Runtime.Remoting.Messaging;
 using System.Runtime.Remoting.Proxies;
 using EccsLogicWorldAPI.Shared.AccessHelper;
 using LogicAPI.Data;
-using LogicAPI.Data.BuildingRequests;
 using LogicWorld.Building.Overhaul;
 using LogicWorld.UI;
 
@@ -99,7 +98,7 @@ namespace EccsLogicWorldAPI.Client.Injectors.EditComponentWindow
 				}
 				if("DoCloseActions".Equals(call.MethodName))
 				{
-					implementation.DoCloseActions(out BuildRequest[] undoRequests);
+					implementation.DoCloseActions(out var undoRequests);
 					return new ReturnMessage(null, new object[] {undoRequests}, 1, call.LogicalCallContext, call);
 				}
 				

@@ -1,6 +1,5 @@
-using EccsLogicWorldAPI.Client.AccessHelpers;
-using SimulationStopwatch.Shared;
 using LogicWorld.Rendering.Components;
+using SimulationStopwatch.Shared;
 
 namespace SimulationStopwatch.Client
 {

@@ -12,4 +12,12 @@ namespace EcconiaCPUServerComponents.Shared
 		//LSB is higher pixel index
 		byte[] pixelData { get; set; }
 	}
+	
+	public static class WeirdCustomDisplayDataExtension
+	{
+		public static void initialize(this IWeirdCustomDisplayData data)
+		{
+			data.pixelData = new byte[128];
+		}
+	}
 }

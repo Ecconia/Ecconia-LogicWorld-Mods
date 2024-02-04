@@ -34,7 +34,7 @@ namespace CustomChatManager.Server.Commands
 			// Point is, any point after the save has been initialized would do.
 			var initializeMethod = Methods.getPublic(simulationScheduler.GetType(), "Initialize");
 			var hookMethod = Methods.getPrivateStatic(GetType(), nameof(afterInitialization));
-			Harmony harmony = new Harmony("Commands: SlashTPS");
+			var harmony = new Harmony("Commands: SlashTPS");
 			harmony.Patch(initializeMethod, postfix: new HarmonyMethod(hookMethod));
 		}
 		
@@ -155,7 +155,7 @@ namespace CustomChatManager.Server.Commands
 		
 		private void setSpeed(CommandSender sender, double tps)
 		{
-			bool paused = isPaused();
+			var paused = isPaused();
 			if(!paused && Math.Abs(accessor_tps_speed.Data - tps) < 0.0000001)
 			{
 				sender.sendMessage("This is already the current tick speed.");

@@ -89,7 +89,7 @@ namespace EccsLogicWorldAPI.Shared
 		
 		public static void unpatchAll(object harmonyInstance)
 		{
-			object id = harmonyPropertyId.GetValue(harmonyInstance);
+			var id = harmonyPropertyId.GetValue(harmonyInstance);
 			harmonyMethodUnpatchAll.Invoke(harmonyInstance, new object[]{id});
 		}
 	}

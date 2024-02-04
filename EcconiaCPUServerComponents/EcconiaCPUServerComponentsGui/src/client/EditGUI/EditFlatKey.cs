@@ -136,7 +136,7 @@ namespace EcconiaCPUServerComponentsGui.Client.EditGUI
 			{
 				return;
 			}
-			RawInput rawInput = GameInput.WhichInputDownThisFrame();
+			var rawInput = GameInput.WhichInputDownThisFrame();
 			if(rawInput == RawInput.None)
 			{
 				return;

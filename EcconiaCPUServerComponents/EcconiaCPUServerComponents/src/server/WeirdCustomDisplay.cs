@@ -1,5 +1,5 @@
-using LogicWorld.Server.Circuitry;
 using EcconiaCPUServerComponents.Shared;
+using LogicWorld.Server.Circuitry;
 
 namespace EcconiaCPUServerComponents.Server
 {
@@ -30,20 +30,20 @@ namespace EcconiaCPUServerComponents.Server
 		
 		protected override void SetDataDefaultValues()
 		{
-			Data.pixelData = new byte[128];
+			Data.initialize();
 		}
 		
 		protected override void DoLogicUpdate()
 		{
 			//Load inputs:
-			bool data2 = Inputs[128].On;
-			uint dataX3 = inputToInt(32);
-			uint dataY3 = inputToInt(96);
-			uint invertX2 = inputToInt(0);
-			uint invertY2 = inputToInt(64);
+			var data2 = Inputs[128].On;
+			var dataX3 = inputToInt(32);
+			var dataY3 = inputToInt(96);
+			var invertX2 = inputToInt(0);
+			var invertY2 = inputToInt(64);
 			
 			//Queue new updates:
-			bool hasInputChanged =
+			var hasInputChanged =
 				invertY2 != invertY1 ||
 				invertX2 != invertX1 ||
 				data2 != data1 ||
@@ -61,14 +61,14 @@ namespace EcconiaCPUServerComponents.Server
 			//Figure out, if the data input data change could update the display content:
 			// This is done by checking for changes and making sure that the X/Y partner has any active line.
 			//TBI: Can this be optimized even more? As in capture more cases. Ignoring past instructions?
-			bool hasHadXInvert = invertX0 != 0 || invertX1 != 0;
-			bool hasHadYInvert = invertY0 != 0 || invertY1 != 0;
-			bool hasInvertChanged =
+			var hasHadXInvert = invertX0 != 0 || invertX1 != 0;
+			var hasHadYInvert = invertY0 != 0 || invertY1 != 0;
+			var hasInvertChanged =
 				invertX0 != invertX1 && hasHadYInvert ||
 				invertY0 != invertY1 && hasHadXInvert;
-			bool hasHadXData = dataX0 != 0 || dataX1 != 0;
-			bool hasHadYData = dataY0 != 0 || dataY1 != 0;
-			bool hasDataChanged =
+			var hasHadXData = dataX0 != 0 || dataX1 != 0;
+			var hasHadYData = dataY0 != 0 || dataY1 != 0;
+			var hasDataChanged =
 				dataX0 != dataX1 && hasHadYData ||
 				dataY0 != dataY1 && hasHadXData ||
 				data0 != data1 && hasHadXData && hasHadYData;
@@ -78,16 +78,16 @@ namespace EcconiaCPUServerComponents.Server
 				uint dirtyLines = 0; //Bit field which has a bit set for each line that changed.
 				
 				//A bitfield with one bit per line. The bit indicates, that the line experienced some data change:
-				uint willLineBeChanged =
+				var willLineBeChanged =
 					(hasHadXInvert ? invertY0 | invertY1 : 0) | //For the code the past and the new inversion is relevant, include both.
 					(dataX1 != 0 ? dataY1 : 0); //For the code only the next data is relevant, include that.
 				
 				//Map the boolean to be a whole mask of bits, so that it can be used in the bitwise logic later:
-				uint newValueMask = data1 ? 0xFFFFFFFF : 0;
+				var newValueMask = data1 ? 0xFFFFFFFF : 0;
 				
-				int pixelByteIndex = 0;
+				var pixelByteIndex = 0;
 				uint bitMaskY = 1;
-				for(int y = 0; y < 32; y++)
+				for(var y = 0; y < 32; y++)
 				{
 					//Checks if there is any relevant input change for this line:
 					if((willLineBeChanged & bitMaskY) == 0)
@@ -100,27 +100,27 @@ namespace EcconiaCPUServerComponents.Server
 					
 					//A bunch of bit probes that have to be done for every line:
 					// Each gets converted into an all 0/1 bit mask, for bitwise operations.
-					uint lineNowSet = (dataY1 & bitMaskY) != 0 ? 0xFFFFFFFF : 0;
-					uint linePreviouslyInverted = (invertY0 & bitMaskY) != 0 ? 0xFFFFFFFF : 0;
-					uint lineNowInverted = (invertY1 & bitMaskY) != 0 ? 0xFFFFFFFF : 0;
+					var lineNowSet = (dataY1 & bitMaskY) != 0 ? 0xFFFFFFFF : 0;
+					var linePreviouslyInverted = (invertY0 & bitMaskY) != 0 ? 0xFFFFFFFF : 0;
+					var lineNowInverted = (invertY1 & bitMaskY) != 0 ? 0xFFFFFFFF : 0;
 					
 					//Read the line from the custom data to an integer:
-					int tmpIndex = pixelByteIndex;
-					uint oldLine = (uint) (
+					var tmpIndex = pixelByteIndex;
+					var oldLine = (uint) (
 						Data.pixelData[tmpIndex++] << 8 * 3 |
 						Data.pixelData[tmpIndex++] << 8 * 2 |
 						Data.pixelData[tmpIndex++] << 8 * 1 |
 						Data.pixelData[tmpIndex] << 8 * 0
 					);
-					uint newLine = oldLine;
+					var newLine = oldLine;
 					
 					//Undo old inversion:
 					newLine ^= linePreviouslyInverted & invertX0; //Pixels that had been inverted before...
 					
 					//Update the data:
-					uint pixelsThatAreNowActive = lineNowSet & dataX1; //This map indicates which of the pixels are selected by the decoding to receive new data.
-					uint unaffectedPixels = ~pixelsThatAreNowActive & newLine; //All old pixels gonna stay as they are.
-					uint affectedPixels = pixelsThatAreNowActive & newValueMask; //All new pixels gonna be set to the new data.
+					var pixelsThatAreNowActive = lineNowSet & dataX1; //This map indicates which of the pixels are selected by the decoding to receive new data.
+					var unaffectedPixels = ~pixelsThatAreNowActive & newLine; //All old pixels gonna stay as they are.
+					var affectedPixels = pixelsThatAreNowActive & newValueMask; //All new pixels gonna be set to the new data.
 					newLine = unaffectedPixels | affectedPixels; //Combine new and old bits.
 					
 					//Apply the new inversion:
@@ -149,7 +149,7 @@ namespace EcconiaCPUServerComponents.Server
 			//Send data, if the display is marked as dirty, respect the update-disable peg.
 			//Once the prevent-updating peg is turned off, this function will be called.
 			// If there was dirty data, then it will be sent now.
-			bool preventUpdating = Inputs.Count == (32 * 4 + 2) ? Inputs[129].On : false;
+			var preventUpdating = Inputs.Count == (32 * 4 + 2) ? Inputs[129].On : false;
 			if(dirty && !preventUpdating)
 			{
 				Data.pixelData = Data.pixelData;
@@ -175,8 +175,8 @@ namespace EcconiaCPUServerComponents.Server
 		{
 			uint tmp = 0;
 			uint bitMask = 1;
-			int end = start + 31;
-			for(int i = start; i <= end; i++)
+			var end = start + 31;
+			for(var i = start; i <= end; i++)
 			{
 				if(Inputs[i].On)
 				{

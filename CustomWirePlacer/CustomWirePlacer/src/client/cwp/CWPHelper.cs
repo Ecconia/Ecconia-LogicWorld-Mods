@@ -21,7 +21,7 @@ namespace CustomWirePlacer.Client.CWP
 			var entityManager = Instances.MainWorld.Renderer.Entities;
 			if(CWPSettings.raycastAtBottomOfPegs)
 			{
-				Vector3 top = entityManager.GetWirePoint(pegAddress);
+				var top = entityManager.GetWirePoint(pegAddress);
 				var peg = entityManager.GetPegEntity(pegAddress);
 				var bot = peg.WorldPosition;
 				
@@ -41,9 +41,9 @@ namespace CustomWirePlacer.Client.CWP
 		
 		public static IEnumerable<PegAddress> collectPegsInBetween(PegAddress startPeg, PegAddress endPeg)
 		{
-			Vector3 start = getRaycastPoint(startPeg);
-			Vector3 end = getRaycastPoint(endPeg);
-			IEnumerable<PegAddress> collection =
+			var start = getRaycastPoint(startPeg);
+			var end = getRaycastPoint(endPeg);
+			var collection =
 				ChunkCaster
 					.CastAll(start, end - start, Vector3.Distance(start, end), Masks.Peg)
 					.OrderBy((Func<HitInfo, float>) (h => h.Hit.distance))
@@ -67,12 +67,12 @@ namespace CustomWirePlacer.Client.CWP
 		// This is done by ray-casting from the other side too.
 		public static PegAddress findNextPeg(Vector3 start, Vector3 ray, out Vector3? position)
 		{
-			if(Physics.Raycast(start, ray, out RaycastHit hitEnter, 30, Masks.Peg))
+			if(Physics.Raycast(start, ray, out var hitEnter, 30, Masks.Peg))
 			{
 				var pegCollider = hitEnter.collider;
 				var peg = pegCollider.GetComponent<ColliderReference>().PegAddress;
 				var entryPoint = hitEnter.point;
-				if(!pegCollider.Raycast(new Ray(entryPoint + ray * 3, -ray), out RaycastHit hitExit, 30))
+				if(!pegCollider.Raycast(new Ray(entryPoint + ray * 3, -ray), out var hitExit, 30))
 				{
 					ModClass.logger.Warn("FAILED to get the center of a peg, because second raycast did not hit... Weird. Using edge point.");
 					position = entryPoint + ray * 0.04f; //Using entry point and some small offset, and pray that not too much breaks.
@@ -91,12 +91,12 @@ namespace CustomWirePlacer.Client.CWP
 			var collider = Instances.MainWorld.Renderer.Entities.GetPegEntity(peg).Collider;
 			
 			//I have to use a very high max distance, since the peg might be anywhere. No performance penalty here anyway.
-			if(!collider.Raycast(new Ray(start, ray), out RaycastHit hitEntry, float.MaxValue))
+			if(!collider.Raycast(new Ray(start, ray), out var hitEntry, float.MaxValue))
 			{
 				throw new Exception("Ray does not hit Peg, while it should because it is in the list.");
 			}
 			var pointEntry = hitEntry.point;
-			if(!collider.Raycast(new Ray(pointEntry + ray * 3, -ray), out RaycastHit hitExit, float.MaxValue))
+			if(!collider.Raycast(new Ray(pointEntry + ray * 3, -ray), out var hitExit, float.MaxValue))
 			{
 				ModClass.logger.Warn("Second ray does not hit Peg, while it should because it is in the list and just already got hit forwards.");
 				return pointEntry + ray * 0.04f; //Using entry point and some small offset, and pray that not too much breaks.
@@ -107,17 +107,17 @@ namespace CustomWirePlacer.Client.CWP
 		
 		public static PegAddress getPegRelativeToOtherPeg(PegAddress newPegOrigin, PegAddress oldPegOrigin, PegAddress oldPegPoint)
 		{
-			Vector3 oldOrigin = getWireConnectionPoint(oldPegOrigin);
-			Vector3 oldPoint = getWireConnectionPoint(oldPegPoint);
-			Vector3 offset = oldPoint - oldOrigin;
-			Vector3 newOrigin = getWireConnectionPoint(newPegOrigin);
-			Vector3 newPoint = newOrigin + offset;
+			var oldOrigin = getWireConnectionPoint(oldPegOrigin);
+			var oldPoint = getWireConnectionPoint(oldPegPoint);
+			var offset = oldPoint - oldOrigin;
+			var newOrigin = getWireConnectionPoint(newPegOrigin);
+			var newPoint = newOrigin + offset;
 			return getPegAt(newPoint);
 		}
 		
 		public static PegAddress getPegAt(Vector3 position)
 		{
-			Collider[] colliders = Physics.OverlapSphere(position, 0.01f, Masks.Peg);
+			var colliders = Physics.OverlapSphere(position, 0.01f, Masks.Peg);
 			if(colliders.Length != 1)
 			{
 				if(colliders.Length > 1)
@@ -126,8 +126,8 @@ namespace CustomWirePlacer.Client.CWP
 				}
 				return PegAddress.Empty;
 			}
-			Collider collider = colliders[0];
-			PegAddress peg = collider.GetComponent<ColliderReference>().PegAddress;
+			var collider = colliders[0];
+			var peg = collider.GetComponent<ColliderReference>().PegAddress;
 			if(peg.IsEmpty())
 			{
 				ModClass.logger.Error("Casted for a peg, but got: " + collider.name + " : " + collider.tag);

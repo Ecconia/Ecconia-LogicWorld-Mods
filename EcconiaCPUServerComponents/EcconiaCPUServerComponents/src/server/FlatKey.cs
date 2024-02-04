@@ -17,7 +17,7 @@ namespace EcconiaCPUServerComponents.Server
 		{
 			//Update the output, with whatever the state says.
 			//Might be needless in some cases, but that does not matter.
-			this.Outputs[0].On = this.Data.KeyDown;
+			Outputs[0].On = Data.KeyDown;
 		}
 		
 		protected override void SetDataDefaultValues()

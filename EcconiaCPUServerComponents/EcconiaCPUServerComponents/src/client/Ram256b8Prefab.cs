@@ -32,10 +32,10 @@ namespace EcconiaCPUServerComponents.Client
 				throw new Exception("Attempted to create Ecconias Ram256b8 with unexpected peg configuration. Loading old save? Wrong mod version? Inputs: " + identifier.InputCount + " Outputs: " + identifier.OutputCount);
 			}
 			
-			ComponentInput[] inputs = new ComponentInput[inputCount];
-			int index = 0;
+			var inputs = new ComponentInput[inputCount];
+			var index = 0;
 			//WRITE:
-			for(int i = 0; i < 9; i++)
+			for(var i = 0; i < 9; i++)
 			{
 				inputs[index++] = new ComponentInput()
 				{
@@ -49,7 +49,7 @@ namespace EcconiaCPUServerComponents.Client
 			}
 			
 			//READ:
-			for(int i = 0; i < 9; i++)
+			for(var i = 0; i < 9; i++)
 			{
 				inputs[index++] = new ComponentInput()
 				{
@@ -63,7 +63,7 @@ namespace EcconiaCPUServerComponents.Client
 			}
 			
 			//DATA:
-			for(int i = 0; i < 8; i++)
+			for(var i = 0; i < 8; i++)
 			{
 				inputs[index++] = new ComponentInput()
 				{
@@ -76,8 +76,8 @@ namespace EcconiaCPUServerComponents.Client
 				};
 			}
 			
-			ComponentOutput[] outputs = new ComponentOutput[outputCount];
-			for(int i = 0; i < dataWidth; i++)
+			var outputs = new ComponentOutput[outputCount];
+			for(var i = 0; i < dataWidth; i++)
 			{
 				outputs[i] = new ComponentOutput()
 				{

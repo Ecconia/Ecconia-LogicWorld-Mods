@@ -1,3 +1,4 @@
+using System;
 using LICC;
 
 namespace RandomDebugCollection.Client.Commands
@@ -8,8 +9,8 @@ namespace RandomDebugCollection.Client.Commands
 		private static void collectGarbage()
 		{
 			LConsole.WriteLine("Running garbage collection...");
-			System.GC.Collect();
-			System.GC.WaitForPendingFinalizers();
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
 			LConsole.WriteLine("Done.");
 		}
 	}

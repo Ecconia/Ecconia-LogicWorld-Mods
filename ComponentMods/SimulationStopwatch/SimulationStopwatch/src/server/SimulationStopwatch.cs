@@ -39,8 +39,8 @@ namespace SimulationStopwatch.Server
 		
 		protected override void DoLogicUpdate()
 		{
-			bool startPeg = Inputs[0].On;
-			bool stopPeg = Inputs[1].On;
+			var startPeg = Inputs[0].On;
+			var stopPeg = Inputs[1].On;
 			//Initialize:
 			if(lastSessionName == null)
 			{
@@ -51,8 +51,8 @@ namespace SimulationStopwatch.Server
 				return; //This is the first initial tick, that is performed on world loading. Do not do anything - besides setup.
 			}
 			//Detect rising edge control signals:
-			bool isStart = startPeg && !lastStartTriggerState;
-			bool isStop = stopPeg && !lastStopTriggerState;
+			var isStart = startPeg && !lastStartTriggerState;
+			var isStop = stopPeg && !lastStopTriggerState;
 			lastStartTriggerState = startPeg;
 			lastStopTriggerState = stopPeg;
 			
@@ -144,9 +144,9 @@ namespace SimulationStopwatch.Server
 		
 		private void stop()
 		{
-			long currentTime = Stopwatch.GetTimestamp();
+			var currentTime = Stopwatch.GetTimestamp();
 			
-			long totalRuntime = currentTime - startTime;
+			var totalRuntime = currentTime - startTime;
 			if(serverTickIndex == startServerTickIndex)
 			{
 				//Still in the same tick:
