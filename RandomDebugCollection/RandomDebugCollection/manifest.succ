@@ -1,10 +1,8 @@
 ID: RandomDebugCollection
 Name: Random Debug Collection
 Author: Ecconia
-Version: 2.5.1
-# Has a higher priority, because it should load before other mods. So that stacktraces will be printed to log.
-Priority: 45
-ClientOnly: true
+Version: 3.0.0
+Priority: 0
 Dependencies:
     - HarmonyForLogicWorld
     - EccsLogicWorldAPI

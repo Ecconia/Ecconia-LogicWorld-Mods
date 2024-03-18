@@ -22,6 +22,9 @@
       <Reference Include="LogicAPI.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.Client.dll</HintPath>
       </Reference>
+      <Reference Include="LogicAPI.Server">
+        <HintPath>..\LogicWorld\Server\LogicAPI.Server.dll</HintPath>
+      </Reference>
       <Reference Include="LogicLog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicLog.dll</HintPath>
       </Reference>

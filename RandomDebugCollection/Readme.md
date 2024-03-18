@@ -3,9 +3,7 @@
 This mod provides a set of tools and features, to ramp up your modding experience with LogicWorld.
 
 Features:
-- Mod compilation errors will be printed in Console/Logs
-  - Compilation errors are filtered, to remove some pointless errors (in big mods you can get hundreds of lines of pointless errors).
-- Provides executable launch argument `-loadworld <WorldFolderName>` to directly load into a world, skipping main menu.
+- Provides client startup argument `-version <Version>` to override the version LW thinks it is.
 - Adds some random debugging commands (details below)...
 
 ## Install / Dependencies:
@@ -17,22 +15,22 @@ You can find them in my mod collection (root folder).
 
 ## Usage:
 
-To directly join a world, skipping the main menu, execute the game with following argument:  
-`-loadworld "<WorldSaveFolderName>"` Ensure, that you are providing the folder name! If the name contains spaces, wrap it with quotes.
+### Version hack:
 
-This feature is compatible with Steam:  
-`%command% -loadworld "<WorldSaveFolderName>"`
+On the client you can simply start it with argument `-version <Version>` to make the client think it is a different version.\
+On the server, you will need to uncomment a line in the server mod class for this effect.
 
-I have the following run commands (Linux) in my IDE, to start the game:  
-`killall Logic_World; steam -applaunch 1054340 -loadworld "TestWorld" && exit`  
-`killall Logic_World; steam steam://rungameid/1054340 && exit`  
-It stops all running instances of the game.
-Instructs Steam to start the game, optionally supplies a world to open.
-Finally it closes the IDE terminal, as Steam launches a decoupled process.
-For whatever reason I am using two different ways to start the game :P
+Just keep in mind, that until mods are loaded the client/server will assume the correct version.\
+Settings will update, cache will be deleted and the little version text in the bottom right will show the actual version.\
+But when joining servers the version you supplied applies.
+
+This feature is mostly important while developing new LW versions, not sure what modders need it for.
+
+### Commands:
 
 This mod has a few commands:
 
 - `ClearHistory`: Clears your action history, you will no longer be able to undo then. Added out of curiosity, if it would free memory.
 - `ClearSubassemblies`: Clears stored subassemblies, there exists an official command for that, but its broken. Also added to see if it frees memory.
 - `CollectGarbage`: Runs the garbage collection. Added also for memory investigation reasons.
+- `Theme`: Reloads the current color theme. Useful when you are designing a layout and don't want to restart.
