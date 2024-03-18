@@ -6,16 +6,7 @@ Features:
 - Mod compilation errors will be printed in Console/Logs
   - Compilation errors are filtered, to remove some pointless errors (in big mods you can get hundreds of lines of pointless errors).
 - Provides executable launch argument `-loadworld <WorldFolderName>` to directly load into a world, skipping main menu.
-- Will show full stacktrace on error-screen and print all stacktraces to console and log files.
 - Adds some random debugging commands (details below)...
-
-### Small Warning:
-
-If you are using the Unity log files, or even use this mod in Unity.  
-This mod will wrap all exceptions that are meant for the error-screen into a custom Exception class.
-
-This is done, so that the exceptions won't be printed again later on, as the wrapping can be detected.  
-In Unity console and logs, this only slightly changes the Exceptions, but they are still super obvious to understand.
 
 ## Install / Dependencies:
 

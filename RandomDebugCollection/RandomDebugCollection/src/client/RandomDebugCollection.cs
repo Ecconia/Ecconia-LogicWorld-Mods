@@ -10,7 +10,6 @@ namespace RandomDebugCollection.Client
 		protected override void Initialize()
 		{
 			logger = Logger;
-			StacktraceToLog.Initialize(Logger);
 			JoinWorldHook.init();
 		}
 	}
