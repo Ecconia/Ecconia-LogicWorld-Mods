@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using EccsLogicWorldAPI.Client.AccessHelpers;
 using LICC;
 using LogicAPI.Data.BuildingRequests;
+using LogicWorld.BuildingManagement;
 using LogicWorld.ClientCode;
 using LogicWorld.Interfaces;
 using LogicWorld.Physics;
@@ -56,10 +57,7 @@ namespace EcconiasChaosClientMod.Client
 					LConsole.WriteLine("No Delayer with non 1-tick delay selected.");
 					return;
 				}
-				if(!UndoHistory.addToUndoList(undoList))
-				{
-					return; //Whoops, can't add to undo list, that is unsafe - do not do that.
-				}
+				UndoManager.AddItemToUndoHistory(new UndoRequests() {RequestsToUndo = undoList});
 				foreach(var color in delayers)
 				{
 					color.Data.DelayLengthInTicks = 1;
@@ -90,13 +88,10 @@ namespace EcconiasChaosClientMod.Client
 					LConsole.WriteLine("Delayer is already on one tick delay.");
 					return;
 				}
-				if(!UndoHistory.addToUndoList(new List<BuildRequest>()
-					{
-						new BuildRequest_UpdateComponentCustomData(address, component.Data.CustomData),
-					}))
+				UndoManager.AddItemToUndoHistory(new UndoRequests() {RequestsToUndo = new List<BuildRequest>()
 				{
-					return; //Whoops, can't add to undo list, that is unsafe - do not do that.
-				}
+					new BuildRequest_UpdateComponentCustomData(address, component.Data.CustomData),
+				}});
 				delayer.Data.DelayLengthInTicks = 1;
 				delayer.Data.DelayCounter = 0; //Better safe than sorry.
 				LConsole.WriteLine("Set Delayer to 1 tick delay.");

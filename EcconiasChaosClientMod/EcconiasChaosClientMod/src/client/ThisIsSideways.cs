@@ -54,10 +54,7 @@ namespace EcconiasChaosClientMod.Client
 					LConsole.WriteLine("No AND gate selected.");
 					return;
 				}
-				if(!UndoHistory.addToUndoList(undoList))
-				{
-					return; //Whoops, can't add to undo list, that is unsafe - do not do that.
-				}
+				UndoManager.AddItemToUndoHistory(new UndoRequests() {RequestsToUndo = undoList});
 				foreach(var (address, component) in requests)
 				{
 					var newRotation = component.Data.LocalRotation * Quaternion.AngleAxis(90, Vector3.forward);
@@ -87,18 +84,15 @@ namespace EcconiasChaosClientMod.Client
 					LConsole.WriteLine("That is not an AND gate. Look at one.");
 					return;
 				}
-				if(!UndoHistory.addToUndoList(new List<BuildRequest>()
-					{
-						new BuildRequest_UpdateComponentPositionRotationParent(
-							address,
-							component.Data.LocalPosition,
-							component.Data.LocalRotation,
-							component.Data.Parent
-						),
-					}))
+				UndoManager.AddItemToUndoHistory(new UndoRequests() {RequestsToUndo = new List<BuildRequest>()
 				{
-					return; //Whoops, can't add to undo list, that is unsafe - do not do that.
-				}
+					new BuildRequest_UpdateComponentPositionRotationParent(
+						address,
+						component.Data.LocalPosition,
+						component.Data.LocalRotation,
+						component.Data.Parent
+					),
+				}});
 				var newRotation = component.Data.LocalRotation * Quaternion.AngleAxis(90, Vector3.forward);
 				BuildRequestManager.SendBuildRequestWithoutAddingToUndoStack(new BuildRequest_UpdateComponentPositionRotationParent(
 					address,
