@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileDump", "ComponentMods\F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulationStopwatch", "ComponentMods\SimulationStopwatch\SimulationStopwatch.csproj", "{3BD7D5D8-C13C-4842-A320-903B8324000C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComponentActionsExampleMod", "ComponentMods\ComponentActionsExampleMod\ComponentActionsExampleMod.csproj", "{2C1B77CC-A303-4A92-873E-D8E5C56A466C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -114,5 +116,9 @@ Global
 		{3BD7D5D8-C13C-4842-A320-903B8324000C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BD7D5D8-C13C-4842-A320-903B8324000C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BD7D5D8-C13C-4842-A320-903B8324000C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C1B77CC-A303-4A92-873E-D8E5C56A466C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C1B77CC-A303-4A92-873E-D8E5C56A466C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C1B77CC-A303-4A92-873E-D8E5C56A466C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C1B77CC-A303-4A92-873E-D8E5C56A466C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

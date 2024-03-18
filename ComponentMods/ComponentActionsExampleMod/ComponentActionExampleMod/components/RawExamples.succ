@@ -1,0 +1,116 @@
+# Example 1: World updates
+ColorBlock:
+  column: "ComponentActionExamples"
+  prefab:
+    blocks:
+      -
+        scale: (3, 1, 1)
+    inputs:
+      -
+        position: (-1, 0.5, -0.5)
+        rotation: (-90, 0, 0)
+      -
+        position: (-0.5, 0.5, -0.5)
+        rotation: (-90, 0, 0)
+      -
+        position: (0, 0.5, -0.5)
+        rotation: (-90, 0, 0)
+      -
+        # This one is separated from the others.
+        position: (1, 0.5, -0.5)
+        rotation: (-90, 0, 0)
+  clientCode: ComponentActionExampleMod.Client.Raw.Ex1.ColorBlock
+  logicCode: ComponentActionExampleMod.Server.Raw.Ex1.ColorBlock
+
+# Example 2: Build requests with undo
+AddSubber:
+  column: "ComponentActionExamples"
+  prefab:
+    blocks:
+      -
+        scale: (4, 2, 3)
+        position: (0, 0, 1)
+    inputs:
+      -
+        position: (1.5, 0.5, -0.5)
+        rotation: (-90, 0, 0)
+      -
+        position: (0.5, 0.5, -0.5)
+        rotation: (-90, 0, 0)
+      -
+        position: (-0.5, 0.5, -0.5)
+        rotation: (-90, 0, 0)
+      -
+        position: (-1.5, 0.5, -0.5)
+        rotation: (-90, 0, 0)
+      -
+        position: (1.5, 1.5, -0.5)
+        rotation: (-90, 0, 0)
+      -
+        position: (0.5, 1.5, -0.5)
+        rotation: (-90, 0, 0)
+      -
+        position: (-0.5, 1.5, -0.5)
+        rotation: (-90, 0, 0)
+      -
+        position: (-1.5, 1.5, -0.5)
+        rotation: (-90, 0, 0)
+    outputs:
+      -
+        position: (1.5, 0.5, 2.5)
+        rotation: (+90, 0, 0)
+      -
+        position: (0.5, 0.5, 2.5)
+        rotation: (+90, 0, 0)
+      -
+        position: (-0.5, 0.5, 2.5)
+        rotation: (+90, 0, 0)
+      -
+        position: (-1.5, 0.5, 2.5)
+        rotation: (+90, 0, 0)
+  clientCode: ComponentActionExampleMod.Client.Raw.Ex2.AddSubber
+  logicCode: ComponentActionExampleMod.Server.Raw.Ex2.AddSubber
+
+# Example 3: Build requests without undo
+PulseByEdit:
+  column: "ComponentActionExamples"
+  prefab:
+    blocks:
+      - Standard
+    outputs:
+      -
+        position: (0.0, 0.5, 0.5)
+        rotation: (+90, 0, 0)
+  clientCode: ComponentActionExampleMod.Client.Raw.Ex3.PulseByEdit
+  logicCode: ComponentActionExampleMod.Server.Raw.Ex3.PulseByEdit
+
+# There is no example 4, as using that is cursed and inefficient.
+
+# Example 5: Build request and vanilla update distribution without undo
+SimpleButton:
+  column: "ComponentActionExamples"
+  prefab:
+    blocks:
+      - Standard
+    outputs:
+      -
+        position: (0, 0.5, 0.5)
+        rotation: (+90, 0, 0)
+  clientCode: ComponentActionExampleMod.Client.Raw.Ex5.SimpleButton
+  logicCode: ComponentActionExampleMod.Server.Raw.Ex5.SimpleButton
+
+# Example 6: Build request with skip-server update distribution with undo
+EditableBlock:
+  column: "ComponentActionExamples"
+  prefab:
+    blocks:
+      - Standard
+  clientCode: ComponentActionExampleMod.Client.Raw.Ex6.EditableBlock
+
+# Example 7: Build request with skip-server update distribution without undo
+DontLookAtMe:
+  column: "ComponentActionExamples"
+  prefab:
+    blocks:
+      - Standard
+  clientCode: ComponentActionExampleMod.Client.Raw.Ex7.DontLookAtMe
