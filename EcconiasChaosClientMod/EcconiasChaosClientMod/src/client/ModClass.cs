@@ -12,6 +12,9 @@ namespace EcconiasChaosClientMod.Client
 		{
 			logger = Logger; //Required for some static code initialization.
 			Skybox.init(Files, Logger);
+			
+			// CircuitColor.setCircuitColor(new Color24(255, 140, 10)); // Orange circuits
+			// CircuitColor.setCircuitColor(new Color24(10, 150, 10)); // Green circuits (Clashes with wire outlines)
 		}
 	}
 }

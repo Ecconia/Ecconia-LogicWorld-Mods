@@ -20,6 +20,7 @@ You can find it in my mod collection (root folder).
 
 - Commands to list the currently connected players `listplayers`, or `listplayersall` if you like a more technical view.
 - Command `rainbowchat` that sends the text argument in chat with rainbow colors (keep in mind, that there is a chat character limit, and color codes count and are big and per letter).
+- Command `setcircuitcolor` will change the circuit color, to whatever you wish away from the default red. You can even modify the `ModClass` to have a new default color on game start.
 
 There are a set of commands to modify your skybox and world light settings:
 - Command `skybox` shows a custom skybox, you have to add ones first. Read further instructions in the readme found in the `skyboxes` folder.

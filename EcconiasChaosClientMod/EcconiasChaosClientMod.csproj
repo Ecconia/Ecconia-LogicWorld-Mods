@@ -55,6 +55,9 @@
       <Reference Include="LogicWorld.SharedCode">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.UI">
+        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.UI.dll</HintPath>
+      </Reference>
       <Reference Include="UnityEngine.CoreModule">
         <HintPath>..\LogicWorld\Logic_World_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       </Reference>

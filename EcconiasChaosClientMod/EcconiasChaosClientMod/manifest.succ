@@ -1,7 +1,7 @@
 ID: EcconiasChaosClientMod
 Name: EcconiasChaosClientMod
 Author: Ecconia
-Version: 1.7.0
+Version: 1.8.0
 Priority: 0
 ClientOnly: true
 Dependencies:
