@@ -1,8 +1,0 @@
-ID: RemoveUnusedComponentsOnSave
-Name: RemoveUnusedComponentsOnSave
-Author: Ecconia
-Version: 0.1.0
-Priority: 0
-Dependencies:
-    - HarmonyForLogicWorld
-    - EccsLogicWorldAPI

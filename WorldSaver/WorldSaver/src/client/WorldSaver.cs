@@ -9,6 +9,7 @@ using LogicAPI.Client;
 using LogicWorld.Interfaces;
 using LogicWorld.Rendering;
 using LogicWorld.SharedCode.ExtraData;
+using LogicWorld.SharedCode.Modding;
 using LogicWorld.SharedCode.Saving;
 using LogicWorld.SharedCode.WorldTypes;
 using SUCC;
@@ -46,6 +47,7 @@ namespace WorldSaver.Client
 			var saveBytes = SaveWriter.GetWorldSaveData(
 				Instances.MainWorld.Data,
 				Instances.MainWorld.ComponentTypes,
+				ModLoader.LoadedMods.Values.ToArray(),
 				circuitStates
 			);
 			

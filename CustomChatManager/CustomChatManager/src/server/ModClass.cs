@@ -15,6 +15,7 @@ namespace CustomChatManager.Server
 			//Setup the chat manager:
 			{
 				//Comment out a feature if you do not like it:
+				//TBI: Change order of processors, first swap name?
 				chatManager.addProcessor(new VerifyMessageLength()); //This is the only validation done by the game.
 				chatManager.addProcessor(new VerifySenderName()); //Stops a player from fooling others, by fixing its message.
 				chatManager.addProcessor(new CommandManager(Logger));

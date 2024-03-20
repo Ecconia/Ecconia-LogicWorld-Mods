@@ -1,0 +1,8 @@
+ComponentActionExampleMod.Gui.Ex2.AddSubber.Add : "Addition"
+ComponentActionExampleMod.Gui.Ex2.AddSubber.Sub : "Subtraction"
+ComponentActionExampleMod.Gui.Ex3.PulseByEdit.P1 : "1 tick pulse"
+ComponentActionExampleMod.Gui.Ex3.PulseByEdit.P2 : "2 tick pulse"
+ComponentActionExampleMod.Gui.Ex3.PulseByEdit.P3 : "3 tick pulse"
+ComponentActionExampleMod.Gui.Ex3.PulseByEdit.P4 : "4 tick pulse"
+ComponentActionExampleMod.Gui.Ex3.PulseByEdit.P5 : "5 tick pulse"
+ComponentActionExampleMod.Gui.Ex3.PulseByEdit.P6 : "6 tick pulse"

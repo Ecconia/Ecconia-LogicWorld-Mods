@@ -3,6 +3,7 @@ using EccsLogicWorldAPI.Client.AccessHelpers;
 using JimmysUnityUtilities;
 using LICC;
 using LogicAPI.Data.BuildingRequests;
+using LogicWorld.BuildingManagement;
 using LogicWorld.ClientCode;
 using LogicWorld.Interfaces;
 using LogicWorld.Physics;
@@ -57,10 +58,7 @@ namespace EcconiasChaosClientMod.Client
 					LConsole.WriteLine("Everything is already black, or can't be colored.");
 					return;
 				}
-				if(!UndoHistory.addToUndoList(undoList))
-				{
-					return; //Whoops, can't add to undo list, that is unsafe - do not do that.
-				}
+				UndoManager.AddItemToUndoHistory(new UndoRequests() {RequestsToUndo = undoList});
 				var black = new Color24(0, 0, 0);
 				foreach(var color in colorables)
 				{
@@ -92,13 +90,10 @@ namespace EcconiasChaosClientMod.Client
 					LConsole.WriteLine("Component is already black.");
 					return;
 				}
-				if(!UndoHistory.addToUndoList(new List<BuildRequest>()
-					{
-						new BuildRequest_UpdateComponentCustomData(address, component.Data.CustomData),
-					}))
+				UndoManager.AddItemToUndoHistory(new UndoRequests() {RequestsToUndo = new List<BuildRequest>()
 				{
-					return; //Whoops, can't add to undo list, that is unsafe - do not do that.
-				}
+					new BuildRequest_UpdateComponentCustomData(address, component.Data.CustomData),
+				}});
 				colorable.Color = new Color24(0, 0, 0);
 				LConsole.WriteLine("Pained component black.");
 				return;

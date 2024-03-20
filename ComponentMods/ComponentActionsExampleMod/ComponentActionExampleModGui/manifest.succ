@@ -1,0 +1,10 @@
+ID: ComponentActionExampleModGui
+Name: ComponentAction ExampleMod Gui
+Author: Ecconia
+Version: 1.0.0
+ClientOnly: true
+Priority: -1
+Dependencies:
+    - EccsGuiBuilder
+    - EccsLogicWorldAPI
+    - ComponentActionExampleMod

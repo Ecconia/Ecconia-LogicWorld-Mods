@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using EccsLogicWorldAPI.Shared.AccessHelper;
+using LogicAPI.Interfaces;
 using LogicWorld.Rendering;
 using LogicWorld.Rendering.Dynamics;
 using LogicWorld.SharedCode.Components;
@@ -10,6 +11,7 @@ namespace FlexibleComponentModUsage.client
 	{
 		private static readonly Dictionary<string, ComponentInfo> componentRegistryReference;
 		private static readonly List<PrefabVariantInfo> prefabRegistryReference;
+		private static readonly Dictionary<string, IComponentActionMutationHandler> componentActionHandlersReference;
 		
 		static RegisteredComponentManager()
 		{
@@ -27,6 +29,11 @@ namespace FlexibleComponentModUsage.client
 					)
 				)
 			);
+			componentActionHandlersReference = Types.checkType<Dictionary<string, IComponentActionMutationHandler>>(
+				Fields.getNonNull(
+					Fields.getPrivateStatic(typeof(ComponentActionMutationManager), "Handlers")
+				)
+			);
 		}
 		
 		//Runtime:
@@ -37,6 +44,7 @@ namespace FlexibleComponentModUsage.client
 		//Backup reference values for restoring everything:
 		private readonly Dictionary<string, ComponentInfo> componentRegistryBackup;
 		private readonly List<PrefabVariantInfo> prefabRegistryBackup;
+		private readonly Dictionary<string, IComponentActionMutationHandler> componentActionHandlersBackup;
 		
 		public RegisteredComponentManager()
 		{
@@ -48,6 +56,7 @@ namespace FlexibleComponentModUsage.client
 			//Transmit the original components into a local structure.
 			componentRegistryBackup = new Dictionary<string, ComponentInfo>(componentRegistryReference);
 			prefabRegistryBackup = new List<PrefabVariantInfo>(prefabRegistryReference);
+			componentActionHandlersBackup = new Dictionary<string, IComponentActionMutationHandler>(componentActionHandlersReference);
 		}
 		
 		public void checkForChanges()
@@ -78,10 +87,17 @@ namespace FlexibleComponentModUsage.client
 			{
 				FlexibleComponentModUsage.logger.Info("Client added " + newComponents + " and updated " + updatedComponents + " components, while gameplay.");
 			}
+			// By the time other modders gonna dynamically add handlers to the component action API (please don't), this mod is hopefully obsolete due to LW making it so.
+			// Thus lets not check for changes in the component action API. If you nevertheless intend to dynamically inject stuff there, tell me so that I can fix this mod.
 		}
 		
 		public void adjust(IReadOnlyDictionary<ushort, string> packetComponentIDsMap)
 		{
+			//Clear all references, to fill them up again:
+			componentRegistryReference.Clear();
+			prefabRegistryReference.Clear();
+			componentActionHandlersReference.Clear();
+			
 			//Check that every component on the server is installed on the client by looking at the backup:
 			foreach(var serverID in packetComponentIDsMap.Values)
 			{
@@ -96,9 +112,15 @@ namespace FlexibleComponentModUsage.client
 					restore();
 					return;
 				}
+				
+				//Add component handlers:
+				if(componentActionHandlersBackup.TryGetValue(serverID, out var handler))
+				{
+					componentActionHandlersReference[serverID] = handler;
+				}
 			}
+			
 			//Adjust components in the official registry to the servers:
-			componentRegistryReference.Clear();
 			var sortedKeys = new List<string>(packetComponentIDsMap.Values);
 			sortedKeys.Sort((a, b) => componentOrderIndex[a].CompareTo(componentOrderIndex[b]));
 			foreach(var serverID in sortedKeys)
@@ -106,8 +128,8 @@ namespace FlexibleComponentModUsage.client
 				//Inject the component, that the server has:
 				componentRegistryReference[serverID] = componentRegistryBackup[serverID];
 			}
+			
 			//Adjust prefabs in the official registry to the servers:
-			prefabRegistryReference.Clear();
 			foreach(var prefab in prefabRegistryBackup)
 			{
 				if(componentRegistryReference.ContainsKey(prefab.ComponentTextID))
@@ -115,6 +137,7 @@ namespace FlexibleComponentModUsage.client
 					prefabRegistryReference.Add(prefab);
 				}
 			}
+			
 			//Done. Now the client thinks it has only the components that the server has.
 		}
 		
@@ -127,6 +150,11 @@ namespace FlexibleComponentModUsage.client
 			}
 			prefabRegistryReference.Clear();
 			prefabRegistryReference.AddRange(prefabRegistryBackup);
+			componentActionHandlersReference.Clear();
+			foreach(var (clientID, clientHandler) in componentActionHandlersBackup)
+			{
+				componentActionHandlersReference[clientID] = clientHandler;
+			}
 		}
 	}
 }

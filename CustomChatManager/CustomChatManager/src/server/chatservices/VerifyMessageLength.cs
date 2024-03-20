@@ -23,6 +23,7 @@ namespace CustomChatManager.Server.ChatServices
 			{
 				//Discard packet!
 				e.result = MessageEventResult.Drop;
+				//TODO: Send feedback to player about message being too long.
 			}
 		}
 	}

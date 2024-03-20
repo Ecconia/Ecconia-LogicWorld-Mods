@@ -14,7 +14,7 @@ namespace RandomDebugCollection.Client.Commands
 			getCurrentTheme = Delegator.createStaticPropertyGetter<string>(Properties.getPrivateStatic(typeof(PaletteManager), "PaletteSetting"));
 		}
 		
-		[Command("theme", Description = "Reload the current theme from disk")]
+		[Command("Theme", Description = "Reload the current theme from disk")]
 		public static void reloadCurrentTheme()
 		{
 			var name = getCurrentTheme();

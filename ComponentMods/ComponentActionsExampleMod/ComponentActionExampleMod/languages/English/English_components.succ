@@ -1,0 +1,31 @@
+ComponentActionExampleMod.ColorBlock: """
+  Example 1:
+  Color Block
+  """
+ComponentActionExampleMod.AddSubber: """
+  Example 2:
+  Add Subber
+  """
+ComponentActionExampleMod.PulseByEdit: """
+  Example 3:
+  Pulse By Edit
+  """
+ComponentActionExampleMod.SimpleButton: """
+  Example 5:
+  Simple Button
+  """
+ComponentActionExampleMod.EditableBlock: """
+  Example 6:
+  Editable Block
+  """
+ComponentActionExampleMod.DontLookAtMe: """
+  Example 7:
+  Don't Look At Me
+  """
+
+ComponentActionExampleMod.ColorBlock.NoNewline: "Example 1: Color Block"
+ComponentActionExampleMod.AddSubber.NoNewline: "Example 2: Add Subber"
+ComponentActionExampleMod.PulseByEdit.NoNewline: "Example 3: Pulse By Edit"
+ComponentActionExampleMod.SimpleButton.NoNewline: "Example 5: Simple Button"
+ComponentActionExampleMod.EditableBlock.NoNewline: "Example 6: Editable Block"
+ComponentActionExampleMod.DontLookAtMe.NoNewline: "Example 7: Don't Look At Me"
