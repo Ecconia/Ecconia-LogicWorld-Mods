@@ -21,10 +21,9 @@ You can ignore all other files outside of the `mod folder`s.
 - `DisableCollision` **Must have!**: Allows you to build even when LogicWorld does not want you to. (On floating-point/collider issues, or when refactoring buildings).
 - `CustomWirePlacer` **Must have!**: Replaces the vanilla wire placer with a power-user tool (that you won't want to miss later on).
 - `SimulationControl`: Adds a console command `tps`, which is much less complicated than `server "simulation.rate <number>"`.
-- `PrintModCompilationErrors`: If you are a modder, this mod is a must have. As you can easily read compilation errors from the logs files with it.
 - `RandomDebugCollection`: Provides small features for debugging, will display the stacktrace in logs and the error screen.
 - `EcconiasChaosClientMod`: Mod made for Ecconia to dump tiny feature inside. Noteworthy: Custom skybox, command to list connected players.
-- `FlexibleComponentModUsage`: **Useful** Mod that will allow you to join servers with less components than you - without crashing.
+- `FlexibleComponentModUsage`: **Useful** Mod that will hide components from your component window, when joining a server that does not have these components installed.
 
 Libraries:
 
@@ -55,7 +54,7 @@ Libraries:
 ### How to contribute / develop on these?
 
 Download this repository or optionally a fork.\
-Create a `link` named `LogicWorld` from within this projects root folder to your `Logic World` installation directory. (Probably in your Steam installations folder `[...]/steamapps/common/Logic World/`).\
+Create a `symbolic link` named `LogicWorld` from within this projects root folder to your `Logic World` installation directory. (Probably in your Steam installations folder `[...]/steamapps/common/Logic World/`).\
 Open the repository with your favorite C# IDE and hope that it works. (This repository is managed with JetBrains Rider).
 
 ### Contact:

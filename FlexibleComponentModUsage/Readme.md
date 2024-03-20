@@ -2,9 +2,11 @@
 
 ### Description:
 
-Lets you install all component mods that you need, and still let you join vanilla or servers with less components than you have, without crashing.
+You can install all the component mods you need.\
+With this mod, components will be hidden from the selection window, when you join a server that does not have them installed.\
+Which makes choosing components much easier. And you won't be confused when placing one that cannot be placed.
 
-Will hide the components you cannot use from the component selection window.
+Previously this mod also prevent crashes, but these are no longer an issue since LW 0.91.3.
 
 ### What is the problem?
 
@@ -12,18 +14,12 @@ You can join servers that do not have components which you have installed.\
 But you cannot place the components that are not installed.\
 And worse, you will crash, when one player undoes a container component with components on it.
 
-### How does it work?
-
-This happens, because LWs component system will add all components you have installed into its "awareness" system.\
-But at some point (on `undo`), it compares the servers with the clients component mapping lists and detects a different, leading to a crash.
-
-The fix that this mod uses is simple. When joining a server, it simply removes components from LWs component awareness system. It will re-add components on demand again.
-
 ### Heads up! Priority: -50
 
 This mod MUST load after other component mods, else their thumbnail won't render and you will crash.
 
-This is because it accesses a class in charge of ComponentPrefabVariants - which triggers it to scan for Prefab classes. This is not done again after this mod is initialized.
+This is because it accesses a class in charge of ComponentPrefabVariants - which triggers it to scan for Prefab classes. This is not done again after this mod is initialized.\
+Also, because other component mods, might register Component Action API handlers, that must happen first.
 
 Make sure your component mod has a priority higher than `-50`. But if your component mod does not have priority `0`, you are probably doing something wrong anyway.
 
