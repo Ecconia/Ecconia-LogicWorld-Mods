@@ -39,10 +39,8 @@ If `Secret link`s are used instead, for each channel switch and each bit a secre
 
 ### Known issues:
 
-- The edit window flickers once when the address pegs are changed from 0 to something else.
 - When changing peg counts, sounds of wire destruction/placement will be played.
 - By design - as pegs are centered - they are not always properly aligned with the grid.
-- Due to the mod internally using virtual pegs (which need a fake-component-address), whenever you load the world / start the server, your component address counter will be incremented by 1. (Not really a big issue, this happens every time when you place something). 
 
 ## Install / Dependencies:
 

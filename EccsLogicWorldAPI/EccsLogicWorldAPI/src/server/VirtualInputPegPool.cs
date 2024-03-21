@@ -10,8 +10,10 @@ namespace EccsLogicWorldAPI.Server
 {
 	public static class VirtualInputPegPool
 	{
-		private static readonly ComponentAddress rootAddress;
 		private static readonly Stack<InputPeg> pegs;
+		
+		private static ComponentAddress rootAddress;
+		private static bool initialized;
 		
 		private static int count;
 		
@@ -19,7 +21,6 @@ namespace EccsLogicWorldAPI.Server
 		{
 			//Initialize:
 			pegs = new Stack<InputPeg>();
-			rootAddress = ComponentAddressGrabber.getNewComponentAddress();
 			
 			//Setup Harmony trap:
 			try
@@ -38,6 +39,16 @@ namespace EccsLogicWorldAPI.Server
 			HarmonyAtRuntime.patch(instance, method, patch);
 		}
 		
+		public static void ensureInitialized()
+		{
+			if(initialized)
+			{
+				return;
+			}
+			initialized = true;
+			UnusedComponentAddressGrabber.grabOneMore();
+		}
+		
 		public static bool harmonyTrapPatch(ref int ____StateID, int value, InputAddress ___iAddress)
 		{
 			if(___iAddress.ComponentAddress != rootAddress)
@@ -54,6 +65,11 @@ namespace EccsLogicWorldAPI.Server
 			if(pegs.TryPop(out var peg))
 			{
 				return peg;
+			}
+			if(rootAddress == ComponentAddress.Empty)
+			{
+				// Initialize root address:
+				rootAddress = UnusedComponentAddressGrabber.getUnusedComponentAddress();
 			}
 			return InputPegFactory.generateNewInputPeg(new InputAddress(rootAddress, count++));
 		}
