@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace />
+	</PropertyGroup>
+	
+	<ItemGroup>
+	  <Reference Include="FancyInput">
+	    <HintPath>..\LogicWorld\Logic_World_Data\Managed\FancyInput.dll</HintPath>
+	  </Reference>
+	  <Reference Include="LogicAPI">
+	    <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="LogicAPI.Client">
+	    <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.Client.dll</HintPath>
+	  </Reference>
+	  <Reference Include="LogicWorld.Building">
+	    <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Building.dll</HintPath>
+	  </Reference>
+	  <Reference Include="LogicWorld.GameStates">
+	    <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.GameStates.dll</HintPath>
+	  </Reference>
+	  <Reference Include="LogicWorld.Interfaces">
+	    <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Interfaces.dll</HintPath>
+	  </Reference>
+	  <Reference Include="LogicWorld.UI">
+	    <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.UI.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+</Project>

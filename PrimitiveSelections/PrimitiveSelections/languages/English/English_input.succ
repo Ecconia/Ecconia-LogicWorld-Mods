@@ -1,0 +1,7 @@
+MHG.SettingsMenu.Pages.Controls.Headings.PrimitiveSelections: "Mod: Primitive Selections"
+
+FancyInput.Trigger.PrimitiveSelections.SelectAllChildComponents : "Select all child components"
+FancyInput.Trigger.PrimitiveSelections.SelectAllChildComponents.Description : """
+    Will select all child component of the component currently looking at.  
+    Will replace current component selection with all child components of selected components.
+    """

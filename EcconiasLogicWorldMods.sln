@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulationStopwatch", "Comp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComponentActionsExampleMod", "ComponentMods\ComponentActionsExampleMod\ComponentActionsExampleMod.csproj", "{2C1B77CC-A303-4A92-873E-D8E5C56A466C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimitiveSelections", "PrimitiveSelections\PrimitiveSelections.csproj", "{59DFBD39-DAA1-4CE1-957C-64C031A8235D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,5 +122,9 @@ Global
 		{2C1B77CC-A303-4A92-873E-D8E5C56A466C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C1B77CC-A303-4A92-873E-D8E5C56A466C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C1B77CC-A303-4A92-873E-D8E5C56A466C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59DFBD39-DAA1-4CE1-957C-64C031A8235D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59DFBD39-DAA1-4CE1-957C-64C031A8235D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59DFBD39-DAA1-4CE1-957C-64C031A8235D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59DFBD39-DAA1-4CE1-957C-64C031A8235D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
