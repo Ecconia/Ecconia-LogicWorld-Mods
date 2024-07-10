@@ -190,7 +190,8 @@ namespace EcconiaCPUServerComponents.Client
 					DecorationObject = go,
 					AutoSetupColliders = false,
 					IncludeInModels = false,
-				}
+					ShouldBeOutlined = false,
+				},
 			};
 		}
 	}

@@ -65,6 +65,7 @@ namespace EcconiaCPUServerComponents.Client
 							{
 								Type = ColliderType.None,
 							},
+							ShouldBeOutlined = false,
 						};
 					}
 				}

@@ -248,6 +248,7 @@ namespace EcconiaCPUServerComponents.Client
 					DecorationObject = labelGameObject,
 					AutoSetupColliders = false,
 					IncludeInModels = true,
+					ShouldBeOutlined = false,
 				},
 			};
 		}
