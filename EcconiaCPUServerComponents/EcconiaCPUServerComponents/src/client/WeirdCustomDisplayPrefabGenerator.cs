@@ -1,5 +1,5 @@
 using System;
-using LogicWorld.Interfaces;
+using LogicAPI.Data;
 using LogicWorld.References;
 using LogicWorld.Rendering.Dynamics;
 using LogicWorld.SharedCode;
@@ -10,10 +10,11 @@ namespace EcconiaCPUServerComponents.Client
 {
 	//I do not need to put this code here, I could put it in the SUCC file.
 	// But then I think I would go crazy. So here it stays.
-	public class WeirdCustomDisplayPrefab : PrefabVariantInfo
+	public class WeirdCustomDisplayPrefabGenerator : DynamicPrefabGenerator<(int, int)>
 	{
 		//MUST BE AN EVEN NUMBER, OR CODE AND MODEL BREAK! Actually it is used everywhere now, do not change.
 		private const int DisplaySideLength = 32;
+		// (32 'Selector' + 32 'Invert Selector') * 2 'X/Y' + 1 'Data'
 		private const int PegAmount = DisplaySideLength * 4 + 1;
 		
 		//This is how far a panel displays stands out of a board. This display should be aligned with them:
@@ -23,22 +24,25 @@ namespace EcconiaCPUServerComponents.Client
 		private const float PegZOffset = -1f + GeneralZOffset; //-1f, because the pegs start one block behind the component.
 		private const float BlockZOffset = GeneralZOffset;
 		//The distance from the pegs to the pixel center on axis.
-		const float PegPairOffset = 1f / 3f; //Is not aligned to the squares, but looks better.
+		private const float PegPairOffset = 1f / 3f; //Is not aligned to the squares, but looks better.
+
+		protected override (int, int) GetIdentifierFor(ComponentData componentData)
+			=> (componentData.InputCount, componentData.OutputCount);
 		
-		public override string ComponentTextID => "EcconiaCPUServerComponents.WeirdCustomDisplay";
+		public override (int inputCount, int outputCount) GetDefaultPegCounts()
+			=> (PegAmount + 1, 0); // +1 is the additional debug peg added at some point
 		
-		public override PrefabVariantIdentifier GetDefaultComponentVariant()
+		protected override Prefab GeneratePrefabFor((int, int) identifier)
 		{
-			// (32 'Selector' + 32 'Invert Selector') * 2 'X/Y' + 1 'Data'
-			return new PrefabVariantIdentifier(PegAmount + 1, 0);
-		}
-		
-		public override ComponentVariant GenerateVariant(PrefabVariantIdentifier identifier)
-		{
-			var hasExtraPeg = identifier.InputCount == PegAmount + 1;
-			if((identifier.InputCount != PegAmount && !hasExtraPeg) || identifier.OutputCount != 0)
+			var (inputCount, outputCount) = identifier;
+			if (outputCount != 0)
 			{
-				throw new Exception("Attempted to create Ecconias WeirdCustomDisplay with unexpected peg configuration. Loading old save? Wrong mod version?");
+				throw new Exception("Attempted to create Ecconias WeirdCustomDisplay with output pegs. Fix your save (or mod)!");
+			}
+			var hasExtraPeg = inputCount == PegAmount + 1;
+			if(!hasExtraPeg && inputCount != PegAmount)
+			{
+				throw new Exception("Attempted to create Ecconias WeirdCustomDisplay with unexpected input peg amount. Loading old save? Wrong mod version?");
 			}
 			
 			//Blocks:
@@ -164,20 +168,10 @@ namespace EcconiaCPUServerComponents.Client
 					};
 				}
 			}
-			return new ComponentVariant
+			return new Prefab
 			{
-				VariantPrefab = new Prefab
-				{
-					Blocks = blocks,
-					Inputs = inputs,
-				},
-				VariantPlacingRules = new PlacingRules
-				{
-					PrimaryEdgePositions = new Vector2[]
-					{
-						new Vector2(0.5f, 0f),
-					},
-				},
+				Blocks = blocks,
+				Inputs = inputs,
 			};
 		}
 	}

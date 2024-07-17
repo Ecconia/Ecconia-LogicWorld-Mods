@@ -1,4 +1,4 @@
 TPSPrinter:
     column: "Simulation"
-    prefab: dynamic
+    prefabGenerator: EcconiaCPUServerComponents.Client.TPSPrinterPrefabGenerator
     logicCode: EcconiaCPUServerComponents.Server.TPSPrinter

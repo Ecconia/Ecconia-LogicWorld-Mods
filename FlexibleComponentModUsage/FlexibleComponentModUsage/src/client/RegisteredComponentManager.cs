@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using EccsLogicWorldAPI.Shared.AccessHelper;
 using LogicAPI.Interfaces;
-using LogicWorld.Rendering;
-using LogicWorld.Rendering.Dynamics;
 using LogicWorld.SharedCode.Components;
 
 namespace FlexibleComponentModUsage.client
@@ -10,7 +8,6 @@ namespace FlexibleComponentModUsage.client
 	public class RegisteredComponentManager
 	{
 		private static readonly Dictionary<string, ComponentInfo> componentRegistryReference;
-		private static readonly List<PrefabVariantInfo> prefabRegistryReference;
 		private static readonly Dictionary<string, IComponentActionMutationHandler> componentActionHandlersReference;
 		
 		static RegisteredComponentManager()
@@ -19,14 +16,6 @@ namespace FlexibleComponentModUsage.client
 			componentRegistryReference = Types.checkType<Dictionary<string, ComponentInfo>>(
 				Fields.getNonNull(
 					Fields.getPrivateStatic(typeof(ComponentRegistry), "AllRegisteredComponents")
-				)
-			);
-			prefabRegistryReference = Types.checkType<List<PrefabVariantInfo>>(
-				Fields.getNonNull(
-					Fields.getPrivateStatic(
-						typeof(RenderUpdateManager).Assembly.GetType("LogicWorld.Rendering.Dynamics.ComponentVariantManager"),
-						"PrefabVariantInfoInstances"
-					)
 				)
 			);
 			componentActionHandlersReference = Types.checkType<Dictionary<string, IComponentActionMutationHandler>>(
@@ -43,7 +32,6 @@ namespace FlexibleComponentModUsage.client
 		private readonly Dictionary<string, int> componentOrderIndex;
 		//Backup reference values for restoring everything:
 		private readonly Dictionary<string, ComponentInfo> componentRegistryBackup;
-		private readonly List<PrefabVariantInfo> prefabRegistryBackup;
 		private readonly Dictionary<string, IComponentActionMutationHandler> componentActionHandlersBackup;
 		
 		public RegisteredComponentManager()
@@ -55,7 +43,6 @@ namespace FlexibleComponentModUsage.client
 			}
 			//Transmit the original components into a local structure.
 			componentRegistryBackup = new Dictionary<string, ComponentInfo>(componentRegistryReference);
-			prefabRegistryBackup = new List<PrefabVariantInfo>(prefabRegistryReference);
 			componentActionHandlersBackup = new Dictionary<string, IComponentActionMutationHandler>(componentActionHandlersReference);
 		}
 		
@@ -95,7 +82,6 @@ namespace FlexibleComponentModUsage.client
 		{
 			//Clear all references, to fill them up again:
 			componentRegistryReference.Clear();
-			prefabRegistryReference.Clear();
 			componentActionHandlersReference.Clear();
 			
 			//Check that every component on the server is installed on the client by looking at the backup:
@@ -129,15 +115,6 @@ namespace FlexibleComponentModUsage.client
 				componentRegistryReference[serverID] = componentRegistryBackup[serverID];
 			}
 			
-			//Adjust prefabs in the official registry to the servers:
-			foreach(var prefab in prefabRegistryBackup)
-			{
-				if(componentRegistryReference.ContainsKey(prefab.ComponentTextID))
-				{
-					prefabRegistryReference.Add(prefab);
-				}
-			}
-			
 			//Done. Now the client thinks it has only the components that the server has.
 		}
 		
@@ -148,8 +125,6 @@ namespace FlexibleComponentModUsage.client
 			{
 				componentRegistryReference[clientID] = clientInfo;
 			}
-			prefabRegistryReference.Clear();
-			prefabRegistryReference.AddRange(prefabRegistryBackup);
 			componentActionHandlersReference.Clear();
 			foreach(var (clientID, clientHandler) in componentActionHandlersBackup)
 			{

@@ -1,5 +1,5 @@
 FileDump:
     column: "Output"
-    prefab: dynamic
+    prefabGenerator: FileDump.Client.FileDumpPrefabGenerator
     logicCode: FileDump.Server.FileDump
     clientCode: FileDump.Client.FileDump

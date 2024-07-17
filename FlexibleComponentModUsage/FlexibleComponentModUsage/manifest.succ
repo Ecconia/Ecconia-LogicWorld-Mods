@@ -1,7 +1,7 @@
 ID: FlexibleComponentModUsage
 Name: FlexibleComponentModUsage
 Author: Ecconia
-Version: 1.0.0
+Version: 1.1.0
 #This mod MUST load after all component-mods have been loaded. Else it will prevent their prefabs from being added.
 Priority: -50
 ClientOnly: true
