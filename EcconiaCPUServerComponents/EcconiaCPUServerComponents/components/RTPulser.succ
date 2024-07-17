@@ -1,4 +1,4 @@
 RTPulser:
     column: "Simulation"
-    prefab: dynamic
+    prefabGenerator: EcconiaCPUServerComponents.Client.RTPulserPrefabGenerator
     logicCode: EcconiaCPUServerComponents.Server.RTPulser

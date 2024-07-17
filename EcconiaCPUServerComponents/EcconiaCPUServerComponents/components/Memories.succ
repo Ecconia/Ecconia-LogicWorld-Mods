@@ -1,7 +1,10 @@
 Ram256b8:
     column: "Memory"
-    prefab: dynamic
-    placingRules: dynamic
+    prefabGenerator: EcconiaCPUServerComponents.Client.Ram256b8PrefabGenerator
+    placingRules:
+        primaryEdgePositions:
+            - (0.5, -0.25)
+            - (0.5, +0.25)
 
     clientCode: EcconiaCPUServerComponents.Client.Ram256b8
     logicCode: EcconiaCPUServerComponents.Server.Ram256b8

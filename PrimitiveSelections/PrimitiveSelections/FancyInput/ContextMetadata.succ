@@ -1,0 +1,5 @@
+PrimitiveSelections.PrimitiveSelections:
+    InjectTriggersInto:
+        - MHG.BuildActions
+    Triggers:
+        - PrimitiveSelections.SelectAllChildComponents

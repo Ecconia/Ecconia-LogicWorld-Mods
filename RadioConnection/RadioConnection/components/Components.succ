@@ -1,7 +1,7 @@
 RadioComponent:
     column: "Miscellaneous"
     category: "Routing"
-    prefab: dynamic
+    prefabGenerator: RadioConnection.Client.RadioComponentPrefabGenerator
     placingRules: Standard
 
     logicCode: RadioConnection.Server.RadioComponent

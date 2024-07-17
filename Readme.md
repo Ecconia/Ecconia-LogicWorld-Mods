@@ -2,7 +2,7 @@
 
 In this repository you will find all mods created by @Ecconia for the game `Logic World`.
 
-**All mods in this repository are for LogicWorld 0.91.3**\
+**All mods in this repository are for LogicWorld 0.91.4**\
 To find mods for older LogicWorld versions, check out the GitHub tags of this repository.
 
 ## How to install / use them?
@@ -12,7 +12,7 @@ In each of these folder you will find descriptions (`Readme.md`) and further ins
 Inside each `project folder` you will find another folder, which is the actual `mod folder` (contains the `manifest.succ` file).\
 You can copy/paste or `link` that `mod folder` to your `GameData` folder, where `Logic World` searches for mods.
 
-You can ignore all other files outside of the `mod folder`s.
+You can ignore all other files outside the `mod folder`s.
 
 ## List of mods:
 
@@ -20,10 +20,10 @@ You can ignore all other files outside of the `mod folder`s.
 
 - `DisableCollision` **Must have!**: Allows you to build even when LogicWorld does not want you to. (On floating-point/collider issues, or when refactoring buildings).
 - `CustomWirePlacer` **Must have!**: Replaces the vanilla wire placer with a power-user tool (that you won't want to miss later on).
-- `SimulationControl`: Adds a console command `tps`, which is much less complicated than `server "simulation.rate <number>"`.
 - `RandomDebugCollection`: Provides small features for debugging, will display the stacktrace in logs and the error screen.
 - `EcconiasChaosClientMod`: Mod made for Ecconia to dump tiny feature inside. Noteworthy: Custom skybox, command to list connected players.
 - `FlexibleComponentModUsage`: **Useful** Mod that will hide components from your component window, when joining a server that does not have these components installed.
+- `PrimitiveSelections`: Mod which allows you to multi select all child components of a selection.
 
 Libraries:
 

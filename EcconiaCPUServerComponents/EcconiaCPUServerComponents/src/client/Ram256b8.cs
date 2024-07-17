@@ -51,7 +51,7 @@ namespace EcconiaCPUServerComponents.Client
 				{
 					new FixedPlacingPoint()
 					{
-						Position = new Vector3(0f, Ram256b8Prefab.height, 0f),
+						Position = new Vector3(0f, Ram256b8PrefabGenerator.height, 0f),
 						Range = 100f,
 					},
 				},
@@ -185,12 +185,13 @@ namespace EcconiaCPUServerComponents.Client
 			{
 				new Decoration()
 				{
-					LocalPosition = new Vector3(0.155f, (Ram256b8Prefab.height) * 0.3f - 0.15f, 254.5f * 0.5625f),
+					LocalPosition = new Vector3(0.155f, (Ram256b8PrefabGenerator.height) * 0.3f - 0.15f, 254.5f * 0.5625f),
 					LocalRotation = alignment,
 					DecorationObject = go,
 					AutoSetupColliders = false,
 					IncludeInModels = false,
-				}
+					ShouldBeOutlined = false,
+				},
 			};
 		}
 	}

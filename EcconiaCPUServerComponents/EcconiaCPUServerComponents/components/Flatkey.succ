@@ -1,7 +1,7 @@
 FlatKey:
     column: "Input"
     category: "PanelInputs"
-    prefab: dynamic
+    prefabGenerator: EcconiaCPUServerComponents.Client.FlatKeyPrefabGenerator
     placingRules: StandardFlippable
 
     logicCode: EcconiaCPUServerComponents.Server.FlatKey
