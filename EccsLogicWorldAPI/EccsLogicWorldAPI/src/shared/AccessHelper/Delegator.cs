@@ -114,5 +114,17 @@ namespace EccsLogicWorldAPI.Shared.AccessHelper
 				a1, a2, a3, a4, a5);
 			return lambda.Compile();
 		}
+		
+		public static Func<A1, A2, A3, A4, RESULT> createObjectInitializer<A1, A2, A3, A4, RESULT>(ConstructorInfo constructor)
+		{
+			var a1 = Expression.Parameter(typeof(A1), "a1");
+			var a2 = Expression.Parameter(typeof(A2), "a2");
+			var a3 = Expression.Parameter(typeof(A3), "a3");
+			var a4 = Expression.Parameter(typeof(A4), "a4");
+			var lambda = Expression.Lambda<Func<A1, A2, A3, A4, RESULT>>(
+				Expression.New(constructor, a1, a2, a3, a4), 
+				a1, a2, a3, a4);
+			return lambda.Compile();
+		}
 	}
 }

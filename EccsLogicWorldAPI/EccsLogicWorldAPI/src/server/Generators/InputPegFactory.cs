@@ -12,29 +12,26 @@ namespace EccsLogicWorldAPI.Server.Generators
 	{
 		private static readonly ICircuitryManager iCircuitryManager;
 		private static readonly IClusterFactory iClusterFactory;
-		private static readonly CircuitStates circuitStates;
 		private static readonly Func<ICircuitryManager, Dictionary<InputAddress, InputPeg>> getLogicInputs;
-		private static readonly Func<InputAddress, LogicComponent, bool, CircuitStates, ICircuitryManager, InputPeg> newInputPeg;
+		private static readonly Func<InputAddress, LogicComponent, bool, ICircuitryManager, InputPeg> newInputPeg;
 		
 		static InputPegFactory()
 		{
 			iCircuitryManager = ServiceGetter.getService<ICircuitryManager>();
 			iClusterFactory = ServiceGetter.getService<IClusterFactory>();
-			circuitStates = ServiceGetter.getService<CircuitStates>();
 			getLogicInputs = Delegator.createFieldGetter<ICircuitryManager, Dictionary<InputAddress, InputPeg>>(Fields.getPrivate(typeof(CircuitryManager), "LogicInputs"));
 			var constructor = typeof(InputPeg).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[]
 			{
 				typeof(InputAddress),
 				typeof(LogicComponent),
 				typeof(bool),
-				typeof(CircuitStates),
 				typeof(ICircuitryManager),
 			}, null);
 			if(constructor == null)
 			{
 				throw new Exception("Could not find constructor of object InputPeg.");
 			}
-			newInputPeg = Delegator.createObjectInitializer<InputAddress, LogicComponent, bool, CircuitStates, ICircuitryManager, InputPeg>(constructor);
+			newInputPeg = Delegator.createObjectInitializer<InputAddress, LogicComponent, bool, ICircuitryManager, InputPeg>(constructor);
 		}
 		
 		/**
@@ -60,7 +57,6 @@ namespace EccsLogicWorldAPI.Server.Generators
 				address,
 				null,
 				false,
-				circuitStates,
 				iCircuitryManager
 			);
 			//Register peg:
