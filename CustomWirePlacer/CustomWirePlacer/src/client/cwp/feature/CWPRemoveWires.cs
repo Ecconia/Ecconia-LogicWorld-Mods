@@ -33,7 +33,7 @@ namespace CustomWirePlacer.Client.CWP.feature
 					{
 						continue;
 					}
-					requests.Add(new BuildRequest_DeleteWire(wireAddress));
+					requests.Add(new BuildRequest_RemoveWire(wire.Point1, wire.Point2));
 				}
 			}
 			if(requests.Any())
@@ -62,7 +62,7 @@ namespace CustomWirePlacer.Client.CWP.feature
 					var otherIndex = otherPegs.IndexOf(pegOtherSide);
 					if(otherIndex >= 0) //The partner peg is in the other group of pegs, remove wire!
 					{
-						requests.Add(new BuildRequest_DeleteWire(wireAddress));
+						requests.Add(new BuildRequest_RemoveWire(wire.Point1, wire.Point2));
 					}
 				}
 			}

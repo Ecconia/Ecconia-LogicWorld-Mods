@@ -1,7 +1,7 @@
 using CustomChatManager.Server.ChatServices;
 using CustomChatManager.Server.Commands;
 using EccsLogicWorldAPI.Shared.PacketWrapper;
-using LogicAPI.Networking.Packets.Client;
+using LogicAPI.Networking.Packets.FromClient;
 using LogicAPI.Server;
 
 namespace CustomChatManager.Server

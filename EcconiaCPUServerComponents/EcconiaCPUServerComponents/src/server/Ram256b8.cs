@@ -4,7 +4,7 @@ using System.Text;
 using EccsLogicWorldAPI.Server;
 using EccsLogicWorldAPI.Shared.AccessHelper;
 using LogicAPI.Networking;
-using LogicAPI.Networking.Packets.Server;
+using LogicAPI.Networking.Packets.FromServer;
 using LogicAPI.Server.Components;
 using LogicAPI.Server.Networking;
 using LogicAPI.WorldDataMutations;

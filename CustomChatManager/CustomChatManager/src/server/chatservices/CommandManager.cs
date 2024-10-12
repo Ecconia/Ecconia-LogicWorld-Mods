@@ -7,7 +7,7 @@ using EccsLogicWorldAPI.Server.Hooks;
 using JimmysUnityUtilities;
 using LogicAPI.Data;
 using LogicAPI.Networking;
-using LogicAPI.Networking.Packets.Server;
+using LogicAPI.Networking.Packets.FromServer;
 using LogicAPI.Server.Networking;
 using LogicLog;
 

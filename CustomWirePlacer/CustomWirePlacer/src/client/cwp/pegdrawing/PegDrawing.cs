@@ -17,7 +17,7 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 {
 	public static class PegDrawing
 	{
-		private static readonly HotbarItemData pegData = new BasicHotbarItemData("MHG.Peg");
+		private static readonly SingleComponentHotbarItemData pegData = new BasicHotbarItemData("MHG.Peg");
 		
 		private static PegAddress peg;
 		
@@ -47,7 +47,7 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 		public static void onActivate()
 		{
 			//Peg initialization:
-			var ghost = PlacingGhost.CreateForHotbarItem(pegData);
+			var ghost = PlacingGhost.CreateForSingleComponentHotbarItem(pegData);
 			placer = new StuffPlacer(ghost, ghost.GhostWorld.Dynamics.GetPlacingRulesAt(ghost.RootComponent))
 			{
 				AllowOffsetHold = true,

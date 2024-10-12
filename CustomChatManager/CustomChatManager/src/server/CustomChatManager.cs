@@ -4,8 +4,8 @@ using EccsLogicWorldAPI.Server;
 using EccsLogicWorldAPI.Shared.PacketWrapper;
 using LogicAPI.Data;
 using LogicAPI.Networking;
-using LogicAPI.Networking.Packets.Client;
-using LogicAPI.Networking.Packets.Server;
+using LogicAPI.Networking.Packets.FromClient;
+using LogicAPI.Networking.Packets.FromServer;
 using LogicAPI.Server.Networking;
 using LogicWorld.SharedCode.Networking;
 

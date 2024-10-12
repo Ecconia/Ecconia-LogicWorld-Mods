@@ -31,6 +31,5 @@ This feature is mostly important while developing new LW versions, not sure what
 This mod has a few commands:
 
 - `ClearHistory`: Clears your action history, you will no longer be able to undo then. Added out of curiosity, if it would free memory.
-- `ClearSubassemblies`: Clears stored subassemblies, there exists an official command for that, but its broken. Also added to see if it frees memory.
 - `CollectGarbage`: Runs the garbage collection. Added also for memory investigation reasons.
 - `Theme`: Reloads the current color theme. Useful when you are designing a layout and don't want to restart.

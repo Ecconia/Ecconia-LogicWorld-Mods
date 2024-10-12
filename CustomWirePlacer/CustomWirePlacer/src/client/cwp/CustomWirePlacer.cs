@@ -695,7 +695,7 @@ namespace CustomWirePlacer.Client.CWP
 					var wire = WireGhost.GetNewGhost();
 					wire.SetInfo(first, second, 0f);
 					wire.SetOutlineData(outline);
-					wire.RecycleOnWorldUpdate();
+					wire.DisableOutlineAndRecycleOnWorldUpdate();
 				}
 			}
 			if(requests.Any())
