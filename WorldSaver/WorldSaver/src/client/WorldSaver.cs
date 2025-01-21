@@ -12,7 +12,7 @@ using LogicWorld.SharedCode.ExtraData;
 using LogicWorld.SharedCode.Modding;
 using LogicWorld.SharedCode.Saving;
 using LogicWorld.SharedCode.WorldTypes;
-using SUCC;
+using JECS;
 using UnityEngine.SceneManagement;
 
 namespace WorldSaver.Client
@@ -23,7 +23,7 @@ namespace WorldSaver.Client
 		public static void saveWorld()
 		{
 			//Ensure target folder exists:
-			var savesFolder = Path.Combine(SUCC.Utilities.DefaultPath, "saves");
+			var savesFolder = Path.Combine(JECS.Utilities.DefaultPath, "saves");
 			//TODO: Figure out the world name - should be MP and stuff.
 			var time = DateTime.Now.ToString("yyyy.MM.dd-hh·mm·ss");
 			var saveFolder = Path.Combine(savesFolder, "WorldExport@" + time);

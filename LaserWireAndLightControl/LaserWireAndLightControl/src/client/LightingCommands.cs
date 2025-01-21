@@ -20,7 +20,7 @@ namespace EcconiasChaosClientMod.Client.Lighting
 		[Command(name: "LightPreset", Description = "Activates the skybox and some preset values, that you can change in code.")]
 		public static void lightPreset()
 		{
-			Skybox.skyboxSilent();
+			// Skybox.skyboxSilent();
 			lightSun(0.5f);
 			lightAmbient(0.9f);
 		}
