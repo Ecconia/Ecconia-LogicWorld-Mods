@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using EccsGuiBuilder.Client.CustomBehaviors;
 using EccsGuiBuilder.Client.Wrappers.AutoAssign;
 using EccsLogicWorldAPI.Client.AccessHelpers;
@@ -49,12 +50,12 @@ namespace EccsGuiBuilder.Client.Wrappers.RootWrappers
 		//### Custom close action:
 		
 		private bool replacedDefaultCloseAction;
-		private event Action onWindowClose;
+		private readonly List<Action> onWindowCloseActions = new List<Action>();
 		
 		public WindowWrapper addOnCloseAction(Action action)
 		{
 			replaceDefaultCloseOperation();
-			onWindowClose += action;
+			onWindowCloseActions.Add(action);
 			return this;
 		}
 		
@@ -75,15 +76,13 @@ namespace EccsGuiBuilder.Client.Wrappers.RootWrappers
 			type = Types.getType(typeof(StandardMenuBackground).Assembly, "LogicWorld.UI.ClickableMenuBackground");
 			Object.DestroyImmediate(blocker.GetComponent(type)); //Child 0 is the Blocker (background)
 			
-			//Add close button handler:
-			gameObject.GetComponent<ConfigurableMenuUtility>().OnCloseButtonPressed += customOnClose;
-			//Add background click handler:
-			blocker.AddComponent<CanvasBackgroundClicked>().onCanvasClicked += customOnClose;
-		}
-		
-		private void customOnClose()
-		{
-			onWindowClose?.Invoke();
+			foreach (var action in onWindowCloseActions)
+			{
+				//Add close button handler:
+				gameObject.GetComponent<ConfigurableMenuUtility>().OnCloseButtonPressed += action;
+				//Add background click handler:
+				blocker.AddComponent<CanvasBackgroundClicked>().onCanvasClicked += action;
+			}
 		}
 		
 		//### Resizing and building:
