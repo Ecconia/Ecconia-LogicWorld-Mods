@@ -2,7 +2,7 @@
 
 In this repository you will find all mods created by @Ecconia for the game `Logic World`.
 
-**All mods in this repository are for LogicWorld preview version 0.92.0.178**\
+**All mods in this repository are for LogicWorld preview version 0.92.0.X** (Check the #news channel on the games Discord)\
 To find mods for older LogicWorld versions, check out the GitHub tags of this repository.
 
 ## How to install / use them?
