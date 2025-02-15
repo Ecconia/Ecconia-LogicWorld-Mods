@@ -1,5 +1,4 @@
 using JimmysUnityUtilities;
-using KnifeOutline;
 using LogicWorld.Outlines;
 
 namespace CustomWirePlacer.Client.CWP

@@ -12,6 +12,7 @@ using LogicWorld.BuildingManagement;
 using LogicWorld.GameStates;
 using LogicWorld.Input;
 using LogicWorld.Interfaces;
+using LogicWorld.Outlines;
 using LogicWorld.UI.HelpList;
 
 namespace CustomWirePlacer.Client.CWP
@@ -675,7 +676,7 @@ namespace CustomWirePlacer.Client.CWP
 			{
 				var wire = WireGhost.GetNewGhost();
 				wire.SetInfo(first, second, 0f);
-				wire.SetOutlineData(valid ? validColor : invalidColor);
+				wire.Outline.SetData(valid ? validColor : invalidColor);
 				ghosts.Add(wire); //Add the wire to list, so that it can be removed on next update.
 			}
 		}
@@ -694,7 +695,7 @@ namespace CustomWirePlacer.Client.CWP
 					// there will just be new wire ghosts for only the valid wires:
 					var wire = WireGhost.GetNewGhost();
 					wire.SetInfo(first, second, 0f);
-					wire.SetOutlineData(outline);
+					wire.Outline.SetData(outline);
 					wire.DisableOutlineAndRecycleOnWorldUpdate();
 				}
 			}
