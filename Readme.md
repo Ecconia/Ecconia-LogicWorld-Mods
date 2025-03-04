@@ -2,7 +2,7 @@
 
 In this repository you will find all mods created by @Ecconia for the game `Logic World`.
 
-**All mods in this repository are for LogicWorld preview version 0.92.0.178**\
+**All mods in this repository are for LogicWorld preview version 0.92.0.X** (Check the #news channel on the games Discord)\
 To find mods for older LogicWorld versions, check out the GitHub tags of this repository.
 
 ## How to install / use them?
@@ -51,11 +51,11 @@ Libraries:
 
 - `EcconiaCPUServerComponents`: Components that I use in my text-editor project. My favorite is the custom key. Ask for it as a standalone mod :)
 
-### How to contribute / develop on these?
+### How to contribute to / develop on these mods?
 
 Download this repository or optionally a fork.\
-Create a `symbolic link` named `LogicWorld` from within this projects root folder to your `Logic World` installation directory. (Probably in your Steam installations folder `[...]/steamapps/common/Logic World/`).\
-Open the repository with your favorite C# IDE and hope that it works. (This repository is managed with JetBrains Rider).
+Open the repository with your favorite C# IDE. (This repository is managed with JetBrains Rider).\
+Create an `environment variable` in your IDE for the `$(LogicWorldGameLocation)` MSBuild variable. It must point to a valid Logic World installation (In most cases it is probably `[...]/steamapps/common/Logic World` - no trailing `/`). This is used to resolve references.
 
 ### Contact:
 

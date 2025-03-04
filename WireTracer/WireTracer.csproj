@@ -10,70 +10,70 @@
         <HintPath>..\HarmonyForLogicWorld\HarmonyForLogicWorld\assemblies\client\0Harmony.dll</HintPath>
       </Reference>
       <Reference Include="FancyInput">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\FancyInput.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\FancyInput.dll</HintPath>
       </Reference>
       <Reference Include="JimmysUnityUtilities">
-        <HintPath>..\LogicWorld\Server\JimmysUnityUtilities.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Server\JimmysUnityUtilities.dll</HintPath>
       </Reference>
       <Reference Include="KnifeOutline">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\KnifeOutline.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\KnifeOutline.dll</HintPath>
       </Reference>
       <Reference Include="LICC">
-        <HintPath>..\LogicWorld\Server\LICC.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Server\LICC.dll</HintPath>
       </Reference>
       <Reference Include="LogicAPI">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicAPI.dll</HintPath>
       </Reference>
       <Reference Include="LogicAPI.Client">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.Client.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicAPI.Client.dll</HintPath>
       </Reference>
       <Reference Include="LogicAPI.Server">
-        <HintPath>..\LogicWorld\Server\LogicAPI.Server.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Server\LogicAPI.Server.dll</HintPath>
       </Reference>
       <Reference Include="LogicLog">
-        <HintPath>..\LogicWorld\Server\LogicLog.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Server\LogicLog.dll</HintPath>
       </Reference>
       <Reference Include="LogicUI">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicUI.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicUI.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.Building">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Building.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Building.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.GameStates">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.GameStates.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.GameStates.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.Input">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Input.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Input.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.Interfaces">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Interfaces.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Interfaces.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.Networking">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Networking.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Networking.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.Outlines">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Outlines.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Outlines.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.Physics">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Physics.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Physics.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.Players">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Players.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Players.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.SharedCode">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.UI">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.UI.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.UI.dll</HintPath>
       </Reference>
       <Reference Include="MessagePack.Annotations">
-        <HintPath>..\LogicWorld\Server\MessagePack.Annotations.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Server\MessagePack.Annotations.dll</HintPath>
       </Reference>
       <Reference Include="Server">
-        <HintPath>..\LogicWorld\Server\Server.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Server\Server.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.CoreModule">
-        <HintPath>..\LogicWorld\Server\UnityEngine.CoreModule.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Server\UnityEngine.CoreModule.dll</HintPath>
       </Reference>
     </ItemGroup>
     <ItemGroup>
