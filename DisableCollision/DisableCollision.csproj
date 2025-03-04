@@ -11,16 +11,16 @@
         <HintPath>..\HarmonyForLogicWorld\HarmonyForLogicWorld\assemblies\client\0Harmony.dll</HintPath>
       </Reference>
       <Reference Include="LICC, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LICC.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LICC.dll</HintPath>
       </Reference>
       <Reference Include="LogicAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicAPI.dll</HintPath>
       </Reference>
       <Reference Include="LogicAPI.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicAPI.Client.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicAPI.Client.dll</HintPath>
       </Reference>
       <Reference Include="LogicWorld.Building, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\LogicWorld\Logic_World_Data\Managed\LogicWorld.Building.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Building.dll</HintPath>
       </Reference>
     </ItemGroup>
 
