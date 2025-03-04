@@ -21,7 +21,7 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 		{
 			(InputTrigger) (Enum) UITrigger.Back,
 			(InputTrigger) (Enum) Trigger.CancelPlacing,
-			(InputTrigger) (Enum) Trigger.DrawWire,
+			(InputTrigger) (Enum) Trigger.DrawWires,
 		};
 		
 		//Routines:

@@ -33,7 +33,7 @@ namespace CustomWirePlacer.Client.CWP
 			
 			CWPTrigger.Modificator,
 			CWPTrigger.ModificatorAlternative,
-			Trigger.DrawWire, //Obvious... hence at the bottom to be cropped.
+			Trigger.DrawWires, //Obvious... hence at the bottom to be cropped.
 		};
 		
 		//Routines:
