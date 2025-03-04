@@ -264,7 +264,7 @@ namespace EccsGuiBuilder.Client.Components
 			var titleTMP = title.GetComponent<TextMeshProUGUI>();
 			titleTMP.enableAutoSizing = false;
 			titleTMP.fontSize = 40.35f;
-			titleTMP.enableWordWrapping = false;
+			titleTMP.textWrappingMode = TextWrappingModes.PreserveWhitespaceNoWrap;
 			var titleRect = title.GetComponent<RectTransform>();
 			titleRect.pivot = new Vector2(0, 1);
 			titleRect.anchoredPosition = new Vector2(10, 2);
@@ -311,7 +311,7 @@ namespace EccsGuiBuilder.Client.Components
 			var tmp = stockTextLine.GetComponent<TextMeshProUGUI>();
 			tmp.enableAutoSizing = false;
 			tmp.fontSize = 50;
-			tmp.enableWordWrapping = false;
+			tmp.textWrappingMode = TextWrappingModes.PreserveWhitespaceNoWrap;
 			stockTextLine.AddComponent<TMPFixer>();
 			
 			var rawToggleSwitch = GameObjectQuery.queryGameObject(bottom, "Toggle Switch");

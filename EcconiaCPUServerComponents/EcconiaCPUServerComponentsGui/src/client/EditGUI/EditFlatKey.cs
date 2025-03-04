@@ -55,11 +55,11 @@ namespace EcconiaCPUServerComponentsGui.Client.EditGUI
 								.configure(inputField => {
 									inputField.lineType = TMP_InputField.LineType.MultiLineNewline;
 									var text = inputField.textComponent;
-									text.enableWordWrapping = true;
+									text.textWrappingMode = TextWrappingModes.PreserveWhitespace;
 									text.fontSize = 60;
 									var placeholder = (TMP_Text) inputField.placeholder;
 									placeholder.fontSizeMax = 100;
-									placeholder.enableWordWrapping = true;
+									placeholder.textWrappingMode = TextWrappingModes.PreserveWhitespace;
 								})
 							)
 						)

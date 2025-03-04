@@ -48,7 +48,7 @@ namespace CustomWirePlacer.Client.Windows
 							tmp.verticalAlignment = VerticalAlignmentOptions.Top;
 							tmp.horizontalAlignment = HorizontalAlignmentOptions.Left;
 							// tmp.autoSizeTextContainer = true;
-							tmp.enableWordWrapping = false;
+							tmp.textWrappingMode = TextWrappingModes.PreserveWhitespaceNoWrap;
 						})
 					)
 				)
@@ -124,7 +124,7 @@ namespace CustomWirePlacer.Client.Windows
 			{
 				if(obj == null)
 				{
-					obj = FindObjectOfType<DebugToggleTextManager>();
+					obj = FindFirstObjectByType<DebugToggleTextManager>();
 					if(obj == null)
 					{
 						ModClass.logger.Error("Could not find instance of 'DebugToggleTextManager', cannot set status display at right position when debugging window.");

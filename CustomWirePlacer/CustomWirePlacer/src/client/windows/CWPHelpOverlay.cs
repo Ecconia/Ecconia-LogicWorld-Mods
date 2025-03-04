@@ -115,7 +115,7 @@ namespace CustomWirePlacer.Client.Windows
 						tmp.fontSize = 40;
 						tmp.verticalAlignment = VerticalAlignmentOptions.Top;
 						tmp.horizontalAlignment = HorizontalAlignmentOptions.Left;
-						tmp.enableWordWrapping = false;
+						tmp.textWrappingMode = TextWrappingModes.PreserveWhitespaceNoWrap;
 					})
 				);
 			textMesh = uff;
