@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using EccsLogicWorldAPI.Server.Generators;
 using EccsLogicWorldAPI.Shared;
+using EccsLogicWorldAPI.Shared.AccessHelper;
 using LogicAPI.Data;
 using LogicWorld.Server.Circuitry;
 
@@ -30,6 +31,12 @@ namespace EccsLogicWorldAPI.Server
 			{
 				throw new Exception("[EccLwApi/VirtualInputPegPool] This API feature requires Harmony to be installed. If it is installed, something is broken. See stacktrace for further debugging.", e);
 			}
+			
+			//Prevent LogicWorld from trying to find a component for virtual pegs, by blocking the code that handles StateID updates of a peg:
+			var method = Methods.getPrivate(typeof(ClusterFactory), "EmitInputPegStateIDUpdate");
+			var patch = Methods.getPublicStatic(typeof(VirtualInputPegPool), nameof(harmonyTrapPatch));
+			var instance = HarmonyAtRuntime.getHarmonyInstance("EccLwApi-VirtualInputPegPool");
+			HarmonyAtRuntime.patch(instance, method, patch);
 		}
 		
 		public static void ensureInitialized()
@@ -40,6 +47,16 @@ namespace EccsLogicWorldAPI.Server
 			}
 			initialized = true;
 			UnusedComponentAddressGrabber.grabOneMore();
+		}
+		
+		public static bool harmonyTrapPatch(InputPeg input)
+		{
+			if(input.iAddress.ComponentAddress != rootAddress)
+			{
+				return true; //Nothing to do here! Not a virtual peg.
+			}
+			//It's a virtual peg - prevent method execution thus emitting of state ID update.
+			return false;
 		}
 		
 		public static InputPeg borrowPeg()
