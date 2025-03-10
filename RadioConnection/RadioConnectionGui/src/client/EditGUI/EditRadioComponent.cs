@@ -1,5 +1,5 @@
 using EccsGuiBuilder.Client.Components;
-using EccsGuiBuilder.Client.Layouts.Controller;
+using EccsGuiBuilder.Client.Layouts.Helper;
 using EccsGuiBuilder.Client.Wrappers;
 using EccsGuiBuilder.Client.Wrappers.AutoAssign;
 using LogicUI.MenuParts;
@@ -18,18 +18,16 @@ namespace RadioConnectionGui.Client.EditGUI
 			const float subFontSize = 45f;
 			WS.window("RadioConnectionEditRadioComponentWindow")
 				.configureContent(content => content
-					.vertical(10f, new RectOffset(20, 20, 0, 20), expandHorizontal: true)
+					.layoutVertical(padding: new RectOffset(20, 20, 10, 20)) // Compensate for the space of the text by removing a bit padding from the top
 					.addContainer("AddressContainer", data => data
-						.vertical(expandHorizontal: true)
+						.layoutVertical(spacing: 10, padding: new RectOffset())
 						.add(WS.textLine.setLocalizationKey("RadioConnection.Gui.RadioComponent.Address"))
 						.add(WS.wrap(VanillaStore.genInnerBox)
 							.setAlignment(Alignment.TopLeft)
 							.setSize(50, 50)
-							.vertical(20, new RectOffset(20, 20, 10, 10), anchor: TextAnchor.MiddleLeft, expandHorizontal: true)
+							.layoutVertical()
 							.addContainer("Offset", top => top
-								.addAndConfigure<GapListLayout>(layout => {
-									layout.horizontalPreset(gapIndex: 0);
-								})
+								.layoutGrowGapHorizontalInnerCentered()
 								.add(WS.textLine
 									.setLocalizationKey("RadioConnection.Gui.RadioComponent.Address.Offset")
 									.setFontSize(subFontSize)
@@ -44,9 +42,7 @@ namespace RadioConnectionGui.Client.EditGUI
 								.add(WS.help.fixedSize(50, 50).setLocalizationKey("RadioConnection.Gui.RadioComponent.Address.Offset.Help"))
 							)
 							.addContainer("Pegs", bottom => bottom
-								.addAndConfigure<GapListLayout>(layout => {
-									layout.horizontalPreset(gapIndex: 0);
-								})
+								.layoutGrowGapHorizontalInnerCentered()
 								.add(WS.textLine
 									.setLocalizationKey("RadioConnection.Gui.RadioComponent.Address.Pegs")
 									.setFontSize(subFontSize)
@@ -63,16 +59,14 @@ namespace RadioConnectionGui.Client.EditGUI
 						)
 					)
 					.addContainer("DataContainer", data => data
-						.vertical(expandHorizontal: true)
+						.layoutVertical(spacing: 10, padding: new RectOffset())
 						.add(WS.textLine.setLocalizationKey("RadioConnection.Gui.RadioComponent.Data"))
 						.add(WS.wrap(VanillaStore.genInnerBox)
 							.setAlignment(Alignment.TopLeft)
 							.setSize(50, 50)
-							.vertical(20, new RectOffset(20, 20, 10, 10), anchor: TextAnchor.MiddleLeft, expandHorizontal: true)
+							.layoutVertical()
 							.addContainer("Offset", top => top
-								.addAndConfigure<GapListLayout>(layout => {
-									layout.horizontalPreset(gapIndex: 0);
-								})
+								.layoutGrowGapHorizontalInnerCentered()
 								.add(WS.textLine
 									.setLocalizationKey("RadioConnection.Gui.RadioComponent.Data.Offset")
 									.setFontSize(subFontSize)
@@ -87,9 +81,7 @@ namespace RadioConnectionGui.Client.EditGUI
 								.add(WS.help.fixedSize(50, 50).setLocalizationKey("RadioConnection.Gui.RadioComponent.Data.Offset.Help"))
 							)
 							.addContainer("Pegs", bottom => bottom
-								.addAndConfigure<GapListLayout>(layout => {
-									layout.horizontalPreset(gapIndex: 0);
-								})
+								.layoutGrowGapHorizontalInnerCentered()
 								.add(WS.textLine
 									.setLocalizationKey("RadioConnection.Gui.RadioComponent.Data.Pegs")
 									.setFontSize(subFontSize)
@@ -107,11 +99,9 @@ namespace RadioConnectionGui.Client.EditGUI
 					)
 					.addContainer("LinkContainer", link => link
 						.injectionKey(nameof(linkingRow))
-						.vertical(20, expandHorizontal: true)
+						.layoutVertical()
 						.addContainer("LinkRowContainer", con => con
-							.addAndConfigure<GapListLayout>(layout => {
-								layout.horizontalPreset(gapIndex: 0);
-							})
+							.layoutGrowGapHorizontalInnerCentered()
 							.add(WS.textLine
 								.setLocalizationKey("RadioConnection.Gui.RadioComponent.Link")
 								.setFontSize(subFontSize)
@@ -125,9 +115,7 @@ namespace RadioConnectionGui.Client.EditGUI
 						.add(WS.wrap(VanillaStore.genDivider).fixedSize(5, 4))
 					)
 					.addContainer("CompactContainer", link => link
-						.addAndConfigure<GapListLayout>(layout => {
-							layout.horizontalPreset(gapIndex: 0);
-						})
+						.layoutGrowGapHorizontalInnerCentered()
 						.add(WS.textLine
 							.setLocalizationKey("RadioConnection.Gui.RadioComponent.Compact")
 							.setFontSize(subFontSize)
@@ -139,9 +127,7 @@ namespace RadioConnectionGui.Client.EditGUI
 						)
 					)
 					.addContainer("FlipContainer", link => link
-						.addAndConfigure<GapListLayout>(layout => {
-							layout.horizontalPreset(gapIndex: 0);
-						})
+						.layoutGrowGapHorizontalInnerCentered()
 						.add(WS.textLine
 							.setLocalizationKey("RadioConnection.Gui.RadioComponent.Flip")
 							.setFontSize(subFontSize)

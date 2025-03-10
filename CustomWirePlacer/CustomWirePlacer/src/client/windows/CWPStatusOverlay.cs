@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using System.Text;
 using CustomWirePlacer.Client.CWP;
+using EccsGuiBuilder.Client.Layouts.Helper;
 using EccsGuiBuilder.Client.Wrappers;
 using EccsGuiBuilder.Client.Wrappers.AutoAssign;
 using EccsLogicWorldAPI.Shared.AccessHelper;
@@ -33,7 +34,7 @@ namespace CustomWirePlacer.Client.Windows
 				.assignTo(out rootObject)
 				.addContainer("CWP: StatusDisplay window", content => content
 					.setAlignment(Alignment.TopLeft)
-					.vertical(padding: new RectOffset(5, 5, 0, 5))
+					.layoutVertical(padding: new RectOffset(5, 5, 0, 5))
 					.addAndConfigure<ContentSizeFitter>(configure => {
 						configure.horizontalFit = ContentSizeFitter.FitMode.MinSize;
 						configure.verticalFit = ContentSizeFitter.FitMode.MinSize;
