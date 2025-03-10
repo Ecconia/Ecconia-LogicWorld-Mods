@@ -39,6 +39,8 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 		public override void OnExit()
 		{
 			PegDrawing.onDeactivate();
+			// Meh stuff, gotta be done to prevent weird issues with Tap-To-Toggle
+			CustomInput.ResetState(Trigger.DrawWires);
 		}
 	}
 }
