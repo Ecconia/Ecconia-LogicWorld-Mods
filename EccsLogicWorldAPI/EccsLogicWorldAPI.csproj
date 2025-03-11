@@ -12,6 +12,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Reference Include="FancyInput">
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\FancyInput.dll</HintPath>
+      </Reference>
       <Reference Include="JimmysUnityUtilities">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\JimmysUnityUtilities.dll</HintPath>
       </Reference>
