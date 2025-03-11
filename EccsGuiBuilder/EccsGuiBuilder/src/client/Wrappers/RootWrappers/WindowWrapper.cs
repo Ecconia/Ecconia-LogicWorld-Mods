@@ -94,6 +94,7 @@ namespace EccsGuiBuilder.Client.Wrappers.RootWrappers
 		
 		//### Resizing and building:
 		
+		private float defaultWidth, defaultHeight;
 		private bool canResizeWidth, canResizeHeight;
 		private float minWidth, minHeight;
 		private int? targetYPosition = 750;
@@ -106,6 +107,13 @@ namespace EccsGuiBuilder.Client.Wrappers.RootWrappers
 		public WindowWrapper setYPosition(int? targetYPosition)
 		{
 			this.targetYPosition = targetYPosition;
+			return this;
+		}
+		
+		public WindowWrapper setDefaultSize(int width, int height)
+		{
+			defaultWidth = width;
+			defaultHeight = height;
 			return this;
 		}
 		
@@ -168,6 +176,14 @@ namespace EccsGuiBuilder.Client.Wrappers.RootWrappers
 			}
 			
 			var rawMenu = menu.getMenuRectTransform();
+			if (canResizeWidth)
+			{
+				rawMenu.sizeDelta = new Vector2(Mathf.Max(defaultWidth, minWidth), rawMenu.sizeDelta.y);
+			}
+			if (canResizeHeight)
+			{
+				rawMenu.sizeDelta = new Vector2(rawMenu.sizeDelta.x, Mathf.Max(defaultHeight, minHeight));
+			}
 			
 			//Set Y-Position of window or automatically center the window based on targetYPosition:
 			rawMenu.anchoredPosition = new Vector2(0, targetYPosition ?? rawMenu.sizeDelta.y / 2);
