@@ -29,6 +29,7 @@ namespace ComponentActionExampleModGui.Client.Ex6
 		public static void initialize()
 		{
 			WS.window("ComponentActionExampleModGui.EditableBlock")
+				.setYPosition(475)
 				.configureContent(content => content
 					.layoutVertical()
 					.add(WS.colorPicker

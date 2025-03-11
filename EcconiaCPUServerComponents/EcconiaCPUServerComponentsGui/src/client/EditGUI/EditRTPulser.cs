@@ -16,6 +16,7 @@ namespace EcconiaCPUServerComponentsGui.Client.EditGUI
 		public static void initialize()
 		{
 			WS.window("EccComponentsEditRTPulserWindow")
+				.setYPosition(120)
 				.configureContent(content => content
 					.layoutVertical(spacing: 10, padding: new RectOffset(20, 20, 10, 20)) // Make the gap between label and element smaller and compensate for text-space at the top.
 					.add(WS.textLine

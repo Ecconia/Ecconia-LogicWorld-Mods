@@ -16,6 +16,7 @@ namespace ComponentActionExampleModGui.Client.Ex2
 		public static void initialize()
 		{
 			WS.window("ComponentActionExampleModGui.AddSubber")
+				.setYPosition(400)
 				.configureContent(content => content
 					.layoutVertical()
 					.add(WS.button

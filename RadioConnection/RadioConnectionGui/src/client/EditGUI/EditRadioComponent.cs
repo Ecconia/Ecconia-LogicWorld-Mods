@@ -17,6 +17,7 @@ namespace RadioConnectionGui.Client.EditGUI
 		{
 			const float subFontSize = 45f;
 			WS.window("RadioConnectionEditRadioComponentWindow")
+				.setYPosition(365)
 				.configureContent(content => content
 					.layoutVertical(padding: new RectOffset(20, 20, 10, 20)) // Compensate for the space of the text by removing a bit padding from the top
 					.addContainer("AddressContainer", data => data

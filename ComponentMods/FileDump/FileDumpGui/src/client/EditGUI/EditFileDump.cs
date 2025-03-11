@@ -14,6 +14,7 @@ namespace FileDumpGui.Client.EditGUI
 		public static void initialize()
 		{
 			WS.window("FileDumpEditFileDumpWindow")
+				.setYPosition(560)
 				.configureContent(content => content
 					.layoutVertical(padding: new RectOffset(20, 20, 10, 20)) // Compensate for the top text taking up some "empty" space adding to the padding.
 					.addContainer("LineEntry", line => line

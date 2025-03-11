@@ -89,6 +89,18 @@ namespace EccsGuiBuilder.Client.Wrappers.RootWrappers
 		
 		private bool canResizeWidth, canResizeHeight;
 		private float minWidth, minHeight;
+		private int? targetYPosition = 750;
+		
+		/// <summary>
+		/// Sets the Y position at which the top-border of a window spawns.
+		/// </summary>
+		/// <param name="targetYPosition">If supplied integer Y position is set. If supplied 'null' the height of the window is used to center the window.</param>
+		/// <remarks>The window is centered on the horizontal axis. <b>Warning</b>: For the height to be used in auto centering, a height default/min height must be set!</remarks>
+		public WindowWrapper setYPosition(int? targetYPosition)
+		{
+			this.targetYPosition = targetYPosition;
+			return this;
+		}
 		
 		public WindowWrapper setResizeable(bool resize = true)
 		{
@@ -147,6 +159,11 @@ namespace EccsGuiBuilder.Client.Wrappers.RootWrappers
 					fitter.verticalFit = ContentSizeFitter.FitMode.MinSize;
 				}
 			}
+			
+			var rawMenu = menu.getMenuRectTransform();
+			
+			//Set Y-Position of window or automatically center the window based on targetYPosition:
+			rawMenu.anchoredPosition = new Vector2(0, targetYPosition ?? rawMenu.sizeDelta.y / 2);
 			
 			//Generic build operation:
 			Assigner.assign(this, gameObject); //Run inject framework

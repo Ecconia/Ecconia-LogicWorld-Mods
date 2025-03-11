@@ -19,6 +19,7 @@ namespace EcconiaCPUServerComponentsGui.Client.EditGUI
 		public static void initialize()
 		{
 			WS.window("EccComponentsEditFlatKeyWindow")
+				.setYPosition(870)
 				.configureContent(content => content
 					.layoutVertical()
 					.addContainer("TopBarBox", topBar => topBar

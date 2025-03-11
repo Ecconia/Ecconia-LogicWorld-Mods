@@ -16,6 +16,7 @@ namespace ComponentActionExampleModGui.Client.Ex3
 		public static void initialize()
 		{
 			WS.window("ComponentActionExampleModGui.PulseByEdit")
+				.setYPosition(350)
 				.configureContent(content => content
 					.layoutVertical()
 					.add(WS.button
