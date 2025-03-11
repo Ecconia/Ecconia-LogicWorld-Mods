@@ -85,6 +85,13 @@ namespace EccsGuiBuilder.Client.Wrappers.RootWrappers
 			}
 		}
 		
+		public WindowWrapper doNotBlurBuildingCanvas()
+		{
+			var background = gameObject.GetComponent<StandardMenuBackground>();
+			Fields.getPrivate(background, "BuildingCanvasAffected").SetValue(background, false);
+			return this;
+		}
+		
 		//### Resizing and building:
 		
 		private bool canResizeWidth, canResizeHeight;
