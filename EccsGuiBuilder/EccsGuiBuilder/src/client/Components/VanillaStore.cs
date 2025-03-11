@@ -1,9 +1,11 @@
 using System;
+using System.Linq;
 using EccsGuiBuilder.Client.Layouts.Controller;
 using EccsGuiBuilder.Client.Layouts.Elements;
 using EccsLogicWorldAPI.Client.UnityHelper;
 using EccsLogicWorldAPI.Shared;
 using EccsLogicWorldAPI.Shared.AccessHelper;
+using JimmysUnityUtilities;
 using LogicLocalization;
 using LogicUI.MenuTypes.ConfigurableMenus;
 using LogicUI.Palettes;
@@ -47,12 +49,18 @@ namespace EccsGuiBuilder.Client.Components
 		private static GameObject stockInnerBox;
 		public static GameObject genInnerBox => stockInnerBox.clone();
 		
+		private static GameObject stockSearchBar;
+		public static GameObject genSearchBar => stockSearchBar.clone();
+		private static GameObject stockScrollableVertical;
+		public static GameObject genScrollableVertical => stockScrollableVertical.clone();
+		
 		private static Material guiFontMaterial;
 		public static Material getGuiFontMaterial => guiFontMaterial;
 		
 		public static GameObject getWindowCanvas(string name, string titleKey = null, bool resizeX = true, bool resizeY = true, int resizeMinX = 400, int resizeMinY = 400)
 		{
 			var newWindowCanvas = Object.Instantiate(stockWindowCanvas);
+			newWindowCanvas.SetActive(false);
 			newWindowCanvas.name = name;
 			var utilities = newWindowCanvas.GetComponent<ConfigurableMenuUtility>();
 			if(titleKey == null)
@@ -173,6 +181,26 @@ namespace EccsGuiBuilder.Client.Components
 			var helpCircle = GameObjectQuery.queryGameObject("Settings Menu", "Contents", "Right Side", "Profile Manager", "margins", "info");
 			NullChecker.check(helpCircle, "Could not find help/info circle in game settings");
 			stockHelpCircle = helpCircle.cloneWithParent(root);
+			
+			//Search bar from component selection menu:
+			var searchBox = GameObjectQuery.queryGameObject("Selection Menu", "Menu", "Menu Content", "Search Box");
+			NullChecker.check(searchBox, "Could not find search box in the component selection window");
+			stockSearchBar = searchBox.cloneWithParent(root);
+			
+			//Scroll area/bar from Edit Display:
+			var scrollableVertical = GameObjectQuery.queryGameObject("Edit Display Menu", "Menu", "Menu Content", "Choose Display Configuration", "Scroll View");
+			NullChecker.check(searchBox, "Could not find vertical scrollarea in the edit display window");
+			stockScrollableVertical = scrollableVertical.cloneWithParent(root);
+			var scrollableVerticalContent = GameObjectQuery.queryGameObject(stockScrollableVertical, "Background", "Viewport", "Content");
+			scrollableVerticalContent.transform.DestroyAllChildrenImmediate();
+			//This part is kind of ugly, as there is a ContentSizeFitter Component and whatnot on this scroll content. The modders should sort this out, thus remove everything:
+			foreach (var component in scrollableVerticalContent.GetComponents<Component>().Reverse())
+			{
+				//Do not remove the RectTransform, else Unity gets mad.
+				if (!(component is RectTransform)) {
+					Object.DestroyImmediate(component);
+				}
+			}
 		}
 		
 		private static void takeApartAndGateWindow(GameObject editAndGateMenu)
