@@ -162,7 +162,7 @@ namespace EcconiaCPUServerComponents.Client
 			label.autoSizeTextContainer = false;
 			label.horizontalAlignment = HorizontalAlignmentOptions.Left;
 			label.verticalAlignment = VerticalAlignmentOptions.Top;
-			label.enableWordWrapping = false;
+			label.textWrappingMode = TextWrappingModes.PreserveWhitespaceNoWrap;
 			var sb = new StringBuilder(256 * 11);
 			for(var i = 255; i >= 0; i--)
 			{

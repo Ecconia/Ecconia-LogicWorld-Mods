@@ -18,7 +18,7 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 			var fieldMinWidth = Fields.getPrivate(typeof(ConfigurableMenu), "MinWidth");
 			getMinWidth = Delegator.createFieldGetter<ConfigurableMenu, float>(fieldMinWidth);
 			setMinWidth = Delegator.createFieldSetter<ConfigurableMenu, float>(fieldMinWidth);
-			var fieldMinHeight = Fields.getPrivate(typeof(ConfigurableMenu), "MinWidth");
+			var fieldMinHeight = Fields.getPrivate(typeof(ConfigurableMenu), "MinHeight");
 			getMinHeight = Delegator.createFieldGetter<ConfigurableMenu, float>(fieldMinHeight);
 			setMinHeight = Delegator.createFieldSetter<ConfigurableMenu, float>(fieldMinHeight);
 		}

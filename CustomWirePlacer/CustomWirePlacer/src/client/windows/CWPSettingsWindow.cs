@@ -1,5 +1,5 @@
 using CustomWirePlacer.Client.CWP;
-using EccsGuiBuilder.Client.Layouts.Controller;
+using EccsGuiBuilder.Client.Layouts.Helper;
 using EccsGuiBuilder.Client.Wrappers;
 using EccsLogicWorldAPI.Client.AccessHelpers;
 using JimmysUnityUtilities;
@@ -41,7 +41,7 @@ namespace CustomWirePlacer.Client.Windows
 			var window = WS.window("Custom Wire Placer")
 				.setLocalizedTitle("CustomWirePlacer.WindowTitle");
 			var content = window.contentWrapper
-				.vertical(expandHorizontal: true, anchor: TextAnchor.UpperCenter, padding: new RectOffset(20, 20, 10, 10));
+				.layoutVertical(padding: new RectOffset(20, 20, 10, 10));
 			window.add<CWPSettingsWindow>()
 				.addOnCloseAction(HideMenu)
 				.add<CloseWindowOnKey>()
@@ -57,7 +57,7 @@ namespace CustomWirePlacer.Client.Windows
 					if(entry is SettingsWindowTitle title)
 					{
 						content.addContainer("TitleWrapper")
-							.vertical(padding: new RectOffset(0, 0, 5, 2), expandHorizontal: true)
+							.layoutVertical(padding: new RectOffset(0, 0, 5, 2))
 							.add(WS.textLine
 								.setLocalizationKey(title.title)
 								.configureTMP(tmp => {
@@ -69,12 +69,7 @@ namespace CustomWirePlacer.Client.Windows
 					}
 					SettingsWindowSetting setting = (SettingsWindowSetting) entry;
 					var line = content.addContainer("LineEntry")
-						.addAndConfigure<GapListLayout>(layout => {
-							layout.layoutAlignment = RectTransform.Axis.Horizontal;
-							layout.childAlignment = TextAnchor.MiddleRight;
-							layout.spacing = 20;
-							layout.gapSpace = 10;
-						})
+						.layoutGrowGapHorizontalInnerCentered(gapIndex: IndexHelper.nth(1))
 						.add(WS.textLine
 							.setLocalizationKey(setting.key)
 						)

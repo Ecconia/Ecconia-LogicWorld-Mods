@@ -20,6 +20,9 @@ namespace EccsGuiBuilder.Client.Wrappers
 		public static SimpleWrapper toggle => new SimpleWrapper(VanillaStore.genToggle);
 		public static HelpWrapper help => new HelpWrapper(VanillaStore.genHelpCircle);
 		
+		public static SimpleWrapper searchBox => new SimpleWrapper(VanillaStore.genSearchBar);
+		public static ScrollareaWrapper scrollableVertical => new ScrollareaWrapper(VanillaStore.genScrollableVertical);
+		
 		public static SimpleWrapper wrap(GameObject obj)
 		{
 			return new SimpleWrapper(obj);

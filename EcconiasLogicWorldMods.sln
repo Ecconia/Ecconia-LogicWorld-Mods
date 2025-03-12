@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComponentActionsExampleMod"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimitiveSelections", "PrimitiveSelections\PrimitiveSelections.csproj", "{59DFBD39-DAA1-4CE1-957C-64C031A8235D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubassemblyGui", "SubassemblyGui\SubassemblyGui.csproj", "{E9FA4F5D-F4B2-4E3C-A591-F04727217C4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,5 +122,9 @@ Global
 		{59DFBD39-DAA1-4CE1-957C-64C031A8235D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59DFBD39-DAA1-4CE1-957C-64C031A8235D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59DFBD39-DAA1-4CE1-957C-64C031A8235D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9FA4F5D-F4B2-4E3C-A591-F04727217C4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9FA4F5D-F4B2-4E3C-A591-F04727217C4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9FA4F5D-F4B2-4E3C-A591-F04727217C4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9FA4F5D-F4B2-4E3C-A591-F04727217C4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using EccsGuiBuilder.Client.Layouts.Elements;
+using EccsGuiBuilder.Client.Layouts.Helper;
 using EccsGuiBuilder.Client.Wrappers;
 using EccsGuiBuilder.Client.Wrappers.AutoAssign;
 using LogicAPI.Data.BuildingRequests;
@@ -7,7 +8,6 @@ using LogicUI.MenuParts;
 using LogicUI.MenuTypes.ConfigurableMenus;
 using LogicWorld.BuildingManagement;
 using LogicWorld.UI;
-using UnityEngine;
 
 namespace ComponentActionExampleModGui.Client.Ex3
 {
@@ -16,8 +16,9 @@ namespace ComponentActionExampleModGui.Client.Ex3
 		public static void initialize()
 		{
 			WS.window("ComponentActionExampleModGui.PulseByEdit")
+				.setYPosition(350)
 				.configureContent(content => content
-					.vertical(20f, new RectOffset(20, 20, 20, 20), expandHorizontal: true)
+					.layoutVertical()
 					.add(WS.button
 						.add<ButtonLayout>()
 						.setLocalizationKey("ComponentActionExampleMod.Gui.Ex3.PulseByEdit.P1")

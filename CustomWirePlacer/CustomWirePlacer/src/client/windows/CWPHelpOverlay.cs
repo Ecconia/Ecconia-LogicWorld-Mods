@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using CustomWirePlacer.Client.CWP;
 using CustomWirePlacer.Client.CWP.PegDrawing;
+using EccsGuiBuilder.Client.Layouts.Helper;
 using EccsGuiBuilder.Client.Wrappers;
 using LogicLocalization;
 using LogicUI.MenuTypes;
@@ -102,7 +103,7 @@ namespace CustomWirePlacer.Client.Windows
 		
 		private static void makeTextOverlay(this SimpleWrapper zis, out TextMeshProUGUI textMesh)
 		{
-			zis.vertical(padding: new RectOffset(5, 5, 0, 5))
+			zis.layoutVertical(padding: new RectOffset(5, 5, 0, 5))
 				.addAndConfigure<ContentSizeFitter>(configure => {
 					configure.horizontalFit = ContentSizeFitter.FitMode.MinSize;
 					configure.verticalFit = ContentSizeFitter.FitMode.MinSize;
@@ -115,7 +116,7 @@ namespace CustomWirePlacer.Client.Windows
 						tmp.fontSize = 40;
 						tmp.verticalAlignment = VerticalAlignmentOptions.Top;
 						tmp.horizontalAlignment = HorizontalAlignmentOptions.Left;
-						tmp.enableWordWrapping = false;
+						tmp.textWrappingMode = TextWrappingModes.PreserveWhitespaceNoWrap;
 					})
 				);
 			textMesh = uff;

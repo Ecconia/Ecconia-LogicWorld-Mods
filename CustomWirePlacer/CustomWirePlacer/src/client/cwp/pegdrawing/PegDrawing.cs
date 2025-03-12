@@ -102,7 +102,7 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 			wire.UpdateValidityAndOutline();
 			ghostlyCollider.enabled = false;
 			
-			if(Trigger.DrawWire.UpThisFrame())
+			if(Trigger.DrawWires.UpThisFrame())
 			{
 				if(placer.CanPlaceGhost() && wire.ValidOnLastCheck)
 				{

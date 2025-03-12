@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ComponentActionExampleMod.Client.Raw.Ex6;
 using ComponentActionExampleMod.shared.ex6;
+using EccsGuiBuilder.Client.Layouts.Helper;
 using EccsGuiBuilder.Client.Wrappers;
 using EccsGuiBuilder.Client.Wrappers.AutoAssign;
 using JimmysUnityUtilities;
@@ -14,7 +15,6 @@ using LogicWorld.BuildingManagement;
 using LogicWorld.Interfaces;
 using LogicWorld.Outlines;
 using LogicWorld.UI;
-using UnityEngine;
 
 namespace ComponentActionExampleModGui.Client.Ex6
 {
@@ -29,8 +29,9 @@ namespace ComponentActionExampleModGui.Client.Ex6
 		public static void initialize()
 		{
 			WS.window("ComponentActionExampleModGui.EditableBlock")
+				.setYPosition(475)
 				.configureContent(content => content
-					.vertical(20f, new RectOffset(20, 20, 20, 20), expandHorizontal: true)
+					.layoutVertical()
 					.add(WS.colorPicker
 						.injectionKey(nameof(colorPicker))
 						.fixedSize(210, 70)

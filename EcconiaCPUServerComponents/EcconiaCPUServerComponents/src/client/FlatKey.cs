@@ -220,6 +220,7 @@ namespace EcconiaCPUServerComponents.Client
 			textRenderer.enableAutoSizing = true;
 			textRenderer.horizontalAlignment = HorizontalAlignmentOptions.Center;
 			textRenderer.verticalAlignment = VerticalAlignmentOptions.Middle;
+			textRenderer.textWrappingMode = TextWrappingModes.PreserveWhitespace;
 			
 			keycapGameObject.transform.SetParent(parentToCreateDecorationsUnder);
 			labelGameObject.transform.SetParent(parentToCreateDecorationsUnder);

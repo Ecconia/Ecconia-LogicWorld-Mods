@@ -49,16 +49,22 @@ namespace EccsGuiBuilder.Client.Wrappers.RootWrappers
 		//### Custom close action:
 		
 		private bool replacedDefaultCloseAction;
-		private event Action onWindowClose;
 		
 		public WindowWrapper addOnCloseAction(Action action)
 		{
-			replaceDefaultCloseOperation();
-			onWindowClose += action;
+			var blocker = GameObjectQuery.queryGameObject(gameObject, "Blocker");
+			NullChecker.check(blocker, "Cannot find blocker background on custom window canvas");
+			
+			replaceDefaultCloseOperation(blocker);
+			
+			//Add close button handler:
+			gameObject.GetComponent<ConfigurableMenuUtility>().OnCloseButtonPressed += action;
+			//Add background click handler:
+			blocker.GetComponent<CanvasBackgroundClicked>().onCanvasClicked += action;
 			return this;
 		}
 		
-		private void replaceDefaultCloseOperation()
+		private void replaceDefaultCloseOperation(GameObject blocker)
 		{
 			if(replacedDefaultCloseAction)
 			{
@@ -66,30 +72,48 @@ namespace EccsGuiBuilder.Client.Wrappers.RootWrappers
 			}
 			replacedDefaultCloseAction = true;
 			
-			var blocker = GameObjectQuery.queryGameObject(gameObject, "Blocker");
-			NullChecker.check(blocker, "Cannot find blocker background on custom window canvas");
-			
-			//Get rid of old code:
+			// The AutomaticCloseButtonBehavior registers an action on the closing button to go back to building game-state on Start(). We do not want that.
 			var type = Types.getType(typeof(StandardMenuBackground).Assembly, "LogicWorld.UI.AutomaticCloseButtonBehavior");
 			Object.DestroyImmediate(gameObject.GetComponent(type));
-			type = Types.getType(typeof(StandardMenuBackground).Assembly, "LogicWorld.UI.ClickableMenuBackground");
-			Object.DestroyImmediate(blocker.GetComponent(type)); //Child 0 is the Blocker (background)
 			
-			//Add close button handler:
-			gameObject.GetComponent<ConfigurableMenuUtility>().OnCloseButtonPressed += customOnClose;
-			//Add background click handler:
-			blocker.AddComponent<CanvasBackgroundClicked>().onCanvasClicked += customOnClose;
+			// The ClickableMenuBackground will go back to building game-state when the mouse clicks it. We do not want that.
+			type = Types.getType(typeof(StandardMenuBackground).Assembly, "LogicWorld.UI.ClickableMenuBackground");
+			Object.DestroyImmediate(blocker.GetComponent(type));
+			// Instead we want a custom action to be performed, with a custom background click handler:
+			blocker.AddComponent<CanvasBackgroundClicked>();
 		}
 		
-		private void customOnClose()
+		public WindowWrapper doNotBlurBuildingCanvas()
 		{
-			onWindowClose?.Invoke();
+			var background = gameObject.GetComponent<StandardMenuBackground>();
+			Fields.getPrivate(background, "BuildingCanvasAffected").SetValue(background, false);
+			return this;
 		}
 		
 		//### Resizing and building:
 		
+		private float defaultWidth, defaultHeight;
 		private bool canResizeWidth, canResizeHeight;
 		private float minWidth, minHeight;
+		private int? targetYPosition = 750;
+		
+		/// <summary>
+		/// Sets the Y position at which the top-border of a window spawns.
+		/// </summary>
+		/// <param name="targetYPosition">If supplied integer Y position is set. If supplied 'null' the height of the window is used to center the window.</param>
+		/// <remarks>The window is centered on the horizontal axis. <b>Warning</b>: For the height to be used in auto centering, a height default/min height must be set!</remarks>
+		public WindowWrapper setYPosition(int? targetYPosition)
+		{
+			this.targetYPosition = targetYPosition;
+			return this;
+		}
+		
+		public WindowWrapper setDefaultSize(int width, int height)
+		{
+			defaultWidth = width;
+			defaultHeight = height;
+			return this;
+		}
 		
 		public WindowWrapper setResizeable(bool resize = true)
 		{
@@ -148,6 +172,19 @@ namespace EccsGuiBuilder.Client.Wrappers.RootWrappers
 					fitter.verticalFit = ContentSizeFitter.FitMode.MinSize;
 				}
 			}
+			
+			var rawMenu = menu.getMenuRectTransform();
+			if (canResizeWidth)
+			{
+				rawMenu.sizeDelta = new Vector2(Mathf.Max(defaultWidth, minWidth), rawMenu.sizeDelta.y);
+			}
+			if (canResizeHeight)
+			{
+				rawMenu.sizeDelta = new Vector2(rawMenu.sizeDelta.x, Mathf.Max(defaultHeight, minHeight));
+			}
+			
+			//Set Y-Position of window or automatically center the window based on targetYPosition:
+			rawMenu.anchoredPosition = new Vector2(0, targetYPosition ?? rawMenu.sizeDelta.y / 2);
 			
 			//Generic build operation:
 			Assigner.assign(this, gameObject); //Run inject framework

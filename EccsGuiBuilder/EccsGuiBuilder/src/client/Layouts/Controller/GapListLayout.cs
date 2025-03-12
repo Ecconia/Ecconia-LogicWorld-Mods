@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 namespace EccsGuiBuilder.Client.Layouts.Controller
 {
+	//TODO: Remove this class on next "major" update. Make sure that other mods do not depend on it before that.
+	[Obsolete("Use GapListLayout provided by Logic World instead, this one will be removed.")]
 	public class GapListLayout : LayoutGroup
 	{
 		public RectTransform.Axis layoutAlignment = RectTransform.Axis.Vertical;
@@ -228,7 +230,7 @@ namespace EccsGuiBuilder.Client.Layouts.Controller
 			var childRects = rectChildren.ToArray(); //Copy
 			var childSizes = sizeChildren;
 			//If the order is reverse, treat the object tree as if all the children are the other way round.
-			//This is useful as a compromise when the overlapping oder should be reversed.
+			//This is useful as a compromise when the overlapping order should be reversed.
 			if(reverseChildOrder)
 			{
 				Array.Reverse(childRects);

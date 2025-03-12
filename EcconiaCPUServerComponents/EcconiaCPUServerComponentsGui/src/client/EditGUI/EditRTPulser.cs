@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using EccsGuiBuilder.Client.Layouts.Controller;
+using EccsGuiBuilder.Client.Layouts.Helper;
 using EccsGuiBuilder.Client.Wrappers;
 using EccsGuiBuilder.Client.Wrappers.AutoAssign;
 using LogicAPI.Data.BuildingRequests;
@@ -16,18 +16,12 @@ namespace EcconiaCPUServerComponentsGui.Client.EditGUI
 		public static void initialize()
 		{
 			WS.window("EccComponentsEditRTPulserWindow")
+				.setYPosition(120)
 				.configureContent(content => content
-					.vertical(20f, new RectOffset(20, 20, 20, 20), expandHorizontal: true)
-					.addContainer("TopLineBox", topBar => topBar
-						.addAndConfigure<GapListLayout>(layout => {
-							layout.layoutAlignment = RectTransform.Axis.Horizontal;
-							layout.childAlignment = TextAnchor.MiddleLeft;
-							layout.spacing = 20;
-						})
-						.add(WS.textLine
-							.setLocalizationKey("EcconiaCPUServerComponents.Gui.RTPulser.Label")
-							.setFontSize(40f)
-						)
+					.layoutVertical(spacing: 10, padding: new RectOffset(20, 20, 10, 20)) // Make the gap between label and element smaller and compensate for text-space at the top.
+					.add(WS.textLine
+						.setLocalizationKey("EcconiaCPUServerComponents.Gui.RTPulser.Label")
+						.setFontSize(40f)
 					)
 					.add(WS.slider
 						.injectionKey(nameof(valueSlider))

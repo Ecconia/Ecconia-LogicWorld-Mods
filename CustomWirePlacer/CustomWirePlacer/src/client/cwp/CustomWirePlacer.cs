@@ -51,7 +51,7 @@ namespace CustomWirePlacer.Client.CWP
 		
 		public static bool pollStartWirePlacing()
 		{
-			if(!Trigger.DrawWire.DownThisFrame())
+			if(!Trigger.DrawWires.DownThisFrame())
 			{
 				//Whatever draws a wire, must be done to actually draw a wire.
 				// If that is not the case, rest of interaction may happen.
@@ -251,7 +251,7 @@ namespace CustomWirePlacer.Client.CWP
 					CWPStatusOverlay.setDirtyGeneric();
 				}
 				
-				if(Trigger.DrawWire.DownThisFrame())
+				if(Trigger.DrawWires.DownThisFrame())
 				{
 					var lookingAt = CWPHelper.getPegCurrentlyLookingAt();
 					if(lookingAt.IsNotEmpty())
@@ -480,7 +480,7 @@ namespace CustomWirePlacer.Client.CWP
 		
 		private static bool checkForMouseUp()
 		{
-			if(!drawing || Trigger.DrawWire.Held())
+			if(!drawing || Trigger.DrawWires.Held())
 			{
 				//If not drawing or still holding draw key, abort.
 				return false;
@@ -502,7 +502,7 @@ namespace CustomWirePlacer.Client.CWP
 				GameStateManager.TransitionBackToBuildingState();
 				return true;
 			}
-			if(CWPTrigger.Modificator.Held() || !Trigger.DrawWire.UpThisFrame())
+			if(CWPTrigger.Modificator.Held() || !Trigger.DrawWires.UpThisFrame())
 			{
 				//Either we are currently holding MOD, which goes into stall mode.
 				//Or the mouse was released while CWP did not have the focus, then it also switches to stall mode to be safe.

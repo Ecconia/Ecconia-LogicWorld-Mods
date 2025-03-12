@@ -241,6 +241,8 @@ namespace EccsGuiBuilder.Client.Wrappers
 		
 		//### Quick layout shortcuts:
 		
+		//TODO: Remove this on next major update, once other mods are updated.
+		[Obsolete("Use LayoutExtensions instead")]
 		public T vertical(float spacing = 0, RectOffset padding = null, TextAnchor anchor = TextAnchor.UpperLeft, bool expandHorizontal = false, bool expandVertical = false)
 		{
 			return addAndConfigure<VerticalLayoutGroup>(layout => {
@@ -255,6 +257,8 @@ namespace EccsGuiBuilder.Client.Wrappers
 			});
 		}
 		
+		//TODO: Remove this on next major update, once other mods are updated.
+		[Obsolete("Use LayoutExtensions instead")]
 		public T horizontal(float spacing = 0, RectOffset padding = null, TextAnchor anchor = TextAnchor.UpperLeft, bool expandHorizontal = false, bool expandVertical = false)
 		{
 			return addAndConfigure<HorizontalLayoutGroup>(layout => {

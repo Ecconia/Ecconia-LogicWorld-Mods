@@ -102,6 +102,13 @@ namespace EccsLogicWorldAPI.Shared.AccessHelper
 			return Expression.Lambda<Action<A1>>(callExpression, a1).Compile();
 		}
 		
+		public static Func<R, P1> createStaticMethodCall<R, P1>(MethodInfo methodInfo)
+		{
+			var p1 = Expression.Parameter(typeof(P1), "p1");
+			var callExpression = Expression.Call(null, methodInfo, p1);
+			return Expression.Lambda<Func<R, P1>>(callExpression, p1).Compile();
+		}
+		
 		public static Func<A1, A2, A3, A4, A5, RESULT> createObjectInitializer<A1, A2, A3, A4, A5, RESULT>(ConstructorInfo constructor)
 		{
 			var a1 = Expression.Parameter(typeof(A1), "a1");

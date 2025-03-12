@@ -33,7 +33,7 @@ namespace CustomWirePlacer.Client.CWP
 			
 			CWPTrigger.Modificator,
 			CWPTrigger.ModificatorAlternative,
-			Trigger.DrawWire, //Obvious... hence at the bottom to be cropped.
+			Trigger.DrawWires, //Obvious... hence at the bottom to be cropped.
 		};
 		
 		//Routines:
@@ -51,6 +51,8 @@ namespace CustomWirePlacer.Client.CWP
 		public override void OnExit()
 		{
 			CustomWirePlacer.onDeactivate();
+			// Meh stuff, gotta be done to prevent weird issues with Tap-To-Toggle
+			CustomInput.ResetState(Trigger.DrawWires);
 		}
 	}
 }

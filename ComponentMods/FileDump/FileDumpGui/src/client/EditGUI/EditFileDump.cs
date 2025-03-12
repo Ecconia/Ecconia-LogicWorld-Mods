@@ -1,3 +1,4 @@
+using EccsGuiBuilder.Client.Layouts.Helper;
 using EccsGuiBuilder.Client.Wrappers;
 using EccsGuiBuilder.Client.Wrappers.AutoAssign;
 using FileDump.Shared;
@@ -13,28 +14,35 @@ namespace FileDumpGui.Client.EditGUI
 		public static void initialize()
 		{
 			WS.window("FileDumpEditFileDumpWindow")
+				.setYPosition(560)
 				.configureContent(content => content
-					.vertical(20f, new RectOffset(20, 20, 20, 20), expandHorizontal: true)
-					.add(WS.textLine
-						.setLocalizationKey("FileDump.Gui.PegCount")
-						.setFontSize(40f)
+					.layoutVertical(padding: new RectOffset(20, 20, 10, 20)) // Compensate for the top text taking up some "empty" space adding to the padding.
+					.addContainer("LineEntry", line => line
+						.layoutVerticalInner(spacing: 10) //Only 10px spacing, make the label a bit closer to it's object
+						.add(WS.textLine
+							.setLocalizationKey("FileDump.Gui.PegCount")
+							.setFontSize(40f)
+						)
+						.add(WS.slider
+							.injectionKey(nameof(valueSlider))
+							.setMin(1)
+							.setInterval(1)
+							.setMax(32)
+							.fixedSize(500, 45) //Min width is defined here...
+						)
 					)
-					.add(WS.slider
-						.injectionKey(nameof(valueSlider))
-						.setMin(1)
-						.setInterval(1)
-						.setMax(32)
-						.fixedSize(500, 45) //Min width is defined here...
-					)
-					.add(WS.textLine
-						.setLocalizationKey("FileDump.Gui.FileName")
-						.setFontSize(40f)
-					)
-					.add(WS.inputField
-						.injectionKey(nameof(filePathInputField))
-						.fixedSize(1000, 80)
-						.setPlaceholderLocalizationKey("FileDump.Gui.FileName.Hint")
-						.disableRichText()
+					.addContainer("LineEntry", line => line
+						.layoutVerticalInner(spacing: 10) //Only 10px spacing, make the label a bit closer to it's object
+						.add(WS.textLine
+							.setLocalizationKey("FileDump.Gui.FileName")
+							.setFontSize(40f)
+						)
+						.add(WS.inputField
+							.injectionKey(nameof(filePathInputField))
+							.fixedSize(1000, 80)
+							.setPlaceholderLocalizationKey("FileDump.Gui.FileName.Hint")
+							.disableRichText()
+						)
 					)
 				)
 				.add<EditFileDump>()

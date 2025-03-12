@@ -1,5 +1,6 @@
 using EcconiaCPUServerComponents.Shared;
 using EccsGuiBuilder.Client.Layouts.Elements;
+using EccsGuiBuilder.Client.Layouts.Helper;
 using EccsGuiBuilder.Client.Wrappers;
 using EccsGuiBuilder.Client.Wrappers.AutoAssign;
 using FancyInput;
@@ -18,10 +19,11 @@ namespace EcconiaCPUServerComponentsGui.Client.EditGUI
 		public static void initialize()
 		{
 			WS.window("EccComponentsEditFlatKeyWindow")
+				.setYPosition(870)
 				.configureContent(content => content
-					.vertical(20f, new RectOffset(20, 20, 20, 20), expandHorizontal: true)
+					.layoutVertical()
 					.addContainer("TopBarBox", topBar => topBar
-						.horizontal(20, anchor: TextAnchor.MiddleLeft)
+						.layoutHorizontalInner()
 						.add(WS.textLine.setLocalizationKey("EcconiaCPUServerComponents.Gui.FlatKey.BackgroundLabel"))
 						.add(WS.colorPicker
 							.injectionKey(nameof(backgroundColorPicker))
@@ -39,13 +41,13 @@ namespace EcconiaCPUServerComponentsGui.Client.EditGUI
 						)
 					)
 					.addContainer("MainContentBox", mainContent => mainContent
-						.horizontal(40, expandVertical: false, expandHorizontal: false)
+						.layoutGrowElementHorizontalInner(elementIndex: IndexHelper.nth(1))
 						.add(WS.keyHighlighter
 							.injectionKey("keyHighlight")
 							.fixedSize(500, 500)
 						)
 						.addContainer("CustomLabelBox", topRightContainer => topRightContainer
-							.vertical(expandHorizontal: true)
+							.layoutGrowElementVerticalInner(spacing: 10, elementIndex: IndexHelper.nth(1))
 							.add(WS.textLine.setLocalizationKey("EcconiaCPUServerComponents.Gui.FlatKey.CustomLabel"))
 							.add(WS.inputArea
 								.injectionKey(nameof(customLabelInput))
@@ -55,11 +57,11 @@ namespace EcconiaCPUServerComponentsGui.Client.EditGUI
 								.configure(inputField => {
 									inputField.lineType = TMP_InputField.LineType.MultiLineNewline;
 									var text = inputField.textComponent;
-									text.enableWordWrapping = true;
+									text.textWrappingMode = TextWrappingModes.PreserveWhitespace;
 									text.fontSize = 60;
 									var placeholder = (TMP_Text) inputField.placeholder;
 									placeholder.fontSizeMax = 100;
-									placeholder.enableWordWrapping = true;
+									placeholder.textWrappingMode = TextWrappingModes.PreserveWhitespace;
 								})
 							)
 						)

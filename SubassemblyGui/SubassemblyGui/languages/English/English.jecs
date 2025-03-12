@@ -1,0 +1,26 @@
+MHG.SettingsMenu.Pages.Controls.Headings.SubassemblyGui: "Mod: Subassembly Gui"
+
+FancyInput.Trigger.SubassemblyGui.OpenLoadGui : "Load Subassembly"
+FancyInput.Trigger.SubassemblyGui.OpenLoadGui.Description : """
+    Opens a window with a list of Subassemblies from your Subassembly directory.
+    
+    You can either click the subassembly entry to add it to your hotbar.
+    Or you can type the title of the subassembly and press ENTER to add the first entry to your hotbar.
+    """
+FancyInput.Trigger.SubassemblyGui.SaveSubassemblyGui : "Save Subassembly"
+FancyInput.Trigger.SubassemblyGui.SaveSubassemblyGui.Description : """
+    Opens window allowing you to save your current select as Subassembly.
+    
+    You can simply type a "title" and press ENTER (or the button).
+    If the same "folder" or "title" does exist already, a warning will be shown.
+    """
+
+SubassemblyGui.SaveSubassemblyWindow: "Save subassembly"
+SubassemblyGui.Gui.FileName.Hint: "Enter subassembly name"
+SubassemblyGui.Gui.SaveButton: "Save"
+SubassemblyGui.Gui.SubassemblyAlreadyExists: "<color=red>Subassembly name already exists!"
+
+SubassemblyGui.LoadSubassemblyWindow: "Load subassembly"
+SubassemblyGui.Gui.LoadingIndicator: "Loading..."
+
+SubassemblyGui.Gui.SubassemblyCard.Title: "Title: {0}"

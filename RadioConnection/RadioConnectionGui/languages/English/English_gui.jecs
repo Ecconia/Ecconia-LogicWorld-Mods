@@ -7,7 +7,7 @@ RadioConnection.Gui.RadioComponent.Address.Pegs.Help : "The binary number of the
 RadioConnection.Gui.RadioComponent.Data : "Bits:"
 RadioConnection.Gui.RadioComponent.Data.Offset : "Offset"
 RadioConnection.Gui.RadioComponent.Data.Offset.Help : "The bit offset, of where on the current channel the bits should be connected to."
-RadioConnection.Gui.RadioComponent.Data.Pegs : "Amount:"
+RadioConnection.Gui.RadioComponent.Data.Pegs : "Amount"
 RadioConnection.Gui.RadioComponent.Data.Pegs.Help : "The amount of bits to connect to on the current channel."
 
 RadioConnection.Gui.RadioComponent.Link : "Use phasic links?"

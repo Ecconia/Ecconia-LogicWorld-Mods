@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using System.Text;
 using CustomWirePlacer.Client.CWP;
+using EccsGuiBuilder.Client.Layouts.Helper;
 using EccsGuiBuilder.Client.Wrappers;
 using EccsGuiBuilder.Client.Wrappers.AutoAssign;
 using EccsLogicWorldAPI.Shared.AccessHelper;
@@ -33,7 +34,7 @@ namespace CustomWirePlacer.Client.Windows
 				.assignTo(out rootObject)
 				.addContainer("CWP: StatusDisplay window", content => content
 					.setAlignment(Alignment.TopLeft)
-					.vertical(padding: new RectOffset(5, 5, 0, 5))
+					.layoutVertical(padding: new RectOffset(5, 5, 0, 5))
 					.addAndConfigure<ContentSizeFitter>(configure => {
 						configure.horizontalFit = ContentSizeFitter.FitMode.MinSize;
 						configure.verticalFit = ContentSizeFitter.FitMode.MinSize;
@@ -48,7 +49,7 @@ namespace CustomWirePlacer.Client.Windows
 							tmp.verticalAlignment = VerticalAlignmentOptions.Top;
 							tmp.horizontalAlignment = HorizontalAlignmentOptions.Left;
 							// tmp.autoSizeTextContainer = true;
-							tmp.enableWordWrapping = false;
+							tmp.textWrappingMode = TextWrappingModes.PreserveWhitespaceNoWrap;
 						})
 					)
 				)
@@ -124,7 +125,7 @@ namespace CustomWirePlacer.Client.Windows
 			{
 				if(obj == null)
 				{
-					obj = FindObjectOfType<DebugToggleTextManager>();
+					obj = FindFirstObjectByType<DebugToggleTextManager>();
 					if(obj == null)
 					{
 						ModClass.logger.Error("Could not find instance of 'DebugToggleTextManager', cannot set status display at right position when debugging window.");
