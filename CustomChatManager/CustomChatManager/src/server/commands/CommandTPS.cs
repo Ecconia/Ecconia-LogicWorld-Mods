@@ -30,7 +30,7 @@ namespace CustomChatManager.Server.Commands
 			//Used for stepping the simulation:
 			simulation = ServiceGetter.getService<ILogicManager>();
 			
-			//Hook into the initialize of the simulation manager, as that grants us access to the accessors:
+			//Hook into the initialization of the simulation manager, as that grants us access to the accessors:
 			// Point is, any point after the save has been initialized would do.
 			var initializeMethod = Methods.getPublic(simulationScheduler.GetType(), "Initialize");
 			var hookMethod = Methods.getPrivateStatic(GetType(), nameof(afterInitialization));
