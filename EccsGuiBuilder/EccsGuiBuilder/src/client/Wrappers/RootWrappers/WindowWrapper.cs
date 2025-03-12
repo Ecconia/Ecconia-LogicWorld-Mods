@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using EccsGuiBuilder.Client.CustomBehaviors;
 using EccsGuiBuilder.Client.Wrappers.AutoAssign;
 using EccsLogicWorldAPI.Client.AccessHelpers;
@@ -50,16 +49,22 @@ namespace EccsGuiBuilder.Client.Wrappers.RootWrappers
 		//### Custom close action:
 		
 		private bool replacedDefaultCloseAction;
-		private readonly List<Action> onWindowCloseActions = new List<Action>();
 		
 		public WindowWrapper addOnCloseAction(Action action)
 		{
-			replaceDefaultCloseOperation();
-			onWindowCloseActions.Add(action);
+			var blocker = GameObjectQuery.queryGameObject(gameObject, "Blocker");
+			NullChecker.check(blocker, "Cannot find blocker background on custom window canvas");
+			
+			replaceDefaultCloseOperation(blocker);
+			
+			//Add close button handler:
+			gameObject.GetComponent<ConfigurableMenuUtility>().OnCloseButtonPressed += action;
+			//Add background click handler:
+			blocker.GetComponent<CanvasBackgroundClicked>().onCanvasClicked += action;
 			return this;
 		}
 		
-		private void replaceDefaultCloseOperation()
+		private void replaceDefaultCloseOperation(GameObject blocker)
 		{
 			if(replacedDefaultCloseAction)
 			{
@@ -67,22 +72,15 @@ namespace EccsGuiBuilder.Client.Wrappers.RootWrappers
 			}
 			replacedDefaultCloseAction = true;
 			
-			var blocker = GameObjectQuery.queryGameObject(gameObject, "Blocker");
-			NullChecker.check(blocker, "Cannot find blocker background on custom window canvas");
-			
-			//Get rid of old code:
+			// The AutomaticCloseButtonBehavior registers an action on the closing button to go back to building game-state on Start(). We do not want that.
 			var type = Types.getType(typeof(StandardMenuBackground).Assembly, "LogicWorld.UI.AutomaticCloseButtonBehavior");
 			Object.DestroyImmediate(gameObject.GetComponent(type));
-			type = Types.getType(typeof(StandardMenuBackground).Assembly, "LogicWorld.UI.ClickableMenuBackground");
-			Object.DestroyImmediate(blocker.GetComponent(type)); //Child 0 is the Blocker (background)
 			
-			foreach (var action in onWindowCloseActions)
-			{
-				//Add close button handler:
-				gameObject.GetComponent<ConfigurableMenuUtility>().OnCloseButtonPressed += action;
-				//Add background click handler:
-				blocker.AddComponent<CanvasBackgroundClicked>().onCanvasClicked += action;
-			}
+			// The ClickableMenuBackground will go back to building game-state when the mouse clicks it. We do not want that.
+			type = Types.getType(typeof(StandardMenuBackground).Assembly, "LogicWorld.UI.ClickableMenuBackground");
+			Object.DestroyImmediate(blocker.GetComponent(type));
+			// Instead we want a custom action to be performed, with a custom background click handler:
+			blocker.AddComponent<CanvasBackgroundClicked>();
 		}
 		
 		public WindowWrapper doNotBlurBuildingCanvas()
