@@ -33,6 +33,9 @@
       <Reference Include="LogicLog">
         <HintPath>$(LogicWorldGameLocation)\Server\LogicLog.dll</HintPath>
       </Reference>
+      <Reference Include="LogicSettings.Core">
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicSettings.Core.dll</HintPath>
+      </Reference>
       <Reference Include="LogicUI">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicUI.dll</HintPath>
       </Reference>

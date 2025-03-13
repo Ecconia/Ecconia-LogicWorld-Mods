@@ -1,0 +1,36 @@
+Ecconia.WireTracer.OutlineColor.Linking:
+    Page: Graphics
+    Heading: WireTracerColors
+    
+Ecconia.WireTracer.OutlineColor.Output:
+    Page: Graphics
+    Heading: WireTracerColors
+
+Ecconia.WireTracer.OutlineColor.Primary:
+    Page: Graphics
+    Heading: WireTracerColors
+Ecconia.WireTracer.OutlineColor.PrimaryInfrastructure:
+    Page: Graphics
+    Heading: WireTracerColors
+
+Ecconia.WireTracer.OutlineColor.Sourcing:
+    Page: Graphics
+    Heading: WireTracerColors
+Ecconia.WireTracer.OutlineColor.SourcingInfrastructure:
+    Page: Graphics
+    Heading: WireTracerColors
+
+Ecconia.WireTracer.OutlineColor.Connected:
+    Page: Graphics
+    Heading: WireTracerColors
+Ecconia.WireTracer.OutlineColor.ConnectedInfrastructure:
+    Page: Graphics
+    Heading: WireTracerColors
+
+Ecconia.WireTracer.OutlineColor.Draining:
+    Page: Graphics
+    Heading: WireTracerColors
+Ecconia.WireTracer.OutlineColor.DrainingInfrastructure:
+    Page: Graphics
+    Heading: WireTracerColors
+

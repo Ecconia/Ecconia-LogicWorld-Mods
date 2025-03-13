@@ -1,0 +1,26 @@
+MHG.SettingsMenu.Pages.Graphics.Headings.WireTracerColors: "WireTracer (Mod): Outline Colors"
+
+Ecconia.WireTracer.OutlineColor.Linking: "Linking components"
+Ecconia.WireTracer.OutlineColor.Linking.Description: "Outline color of components which provide active phasic links. Examples are: Relays; FastBuffer."
+Ecconia.WireTracer.OutlineColor.Output: "Output Peg & connected wires"
+Ecconia.WireTracer.OutlineColor.Output.Description: "Outline color of output pegs and wires connected to it."
+
+Ecconia.WireTracer.OutlineColor.Primary: "Selected Cluster - Pegs & Wires"
+Ecconia.WireTracer.OutlineColor.Primary.Description: "Outline color for pegs & wires in selected cluster."
+Ecconia.WireTracer.OutlineColor.PrimaryInfrastructure: "Selected Cluster - Infrastructure components"
+Ecconia.WireTracer.OutlineColor.PrimaryInfrastructure.Description: "Outline color of components which provide secret links in selected cluster. Example are: Sockets."
+
+Ecconia.WireTracer.OutlineColor.Sourcing: "Source Cluster - Pegs & Wires"
+Ecconia.WireTracer.OutlineColor.Sourcing.Description: "Outline color for pegs & wires in source cluster."
+Ecconia.WireTracer.OutlineColor.SourcingInfrastructure: "Source Cluster - Infrastructure components"
+Ecconia.WireTracer.OutlineColor.SourcingInfrastructure.Description: "Outline color of components which provide secret links in source cluster. Example are: Sockets."
+
+Ecconia.WireTracer.OutlineColor.Connected: "Connected Cluster - Pegs & Wires"
+Ecconia.WireTracer.OutlineColor.Connected.Description: "Outline color for pegs & wires in connected cluster."
+Ecconia.WireTracer.OutlineColor.ConnectedInfrastructure: "Connected Cluster - Infrastructure components"
+Ecconia.WireTracer.OutlineColor.ConnectedInfrastructure.Description: "Outline color of components which provide secret links in connected cluster. Example are: Sockets."
+
+Ecconia.WireTracer.OutlineColor.Draining: "Drain Cluster - Pegs & Wires"
+Ecconia.WireTracer.OutlineColor.Draining.Description: "Outline color for pegs & wires in drain cluster."
+Ecconia.WireTracer.OutlineColor.DrainingInfrastructure: "Drain Cluster - Infrastructure components"
+Ecconia.WireTracer.OutlineColor.DrainingInfrastructure.Description: "Outline color of components which provide secret links in drain cluster. Example are: Sockets."

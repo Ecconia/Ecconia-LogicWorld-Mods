@@ -46,32 +46,28 @@ namespace WireTracer.Client.Tool
 			drawClusters(world,
 				response.selectedClusters,
 				WireTracerColors.primaryConnected,
-				WireTracerColors.primaryNormal,
-				WireTracerColors.primaryOutput
+				WireTracerColors.primaryNormal
 			);
 			
 			//Highlight source clusters:
 			drawClusters(world,
 				response.sourcingClusters,
 				WireTracerColors.sourcingConnected,
-				WireTracerColors.sourcingNormal,
-				WireTracerColors.sourcingOutput
+				WireTracerColors.sourcingNormal
 			);
 			
 			//Highlight connected clusters:
 			drawClusters(world,
 				response.connectedClusters,
 				WireTracerColors.connectedConnected,
-				WireTracerColors.connectedNormal,
-				WireTracerColors.connectedOutput
+				WireTracerColors.connectedNormal
 			);
 			
 			//Highlight draining clusters:
 			drawClusters(world,
 				response.drainingClusters,
 				WireTracerColors.drainingConnected,
-				WireTracerColors.drainingNormal,
-				WireTracerColors.drainingOutput
+				WireTracerColors.drainingNormal
 			);
 		}
 		
@@ -87,8 +83,7 @@ namespace WireTracer.Client.Tool
 			IWorldData world,
 			List<ClusterDetails> clusters,
 			OutlineData componentColor,
-			OutlineData internalWireColor,
-			OutlineData outgoingWireColor
+			OutlineData internalWireColor
 		)
 		{
 			foreach(var currentClusterDetails in clusters)
@@ -99,7 +94,7 @@ namespace WireTracer.Client.Tool
 					// Skip things that do not exist (anymore/currently):
 					if(world.Contains(address.ComponentAddress))
 					{
-						Outliner.Outline(address, address.IsInputAddress() ? internalWireColor : outgoingWireColor);
+						Outliner.Outline(address, address.IsInputAddress() ? internalWireColor : WireTracerColors.output);
 					}
 				}
 				foreach(var address in currentClusterDetails.highlightedWires)
@@ -108,7 +103,7 @@ namespace WireTracer.Client.Tool
 				}
 				foreach(var address in currentClusterDetails.highlightedOutputWires)
 				{
-					Outliner.Outline(address, outgoingWireColor);
+					Outliner.Outline(address, WireTracerColors.output);
 				}
 			}
 		}
