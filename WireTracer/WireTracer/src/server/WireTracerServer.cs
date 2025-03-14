@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using EccsLogicWorldAPI.Server;
 using EccsLogicWorldAPI.Server.Injectors;
 using EccsLogicWorldAPI.Shared.PacketWrapper;
 using LogicAPI.Data;
@@ -7,7 +8,6 @@ using LogicAPI.Networking;
 using LogicAPI.Networking.Packets.Initialization;
 using LogicAPI.Server;
 using LogicAPI.Server.Networking;
-using LogicWorld.Server;
 using LogicWorld.SharedCode.Networking;
 using WireTracer.Server.Network;
 using WireTracer.Shared.Packets.S2C;
@@ -22,14 +22,10 @@ namespace WireTracer.Server
 		
 		protected override void Initialize()
 		{
-			networkServer = Program.Get<NetworkServer>();
-			if(networkServer == null)
-			{
-				throw new Exception("Could not get Service 'NetworkServer'.");
-			}
+			networkServer = ServiceGetter.getService<NetworkServer>();
 			
 			//Inject verifier:
-			RawJoinVerifierInjector.addVerifier(new SniffingClientVerifier(this));
+			RawJoinVerifierInjector.addVerifier(new SniffingClientVerifier(this, Manifest.ID));
 			PacketHandlerManager.getCustomPacketHandler<ClientLoadedWorldPacket>()
 				.addHandlerToEnd(new ClientJoinedPacketHandler(this));
 			RawPacketHandlerInjector.addPacketHandler(new WireTracerRequestHandler(this));

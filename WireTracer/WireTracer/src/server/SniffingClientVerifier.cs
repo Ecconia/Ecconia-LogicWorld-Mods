@@ -1,3 +1,4 @@
+using System.Linq;
 using LogicAPI.Server.Networking.ClientVerification;
 
 namespace WireTracer.Server
@@ -5,25 +6,21 @@ namespace WireTracer.Server
 	public class SniffingClientVerifier : IClientVerifier
 	{
 		private readonly WireTracerServer wireTracerServer;
+		private readonly string serverModID;
 		
-		public SniffingClientVerifier(WireTracerServer wireTracerServer)
+		public SniffingClientVerifier(WireTracerServer wireTracerServer, string serverModID)
 		{
 			this.wireTracerServer = wireTracerServer;
+			this.serverModID = serverModID;
 		}
 		
 		public void Verify(VerificationContext ctx)
 		{
-			foreach(var modID in ctx.ApprovalPacket.ClientMods)
-			{
-				if(modID.Equals("WireTracer"))
-				{
-					//Found a client that has WireTracer!
-					wireTracerServer.playerHasMod(ctx.PlayerID.Name, true);
-					return;
-				}
-			}
-			//Client does not have WireTracer!
-			wireTracerServer.playerHasMod(ctx.PlayerID.Name, false);
+			// Check if the client has this mod installed and remember it:
+			wireTracerServer.playerHasMod(
+				ctx.PlayerID.Name,
+				ctx.ApprovalPacket.ClientMods.Contains(serverModID)
+			);
 		}
 	}
 }

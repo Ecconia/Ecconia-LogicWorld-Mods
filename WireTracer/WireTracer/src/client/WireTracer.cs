@@ -18,6 +18,7 @@ namespace WireTracer.Client
 		protected override void Initialize()
 		{
 			logger = Logger;
+			
 			try
 			{
 				GameStateInjector.inject(WireTracerGameState.id, typeof(WireTracerGameState));
@@ -26,9 +27,12 @@ namespace WireTracer.Client
 			{
 				throw new Exception("[WireTracer] Failed to inject GameState, see rest of exception.", e);
 			}
+			
 			RawPacketHandlerInjector.addPacketHandler(new AnnouncementPacketHandler());
 			RawPacketHandlerInjector.addPacketHandler(new ClusterListingResponseHandler());
+			
 			CustomInput.Register<WireTracerContext, WireTracerTrigger>("WireTracer");
+			
 			WireTracerHook.init();
 			
 			//When quitting a server, reset the WireTracer availability state flag:

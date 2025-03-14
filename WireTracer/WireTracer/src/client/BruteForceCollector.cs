@@ -37,7 +37,7 @@ namespace WireTracer.Client
 					if(component.Data.Type == throughPeg && component.Data.InputCount == 2) //Sanity check, confirm peg count.
 					{
 						collectedComponents.Add(thisSide.ComponentAddress);
-						//This is a through peg, so lets also investigate the peg on the other side:
+						//This is a ThroughPeg, so lets also investigate the peg on the other side:
 						var otherSide = new InputAddress(thisSide.ComponentAddress, thisSide.PegIndex == 0 ? 1 : 0); //Dirty but valid mapping
 						if(collectedPegs.Add(otherSide))
 						{
@@ -73,9 +73,9 @@ namespace WireTracer.Client
 						{
 							if(wire.Point1 == otherSide)
 							{
-								//If Point1 would have been 'thisSide', it would have been added earlier.
+								//If Point1 had been 'thisSide', it would have been added earlier.
 								// But if it is the 'otherSide', that means, it was not added and 'otherSide' will never be checked.
-								// Hence it has to be added now.
+								// Hence, it has to be added now.
 								collectedWires.Add((wireAddress, true));
 							}
 						}

@@ -13,7 +13,7 @@
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\FancyInput.dll</HintPath>
       </Reference>
       <Reference Include="JimmysUnityUtilities">
-        <HintPath>$(LogicWorldGameLocation)\Server\JimmysUnityUtilities.dll</HintPath>
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\JimmysUnityUtilities.dll</HintPath>
       </Reference>
       <Reference Include="KnifeOutline">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\KnifeOutline.dll</HintPath>
