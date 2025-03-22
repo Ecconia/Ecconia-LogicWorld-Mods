@@ -4,6 +4,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>disable</Nullable>
+        <LangVersion>13</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,6 +21,9 @@
       </Reference>
       <Reference Include="LICC">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LICC.dll</HintPath>
+      </Reference>
+      <Reference Include="Lidgren.Network">
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\Lidgren.Network.dll</HintPath>
       </Reference>
       <Reference Include="LogicAPI">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicAPI.dll</HintPath>
@@ -54,6 +58,9 @@
       <Reference Include="LogicWorld.Interfaces">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Interfaces.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.Modding">
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Modding.dll</HintPath>
+      </Reference>
       <Reference Include="LogicWorld.Networking">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Networking.dll</HintPath>
       </Reference>
@@ -68,6 +75,12 @@
       </Reference>
       <Reference Include="LogicWorld.UnityHacksAndExtensions">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.UnityHacksAndExtensions.dll</HintPath>
+      </Reference>
+      <Reference Include="MessagePack">
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\MessagePack.dll</HintPath>
+      </Reference>
+      <Reference Include="MessagePack.Annotations">
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\MessagePack.Annotations.dll</HintPath>
       </Reference>
       <Reference Include="Server">
         <HintPath>$(LogicWorldGameLocation)\Server\Server.dll</HintPath>
