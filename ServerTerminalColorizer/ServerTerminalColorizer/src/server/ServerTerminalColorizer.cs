@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -5,6 +6,8 @@ using HarmonyLib;
 using LICC;
 using LICC.API;
 using LogicAPI.Server;
+using LogicAPI.Server.Configuration;
+using LogicWorld.Server;
 
 namespace ServerTerminalColorizer.Server
 {
@@ -12,6 +15,18 @@ namespace ServerTerminalColorizer.Server
 	{
 		protected override void Initialize()
 		{
+			// Do not apply this feature on internal servers. As the LW client terminal can display rich-text but not ANSI.
+			var launchOptions = Program.Get<LaunchOptions>();
+			if(launchOptions == null)
+			{
+				throw new Exception("Could not get LunchOptions.");
+			}
+			if(launchOptions.Integrated)
+			{
+				return;
+			}
+			
+			// Apply patch:
 			var methodToHijack = typeof(Frontend).GetMethod(nameof(Frontend.WriteLine), BindingFlags.Instance | BindingFlags.Public, [ typeof(string) ]);
 			var methodHook = typeof(ServerTerminalColorizer).GetMethod(nameof(hook), BindingFlags.Static | BindingFlags.NonPublic);
 			var harmony = new Harmony("ServerTerminalColorConverter");

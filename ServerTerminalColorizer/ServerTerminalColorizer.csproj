@@ -21,6 +21,9 @@
       <Reference Include="LogicAPI.Server">
         <HintPath>$(LogicWorldGameLocation)\Server\LogicAPI.Server.dll</HintPath>
       </Reference>
+      <Reference Include="Server">
+        <HintPath>$(LogicWorldGameLocation)\Server\Server.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>
