@@ -5,6 +5,7 @@ using WireTracer.Client.Tool;
 
 namespace WireTracer.Client
 {
+	//TODO: Preferably add this to my API mod, so that others can use this. Also make it more generic. Well ideally LW fixes its FPI, to allow Mod callbacks...
 	public class WireTracerHook
 	{
 		public static void init()

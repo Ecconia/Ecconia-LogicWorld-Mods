@@ -21,11 +21,11 @@ namespace WireTracer.Client.Tool
 			}
 			foreach(var pAddress in pegs)
 			{
-				Outliner.Outline(pAddress, pAddress.IsInputAddress() ? WireTracerColors.primaryNormal : WireTracerColors.primaryOutput);
+				Outliner.Outline(pAddress, pAddress.IsInputAddress() ? WireTracerColors.primaryNormal : WireTracerColors.output);
 			}
 			foreach(var (wireAddress, isOutput) in wires)
 			{
-				Outliner.Outline(wireAddress, isOutput ? WireTracerColors.primaryOutput : WireTracerColors.primaryNormal);
+				Outliner.Outline(wireAddress, isOutput ? WireTracerColors.output : WireTracerColors.primaryNormal);
 			}
 		}
 		

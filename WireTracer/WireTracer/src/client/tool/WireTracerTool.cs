@@ -37,11 +37,7 @@ namespace WireTracer.Client.Tool
 				//For some reason WireTracer did not stop properly.
 				WireTracer.logger.Error("Attempted to check for WireTracer activate, but it was not cleanly stopped? Trying to fix this, but you should report this!");
 				initialPegAddress = PegAddress.Empty;
-				if(currentTracer != null)
-				{
-					currentTracer.stop();
-					currentTracer = null;
-				}
+				stopCurrentTracer();
 			}
 			
 			//Get the peg (or wire) in question:
@@ -89,10 +85,12 @@ namespace WireTracer.Client.Tool
 		
 		private static void requestServerHelp()
 		{
-			if(!WireTracer.serverHasWireTracer)
+			// Do not "request help" (send a packet to the server), if there is no WireTracer installed:
+			if(!WireTracer.isWireTracerSupported())
 			{
 				return;
 			}
+			// Do not perform packet overhead sending for a very trivial case:
 			if(!initialPegAddress.IsInputAddress())
 			{
 				var wires = Instances.MainWorld.Data.LookupPegWires(initialPegAddress);
@@ -122,11 +120,7 @@ namespace WireTracer.Client.Tool
 			currentRequestID = null; //Received response, clear GUID.
 			
 			//Clear up all data immediately:
-			if(currentTracer != null)
-			{
-				currentTracer.stop();
-				currentTracer = null;
-			}
+			stopCurrentTracer();
 			//Start showing new data:
 			currentTracer = new RemoteTracer(response);
 		}
@@ -151,13 +145,18 @@ namespace WireTracer.Client.Tool
 		
 		public static void onStop()
 		{
+			stopCurrentTracer();
+			initialPegAddress = PegAddress.Empty;
+			currentRequestID = null;
+		}
+		
+		private static void stopCurrentTracer()
+		{
 			if(currentTracer != null)
 			{
 				currentTracer.stop();
 				currentTracer = null;
 			}
-			initialPegAddress = PegAddress.Empty;
-			currentRequestID = null;
 		}
 	}
 }

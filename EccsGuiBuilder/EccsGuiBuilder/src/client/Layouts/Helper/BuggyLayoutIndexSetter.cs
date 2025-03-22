@@ -1,6 +1,6 @@
 using System;
 using EccsLogicWorldAPI.Shared.AccessHelper;
-using LogicWorld.UI.Layouts.Controllers;
+using LogicUI.Layouts.Controllers;
 
 namespace EccsGuiBuilder.client.Layouts.Helper
 {

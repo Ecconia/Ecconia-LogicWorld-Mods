@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using LogicAPI.Data;
+using LogicAPI.Services;
 using LogicWorld.Interfaces;
 using LogicWorld.Outlines;
 using WireTracer.Shared.Packets.S2C;
@@ -13,7 +14,7 @@ namespace WireTracer.Client.Tool
 		public RemoteTracer(ClusterListingResponse response)
 		{
 			this.response = response;
-			//Populate wires:
+			// Populate/Collect wires (they are not sent by the server):
 			foreach(var clusterDetails in response.selectedClusters)
 			{
 				populateWires(clusterDetails);
@@ -33,183 +34,93 @@ namespace WireTracer.Client.Tool
 			
 			var world = Instances.MainWorld.Data;
 			
+			// Linking components are stored by (potentially) two connected clusters.
+			// So a later drawn cluster can overwrite a custom peg outline with it's linking component.
+			// To prevent this draw linking components before all pegs:
+			drawLinkingComponents(world, response.selectedClusters);
+			drawLinkingComponents(world, response.sourcingClusters);
+			drawLinkingComponents(world, response.connectedClusters);
+			drawLinkingComponents(world, response.drainingClusters);
+			
 			//Highlight primary cluster:
-			foreach(var currentClusterDetails in response.selectedClusters)
-			{
-				foreach(var address in currentClusterDetails.connectingComponents)
-				{
-					if(!world.Contains(address))
-					{
-						continue;
-					}
-					Outliner.Outline(address, WireTracerColors.primaryConnected);
-				}
-				foreach(var address in currentClusterDetails.linkingComponents)
-				{
-					if(!world.Contains(address))
-					{
-						continue;
-					}
-					Outliner.Outline(address, WireTracerColors.linking);
-				}
-				foreach(var address in currentClusterDetails.pegs)
-				{
-					if(!world.Contains(address.ComponentAddress))
-					{
-						continue;
-					}
-					if(address.IsInputAddress())
-					{
-						Outliner.Outline(address, WireTracerColors.primaryNormal);
-					}
-					else
-					{
-						Outliner.Outline(address, WireTracerColors.primaryOutput);
-					}
-				}
-				foreach(var address in currentClusterDetails.highlightedWires)
-				{
-					Outliner.Outline(address, WireTracerColors.primaryNormal);
-				}
-				foreach(var address in currentClusterDetails.highlightedOutputWires)
-				{
-					Outliner.Outline(address, WireTracerColors.primaryOutput);
-				}
-			}
+			drawClusters(world,
+				response.selectedClusters,
+				WireTracerColors.primaryConnected,
+				WireTracerColors.primaryNormal
+			);
 			
 			//Highlight source clusters:
-			foreach(var currentClusterDetails in response.sourcingClusters)
-			{
-				foreach(var address in currentClusterDetails.connectingComponents)
-				{
-					if(!world.Contains(address))
-					{
-						continue;
-					}
-					Outliner.Outline(address, WireTracerColors.sourcingConnected);
-				}
-				foreach(var address in currentClusterDetails.linkingComponents)
-				{
-					if(!world.Contains(address))
-					{
-						continue;
-					}
-					Outliner.Outline(address, WireTracerColors.linking);
-				}
-				foreach(var address in currentClusterDetails.pegs)
-				{
-					if(!world.Contains(address.ComponentAddress))
-					{
-						continue;
-					}
-					if(address.IsInputAddress())
-					{
-						Outliner.Outline(address, WireTracerColors.sourcingNormal);
-					}
-					else
-					{
-						Outliner.Outline(address, WireTracerColors.sourcingOutput);
-					}
-				}
-				foreach(var address in currentClusterDetails.highlightedWires)
-				{
-					Outliner.Outline(address, WireTracerColors.sourcingNormal);
-				}
-				foreach(var address in currentClusterDetails.highlightedOutputWires)
-				{
-					Outliner.Outline(address, WireTracerColors.sourcingOutput);
-				}
-			}
+			drawClusters(world,
+				response.sourcingClusters,
+				WireTracerColors.sourcingConnected,
+				WireTracerColors.sourcingNormal
+			);
 			
 			//Highlight connected clusters:
-			foreach(var currentClusterDetails in response.connectedClusters)
-			{
-				foreach(var address in currentClusterDetails.connectingComponents)
-				{
-					if(!world.Contains(address))
-					{
-						continue;
-					}
-					Outliner.Outline(address, WireTracerColors.connectedConnected);
-				}
-				foreach(var address in currentClusterDetails.linkingComponents)
-				{
-					if(!world.Contains(address))
-					{
-						continue;
-					}
-					Outliner.Outline(address, WireTracerColors.linking);
-				}
-				foreach(var address in currentClusterDetails.pegs)
-				{
-					if(!world.Contains(address.ComponentAddress))
-					{
-						continue;
-					}
-					if(address.IsInputAddress())
-					{
-						Outliner.Outline(address, WireTracerColors.connectedNormal);
-					}
-					else
-					{
-						Outliner.Outline(address, WireTracerColors.connectedOutput);
-					}
-				}
-				foreach(var address in currentClusterDetails.highlightedWires)
-				{
-					Outliner.Outline(address, WireTracerColors.connectedNormal);
-				}
-				foreach(var address in currentClusterDetails.highlightedOutputWires)
-				{
-					Outliner.Outline(address, WireTracerColors.connectedOutput);
-				}
-			}
+			drawClusters(world,
+				response.connectedClusters,
+				WireTracerColors.connectedConnected,
+				WireTracerColors.connectedNormal
+			);
 			
 			//Highlight draining clusters:
-			foreach(var currentClusterDetails in response.drainingClusters)
+			drawClusters(world,
+				response.drainingClusters,
+				WireTracerColors.drainingConnected,
+				WireTracerColors.drainingNormal
+			);
+		}
+		
+		private void drawLinkingComponents(IWorldData world, List<ClusterDetails> cluster)
+		{
+			foreach (var currentClusterDetails in cluster)
 			{
-				foreach(var address in currentClusterDetails.connectingComponents)
-				{
-					if(!world.Contains(address))
-					{
-						continue;
-					}
-					Outliner.Outline(address, WireTracerColors.drainingConnected);
-				}
-				foreach(var address in currentClusterDetails.linkingComponents)
-				{
-					if(!world.Contains(address))
-					{
-						continue;
-					}
-					Outliner.Outline(address, WireTracerColors.linking);
-				}
+				drawComponents(world, currentClusterDetails.linkingComponents, WireTracerColors.linking);
+			}
+		}
+		
+		private static void drawClusters(
+			IWorldData world,
+			List<ClusterDetails> clusters,
+			OutlineData componentColor,
+			OutlineData internalWireColor
+		)
+		{
+			foreach(var currentClusterDetails in clusters)
+			{
+				drawComponents(world, currentClusterDetails.connectingComponents, componentColor);
 				foreach(var address in currentClusterDetails.pegs)
 				{
-					if(!world.Contains(address.ComponentAddress))
+					// Skip things that do not exist (anymore/currently):
+					if(world.Contains(address.ComponentAddress))
 					{
-						continue;
-					}
-					if(address.IsInputAddress())
-					{
-						Outliner.Outline(address, WireTracerColors.drainingNormal);
-					}
-					else
-					{
-						Outliner.Outline(address, WireTracerColors.drainingOutput);
+						Outliner.Outline(address, address.IsInputAddress() ? internalWireColor : WireTracerColors.output);
 					}
 				}
 				foreach(var address in currentClusterDetails.highlightedWires)
 				{
-					Outliner.Outline(address, WireTracerColors.drainingNormal);
+					Outliner.Outline(address, internalWireColor);
 				}
 				foreach(var address in currentClusterDetails.highlightedOutputWires)
 				{
-					Outliner.Outline(address, WireTracerColors.drainingOutput);
+					Outliner.Outline(address, WireTracerColors.output);
 				}
 			}
 		}
 		
+		private static void drawComponents(IWorldData world, List<ComponentAddress> components, OutlineData componentColor)
+		{
+			foreach(var address in components)
+			{
+				// Skip things that do not exist (anymore/currently):
+				if(world.Contains(address))
+				{
+					Outliner.Outline(address, componentColor);
+				}
+			}
+		}
+		
+		/// <summary> Will collect all wires connected to the pegs of a cluster and cache them. Wires are sorted in internal and output-peg wires.</summary>
 		private static void populateWires(ClusterDetails clusterDetails)
 		{
 			clusterDetails.highlightedWires = new List<WireAddress>();
@@ -227,9 +138,13 @@ namespace WireTracer.Client.Tool
 				}
 				foreach(var wireAddress in wires)
 				{
+					// At this point we skipped any output peg. The current address is an InputPeg.
 					var wire = Instances.MainWorld.Data.Lookup(wireAddress);
-					if(wire.Point1 == pegAddress || !wire.Point1.IsInputAddress()) //We do not collect wires from output pegs. So if the first is an output peg, the other side must be an input -> collect.
+					// We now check if the first point is the current InputPeg - as that way we outline each wire only once.
+					// In cases where the first point is an OutputPeg, the second peg must be an InputPeg and we process this wire anyway.
+					if(wire.Point1 == pegAddress || !wire.Point1.IsInputAddress())
 					{
+						// Sort the wire depending if it is connected to an OutputPeg or not. Output wires have a different color.
 						(wire.Point1.IsInputAddress() && wire.Point2.IsInputAddress() ? clusterDetails.highlightedWires : clusterDetails.highlightedOutputWires).Add(wireAddress);
 					}
 				}

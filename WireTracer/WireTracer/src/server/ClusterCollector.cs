@@ -18,6 +18,7 @@ namespace WireTracer.Server
 		private static readonly Func<Cluster, ClusterLinker> getLinker;
 		private static readonly Func<ClusterLinker, List<ClusterLinker>> getLeaders;
 		private static readonly Func<ClusterLinker, List<ClusterLinker>> getFollowers;
+		
 		//Services needed to lookup wires/pegs:
 		private static readonly ICircuitryManager circuits;
 		private static readonly IWorldData world;
@@ -28,6 +29,7 @@ namespace WireTracer.Server
 			getLinker = Delegator.createFieldGetter<Cluster, ClusterLinker>(Fields.getPrivate(typeof(Cluster), "Linker"));
 			getLeaders = Delegator.createFieldGetter<ClusterLinker, List<ClusterLinker>>(Fields.getPrivate(typeof(ClusterLinker), "LinkedLeaders"));
 			getFollowers = Delegator.createFieldGetter<ClusterLinker, List<ClusterLinker>>(Fields.getPrivate(typeof(ClusterLinker), "LinkedFollowers"));
+			
 			circuits = ServiceGetter.getService<ICircuitryManager>();
 			world = ServiceGetter.getService<IWorldData>();
 		}
@@ -87,13 +89,13 @@ namespace WireTracer.Server
 				return false; //Whoops, cannot collect the primary clusters, probably probing an output peg.
 			}
 			
-			//Collect clusters that get powered by the original cluster or will power it.
+			//Collect clusters that get powered by the original clusters or will power it.
 			var collectedSources = new HashSet<Cluster>();
 			var collectedDrains = new HashSet<Cluster>();
 			foreach(var cluster in primaryClusters)
 			{
-				collectClusters(cluster, collectedSources, getLeaders);
-				collectClusters(cluster, collectedDrains, getFollowers);
+				collectLinkedClusters(cluster, collectedSources, getLeaders);
+				collectLinkedClusters(cluster, collectedDrains, getFollowers);
 			}
 			foreach(var cluster in primaryClusters)
 			{
@@ -103,54 +105,39 @@ namespace WireTracer.Server
 			
 			//Collect and filter clusters that are both source and drain:
 			var collectedEquals = new HashSet<Cluster>();
-			foreach(var collectedSource in collectedSources)
+			collectedSources.RemoveWhere(sourceCluster =>
 			{
-				if(collectedDrains.Remove(collectedSource))
+				if(!collectedDrains.Remove(sourceCluster))
 				{
-					collectedEquals.Add(collectedSource);
+					collectedEquals.Add(sourceCluster);
+					return true;
 				}
-			}
-			foreach(var collectedEqual in collectedEquals)
-			{
-				collectedSources.Remove(collectedEqual);
-			}
+				return false;
+			});
 			
-			//Collect information about each cluster:
+			// Construct response and collect information about each cluster:
 			response = new ClusterListingResponse
 			{
-				selectedClusters = new List<ClusterDetails>(),
+				selectedClusters = primaryClusters.Select(collectClusterInformation).ToList(),
+				sourcingClusters = collectedSources.Select(collectClusterInformation).ToList(),
+				connectedClusters = collectedEquals.Select(collectClusterInformation).ToList(),
+				drainingClusters = collectedDrains.Select(collectClusterInformation).ToList(),
 			};
-			foreach(var cluster in primaryClusters)
-			{
-				response.selectedClusters.Add(collectClusterInformation(cluster));
-			}
-			response.sourcingClusters = new List<ClusterDetails>();
-			foreach(var cluster in collectedSources)
-			{
-				response.sourcingClusters.Add(collectClusterInformation(cluster));
-			}
-			response.connectedClusters = new List<ClusterDetails>();
-			foreach(var cluster in collectedEquals)
-			{
-				response.connectedClusters.Add(collectClusterInformation(cluster));
-			}
-			response.drainingClusters = new List<ClusterDetails>();
-			foreach(var cluster in collectedDrains)
-			{
-				response.drainingClusters.Add(collectClusterInformation(cluster));
-			}
 			return true;
 		}
 		
+		/// <summary> Collects all clusters connected to a peg (OutputPegs have multiple clusters). </summary>
 		private static bool collectMainClusters(PegAddress originPegAddress, out HashSet<Cluster> primaryClusters)
 		{
 			primaryClusters = new HashSet<Cluster>();
 			if(originPegAddress.IsInputAddress(out var inputAddress))
 			{
+				// InputPegs only have a single cluster.
 				primaryClusters.Add(getClusterAt(inputAddress));
 			}
 			else
 			{
+				// OutputPegs have multiple clusters, one per connected wire (duplication possible).
 				var wires = world.LookupPegWires(originPegAddress);
 				if(wires == null || wires.Count == 0)
 				{
@@ -164,10 +151,11 @@ namespace WireTracer.Server
 					{
 						throw new WireTracerException("Tried to lookup wire given its address, but the world did not contain it. World must be corrupted.");
 					}
+					// Get the other side of the wire - which is an InputPeg (not the OutputPeg):
 					var otherSide = wire.Point1 == originPegAddress ? wire.Point2 : wire.Point1;
 					if(!otherSide.IsInputAddress(out var otherSideInputAddress))
 					{
-						continue; //Not supported, this wire would be invalid anyway.
+						continue; //Not supported (output to output connection), this wire would be invalid anyway.
 					}
 					primaryClusters.Add(getClusterAt(otherSideInputAddress));
 				}
@@ -175,7 +163,8 @@ namespace WireTracer.Server
 			return true;
 		}
 		
-		private static void collectClusters(Cluster startingPoint, HashSet<Cluster> collectedClusters, Func<ClusterLinker, List<ClusterLinker>> linkedLinkerGetter)
+		/// <summary> Collect all linked clusters that are either follower or leader (based on provided link resolving method). </summary>
+		private static void collectLinkedClusters(Cluster startingPoint, HashSet<Cluster> collectedClusters, Func<ClusterLinker, List<ClusterLinker>> linkedLinkerGetter)
 		{
 			var clustersToProcess = new Queue<ClusterLinker>();
 			if(!getLinkerAt(startingPoint, out var startingLinker))
@@ -199,6 +188,7 @@ namespace WireTracer.Server
 			}
 		}
 		
+		/// <summary> Collects information about a cluster, which the client needs to outline it properly. </summary>
 		private static ClusterDetails collectClusterInformation(Cluster cluster)
 		{
 			var details = new ClusterDetails
@@ -208,18 +198,22 @@ namespace WireTracer.Server
 				linkingComponents = new List<ComponentAddress>(),
 			};
 			
-			//Two lists are never null, according to how it is created and used:
+			// These two lists are never null, according to how they are created and used:
 			var inputPegs = cluster.ConnectedInputs;
 			var outputPegs = cluster.ConnectedOutputs;
 			
 			foreach(var peg in inputPegs)
 			{
 				details.pegs.Add(peg.Address);
+				
+				// TBI: Why are these not collected into Sets? Does this not collect every ThroughPeg twice? Also what about modded components with secret and phasic links?
+				// Highlight this component, when any of its pegs has a secret link attached:
 				if(peg.SecretLinks != null && peg.SecretLinks.Any())
 				{
-					//Highlight this component somehow.
+					// Highlight this component somehow.
 					details.connectingComponents.Add(peg.Address.ComponentAddress);
 				}
+				// Highlight this component, when any of its pegs has a phasic link attached:
 				if(
 					(peg.PhasicLinks != null && peg.PhasicLinks.Any())
 					|| (peg.OneWayPhasicLinksFollowers != null && peg.OneWayPhasicLinksFollowers.Any())
@@ -229,10 +223,7 @@ namespace WireTracer.Server
 					details.linkingComponents.Add(peg.Address.ComponentAddress);
 				}
 			}
-			foreach(var peg in outputPegs)
-			{
-				details.pegs.Add(peg.Address);
-			}
+			details.pegs.AddRange(outputPegs.Select(peg => peg.Address));
 			return details;
 		}
 	}

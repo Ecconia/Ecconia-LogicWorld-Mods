@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <RootNamespace />
+        <LangVersion>13</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="0Harmony">
+        <HintPath>..\HarmonyForLogicWorld\HarmonyForLogicWorld\assemblies\server\0Harmony.dll</HintPath>
+      </Reference>
+      <Reference Include="LICC">
+        <HintPath>$(LogicWorldGameLocation)\Server\LICC.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicAPI">
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicAPI.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicAPI.Server">
+        <HintPath>$(LogicWorldGameLocation)\Server\LogicAPI.Server.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>
