@@ -1,19 +1,20 @@
 using System;
 using EccsLogicWorldAPI.Client.Injectors;
+using EccsLogicWorldAPI.Client.PacketIndexOrdering;
 using FancyInput;
 using LogicAPI.Client;
 using LogicLog;
 using UnityEngine.SceneManagement;
 using WireTracer.Client.Keybindings;
 using WireTracer.Client.Network;
-using WireTracer.Client.network;
+using WireTracer.Shared.Packets.S2C;
 
 namespace WireTracer.Client
 {
 	public class WireTracer : ClientMod
 	{
 		public static ILogicLogger logger;
-		public static bool serverHasWireTracer;
+		private static bool? serverHasWireTracer;
 		
 		protected override void Initialize()
 		{
@@ -28,8 +29,8 @@ namespace WireTracer.Client
 				throw new Exception("[WireTracer] Failed to inject GameState, see rest of exception.", e);
 			}
 			
-			RawPacketHandlerInjector.addPacketHandler(new AnnouncementPacketHandler());
 			RawPacketHandlerInjector.addPacketHandler(new ClusterListingResponseHandler());
+			PacketIndexOrdering.markModAsOptional(GetType().Assembly);
 			
 			CustomInput.Register<WireTracerContext, WireTracerTrigger>("WireTracer");
 			
@@ -40,10 +41,15 @@ namespace WireTracer.Client
 			{
 				if(mode == LoadSceneMode.Single)
 				{
-					logger.Debug("Reset the join-state!");
-					serverHasWireTracer = false;
+					serverHasWireTracer = null;
 				}
 			};
+		}
+		
+		public static bool isWireTracerSupported()
+		{
+			serverHasWireTracer ??= PacketIndexOrdering.doesServerSupportPacket(typeof(ClusterListingResponse));
+			return serverHasWireTracer.Value;
 		}
 	}
 }

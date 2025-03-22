@@ -86,7 +86,7 @@ namespace WireTracer.Client.Tool
 		private static void requestServerHelp()
 		{
 			// Do not "request help" (send a packet to the server), if there is no WireTracer installed:
-			if(!WireTracer.serverHasWireTracer)
+			if(!WireTracer.isWireTracerSupported())
 			{
 				return;
 			}
