@@ -1,6 +1,6 @@
 using EccsGuiBuilder.client.Layouts.Helper;
 using EccsGuiBuilder.Client.Wrappers;
-using LogicWorld.UI.Layouts.Controllers;
+using LogicUI.Layouts.Controllers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,15 +26,13 @@ namespace EccsGuiBuilder.Client.Layouts.Helper
 		
 		public static RootWrapper<T> layoutVerticalInner<T>(
 			this RootWrapper<T> wrapper, float spacing = 20, Anchor anchor = Anchor.Start, bool expandChildThickness = true
-		) where T: RootWrapper<T>
-		{
+		) where T: RootWrapper<T> {
 			return wrapper.layoutVertical(spacing, new RectOffset(), anchor, expandChildThickness);
 		}
 		
 		public static RootWrapper<T> layoutVerticalInnerCentered<T>(
 			this RootWrapper<T> wrapper, float spacing = 20
-		) where T: RootWrapper<T>
-		{
+		) where T: RootWrapper<T> {
 			return wrapper.layoutVertical(spacing, new RectOffset(), Anchor.Center, false);
 		}
 		
@@ -56,15 +54,13 @@ namespace EccsGuiBuilder.Client.Layouts.Helper
 		
 		public static RootWrapper<T> layoutHorizontalInner<T>(
 			this RootWrapper<T> wrapper, float spacing = 20, Anchor anchor = Anchor.Start, bool expandChildThickness = true
-		) where T: RootWrapper<T>
-		{
+		) where T: RootWrapper<T> {
 			return wrapper.layoutHorizontal(spacing, new RectOffset(), anchor, expandChildThickness);
 		}
 		
 		public static RootWrapper<T> layoutHorizontalInnerCentered<T>(
 			this RootWrapper<T> wrapper, float spacing = 20
-		) where T: RootWrapper<T>
-		{
+		) where T: RootWrapper<T> {
 			return wrapper.layoutHorizontal(spacing, new RectOffset(), Anchor.Center, false);
 		}
 		
@@ -92,36 +88,31 @@ namespace EccsGuiBuilder.Client.Layouts.Helper
 		
 		public static RootWrapper<T> layoutGrowElementHorizontal<T>(
 			this RootWrapper<T> wrapper, float spacing = 20, RectOffset padding = null, bool expandChildThickness = true, Anchor anchor = Anchor.Start, IndexHelper elementIndex = default // Index.First
-		) where T: RootWrapper<T>
-		{
+		) where T: RootWrapper<T> {
 			return wrapper.layoutGrowElement(RectTransform.Axis.Horizontal, spacing, padding, expandChildThickness, anchor, elementIndex);
 		}
 		
 		public static RootWrapper<T> layoutGrowElementHorizontalInner<T>(
 			this RootWrapper<T> wrapper, float spacing = 20, bool expandChildThickness = true, Anchor anchor = Anchor.Start, IndexHelper elementIndex = default // Index.First
-		) where T: RootWrapper<T>
-		{
+		) where T: RootWrapper<T> {
 			return wrapper.layoutGrowElement(RectTransform.Axis.Horizontal, spacing, new RectOffset(), expandChildThickness, anchor, elementIndex);
 		}
 		
 		public static RootWrapper<T> layoutGrowElementHorizontalInnerCentered<T>(
 			this RootWrapper<T> wrapper, float spacing = 20, IndexHelper elementIndex = default // Index.First
-		) where T: RootWrapper<T>
-		{
+		) where T: RootWrapper<T> {
 			return wrapper.layoutGrowElement(RectTransform.Axis.Horizontal, spacing, new RectOffset(), false, Anchor.Center, elementIndex);
 		}
 		
 		public static RootWrapper<T> layoutGrowElementVerticalInner<T>(
 			this RootWrapper<T> wrapper, float spacing = 20, bool expandChildThickness = true, Anchor anchor = Anchor.Start, IndexHelper elementIndex = default // Index.First
-		) where T: RootWrapper<T>
-		{
+		) where T: RootWrapper<T> {
 			return wrapper.layoutGrowElement(RectTransform.Axis.Vertical, spacing, new RectOffset(), expandChildThickness, anchor, elementIndex);
 		}
 		
 		public static RootWrapper<T> layoutGrowElementVerticalInnerCentered<T>(
 			this RootWrapper<T> wrapper, float spacing = 20, IndexHelper elementIndex = default // Index.First
-		) where T: RootWrapper<T>
-		{
+		) where T: RootWrapper<T> {
 			return wrapper.layoutGrowElement(RectTransform.Axis.Vertical, spacing, new RectOffset(), false, Anchor.Center, elementIndex);
 		}
 		
@@ -151,36 +142,31 @@ namespace EccsGuiBuilder.Client.Layouts.Helper
 		
 		public static RootWrapper<T> layoutGrowGapHorizontal<T>(
 			this RootWrapper<T> wrapper, float spacing = 20, float gapSpacing = 20, RectOffset padding = null, bool expandChildThickness = true, Anchor anchor = Anchor.Start, IndexHelper gapIndex = default // Index.First
-		) where T: RootWrapper<T>
-		{
+		) where T: RootWrapper<T> {
 			return wrapper.layoutGrowGap(RectTransform.Axis.Horizontal, spacing, gapSpacing, padding, expandChildThickness, anchor, gapIndex);
 		}
 		
 		public static RootWrapper<T> layoutGrowGapHorizontalInner<T>(
 			this RootWrapper<T> wrapper, float spacing = 20, float gapSpacing = 20, bool expandChildThickness = true, Anchor anchor = Anchor.Start, IndexHelper gapIndex = default // Index.First
-		) where T: RootWrapper<T>
-		{
+		) where T: RootWrapper<T> {
 			return wrapper.layoutGrowGap(RectTransform.Axis.Horizontal, spacing, gapSpacing, new RectOffset(), expandChildThickness, anchor, gapIndex);
 		}
 		
 		public static RootWrapper<T> layoutGrowGapHorizontalInnerCentered<T>(
 			this RootWrapper<T> wrapper, float spacing = 20, float gapSpacing = 20, IndexHelper gapIndex = default // Index.First
-		) where T: RootWrapper<T>
-		{
+		) where T: RootWrapper<T> {
 			return wrapper.layoutGrowGap(RectTransform.Axis.Horizontal, spacing, gapSpacing, new RectOffset(), false, Anchor.Center, gapIndex);
 		}
 		
 		public static RootWrapper<T> layoutGrowGapVerticalInner<T>(
 			this RootWrapper<T> wrapper, float spacing = 20, float gapSpacing = 20, bool expandChildThickness = true, Anchor anchor = Anchor.Start, IndexHelper gapIndex = default // Index.First
-		) where T: RootWrapper<T>
-		{
+		) where T: RootWrapper<T> {
 			return wrapper.layoutGrowGap(RectTransform.Axis.Vertical, spacing, gapSpacing, new RectOffset(), expandChildThickness, anchor, gapIndex);
 		}
 		
 		public static RootWrapper<T> layoutGrowGapVerticalInnerCentered<T>(
 			this RootWrapper<T> wrapper, float spacing = 20, float gapSpacing = 20, IndexHelper gapIndex = default // Index.First
-		) where T: RootWrapper<T>
-		{
+		) where T: RootWrapper<T> {
 			return wrapper.layoutGrowGap(RectTransform.Axis.Vertical, spacing, gapSpacing, new RectOffset(), false, Anchor.Center, gapIndex);
 		}
 	}
