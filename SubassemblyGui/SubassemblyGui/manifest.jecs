@@ -1,7 +1,7 @@
 ID: SubassemblyGui
 Name: Subassembly Gui
 Author: Ecconia
-Version: 1.0.0
+Version: 1.0.1
 ClientOnly: true
 Dependencies:
     - HarmonyForLogicWorld

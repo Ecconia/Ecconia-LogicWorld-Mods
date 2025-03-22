@@ -65,7 +65,7 @@ namespace SubassemblyGui.Client.loading
 				.add<LoadingGui>()
 				.build();
 			
-			OnMenuShown += Instance.onMenuShown;
+			OnMenuShown += () => Instance.onMenuShown();
 		}
 		
 		[AssignMe] [UsedImplicitly]
