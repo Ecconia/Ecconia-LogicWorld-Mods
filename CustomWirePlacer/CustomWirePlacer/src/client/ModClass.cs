@@ -8,6 +8,7 @@ using FancyInput;
 using LogicAPI.Client;
 using LogicLog;
 using LogicWorld;
+using LogicWorld.Input;
 
 namespace CustomWirePlacer.Client
 {
@@ -30,8 +31,19 @@ namespace CustomWirePlacer.Client
 				throw new Exception("[CWP] Could not inject CustomWirePlacer game states, see exception.", e);
 			}
 			
-			//Hijack the original WirePlacer to do nothing and instead use the custom one.
-			Hijacker.hijackWirePlacer();
+			//Replace the keybinding of the original WirePlacer with the keybinding of this mod.
+			// Make sure to keep the same index & keybinding priority to not confuse players if they rely on certain keybindings.
+			//TBI: Maybe replace the trigger to "vanilla wire placer" and thus allow players to use both?
+			var index = FirstPersonInteraction.InputActionsFull.PotentialInputs.FindIndex(e => e.Trigger == Trigger.DrawWires);
+			if (index < 0)
+			{
+				throw new Exception("[CWP] Could not replace CustomWirePlacer keybinding from building game state, as 'Trigger.DrawWires' was not found.");
+			}
+			FirstPersonInteraction.InputActionsFull.PotentialInputs[index] = new InputActions.PotentialInput(
+				Trigger.DrawWires,
+				CWP.CustomWirePlacer.pollStartWirePlacing
+			);
+			
 			//Initialize keys:
 			CustomInput.Register<CWPContext, CWPTrigger>("CustomWirePlacer");
 			

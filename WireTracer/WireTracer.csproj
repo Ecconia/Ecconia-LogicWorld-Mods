@@ -39,6 +39,9 @@
       <Reference Include="LogicUI">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicUI.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld">
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.dll</HintPath>
+      </Reference>
       <Reference Include="LogicWorld.Building">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Building.dll</HintPath>
       </Reference>
