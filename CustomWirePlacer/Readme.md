@@ -17,7 +17,7 @@ It provides a whole lot of new features and possibilities, and will with a very 
 
 Just drop the `CustomWirePlacer` folder into your `GameData` folder.
 
-You will also need the four mods `HarmonyForLogicWorld` and `AssemblyLoader` and `EccsGuiBuilder` and `EccsLogicWorldAPI` for this mod to function.\
+You will also need the two mods `EccsGuiBuilder` and `EccsLogicWorldAPI` for this mod to function.\
 You can find them in my mod collection (root folder).
 
 ## Usage:

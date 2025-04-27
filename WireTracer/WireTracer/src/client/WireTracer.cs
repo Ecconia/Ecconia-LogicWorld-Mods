@@ -4,9 +4,11 @@ using EccsLogicWorldAPI.Client.PacketIndexOrdering;
 using FancyInput;
 using LogicAPI.Client;
 using LogicLog;
+using LogicWorld;
 using UnityEngine.SceneManagement;
 using WireTracer.Client.Keybindings;
 using WireTracer.Client.Network;
+using WireTracer.Client.Tool;
 using WireTracer.Shared.Packets.S2C;
 
 namespace WireTracer.Client
@@ -34,7 +36,10 @@ namespace WireTracer.Client
 			
 			CustomInput.Register<WireTracerContext, WireTracerTrigger>("WireTracer");
 			
-			WireTracerHook.init();
+			FirstPersonInteraction.RegisterBuildingKeybinding(
+				WireTracerTrigger.HighlightCluster,
+				WireTracerTool.RunFirstPersonClusterHighlighting
+			);
 			
 			//When quitting a server, reset the WireTracer availability state flag:
 			SceneManager.sceneLoaded += (_, mode) =>

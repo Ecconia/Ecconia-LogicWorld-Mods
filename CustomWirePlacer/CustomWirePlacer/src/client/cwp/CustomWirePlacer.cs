@@ -51,17 +51,10 @@ namespace CustomWirePlacer.Client.CWP
 		
 		public static bool pollStartWirePlacing()
 		{
-			if(!Trigger.DrawWires.DownThisFrame())
-			{
-				//Whatever draws a wire, must be done to actually draw a wire.
-				// If that is not the case, rest of interaction may happen.
-				return false;
-			}
 			var pegCurrentlyLookingAt = CWPHelper.getPegCurrentlyLookingAt();
 			if(pegCurrentlyLookingAt.IsEmpty())
 			{
 				//Not looking at a peg currently, so am most certainly not starting to drag a wire.
-				// Continue with rest of interaction:
 				return false;
 			}
 			//We are now starting to draw a wire:

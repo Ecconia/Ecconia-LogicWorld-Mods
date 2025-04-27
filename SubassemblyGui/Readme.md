@@ -16,7 +16,7 @@ The savings GUI is pretty much done. The loading GUI however could be significan
 
 Just drop the `SubassembliesGui` folder into your `GameData` folder.
 
-For this mod to function, you will need four additional mod: `AssemblyLoader` & `HarmonyForLogicWorld` & `EccsLogicWorldAPI` & `EccsGuiBuilder`\
+For this mod to function, you will need two additional mod: `EccsLogicWorldAPI` & `EccsGuiBuilder`\
 You can find them in my mod collection (root folder).
 
 ## Usage:

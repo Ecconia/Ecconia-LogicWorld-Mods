@@ -12,30 +12,19 @@ But even if your wires are placed with the finest OCD, it will help you to follo
 Just drop the `WireTracer` folder into your `GameData` folder.
 
 For this mod to function you will need one additional mod: `EccsLogicWorldAPI`\
-For the server part of this mod to function you might need `AssemblyLoader` or `CheeseLoader` (external).\
-You can find them in my mod collection (root folder).
+You can find it in my mod collection (root folder).
 
 #### Warning: WireTracer is not "client only":
 
 This mod will behave as intended in SinglePlayer.
 
-But it comes with a server part. When joining a MultiPlayer server, it will not have its full capability, unless the server has installed `WireTracer` too.\
+But it comes with a server part. When joining a MultiPlayer server, it will not have its full capability, unless the server has installed `WireTracer` as well.\
 If a server does not have it installed, ask the host to install it :)
-
-### Client & Internal Server:
-
-You will also need the two mods `HarmonyForLogicWorld` and `AssemblyLoader` for this mod to function.\
-You can find them in my mod collection (root folder).
 
 ### Dedicated Server:
 
-This mod requires either `AssemblyLoader` or @Cheese3660's [CheeseLoader](https://github.com/cheese3660/CheeseUtilMod/tree/preview/cheeseloader).\
 You should also install `ServerOnlyMods`, to allow players to join without this mod.\
-You can find these mods in my mod collection (root folder).
-
-However, since the client requires `HarmonyForLogicWorld`, the server expects that mod too (a LogicWorld limitation).\
-You can either install `HarmonyForLogicWorld` (it won't do anything).\
-Or remove the dependency for that mod, from the `manifest.succ` file.
+You can find it in my mod collection (root folder).
 
 ## Performance warning:
 

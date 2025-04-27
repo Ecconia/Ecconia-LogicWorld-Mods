@@ -5,6 +5,7 @@ using FancyInput;
 using LogicAPI.Client;
 using LogicLog;
 using LogicWorld;
+using LogicWorld.GameStates;
 using SubassemblyGui.Client.Inputs;
 using SubassemblyGui.Client.loading;
 using SubassemblyGui.Client.Saving;
@@ -38,8 +39,11 @@ namespace SubassemblyGui.Client
 				}
 			};
 			
-			// Loading FirstPersonInteraction keybinding (there is no API for this yet):
-			FirstPersonKeybindingHook.registerKeybinding(SubassemblyGuiTriggers.OpenLoadGui, LoadingGameState.ID);
+			// Registering keybinding to the building game state:
+			FirstPersonInteraction.RegisterBuildingKeybinding(
+				SubassemblyGuiTriggers.OpenLoadGui,
+				() => GameStateManager.TransitionTo(LoadingGameState.ID)
+			);
 		}
 	}
 }

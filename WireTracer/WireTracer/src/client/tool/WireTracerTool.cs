@@ -24,13 +24,6 @@ namespace WireTracer.Client.Tool
 		
 		public static bool RunFirstPersonClusterHighlighting()
 		{
-			//First check if this tool is actually being used:
-			if(!CustomInput.DownThisFrame(WireTracerTrigger.HighlightCluster))
-			{
-				return false; //Keybinding not pressed.
-			}
-			//The user is most definitely trying to use WireTracer now.
-			
 			//Make sure there is no dirty state:
 			if(initialPegAddress.IsNotEmpty() || currentTracer != null)
 			{
