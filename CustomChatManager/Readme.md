@@ -3,9 +3,9 @@
 ### Description:
 
 Pre-processes chat messages on the server, before broadcasting them to other clients. Can even stop messages from being forwarded.\
-However it can not prevent the sent message on the client from appearing.
+However it can not prevent the already sent message on the client from appearing.
 
-Currently there are following sub-systems:
+Currently, there are following sub-systems:
 
 - As the original LogicWorld chat handler, it validates, that the content of the message is not too large.
 - It will prevent players from abusing 'SayRaw' to impersonate other players, if they try, their name will be used instead of what they sent.

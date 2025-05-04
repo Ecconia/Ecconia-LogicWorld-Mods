@@ -4,7 +4,7 @@
 
 This mod allows to write mods which only run on the server and are not required on the client.
 
-Currently when using a mod, that is only useful on servers and does nothing on the client, it has to be installed on the client nevertheless.
+Currently, when using a mod, that is only useful on servers and does nothing on the client, it has to be installed on the client nevertheless.
 Because if it is not, any server will reject the client, that don't have the same mods as itself.
 
 With this mod, clients can connect to the server without having the server-only mods installed!
@@ -19,8 +19,6 @@ This mod is optional itself. You do not have to install it.\
 But you should install it on any dedicated server, to allow mods to not be required on the client, if a mod desires this.
 
 If you want your mod to be optional for clients, you only have to create an empty file `OnlyServerMods` (content does not matter), next to the `manifest.succ` file in the same folder.
-
-**WARNING:** Keep in mind, that mods, which modify the network packets or add components, should **not** be server-only sided (causes issues).
 
 ### How does it work?
 

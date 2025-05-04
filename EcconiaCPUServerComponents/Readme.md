@@ -19,8 +19,6 @@ But it also provides amazing components like the `FlatKey` and the `RealTimePuls
 You can edit the RealTimePulser and the FlatKey components via `X`, but due to the modding API not being able to separate dependencies,
 this feature has to be moved into its own mod `EcconiaCPUServerComponentsGui`, I recommend to install both on the client.
 
-This mod con
-
 ## Install / Dependencies:
 
 Just drop the `EcconiaCPUServerComponents` & `EcconiaCPUServerComponentsGui` folders into your `GameData` folder.

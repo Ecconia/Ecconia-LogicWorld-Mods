@@ -2,7 +2,7 @@
 
 A library mod that allows other mods to more easily create LW-(Edit-)Windows and other GUI elements.
 
-**This mod is strictly limited to the game-play phase of the game!** It will not be functional outside of a loaded world!
+**This mod is strictly limited to the game-play phase of the game!** It will not be functional outside a loaded world!
 
 This mod will try to initialize itself, even if no other mod uses it.
 
@@ -25,7 +25,7 @@ The classes `VanillaStore` and `CustomStore` provide you with spicy components r
 
 Make use of the `GapListLayout`, a list layout (vertical/horizontal), where one defined gap between components can grow to fill the parents size. The child expand functionality will not fill the parent fully, but only let children grow to the size of the biggest child. (This is different from the Unity list layouts).
 
-The `Wrapper` framework basically wraps (almost) all of the components in the component store classes, you can easily access wrappers via the `WS` class.\
+The `Wrapper` framework basically wraps (almost) all the components in the component store classes, you can easily access wrappers via the `WS` class.\
 Wrappers can be chained to huge method chains, look at mods using this framework.\
 The framework also comes with a build method, to automatically initialize LW (and custom) classes.\
 And an injection framework to automatically initialize fields in your MonoBehaviors.

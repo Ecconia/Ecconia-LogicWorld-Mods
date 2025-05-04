@@ -37,7 +37,7 @@ But one can keep the FPS stable, by distributing the work on multiple frames.
 On the server however tracing a big cluster can lower the max TPS for a short moment. As it is trying to collect all data for clusters.\
 If this becomes an issue here, one can significantly increase the performance, by removing the highlighting of Sockets/ThroughPegs/Relays/FastBuffers.
 
-Let the mod author @Ecconia know, if either side becomes an issue, and the performance optimizations will be implemented.
+Let the mod author @Ecconia know if either side becomes an issue, and the performance optimizations will be implemented.
 
 ## Usage:
 

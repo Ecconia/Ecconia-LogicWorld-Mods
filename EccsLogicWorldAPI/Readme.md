@@ -1,6 +1,6 @@
 # EccsLogicWorldAPI by @Ecconia
 
-A library mod that does nothing on its own.\
+A library mod that does (almost) nothing on its own.\
 It provides useful tools and accessors for other mods to use.
 
 ## Contribution?

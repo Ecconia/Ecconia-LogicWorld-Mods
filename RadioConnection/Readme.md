@@ -7,7 +7,7 @@ This mod provides the component `RadioComponent`, which allows you to wirelessly
 ### Features:
 
 In the edit window of the component you can choose one of 1024 channels to transmit your signals over it.\
-Each channel can have up to 64 bits. Anything from 1 upwards can be configured in the component.\
+Each channel can have up to 64 bits. Anything from 1 upward can be configured in the component.\
 If the first bits of a channels are not used by a component, they can be skipped.
 
 Further if static channels are not appropriate, the channel can be chosen by upto 10 address pegs.\
