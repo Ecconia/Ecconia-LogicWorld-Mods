@@ -102,7 +102,7 @@ namespace EcconiaCPUServerComponents.Client
 				//Press state updates:
 				keyStateUpdate();
 				//Data update:
-				text.color = Data.KeyLabelColor.WithOpacity();
+				text.color = Data.KeyLabelColor.WithAlphaChannel();
 				text.text = Data.label.IsNullOrEmpty() ? ((RawInput) Data.BoundInput).DisplayName() : Data.label.Replace(" ", "<color=#0000>.</color>");
 			}
 		}
