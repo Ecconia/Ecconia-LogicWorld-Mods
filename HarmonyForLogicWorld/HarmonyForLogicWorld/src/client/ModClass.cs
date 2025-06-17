@@ -7,7 +7,7 @@ namespace HarmonyForLogicWorld.Client
 	{
 		protected override void Initialize()
 		{
-			if(ModLoader.LoadedMods.ContainsKey("lwharmony"))
+			if(ModRegistry.IsModInstalled("lwharmony"))
 			{
 				Logger.Warn("The mod 'lwharmony' is installed alongside with 'HarmonyForLogicWorld'. Which means that it is undefined which version of Harmony is installed and being used. Pray that things run properly. Recommendation: Remove mod 'lwharmony'");
 			}

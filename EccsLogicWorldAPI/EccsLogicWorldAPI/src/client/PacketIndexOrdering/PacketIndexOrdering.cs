@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using EccsLogicWorldAPI.Client.AccessHelpers;
 using EccsLogicWorldAPI.Shared.AccessHelper;
 using EccsLogicWorldAPI.Shared.PacketIndexOrdering;
 using JimmysUnityUtilities.Collections;
@@ -10,8 +9,8 @@ using LogicAPI;
 using LogicAPI.Client.Networking;
 using LogicAPI.Modding;
 using LogicAPI.Networking.Packets.Initialization;
-using LogicWorld.Modding;
 using LogicWorld.Networking;
+using LogicWorld.SharedCode.Modding;
 using Shared_Code.Code.Networking;
 using UnityEngine.SceneManagement;
 
@@ -37,7 +36,7 @@ namespace EccsLogicWorldAPI.Client.PacketIndexOrdering
 		
 		public static void init()
 		{
-			PacketDeltaDebugger.createInitial(MetaMods.getAllMetaMods.ToList());
+			PacketDeltaDebugger.createInitial();
 			// This mod provides the SyncPacket - it must be hidden until after mod-loading:
 			PacketIndexHelper.removePacketsOfAssembly(typeof(PacketIndexOrdering).Assembly, out _);
 			_dbg();
@@ -124,7 +123,7 @@ namespace EccsLogicWorldAPI.Client.PacketIndexOrdering
 			
 			// Before connecting to a server, we want to announce that we support packet map synchronization.
 			// For that add a fake-mod (ID) to the mod list, which the server can then see and evaluate.
-			Mods.All.Add(fakeMod);
+			ModRegistryInternal.LoadedModsByName.Add(fakeMod.Manifest.ID, fakeMod); // This works reliable, is very sketchy though (like this whole API).
 			
 			// No need to add a packet-handler, as the SyncPacket is dropped by LW anyway - as it is sent before the WorldPacket
 			// Instead, let's capture the packet before LWs main processing code runs - our packet must be fully processed
@@ -145,7 +144,7 @@ namespace EccsLogicWorldAPI.Client.PacketIndexOrdering
 			SceneManager.sceneLoaded -= cleanupCallbacksAndOther;
 			
 			// Remove the fake mod, at this point it served its purpose.
-			Mods.All.RemoveAll(e => e == fakeMod);
+			ModRegistryInternal.LoadedModsByName.Remove(fakeMod.Manifest.ID);
 			
 			// This was already removed, or we crashed.
 			networkClient.PacketReceived -= handleStartupPackets;

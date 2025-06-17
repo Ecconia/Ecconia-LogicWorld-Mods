@@ -47,7 +47,7 @@ namespace WorldSaver.Client
 			var saveBytes = SaveWriter.GetWorldSaveData(
 				Instances.MainWorld.Data,
 				Instances.MainWorld.ComponentTypes,
-				ModLoader.LoadedMods.Values.ToArray(),
+				ModRegistry.LoadedMods,
 				circuitStates
 			);
 			

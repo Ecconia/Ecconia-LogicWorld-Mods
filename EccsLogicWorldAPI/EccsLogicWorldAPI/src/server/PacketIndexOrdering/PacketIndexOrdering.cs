@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using EccsLogicWorldAPI.Server.AccessHelpers;
 using EccsLogicWorldAPI.Server.Injectors;
 using EccsLogicWorldAPI.Shared.AccessHelper;
 using EccsLogicWorldAPI.Shared.PacketIndexOrdering;
@@ -51,7 +50,7 @@ namespace EccsLogicWorldAPI.Server.PacketIndexOrdering
 		
 		internal static void init()
 		{
-			PacketDeltaDebugger.createInitial(MetaMods.getAllMetaMods.ToList());
+			PacketDeltaDebugger.createInitial();
 			// This mod provides the SyncPacket - it must be hidden until after mod-loading:
 			PacketIndexHelper.removePacketsOfAssembly(typeof(PacketIndexOrdering).Assembly, out _);
 			_dbg();
