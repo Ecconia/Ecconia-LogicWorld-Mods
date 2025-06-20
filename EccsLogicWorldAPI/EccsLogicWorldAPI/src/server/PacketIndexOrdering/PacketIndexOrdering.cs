@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using EccsLogicWorldAPI.Server.AccessHelpers;
 using EccsLogicWorldAPI.Server.Injectors;
 using EccsLogicWorldAPI.Shared.AccessHelper;
 using EccsLogicWorldAPI.Shared.PacketIndexOrdering;
@@ -51,7 +50,7 @@ namespace EccsLogicWorldAPI.Server.PacketIndexOrdering
 		
 		internal static void init()
 		{
-			PacketDeltaDebugger.createInitial(MetaMods.getAllMetaMods.ToList());
+			PacketDeltaDebugger.createInitial();
 			// This mod provides the SyncPacket - it must be hidden until after mod-loading:
 			PacketIndexHelper.removePacketsOfAssembly(typeof(PacketIndexOrdering).Assembly, out _);
 			_dbg();
@@ -173,7 +172,7 @@ namespace EccsLogicWorldAPI.Server.PacketIndexOrdering
 				// At this point the only thing reliably identifying a user is its endpoint - the username might be faked. Thus use the endpoint instead.
 				var endPoint = ctx.RemoteConnection.RemoteEndPoint;
 				// Check if the client has the fake mod installed, which indicates that it requests packet synchronization:
-				if(ctx.ApprovalPacket.ClientMods.Contains(SyncPacketIDPacket.FakeModName))
+				if(ctx.ApprovalPacket.ClientMods.Select(element => element.modId).Contains(SyncPacketIDPacket.FakeModName))
 				{
 					// Packet synchronization is requested!
 					connectionsRequestingPacketSyncing.Add(endPoint); // Remember connection

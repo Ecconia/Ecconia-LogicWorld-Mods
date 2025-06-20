@@ -6,11 +6,13 @@ using System.Text;
 using JimmysUnityUtilities.Collections;
 using LICC;
 using LogicAPI;
+using LogicWorld.SharedCode.Modding;
 
 namespace EccsLogicWorldAPI.Shared.PacketIndexOrdering
 {
 	public static class PacketDeltaDebugger
 	{
+		// This magic flag lets you know exactly what is wrong with packet IDs. 
 		private const bool ENABLE_DEBUG = false;
 		
 		private static List<MetaMod> metaMods = [];
@@ -18,14 +20,14 @@ namespace EccsLogicWorldAPI.Shared.PacketIndexOrdering
 		private static TwoWayDictionary<ushort, Type> lastPacketMap;
 		private static int lastHighestIndex;
 		
-		public static void createInitial(List<MetaMod> metaMods)
+		public static void createInitial()
 		{
 			if(!ENABLE_DEBUG)
 			{
 				return;
 			}
 			
-			PacketDeltaDebugger.metaMods = metaMods;
+			metaMods = ModRegistry.InstalledMods.ToList();
 			
 			// Set initial values:
 			lastPacketMap = PacketIndexHelper.getPacketsDictionary().Clone();

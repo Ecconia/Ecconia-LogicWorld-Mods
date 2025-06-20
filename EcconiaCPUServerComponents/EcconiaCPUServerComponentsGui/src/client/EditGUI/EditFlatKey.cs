@@ -9,7 +9,6 @@ using LogicUI.ColorChoosing;
 using LogicUI.MenuParts;
 using LogicWorld.UI;
 using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace EcconiaCPUServerComponentsGui.Client.EditGUI
@@ -104,14 +103,14 @@ namespace EcconiaCPUServerComponentsGui.Client.EditGUI
 				{
 					entry.Data.KeyColor = color;
 				}
-				keyHighlightBackground.color = color.WithOpacity();
+				keyHighlightBackground.color = color.WithAlphaChannel();
 			};
 			foregroundColorPicker.OnColorChange24 += color => {
 				foreach(var entry in ComponentsBeingEdited)
 				{
 					entry.Data.KeyLabelColor = color;
 				}
-				keyHighlightForeground.color = color.WithOpacity();
+				keyHighlightForeground.color = color.WithAlphaChannel();
 			};
 			customLabelInput.onValueChanged.AddListener(label => {
 				foreach(var entry in ComponentsBeingEdited)
@@ -124,12 +123,12 @@ namespace EcconiaCPUServerComponentsGui.Client.EditGUI
 		protected override void OnStartEditing()
 		{
 			var data = FirstComponentBeingEdited.Data;
-			backgroundColorPicker.SetColorWithoutNotify(data.KeyColor.WithOpacity());
-			foregroundColorPicker.SetColorWithoutNotify(data.KeyLabelColor.WithOpacity());
-			keyHighlightBackground.color = data.KeyColor.WithOpacity();
-			keyHighlightForeground.color = data.KeyLabelColor.WithOpacity();
+			backgroundColorPicker.SetColorWithoutNotify(data.KeyColor.WithAlphaChannel());
+			foregroundColorPicker.SetColorWithoutNotify(data.KeyLabelColor.WithAlphaChannel());
+			keyHighlightBackground.color = data.KeyColor.WithAlphaChannel();
+			keyHighlightForeground.color = data.KeyLabelColor.WithAlphaChannel();
 			keyHighlightForeground.text = ((RawInput) data.BoundInput).DisplayName();
-			customLabelInput.text = data.label != null ? data.label : "";
+			customLabelInput.text = data.label ?? "";
 		}
 		
 		protected override void OnRun()
