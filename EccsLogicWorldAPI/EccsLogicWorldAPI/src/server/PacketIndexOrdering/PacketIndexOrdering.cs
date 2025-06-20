@@ -172,7 +172,7 @@ namespace EccsLogicWorldAPI.Server.PacketIndexOrdering
 				// At this point the only thing reliably identifying a user is its endpoint - the username might be faked. Thus use the endpoint instead.
 				var endPoint = ctx.RemoteConnection.RemoteEndPoint;
 				// Check if the client has the fake mod installed, which indicates that it requests packet synchronization:
-				if(ctx.ApprovalPacket.ClientMods.Contains(SyncPacketIDPacket.FakeModName))
+				if(ctx.ApprovalPacket.ClientMods.Select(element => element.modId).Contains(SyncPacketIDPacket.FakeModName))
 				{
 					// Packet synchronization is requested!
 					connectionsRequestingPacketSyncing.Add(endPoint); // Remember connection

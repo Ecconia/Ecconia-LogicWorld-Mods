@@ -123,7 +123,7 @@ namespace EccsLogicWorldAPI.Client.PacketIndexOrdering
 			
 			// Before connecting to a server, we want to announce that we support packet map synchronization.
 			// For that add a fake-mod (ID) to the mod list, which the server can then see and evaluate.
-			ModRegistryInternal.LoadedModsByName.Add(fakeMod.Manifest.ID, fakeMod); // This works reliable, is very sketchy though (like this whole API).
+			ModRegistryInternal.LoadedMods.Add(fakeMod); // This works reliable, is very sketchy though (like this whole API).
 			
 			// No need to add a packet-handler, as the SyncPacket is dropped by LW anyway - as it is sent before the WorldPacket
 			// Instead, let's capture the packet before LWs main processing code runs - our packet must be fully processed
@@ -144,7 +144,7 @@ namespace EccsLogicWorldAPI.Client.PacketIndexOrdering
 			SceneManager.sceneLoaded -= cleanupCallbacksAndOther;
 			
 			// Remove the fake mod, at this point it served its purpose.
-			ModRegistryInternal.LoadedModsByName.Remove(fakeMod.Manifest.ID);
+			ModRegistryInternal.LoadedMods.RemoveAll(e => e == fakeMod);
 			
 			// This was already removed, or we crashed.
 			networkClient.PacketReceived -= handleStartupPackets;

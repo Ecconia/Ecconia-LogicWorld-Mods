@@ -15,7 +15,7 @@ namespace ServerOnlyMods.Server
 			foreach(var metaMod in ServerOnlyMods.getRequiredMods())
 			{
 				var modName = metaMod.Manifest.ID;
-				if(!clientMods.Contains(modName))
+				if(!clientMods.Select(element => element.modId).Contains(modName))
 				{
 					missingMods.Add(metaMod);
 				}
