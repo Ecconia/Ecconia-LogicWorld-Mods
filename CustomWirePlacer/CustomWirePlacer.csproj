@@ -31,6 +31,9 @@
       <Reference Include="LogicAPI.Client">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicAPI.Client.dll</HintPath>
       </Reference>
+      <Reference Include="LogicInitializable">
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicInitializable.dll</HintPath>
+      </Reference>
       <Reference Include="LogicLocalization">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicLocalization.dll</HintPath>
       </Reference>
@@ -87,9 +90,6 @@
       </Reference>
       <Reference Include="LogicWorld.UI">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.UI.dll</HintPath>
-      </Reference>
-      <Reference Include="LogicWorld.UnityHacksAndExtensions">
-        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.UnityHacksAndExtensions.dll</HintPath>
       </Reference>
       <Reference Include="SUCC">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\SUCC.dll</HintPath>
