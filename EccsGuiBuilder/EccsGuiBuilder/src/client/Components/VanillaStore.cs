@@ -183,7 +183,10 @@ namespace EccsGuiBuilder.Client.Components
 			stockHelpCircle = helpCircle.cloneWithParent(root);
 			
 			//Search bar from component selection menu:
-			var searchBox = GameObjectQuery.queryGameObject("Selection Menu", "Menu", "Menu Content", "Search Box");
+			var searchBox = GameObjectQuery.queryGameObject(
+				"Selection Menu", "Menu", "Menu Content", "Tab View", "bottom", "Scroll View", "Background", "Viewport",
+				"tab page - MHG.UI.SelectionMenu.Tab.Components", "Search Box"
+			);
 			NullChecker.check(searchBox, "Could not find search box in the component selection window");
 			stockSearchBar = searchBox.cloneWithParent(root);
 			
