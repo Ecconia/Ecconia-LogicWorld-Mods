@@ -1,7 +1,7 @@
 ID: WireTracer
 Name: WireTracer
 Author: Ecconia
-Version: 1.2.1
+Version: 1.2.2
 Priority: 0
 Dependencies:
     - EccsLogicWorldAPI

@@ -1,6 +1,6 @@
 using System;
+using LogicInitializable;
 using LogicWorld;
-using LogicWorld.UnityHacksAndExtensions;
 using UnityEngine;
 
 namespace EccsLogicWorldAPI.Client.AccessHelpers

@@ -23,7 +23,6 @@ You can ignore all other files outside the `mod folder`s.
 - `EcconiasChaosClientMod`: Mod made for Ecconia to dump tiny feature inside. Noteworthy: Custom skybox, command to list connected players.
 - `FlexibleComponentModUsage`: **Useful** Mod that will hide components from your component window, when joining a server that does not have these components installed.
 - `PrimitiveSelections`: Mod which allows you to multi select all child components of a selection.
-- `SubassemblyGui`: **Useful** Mod which adds GUI for quickly saving/loading Subassemblies without terminal. Good until LW gets this feature.
 
 Libraries:
 
