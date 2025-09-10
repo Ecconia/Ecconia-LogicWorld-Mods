@@ -13,7 +13,7 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 		
 		//Setup:
 		
-		public override bool MouseLocked => true;
+		public override bool PlayerCanMoveAndLookAround => true;
 		
 		public override string TextID => id;
 		
