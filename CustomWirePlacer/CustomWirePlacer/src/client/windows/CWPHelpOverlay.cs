@@ -184,13 +184,13 @@ namespace CustomWirePlacer.Client.Windows
 		
 		private static void setBuildingText()
 		{
-			staticText.text = TextLocalizer.LocalizedFormat("CWP.HelpOverlay.Building.StartWP", constructKeybinding("MHG.DrawWire")) + '\n' +
+			staticText.text = TextLocalizer.LocalizedFormat("CWP.HelpOverlay.Building.StartWP", constructKeybinding("MHG.DrawWires")) + '\n' +
 				TextLocalizer.LocalizedFormat("CWP.HelpOverlay.Building.StartPD", constructKeybinding("CustomWirePlacer.ModificatorAlternative"));
 		}
 		
 		private static void setPegDrawingText()
 		{
-			dynamicText.text = TextLocalizer.LocalizedFormat("CWP.HelpOverlay.PegDrawing.Finish", constructKeybinding("MHG.DrawWire"));
+			dynamicText.text = TextLocalizer.LocalizedFormat("CWP.HelpOverlay.PegDrawing.Finish", constructKeybinding("MHG.DrawWires"));
 			staticText.text = TextLocalizer.LocalizedFormat("CWP.HelpOverlay.CWP.Abort", constructKeybinding("LogicUI.Back"), constructKeybinding("MHG.CancelPlacing"));
 		}
 		

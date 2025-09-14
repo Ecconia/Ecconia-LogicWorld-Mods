@@ -354,7 +354,7 @@ namespace EccsGuiBuilder.Client.Components
 			NullChecker.check(rawButton, "Edit Key window has no edit-keybinding button");
 			stockButton = rawButton.cloneWithParent(root);
 			stockButton.name = "Button";
-			stockButton.GetComponentInChildren<LocalizedTextMesh>().SetLocalizationKey("Unset.Localization.Key.Set.Me.Please");
+			stockButton.GetComponentInChildren<LocalizedTextMesh>().SetLocalizationKey("MHG.UI.ErrorScreen.Title"); // Use a random existing localization key, to suppress warnings. 
 			var textMeshPro = stockButton.GetComponentInChildren<TextMeshProUGUI>();
 			textMeshPro.enableAutoSizing = false;
 			textMeshPro.fontSize = 50;
