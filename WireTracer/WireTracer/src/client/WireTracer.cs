@@ -1,4 +1,3 @@
-using System;
 using EccsLogicWorldAPI.Client.Injectors;
 using EccsLogicWorldAPI.Client.PacketIndexOrdering;
 using FancyInput;
@@ -21,15 +20,6 @@ namespace WireTracer.Client
 		protected override void Initialize()
 		{
 			logger = Logger;
-			
-			try
-			{
-				GameStateInjector.inject(WireTracerGameState.id, typeof(WireTracerGameState));
-			}
-			catch(Exception e)
-			{
-				throw new Exception("[WireTracer] Failed to inject GameState, see rest of exception.", e);
-			}
 			
 			RawPacketHandlerInjector.addPacketHandler(new ClusterListingResponseHandler());
 			PacketIndexOrdering.markModAsOptional(GetType().Assembly);

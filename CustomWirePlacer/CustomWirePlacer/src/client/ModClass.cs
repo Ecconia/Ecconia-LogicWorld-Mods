@@ -1,9 +1,6 @@
 using System;
-using CustomWirePlacer.Client.CWP;
-using CustomWirePlacer.Client.CWP.PegDrawing;
 using CustomWirePlacer.Client.Windows;
 using EccsLogicWorldAPI.Client.Hooks;
-using EccsLogicWorldAPI.Client.Injectors;
 using FancyInput;
 using LogicAPI.Client;
 using LogicLog;
@@ -20,16 +17,6 @@ namespace CustomWirePlacer.Client
 		protected override void Initialize()
 		{
 			logger = Logger;
-			
-			try
-			{
-				GameStateInjector.inject(GameStatePegDrawing.id, typeof(GameStatePegDrawing));
-				GameStateInjector.inject(CWPGameState.id, typeof(CWPGameState));
-			}
-			catch(Exception e)
-			{
-				throw new Exception("[CWP] Could not inject CustomWirePlacer game states, see exception.", e);
-			}
 			
 			//Replace the keybinding of the original WirePlacer with the keybinding of this mod.
 			// Make sure to keep the same index & keybinding priority to not confuse players if they rely on certain keybindings.
