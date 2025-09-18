@@ -1,7 +1,0 @@
-ID: ServerOnlyMods
-Name: ServerOnlyMods
-Author: Ecconia
-Version: 2.1.1
-Priority: 0
-Dependencies:
-    - EccsLogicWorldAPI

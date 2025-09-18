@@ -29,7 +29,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AssemblyLoader\AssemblyLoader.csproj" />
-      <ProjectReference Include="..\ServerOnlyMods\ServerOnlyMods.csproj" />
     </ItemGroup>
 
 </Project>

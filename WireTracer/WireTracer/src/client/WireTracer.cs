@@ -1,9 +1,9 @@
 using EccsLogicWorldAPI.Client.Injectors;
-using EccsLogicWorldAPI.Client.PacketIndexOrdering;
 using FancyInput;
 using LogicAPI.Client;
 using LogicLog;
 using LogicWorld;
+using Shared_Code.Code.Networking;
 using UnityEngine.SceneManagement;
 using WireTracer.Client.Keybindings;
 using WireTracer.Client.Network;
@@ -22,7 +22,6 @@ namespace WireTracer.Client
 			logger = Logger;
 			
 			RawPacketHandlerInjector.addPacketHandler(new ClusterListingResponseHandler());
-			PacketIndexOrdering.markModAsOptional(GetType().Assembly);
 			
 			CustomInput.Register<WireTracerContext, WireTracerTrigger>("WireTracer");
 			
@@ -43,7 +42,7 @@ namespace WireTracer.Client
 		
 		public static bool isWireTracerSupported()
 		{
-			serverHasWireTracer ??= PacketIndexOrdering.doesServerSupportPacket(typeof(ClusterListingResponse));
+			serverHasWireTracer ??= PacketManager.TryGetCodeFromType(typeof(ClusterListingResponse), out var _);
 			return serverHasWireTracer.Value;
 		}
 	}

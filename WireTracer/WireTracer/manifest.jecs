@@ -3,5 +3,6 @@ Name: WireTracer
 Author: Ecconia
 Version: 1.2.2
 Priority: 0
+Optional: true
 Dependencies:
     - EccsLogicWorldAPI

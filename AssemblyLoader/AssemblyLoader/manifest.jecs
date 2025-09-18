@@ -3,3 +3,4 @@ Name: AssemblyLoader
 Author: Ecconia
 Version: 2.1.1.0
 Priority: 88
+Optional: true

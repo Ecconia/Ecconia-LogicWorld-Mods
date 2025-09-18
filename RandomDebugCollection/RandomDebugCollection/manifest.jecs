@@ -3,6 +3,7 @@ Name: Random Debug Collection
 Author: Ecconia
 Version: 3.0.2
 Priority: 0
+Optional: true
 Dependencies:
     - HarmonyForLogicWorld
     - EccsLogicWorldAPI

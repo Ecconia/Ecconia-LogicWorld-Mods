@@ -3,5 +3,6 @@ Name: Server Terminal Colorizer
 Author: Ecconia
 Version: 1.0.1
 Priority: 51 # Just before EccsLogicWorldAPI
+Optional: true
 Dependencies:
     - HarmonyForLogicWorld
