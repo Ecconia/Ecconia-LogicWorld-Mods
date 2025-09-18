@@ -21,11 +21,6 @@ This mod will behave as intended in SinglePlayer.
 But it comes with a server part. When joining a MultiPlayer server, it will not have its full capability, unless the server has installed `WireTracer` as well.\
 If a server does not have it installed, ask the host to install it :)
 
-### Dedicated Server:
-
-You should also install `ServerOnlyMods`, to allow players to join without this mod.\
-You can find it in my mod collection (root folder).
-
 ## Performance warning:
 
 `WireTracer` tries to be quite fast, but to obtain some information, it does some tasks that take a small duration.\

@@ -1,5 +1,6 @@
 ID: AssemblyLoader
 Name: AssemblyLoader
 Author: Ecconia
-Version: 2.1.1.0
+Version: 2.1.2
 Priority: 88
+Optional: true

@@ -10,8 +10,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomChatManager", "Custom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarmonyForLogicWorld", "HarmonyForLogicWorld\HarmonyForLogicWorld.csproj", "{01398431-F086-48D0-BD42-8228440F1751}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerOnlyMods", "ServerOnlyMods\ServerOnlyMods.csproj", "{1A06FDD9-1B47-4576-8EE3-DFEB7C2AFFF5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyLoader", "AssemblyLoader\AssemblyLoader.csproj", "{D3298FDA-440A-4233-A3CD-86DDBF074AE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcconiasChaosClientMod", "EcconiasChaosClientMod\EcconiasChaosClientMod.csproj", "{6C2B319E-0D99-49E9-AB2E-AE2CF8572F4C}"
@@ -19,8 +17,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomWirePlacer", "CustomWirePlacer\CustomWirePlacer.csproj", "{305852B3-D4A3-42B6-A885-A141BE6F47F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WireTracer", "WireTracer\WireTracer.csproj", "{5256253B-7482-4FD7-86A9-DBEF9A05AE30}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexibleComponentModUsage", "FlexibleComponentModUsage\FlexibleComponentModUsage.csproj", "{2F5D607C-2087-4B27-AF91-776189BBE2DA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldSaver", "WorldSaver\WorldSaver.csproj", "{1E11AD71-7727-4993-9DA1-9A1BCA1AFC84}"
 EndProject
@@ -66,10 +62,6 @@ Global
 		{01398431-F086-48D0-BD42-8228440F1751}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01398431-F086-48D0-BD42-8228440F1751}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01398431-F086-48D0-BD42-8228440F1751}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1A06FDD9-1B47-4576-8EE3-DFEB7C2AFFF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1A06FDD9-1B47-4576-8EE3-DFEB7C2AFFF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1A06FDD9-1B47-4576-8EE3-DFEB7C2AFFF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1A06FDD9-1B47-4576-8EE3-DFEB7C2AFFF5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D3298FDA-440A-4233-A3CD-86DDBF074AE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D3298FDA-440A-4233-A3CD-86DDBF074AE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3298FDA-440A-4233-A3CD-86DDBF074AE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -86,10 +78,6 @@ Global
 		{5256253B-7482-4FD7-86A9-DBEF9A05AE30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5256253B-7482-4FD7-86A9-DBEF9A05AE30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5256253B-7482-4FD7-86A9-DBEF9A05AE30}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F5D607C-2087-4B27-AF91-776189BBE2DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F5D607C-2087-4B27-AF91-776189BBE2DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F5D607C-2087-4B27-AF91-776189BBE2DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F5D607C-2087-4B27-AF91-776189BBE2DA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1E11AD71-7727-4993-9DA1-9A1BCA1AFC84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1E11AD71-7727-4993-9DA1-9A1BCA1AFC84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E11AD71-7727-4993-9DA1-9A1BCA1AFC84}.Release|Any CPU.ActiveCfg = Release|Any CPU

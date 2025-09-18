@@ -1,8 +1,9 @@
 ID: CustomChatManager
 Name: Custom Chat Manager
 Author: Ecconia
-Version: 1.4.3
+Version: 1.4.4
 Priority: 0
+Optional: true
 Dependencies:
     - EccsLogicWorldAPI
     - HarmonyForLogicWorld

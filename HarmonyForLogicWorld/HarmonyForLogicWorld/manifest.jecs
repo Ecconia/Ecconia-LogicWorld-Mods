@@ -1,7 +1,8 @@
 ID: HarmonyForLogicWorld
 Name: HarmonyForLogicWorld
 Author: Ecconia
-Version: 4.2.1
+Version: 4.2.2
 Priority: 85
+Optional: true
 Dependencies:
     - AssemblyLoader

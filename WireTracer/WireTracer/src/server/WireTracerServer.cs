@@ -1,7 +1,6 @@
 using System;
 using EccsLogicWorldAPI.Server;
 using EccsLogicWorldAPI.Server.Injectors;
-using EccsLogicWorldAPI.Server.PacketIndexOrdering;
 using LogicAPI.Data;
 using LogicAPI.Networking;
 using LogicAPI.Server;
@@ -20,7 +19,6 @@ namespace WireTracer.Server
 			
 			//Inject verifier:
 			RawPacketHandlerInjector.addPacketHandler(new WireTracerRequestHandler(this));
-			PacketIndexOrdering.markModAsOptional(GetType().Assembly);
 		}
 		
 		public void playerRequestsCluster(Connection sender, Guid packetRequestGuid, PegAddress origin)

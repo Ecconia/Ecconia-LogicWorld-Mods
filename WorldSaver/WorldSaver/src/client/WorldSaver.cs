@@ -23,7 +23,7 @@ namespace WorldSaver.Client
 		public static void saveWorld()
 		{
 			//Ensure target folder exists:
-			var savesFolder = Path.Combine(JECS.Utilities.DefaultPath, "saves");
+			var savesFolder = Path.Combine(JecsUtilities.DefaultPath, "saves");
 			//TODO: Figure out the world name - should be MP and stuff.
 			var time = DateTime.Now.ToString("yyyy.MM.dd-hh·mm·ss");
 			var saveFolder = Path.Combine(savesFolder, "WorldExport@" + time);

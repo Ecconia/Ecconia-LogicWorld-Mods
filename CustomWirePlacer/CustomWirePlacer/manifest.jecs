@@ -1,7 +1,7 @@
 ID: CustomWirePlacer
 Name: CustomWirePlacer
 Author: Ecconia
-Version: 1.5.1
+Version: 1.5.2
 Priority: 0
 ClientOnly: true
 Dependencies:
