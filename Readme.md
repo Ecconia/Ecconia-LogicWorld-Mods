@@ -31,10 +31,6 @@ Libraries:
 
 - `CustomChatManager`: Prevents players from abusing `sayraw` and adds chat commands, such as `/list` and `/tps` which allows anyone in multiplayer to control the simulation. 
 
-Libraries:
-
-- `ServerOnlyMods`: Allows you to develop mods for the server, that the client does not need to install.
-
 #### Client | Server: (Installed on either or both sides)
 
 - `WireTracer` **Must have!**: Allows you to easily see what powers wires and what they power in your spaghetti. If installed on the server, connected clusters are highlighted too.

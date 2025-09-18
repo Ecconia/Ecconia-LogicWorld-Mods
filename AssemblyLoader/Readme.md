@@ -4,7 +4,7 @@
 
 This mod allows to load DLL-Assembly files into the runtime. It works on server and client.
 
-Is is purely to support other mods. *"When will I ever load something other than Harmony??" - Never!*
+It is purely to support other mods. *"When will I ever load something other than Harmony??" - Never!*
 
 There are three core functionalities:
 
@@ -27,6 +27,3 @@ The `shared` folder is loaded on client and server. The `client` and `server` fo
 # Install:
 
 Just drop the `AssemblyLoader` folder into the `GameData` folder.
-
-If you are running this mod on a server, you should also install `ServerOnlyMods`, to allow players to join without this mod.\
-You can find it in my mod collection (root folder).

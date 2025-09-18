@@ -1,7 +1,7 @@
 ID: EccsGuiBuilder
 Name: EccsGuiBuilder
 Author: Ecconia
-Version: 1.2.2
+Version: 1.2.3
 Priority: 10
 ClientOnly: true
 Dependencies:
