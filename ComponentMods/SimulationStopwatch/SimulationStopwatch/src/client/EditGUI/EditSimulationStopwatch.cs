@@ -7,7 +7,7 @@ using SimulationStopwatch.Shared;
 using TMPro;
 using UnityEngine;
 
-namespace SimulationStopwatchGui.Client.EditGUI
+namespace SimulationStopwatch.Client.EditGUI
 {
 	public class EditSimulationStopwatch : EditComponentMenu<ISimulationStopwatchData>, IAssignMyFields
 	{

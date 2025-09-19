@@ -9,7 +9,7 @@ using LogicWorld.UI;
 using RadioConnection.Shared;
 using UnityEngine;
 
-namespace RadioConnectionGui.Client.EditGUI
+namespace RadioConnection.Client.EditGUI
 {
 	public class EditRadioComponent : EditComponentMenu<IRadioComponentData>, IAssignMyFields
 	{

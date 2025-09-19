@@ -9,7 +9,7 @@ using LogicUI.MenuTypes.ConfigurableMenus;
 using LogicWorld.BuildingManagement;
 using LogicWorld.UI;
 
-namespace ComponentActionExampleModGui.Client.Ex2
+namespace ComponentActionExampleMod.Client.Raw.Ex2
 {
 	public class EditAddSubber : EditComponentMenu, IAssignMyFields
 	{

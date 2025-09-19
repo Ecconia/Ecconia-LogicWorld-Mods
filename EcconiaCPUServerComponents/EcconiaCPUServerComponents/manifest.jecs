@@ -5,3 +5,5 @@ Version: 4.4.3
 Priority: 0
 Dependencies:
     - EccsLogicWorldAPI
+ClientDependencies:
+    - EccsGuiBuilder

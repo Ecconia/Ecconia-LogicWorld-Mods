@@ -9,7 +9,7 @@ using LogicUI.MenuTypes.ConfigurableMenus;
 using LogicWorld.BuildingManagement;
 using LogicWorld.UI;
 
-namespace ComponentActionExampleModGui.Client.Ex3
+namespace ComponentActionExampleMod.Client.Raw.Ex3
 {
 	public class EditPulseByEdit : EditComponentMenu, IAssignMyFields
 	{

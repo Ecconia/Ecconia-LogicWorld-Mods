@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using ComponentActionExampleMod.Client.Raw.Ex6;
 using ComponentActionExampleMod.shared.ex6;
 using EccsGuiBuilder.Client.Layouts.Helper;
 using EccsGuiBuilder.Client.Wrappers;
@@ -16,7 +15,7 @@ using LogicWorld.Interfaces;
 using LogicWorld.Outlines;
 using LogicWorld.UI;
 
-namespace ComponentActionExampleModGui.Client.Ex6
+namespace ComponentActionExampleMod.Client.Raw.Ex6
 {
 	public class CustomEditingComponentData : EditingComponentInfo
 	{
