@@ -1,5 +1,9 @@
 # CustomWirePlacer by @Ecconia
 
+Click the thumbnail for a showcase video of the mod!
+
+[![Showcase video](https://img.youtube.com/vi/5TIzEQw447M/hqdefault.jpg)](https://www.youtube.com/watch?v=5TIzEQw447M)
+
 ### Description:
 
 `Logic World` introduced an amazing feature called Multi-Wire-Placer. But could there be something even more powerful?
