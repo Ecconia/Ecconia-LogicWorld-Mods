@@ -3,6 +3,6 @@ Name: Disable Collision
 Author: Ecconia
 Version: 2.0.1
 Priority: 0
-ClientOnly: true
+Type: ClientOnly
 Dependencies:
     - HarmonyForLogicWorld

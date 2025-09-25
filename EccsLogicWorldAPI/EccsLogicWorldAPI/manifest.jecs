@@ -3,4 +3,4 @@ Name: EccsLogicWorldAPI
 Author: Ecconia
 Version: 2.8.0
 Priority: 50
-Optional: true
+Type: Independent

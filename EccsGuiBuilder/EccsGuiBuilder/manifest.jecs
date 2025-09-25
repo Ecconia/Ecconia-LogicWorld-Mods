@@ -3,6 +3,6 @@ Name: EccsGuiBuilder
 Author: Ecconia
 Version: 1.2.3
 Priority: 10
-ClientOnly: true
+Type: ClientOnly
 Dependencies:
     - EccsLogicWorldAPI

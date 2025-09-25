@@ -3,6 +3,6 @@ Name: WorldSaver
 Author: Ecconia
 Version: 1.2.1
 Priority: 0
-ClientOnly: true
+Type: ClientOnly
 Dependencies:
     - EccsLogicWorldAPI

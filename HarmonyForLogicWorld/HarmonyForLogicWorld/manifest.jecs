@@ -3,6 +3,6 @@ Name: HarmonyForLogicWorld
 Author: Ecconia
 Version: 4.2.2
 Priority: 85
-Optional: true
+Type: Independent
 Dependencies:
     - AssemblyLoader
