@@ -9,7 +9,7 @@ using LogicWorld.BuildingManagement;
 using LogicWorld.UI;
 using UnityEngine;
 
-namespace EcconiaCPUServerComponentsGui.Client.EditGUI
+namespace EcconiaCPUServerComponents.Client.EditGUI
 {
 	public class EditRTPulser : EditComponentMenu, IAssignMyFields
 	{

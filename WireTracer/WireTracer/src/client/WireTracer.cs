@@ -3,7 +3,7 @@ using FancyInput;
 using LogicAPI.Client;
 using LogicLog;
 using LogicWorld;
-using Shared_Code.Code.Networking;
+using LogicWorld.SharedCode.Networking;
 using UnityEngine.SceneManagement;
 using WireTracer.Client.Keybindings;
 using WireTracer.Client.Network;

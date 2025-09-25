@@ -7,7 +7,7 @@ using LogicWorld.UI;
 using TMPro;
 using UnityEngine;
 
-namespace FileDumpGui.Client.EditGUI
+namespace FileDump.Client.EditGUI
 {
 	public class EditFileDump : EditComponentMenu<IFileDumpData>, IAssignMyFields
 	{

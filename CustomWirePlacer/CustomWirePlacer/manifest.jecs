@@ -1,9 +1,9 @@
 ID: CustomWirePlacer
 Name: CustomWirePlacer
 Author: Ecconia
-Version: 1.5.2
+Version: 1.5.3
 Priority: 0
-ClientOnly: true
+Type: ClientOnly
 Dependencies:
     - EccsGuiBuilder
     - EccsLogicWorldAPI

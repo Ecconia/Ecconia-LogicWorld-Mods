@@ -11,7 +11,7 @@ using LogicWorld.UI;
 using TMPro;
 using UnityEngine.UI;
 
-namespace EcconiaCPUServerComponentsGui.Client.EditGUI
+namespace EcconiaCPUServerComponents.Client.EditGUI
 {
 	public class EditFlatKey : EditComponentMenu<IFlatKeyData>, IAssignMyFields
 	{

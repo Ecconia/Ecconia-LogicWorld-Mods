@@ -1,6 +1,6 @@
 ID: EccsLogicWorldAPI
 Name: EccsLogicWorldAPI
 Author: Ecconia
-Version: 2.8.0
+Version: 2.8.1
 Priority: 50
-Optional: true
+Type: Independent

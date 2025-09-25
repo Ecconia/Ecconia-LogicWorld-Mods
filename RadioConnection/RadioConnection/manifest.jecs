@@ -1,7 +1,9 @@
 ID: RadioConnection
 Name: Radio Connection
 Author: Ecconia
-Version: 1.2.1
+Version: 1.3.0
 Priority: 0
 Dependencies:
     - EccsLogicWorldAPI
+ClientDependencies:
+    - EccsGuiBuilder

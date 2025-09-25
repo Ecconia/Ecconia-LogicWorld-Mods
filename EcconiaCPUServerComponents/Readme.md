@@ -16,12 +16,11 @@ But it also provides amazing components like the `FlatKey` and the `RealTimePuls
 
 ### GUI:
 
-You can edit the RealTimePulser and the FlatKey components via `X`, but due to the modding API not being able to separate dependencies,
-this feature has to be moved into its own mod `EcconiaCPUServerComponentsGui`, I recommend to install both on the client.
+You can edit the RealTimePulser and the FlatKey components via `X`.
 
 ## Install / Dependencies:
 
-Just drop the `EcconiaCPUServerComponents` & `EcconiaCPUServerComponentsGui` folders into your `GameData` folder.
+Just drop the `EcconiaCPUServerComponents` folder into your `GameData` folder.
 
 For this mod to function, you will need two additional mod: `EccsLogicWorldAPI` & `EccsGuiBuilder`\
 You can find both in my mod collection (root folder).
