@@ -41,7 +41,7 @@ This will add a very small overhead to the main loop. But this is by default onl
 
 ## Install / Dependencies:
 
-Just drop the `SimulationStopwatch` & `SimulationStopwatchGui` folders into your `GameData` folder.
+Just drop the `SimulationStopwatch` folder into your `GameData` folder.
 
 For this mod to function, you will need two additional mod: `EccsLogicWorldAPI` & `EccsGuiBuilder`\
 You can find both in my mod collection (root folder).
