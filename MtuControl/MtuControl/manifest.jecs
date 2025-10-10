@@ -1,0 +1,8 @@
+ID: MtuControl
+Name: MtuControl
+Author: Ecconia
+Version: 1.0.0
+Priority: 0
+Type: Independent
+Dependencies:
+    - EccsLogicWorldAPI

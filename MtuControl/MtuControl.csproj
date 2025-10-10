@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<RootNamespace />
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<Reference Include="LICC">
+			<HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LICC.dll</HintPath>
+		</Reference>
+		<Reference Include="Lidgren.Network">
+			<HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\Lidgren.Network.dll</HintPath>
+		</Reference>
+		<Reference Include="LogicAPI">
+			<HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicAPI.dll</HintPath>
+		</Reference>
+		<Reference Include="LogicAPI.Client">
+			<HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicAPI.Client.dll</HintPath>
+		</Reference>
+		<Reference Include="LogicAPI.Server">
+			<HintPath>$(LogicWorldGameLocation)\Server\LogicAPI.Server.dll</HintPath>
+		</Reference>
+		<Reference Include="LogicLog">
+			<HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicLog.dll</HintPath>
+		</Reference>
+		<Reference Include="LogicWorld.Networking">
+			<HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Networking.dll</HintPath>
+		</Reference>
+		<Reference Include="Server">
+			<HintPath>$(LogicWorldGameLocation)\Server\Server.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\EccsLogicWorldAPI\EccsLogicWorldAPI.csproj" />
+	</ItemGroup>
+	
+</Project>
