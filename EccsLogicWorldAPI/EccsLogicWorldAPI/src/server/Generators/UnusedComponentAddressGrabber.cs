@@ -52,9 +52,14 @@ namespace EccsLogicWorldAPI.Server.Generators
 			
 			// Assume, that there is always one address to find, as else this would not be called.
 			
+			uint highestAddressSoFar = 0;
 			uint nextExpectedAddress = 1; // 0 does not exist. Start at 1.
 			foreach(var address in arr)
 			{
+				if (address > highestAddressSoFar)
+				{
+					highestAddressSoFar = address;
+				}
 				if(address == nextExpectedAddress)
 				{
 					// No gap since last address, expect the next one without gap.
@@ -77,6 +82,20 @@ namespace EccsLogicWorldAPI.Server.Generators
 				}
 				// We need to increment one more time, to go from address to address+1:
 				nextExpectedAddress += 1;
+			}
+			
+			if (grabAddressesAmount > 0)
+			{
+				// Did not find enough unused component addresses. In that case just reserve them.
+				// For that we increment the component counter to the highest component address found so far.
+				// This would effectively be performed when the components are placed in the world, but doing it now is perfectly fine.
+				ComponentAddressGrabber.ensureHighestComponentAddress(highestAddressSoFar);
+				// Then we simply reserve as many additional addresses as required.
+				// Any further operation by LW post world-loading, will use the counter which was already incremented here.
+				for (var i = 0; i < grabAddressesAmount; i++)
+				{
+					unusedComponentAddresses.Enqueue(ComponentAddressGrabber.getNewComponentAddress());
+				}
 			}
 			
 			// Done, remove the hook.

@@ -14,6 +14,8 @@ namespace EccsLogicWorldAPI.Server.Generators
 		private static readonly IClusterFactory iClusterFactory;
 		private static readonly Func<ICircuitryManager, Dictionary<InputAddress, InputPeg>> getLogicInputs;
 		private static readonly Func<InputAddress, LogicComponent, bool, ICircuitryManager, InputPeg> newInputPeg;
+		private static readonly Func<ICircuitryManager, bool> isBatchInitializationMode;
+		private static readonly Func<ICircuitryManager, List<InputPeg>> getInputPegListToInitializeLater;
 		
 		static InputPegFactory()
 		{
@@ -32,6 +34,8 @@ namespace EccsLogicWorldAPI.Server.Generators
 				throw new Exception("Could not find constructor of object InputPeg.");
 			}
 			newInputPeg = Delegator.createObjectInitializer<InputAddress, LogicComponent, bool, ICircuitryManager, InputPeg>(constructor);
+			isBatchInitializationMode = Delegator.createFieldGetter<ICircuitryManager, bool>(Fields.getPrivate(typeof(CircuitryManager), "BatchClusterInitializationMode"));
+			getInputPegListToInitializeLater = Delegator.createFieldGetter<ICircuitryManager, List<InputPeg>>(Fields.getPrivate(typeof(CircuitryManager), "PegsToInitializeAtEndOfBatchClusterInitialization"));
 		}
 		
 		/**
@@ -59,10 +63,20 @@ namespace EccsLogicWorldAPI.Server.Generators
 				false,
 				iCircuitryManager
 			);
-			//Register peg:
+			
+			// Register peg in CircuitryManager, for it to be able to use it properly.
 			getLogicInputs(iCircuitryManager).Add(address, input);
-			//Create cluster for peg:
-			iClusterFactory.CreateStarter(input);
+			
+			// Create cluster for peg:
+			// During batch cluster initialization we can't just create clusters. In these cases we have to queue the peg for delayed efficient cluster creation.
+			if (isBatchInitializationMode(iCircuitryManager))
+			{
+				getInputPegListToInitializeLater(iCircuitryManager).Add(input); // Queue for later cluster creation.
+			}
+			else
+			{
+				iClusterFactory.CreateStarter(input); // No batch creation mode, just create a cluster now.
+			}
 			return input;
 		}
 	}

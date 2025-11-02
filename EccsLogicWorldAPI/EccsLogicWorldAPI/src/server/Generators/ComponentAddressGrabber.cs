@@ -28,5 +28,18 @@ namespace EccsLogicWorldAPI.Server.Generators
 			idSetter(iWorldDataMutator, newID);
 			return new ComponentAddress(newID);
 		}
+		
+		/// <summary>
+		/// Warning! This will irrevocably increase the component counter.
+		/// Only use this when you know exactly what you are doing!
+		/// This method exists pretty much for reserving component addresses on before the world is loaded.
+		/// </summary>
+		public static void ensureHighestComponentAddress(uint highestAddressSoFar)
+		{
+			if (iWorldDataMutator.HighestComponentAddressAddedSoFar < highestAddressSoFar)
+			{
+				idSetter(iWorldDataMutator, highestAddressSoFar);
+			}
+		}
 	}
 }
