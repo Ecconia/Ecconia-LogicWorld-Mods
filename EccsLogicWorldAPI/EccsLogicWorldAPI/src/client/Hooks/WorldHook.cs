@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using LogicWorld;
 using LogicWorld.SharedCode.WorldTypes;
 using UnityEngine.SceneManagement;
 
@@ -44,7 +45,7 @@ namespace EccsLogicWorldAPI.Client.Hooks
 		public static bool isWorldUISceneLoaded { private set; get; }
 		public static bool isWorldGameplaySceneLoaded { private set; get; }
 		
-		static WorldHook()
+		public static void init()
 		{
 			SceneManager.sceneLoaded += (scene, mode) =>
 			{
@@ -54,7 +55,14 @@ namespace EccsLogicWorldAPI.Client.Hooks
 					if(isWorldSceneName(scene.name))
 					{
 						isWorldSceneLoaded = true;
-						worldTypeLoading?.Invoke(scene);
+						try
+						{
+							worldTypeLoading?.Invoke(scene);
+						}
+						catch (Exception e)
+						{
+							SceneAndNetworkManager.TriggerErrorScreen(e);
+						}
 					}
 					return;
 				}
@@ -65,16 +73,37 @@ namespace EccsLogicWorldAPI.Client.Hooks
 				if("GameplayStuff".Equals(scene.name))
 				{
 					isWorldGameplaySceneLoaded = true;
-					worldGameplayLoading?.Invoke(scene);
+					try
+					{
+						worldGameplayLoading?.Invoke(scene);
+					}
+					catch (Exception e)
+					{
+						SceneAndNetworkManager.TriggerErrorScreen(e);
+					}
 				}
 				else if("UI_Gameplay".Equals(scene.name))
 				{
 					isWorldUISceneLoaded = true;
-					worldUILoading?.Invoke(scene);
+					try
+					{
+						worldUILoading?.Invoke(scene);
+					}
+					catch (Exception e)
+					{
+						SceneAndNetworkManager.TriggerErrorScreen(e);
+					}
 				}
 				if(isWorldGameplaySceneLoaded && isWorldUISceneLoaded)
 				{
-					worldLoading?.Invoke();
+					try
+					{
+						worldLoading?.Invoke();
+					}
+					catch (Exception e)
+					{
+						SceneAndNetworkManager.TriggerErrorScreen(e);
+					}
 				}
 			};
 			SceneManager.sceneUnloaded += scene =>
@@ -85,7 +114,14 @@ namespace EccsLogicWorldAPI.Client.Hooks
 					isWorldSceneLoaded = false;
 					isWorldUISceneLoaded = false;
 					isWorldGameplaySceneLoaded = false;
-					worldUnloading?.Invoke();
+					try
+					{
+						worldUnloading?.Invoke();
+					}
+					catch (Exception e)
+					{
+						SceneAndNetworkManager.TriggerErrorScreen(e);
+					}
 				}
 			};
 		}
