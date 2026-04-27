@@ -43,6 +43,12 @@
       <Reference Include="LogicWorld.Modding.Compilation">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Modding.Compilation.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.Physics">
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Physics.dll</HintPath>
+      </Reference>
+      <Reference Include="LogicWorld.Players">
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Players.dll</HintPath>
+      </Reference>
       <Reference Include="LogicWorld.SharedCode, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.SharedCode.dll</HintPath>
       </Reference>
