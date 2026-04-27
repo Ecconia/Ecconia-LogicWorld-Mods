@@ -37,7 +37,6 @@ Libraries:
 
 Libraries:
 
-- `AssemblyLoader`: Loads DLL files (like for example Harmony) into runtime.
 - `HarmonyForLogicWorld`: Loads Harmony into the runtime.
 - `EccsLogicWorldAPI`: A collection of useful tools for modders to make use of.
 

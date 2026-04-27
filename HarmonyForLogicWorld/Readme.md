@@ -6,11 +6,8 @@ This mod allows to hijack `Logic World` client and server using `Harmony`, it is
 
 ### What does it do?
 
-It only loads the `Harmony` DLL, using the `AssemblyLoader` mod.
+It only loads the `Harmony` DLL.
 
 # Install:
 
 Just drop the `HarmonyForServers` folder into the `GameData` folder.
-
-You will also need the mod `AssemblyLoader` for this mod to function.\
-You can find it in my mod collection (root folder).

@@ -4,5 +4,3 @@ Author: Ecconia
 Version: 4.2.3
 Priority: 85
 Type: Independent
-Dependencies:
-    - AssemblyLoader
