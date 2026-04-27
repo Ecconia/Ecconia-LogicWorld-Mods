@@ -3,7 +3,7 @@
 This mod provides a set of tools and features, to ramp up your modding experience with LogicWorld.
 
 Features:
-- Provides client startup argument `-version <Version>` to override the version LW thinks it is.
+- Provides client startup argument `-- --version <Version>` to override the version LW thinks it is.
 - Adds some random debugging commands (details below)...
 
 ## Install / Dependencies:
@@ -17,7 +17,7 @@ You can find them in my mod collection (root folder).
 
 ### Version hack:
 
-On the client you can simply start it with argument `-version <Version>` to make the client think it is a different version.\
+On the client you can simply start it with argument `-- --version <Version>` to make the client think it is a different version.\
 On the server, you will need to uncomment a line in the server mod class for this effect.
 
 Just keep in mind, that until mods are loaded the client/server will assume the correct version.\
