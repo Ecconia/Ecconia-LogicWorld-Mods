@@ -43,6 +43,9 @@
       <Reference Include="LogicWorld.Modding.Compilation">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Modding.Compilation.dll</HintPath>
       </Reference>
+      <Reference Include="LogicWorld.Networking">
+        <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Networking.dll</HintPath>
+      </Reference>
       <Reference Include="LogicWorld.Physics">
         <HintPath>$(LogicWorldGameLocation)\Logic_World_Data\Managed\LogicWorld.Physics.dll</HintPath>
       </Reference>

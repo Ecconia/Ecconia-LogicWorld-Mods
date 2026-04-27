@@ -8,6 +8,7 @@ namespace RandomDebugCollection.Client
 		{
 			StartupArgumentsHook.init();
 			// DisableColliderLoading.disableColliderLoading();
+			// DisablePlayerMovement.disablePlayerMovement();
 		}
 	}
 }
