@@ -7,6 +7,7 @@ namespace RandomDebugCollection.Client
 		protected override void Initialize()
 		{
 			StartupArgumentsHook.init();
+			// DisableColliderLoading.disableColliderLoading();
 		}
 	}
 }

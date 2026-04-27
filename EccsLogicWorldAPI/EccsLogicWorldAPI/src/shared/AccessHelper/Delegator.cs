@@ -109,6 +109,39 @@ namespace EccsLogicWorldAPI.Shared.AccessHelper
 			return Expression.Lambda<Func<R, P1>>(callExpression, p1).Compile();
 		}
 		
+		public static Func<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, R> createStaticMethodCall<R, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10>(MethodInfo methodInfo)
+		{
+			var p1 = Expression.Parameter(typeof(P1), "p1");
+			var p2 = Expression.Parameter(typeof(P2), "p2");
+			var p3 = Expression.Parameter(typeof(P3), "p3");
+			var p4 = Expression.Parameter(typeof(P4), "p4");
+			var p5 = Expression.Parameter(typeof(P5), "p5");
+			var p6 = Expression.Parameter(typeof(P6), "p6");
+			var p7 = Expression.Parameter(typeof(P7), "p7");
+			var p8 = Expression.Parameter(typeof(P8), "p8");
+			var p9 = Expression.Parameter(typeof(P9), "p9");
+			var p10 = Expression.Parameter(typeof(P10), "p10");
+			var callExpression = Expression.Call(null, methodInfo, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10);
+			return Expression.Lambda<Func<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, R>>(callExpression, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10).Compile();
+		}
+		
+		public static Func<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, R> createStaticMethodCall<R, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11>(MethodInfo methodInfo)
+		{
+			var p1 = Expression.Parameter(typeof(P1), "p1");
+			var p2 = Expression.Parameter(typeof(P2), "p2");
+			var p3 = Expression.Parameter(typeof(P3), "p3");
+			var p4 = Expression.Parameter(typeof(P4), "p4");
+			var p5 = Expression.Parameter(typeof(P5), "p5");
+			var p6 = Expression.Parameter(typeof(P6), "p6");
+			var p7 = Expression.Parameter(typeof(P7), "p7");
+			var p8 = Expression.Parameter(typeof(P8), "p8");
+			var p9 = Expression.Parameter(typeof(P9), "p9");
+			var p10 = Expression.Parameter(typeof(P10), "p10");
+			var p11 = Expression.Parameter(typeof(P11), "p11");
+			var callExpression = Expression.Call(null, methodInfo, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11);
+			return Expression.Lambda<Func<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, R>>(callExpression, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11).Compile();
+		}
+		
 		public static Func<A1, A2, A3, A4, A5, RESULT> createObjectInitializer<A1, A2, A3, A4, A5, RESULT>(ConstructorInfo constructor)
 		{
 			var a1 = Expression.Parameter(typeof(A1), "a1");
