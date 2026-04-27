@@ -1,7 +1,9 @@
 using System;
+using JetBrains.Annotations;
 
 namespace EccsGuiBuilder.Client.Wrappers.AutoAssign
 {
+	[MeansImplicitUse(ImplicitUseKindFlags.Assign)]
 	[AttributeUsage(AttributeTargets.Field)]
 	public class AssignMe : Attribute
 	{
