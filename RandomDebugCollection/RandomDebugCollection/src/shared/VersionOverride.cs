@@ -12,10 +12,10 @@ namespace RandomDebugCollection.Shared
 		
 		public static void overrideVersion(string version)
 		{
+			var logger = LogicLogger.For("RandomDebugCollection-VersionOverride");
 			if(!Version.TryParse(version, out overwriteVersion))
 			{
-				var logger = LogicLogger.For("RandomDebugCollection-VersionOverride");
-				logger.Info($"Could not parse provided version! Provided: '{version}'");
+				logger.Error($"Could not parse provided version! Provided: '{version}'");
 				Environment.Exit(1);
 				return;
 			}
@@ -24,6 +24,7 @@ namespace RandomDebugCollection.Shared
 			var property = Properties.getPublicStatic(typeof(Game), nameof(Game.Version)).GetMethod;
 			var patch = Methods.getPrivateStatic(typeof(VersionOverride), nameof(versionPatch));
 			new Harmony("Version patch").Patch(property, null, new HarmonyMethod(patch));
+			logger.Info($"Overriding version with {overwriteVersion}");
 		}
 		
 		private static void versionPatch(out Version __result)
