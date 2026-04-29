@@ -10,7 +10,7 @@ namespace RandomDebugCollection.Client
 	{
 		public static void init()
 		{
-			var meth = Methods.getPrivate(typeof(GameStarter), "Start");
+			var meth = Methods.getPrivate(typeof(GameStarterWelcome), "Start");
 			var handleMeth = Methods.getPublicStatic(typeof(StartupArgumentsHook), nameof(handle));
 			new Harmony("Launch arg hook").Patch(meth, new HarmonyMethod(handleMeth));
 		}
@@ -21,7 +21,7 @@ namespace RandomDebugCollection.Client
 			for(var i = 0; i < args.Length; i++)
 			{
 				// Version must be first argument, as I am too lazy to write decent code for this.
-				if(args[i].ToLower() == "-version" && args.Length > i)
+				if(args[i].ToLower() == "--version" && args.Length > i)
 				{
 					var input = args[++i];
 					VersionOverride.overrideVersion(input);

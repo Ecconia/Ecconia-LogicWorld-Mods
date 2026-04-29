@@ -27,8 +27,4 @@
       </Reference>
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\AssemblyLoader\AssemblyLoader.csproj" />
-    </ItemGroup>
-
 </Project>

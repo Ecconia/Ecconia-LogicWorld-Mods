@@ -1,5 +1,6 @@
+using System.Linq;
 using LICC;
-using LogicAPI;
+using LogicAPI.Modding;
 using LogicLog;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace EcconiasChaosClientMod.Client.Lighting
 		public static void init(IModFiles files, ILogicLogger logger)
 		{
 			Skybox.files = files;
-			var skyboxFile = findSkyboxTexture();
+			var skyboxFile = files.EnumerateFiles("skyboxes/*.png").FirstOrDefault();;
 			if(skyboxFile == null)
 			{
 				logger.Info("Did not find any skybox matching: 'skyboxes/*.png' in the mod files.");
@@ -40,18 +41,6 @@ namespace EcconiasChaosClientMod.Client.Lighting
 			}
 			flipped.Apply();
 			return flipped;
-		}
-		
-		private static ModFile findSkyboxTexture()
-		{
-			foreach(var file in files.EnumerateFiles())
-			{
-				if(file.Extension.Equals(".png") && file.Path.StartsWith("skyboxes/"))
-				{
-					return file;
-				}
-			}
-			return null;
 		}
 		
 		[Command(name: "Skybox", Description = "Activates a custom skybox from the skybox folder (if any). Read the readme (inside that folder) to learn more.")]

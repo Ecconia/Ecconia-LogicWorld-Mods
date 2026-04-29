@@ -46,5 +46,5 @@ If `Secret link`s are used instead, for each channel switch and each bit a secre
 
 Just drop the `RadioConnection` folder into your `GameData` folder.
 
-For `RadioConnection` to function, you will need four additional mods: `EccsGuiBuilder` & `EccsLogicWorldAPI` & `AssemblyLoader` & `LogicWorldForHarmony`\
+For `RadioConnection` to function, you will need three additional mods: `EccsGuiBuilder` & `EccsLogicWorldAPI` & `LogicWorldForHarmony`\
 You can find them in my mod collection (root folder).

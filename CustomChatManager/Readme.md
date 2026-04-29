@@ -25,5 +25,5 @@ It is made for the server and only runs there.
 
 Just drop the `CustomChatManager` folder into the servers `GameData` folder.
 
-You will also need the mods `AssemblyLoader` and `HarmonyForLogicWorld` and `EccsLogicWorldAPI` for this mod to function.\
+You will also need the mods `HarmonyForLogicWorld` and `EccsLogicWorldAPI` for this mod to function.\
 You can find them in my mod collection (root folder).

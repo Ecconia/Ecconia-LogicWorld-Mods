@@ -2,7 +2,7 @@
 
 In this repository you will find all mods created by @Ecconia for the game `Logic World`.
 
-**All mods in this repository are for LogicWorld preview version 0.92.0.X** (Check the #news channel on the games Discord)\
+**All mods in this repository are always for the latest preview of LogicWorld** (Check the #news channel on the games Discord)\
 To find mods for older LogicWorld versions, check out the GitHub tags of this repository.
 
 ## How to install / use them?
@@ -37,7 +37,6 @@ Libraries:
 
 Libraries:
 
-- `AssemblyLoader`: Loads DLL files (like for example Harmony) into runtime.
 - `HarmonyForLogicWorld`: Loads Harmony into the runtime.
 - `EccsLogicWorldAPI`: A collection of useful tools for modders to make use of.
 
