@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using JimmysUnityUtilities;
 using LogicAPI.Data;
@@ -136,15 +137,28 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 				if(receipt.ActionSuccessfullyApplied)
 				{
 					//The confirmation is there, however the peg will not be ready until the next frame. So wait until then:
-					CoroutineUtility.RunAfterOneFrame(() =>
-					{
-						if(attemptWirePlacement(ghostTargetPos, mainPeg))
-						{
-							ModClass.logger.Warn("Failed to find the peg that just got placed by server, for the Peg-Drawing feature. Please report this issue to the developer.");
-						}
-					});
+					attemptAFewTimes(
+						() => attemptWirePlacement(ghostTargetPos, mainPeg),
+						() => ModClass.logger.Warn("Failed to find the peg that just got placed by server, for the Peg-Drawing feature. Please report this issue to the developer.")
+					);
 				}
 			});
+		}
+		
+		private static void attemptAFewTimes(Func<bool> action, Action failure, int amount = 10)
+		{
+			if (amount <= 0)
+			{
+				failure();
+				return;
+			}
+			
+			if (action())
+			{
+				return;
+			}
+			
+			CoroutineUtility.RunAfterOneFrame(() => attemptAFewTimes(action, failure, amount - 1));
 		}
 		
 		private static bool attemptWirePlacement(Vector3 fromPosition, PegAddress toPeg)
@@ -153,9 +167,9 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 			if(newlyPlacedPeg.IsNotEmpty() && WireUtility.WireWouldBeValid(toPeg, newlyPlacedPeg))
 			{
 				BuildRequestManager.SendBuildRequest(new BuildRequest_CreateWire(new WireData(toPeg, newlyPlacedPeg, 0f)));
-				return false;
+				return true;
 			}
-			return true;
+			return false;
 		}
 	}
 }
