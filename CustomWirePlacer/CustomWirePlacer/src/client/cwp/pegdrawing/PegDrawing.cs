@@ -82,13 +82,20 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 				return;
 			}
 			
-			//Ghost peg placer:
+			// Update the StuffPlacer position and anything. This also updates collision and visibility.
 			placer.SyncCastingDataToPlayerCamera();
 			placer.RunStuffPlacing();
 			
-			//Ghost wire:
+			// Only show the wire ghost, when the peg ghost is visible (having a placement position).
 			var ghost = placer.Ghost;
-			wire.GameObject.SetActive(!ghost.IsHidden); //Will 
+			wire.GameObject.SetActive(!ghost.IsHidden);
+			// But if it is not visible, do not update anything else of the wire.
+			// Attempting to do so did in recent LW versions break an outline (somehow) persistently.
+			if (ghost.IsHidden)
+			{
+				return;
+			}
+			
 			var up = ghost.Transform.up;
 			wire.Peg1 = new PegRenderData()
 			{
@@ -102,6 +109,7 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 			wire.UpdateValidityAndOutline();
 			ghostlyCollider.enabled = false;
 			
+			// Finally (if everything is visible and not colliding) handle the placement:
 			if(Trigger.DrawWires.UpThisFrame())
 			{
 				if(placer.CanPlaceGhost() && wire.ValidOnLastCheck)
