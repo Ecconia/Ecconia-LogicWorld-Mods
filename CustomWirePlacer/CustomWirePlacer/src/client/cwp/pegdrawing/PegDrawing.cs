@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using JimmysUnityUtilities;
 using LogicAPI.Data;
@@ -82,13 +83,20 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 				return;
 			}
 			
-			//Ghost peg placer:
+			// Update the StuffPlacer position and anything. This also updates collision and visibility.
 			placer.SyncCastingDataToPlayerCamera();
 			placer.RunStuffPlacing();
 			
-			//Ghost wire:
+			// Only show the wire ghost, when the peg ghost is visible (having a placement position).
 			var ghost = placer.Ghost;
-			wire.GameObject.SetActive(!ghost.IsHidden); //Will 
+			wire.GameObject.SetActive(!ghost.IsHidden);
+			// But if it is not visible, do not update anything else of the wire.
+			// Attempting to do so did in recent LW versions break an outline (somehow) persistently.
+			if (ghost.IsHidden)
+			{
+				return;
+			}
+			
 			var up = ghost.Transform.up;
 			wire.Peg1 = new PegRenderData()
 			{
@@ -102,6 +110,7 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 			wire.UpdateValidityAndOutline();
 			ghostlyCollider.enabled = false;
 			
+			// Finally (if everything is visible and not colliding) handle the placement:
 			if(Trigger.DrawWires.UpThisFrame())
 			{
 				if(placer.CanPlaceGhost() && wire.ValidOnLastCheck)
@@ -128,15 +137,28 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 				if(receipt.ActionSuccessfullyApplied)
 				{
 					//The confirmation is there, however the peg will not be ready until the next frame. So wait until then:
-					CoroutineUtility.RunAfterOneFrame(() =>
-					{
-						if(attemptWirePlacement(ghostTargetPos, mainPeg))
-						{
-							ModClass.logger.Warn("Failed to find the peg that just got placed by server, for the Peg-Drawing feature. Please report this issue to the developer.");
-						}
-					});
+					attemptAFewTimes(
+						() => attemptWirePlacement(ghostTargetPos, mainPeg),
+						() => ModClass.logger.Warn("Failed to find the peg that just got placed by server, for the Peg-Drawing feature. Please report this issue to the developer.")
+					);
 				}
 			});
+		}
+		
+		private static void attemptAFewTimes(Func<bool> action, Action failure, int amount = 10)
+		{
+			if (amount <= 0)
+			{
+				failure();
+				return;
+			}
+			
+			if (action())
+			{
+				return;
+			}
+			
+			CoroutineUtility.RunAfterOneFrame(() => attemptAFewTimes(action, failure, amount - 1));
 		}
 		
 		private static bool attemptWirePlacement(Vector3 fromPosition, PegAddress toPeg)
@@ -145,9 +167,9 @@ namespace CustomWirePlacer.Client.CWP.PegDrawing
 			if(newlyPlacedPeg.IsNotEmpty() && WireUtility.WireWouldBeValid(toPeg, newlyPlacedPeg))
 			{
 				BuildRequestManager.SendBuildRequest(new BuildRequest_CreateWire(new WireData(toPeg, newlyPlacedPeg, 0f)));
-				return false;
+				return true;
 			}
-			return true;
+			return false;
 		}
 	}
 }
