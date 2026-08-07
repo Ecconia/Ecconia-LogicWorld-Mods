@@ -254,31 +254,31 @@ namespace CustomWirePlacer.Client.Windows
 			sb.Clear();
 			if(CWP.CustomWirePlacer.isCurrentlyInToggleListMode())
 			{
-				append(sb, "CWP.HelpOverlay.CWP.BackToStall", "MHG.DrawWire");
+				append(sb, "CWP.HelpOverlay.CWP.BackToStall", "MHG.DrawWires");
 			}
 			else if(CWP.CustomWirePlacer.isCurrentlyEditingAxis())
 			{
-				append(sb, "CWP.HelpOverlay.CWP.FinishCWPNormally", "MHG.DrawWire");
+				append(sb, "CWP.HelpOverlay.CWP.FinishCWPNormally", "MHG.DrawWires");
 				if(CWP.CustomWirePlacer.getSecondGroup().isSet() || CWPSettings.allowStartingWithOnePegGroup || CWP.CustomWirePlacer.getFirstGroup().hasMultiplePegs())
 				{
-					append(sb, "CWP.HelpOverlay.CWP.GoStallMode", "MHG.DrawWire", "CustomWirePlacer.Modificator");
+					append(sb, "CWP.HelpOverlay.CWP.GoStallMode", "MHG.DrawWires", "CustomWirePlacer.Modificator");
 				}
 			}
 			else
 			{
 				if(CWP.CustomWirePlacer.pendingTwoDimensional)
 				{
-					append(sb, "CWP.HelpOverlay.CWP.StartSecondAxis", "MHG.DrawWire");
+					append(sb, "CWP.HelpOverlay.CWP.StartSecondAxis", "MHG.DrawWires");
 				}
 				else if(CWP.CustomWirePlacer.getSecondGroup().isSet())
 				{
-					append(sb, "CWP.HelpOverlay.CWP.ExBUSMode", "MHG.DrawWire");
+					append(sb, "CWP.HelpOverlay.CWP.ExBUSMode", "MHG.DrawWires");
 				}
 				else
 				{
-					append(sb, "CWP.HelpOverlay.CWP.ExNextGroup", "MHG.DrawWire");
+					append(sb, "CWP.HelpOverlay.CWP.ExNextGroup", "MHG.DrawWires");
 				}
-				append(sb, "CWP.HelpOverlay.CWP.ExToggleList", "MHG.DrawWire", "CustomWirePlacer.ModificatorAlternative");
+				append(sb, "CWP.HelpOverlay.CWP.ExToggleList", "MHG.DrawWires", "CustomWirePlacer.ModificatorAlternative");
 				append(sb, "CWP.HelpOverlay.CWP.FinishCWPWithKey", "CustomWirePlacer.ApplyNormalAction");
 			}
 			var allowSkipping = true;
