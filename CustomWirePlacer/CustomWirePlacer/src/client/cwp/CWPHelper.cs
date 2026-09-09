@@ -70,7 +70,9 @@ namespace CustomWirePlacer.Client.CWP
 			if(Physics.Raycast(start, ray, out var hitEnter, 30, Masks.Peg))
 			{
 				var pegCollider = hitEnter.collider;
-				var peg = pegCollider.GetComponent<ColliderReference>().PegAddress;
+				// Assume this always works, as we are using the peg mask.
+				// TODO: Lol, this won't work when interacting with a GhostWorld about to be placed. Fix it!
+				var peg = ColliderReferenceDataTracker.GetReferenceFromColliderOrDefault(pegCollider).PegAddress;
 				var entryPoint = hitEnter.point;
 				if(!pegCollider.Raycast(new Ray(entryPoint + ray * 3, -ray), out var hitExit, 30))
 				{
@@ -127,7 +129,8 @@ namespace CustomWirePlacer.Client.CWP
 				return PegAddress.Empty;
 			}
 			var collider = colliders[0];
-			var peg = collider.GetComponent<ColliderReference>().PegAddress;
+			// Assume peg does always exist in the tracker. TODO: GhostWorlds would like to have a word with that statement.
+			var peg = ColliderReferenceDataTracker.GetReferenceFromColliderOrDefault(collider).PegAddress;
 			if(peg.IsEmpty())
 			{
 				ModClass.logger.Error("Casted for a peg, but got: " + collider.name + " : " + collider.tag);
